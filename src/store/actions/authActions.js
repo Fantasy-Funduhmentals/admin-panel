@@ -61,7 +61,7 @@ export const userLogIn = (email, password) => (dispatch) => {
   dispatch(requestLogin());
   axios({
     method: "post",
-    url: `${API_URL}/admin/auth/login`,
+    url: `${API_URL}/admin-auth/login`,
     data: {
       email: email,
       password: password,
