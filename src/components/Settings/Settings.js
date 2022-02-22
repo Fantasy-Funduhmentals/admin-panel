@@ -12,6 +12,7 @@ import {
 } from "../../validations/validations";
 import edit from "../../assets/coins/edit.svg";
 import styles from "./Settings.module.scss";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -77,6 +78,19 @@ const Settings = () => {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: userLoginSchema,
+    onSubmit: async (values, onSubmitProps) => {
+      console.log("Login Form Values: ", values);
+      dispatch(userLogIn(values.username, values.password));
+      onSubmitProps.resetForm();
+    },
+  });
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>Settings</div>
@@ -101,158 +115,43 @@ const Settings = () => {
           </button>
         </div>
         <div className={styles.settingCard}>
-          <div className={styles.settingInfo}>
-            <div className={styles.settingInfoTop}>
-              <div className={styles.settingIcon}>
-                <img src={password} alt="password" />
-              </div>
-              <div className={styles.settingName}>
-                Change Merchant’s Algorithmic Protection Fee
-              </div>
+        <div className={styles.editDrawer}>
+          {/* <form onSubmit={formik.handleSubmit}>
+            <div className={styles.inputDiv}>
+              <label htmlFor="address">Cold Deposit Address</label>
+              <input type="text" {...formik.getFieldProps("address")} />
             </div>
-          </div>
-          <div className={styles.secButton}>
-            <div
-              className={styles.editButton}
-              onClick={() => showChangePasswordDrawer("Merchant’s")}
-            >
-              <span>{apFee}%</span>
-              <img src={edit} alt="" />
+            {formik.touched.address && formik.errors.address ? (
+              <div className={styles.error}>{formik.errors.address}</div>
+            ) : null}
+            <div className={styles.inputDiv}>
+              <label htmlFor="description">Asset Description</label>
+              <textarea {...formik.getFieldProps("description")} />
             </div>
-          </div>
+
+            <button className={styles.button} type="submit">
+              {isUpdating ? (
+                <LoadingOutlined style={{ fontSize: 24 }} spin />
+              ) : (
+                "Save"
+              )}
+            </button>
+            {settingUpdateError && (
+              <div className={styles.error}>
+                Updating {coins[coinIndex]?.coin?.toUpperCase()} Detail Failed!
+              </div>
+            )}
+            {settingUpdateSuccess && (
+              <div className={styles.success}>
+                {coins[coinIndex]?.coin?.toUpperCase()} Details Updated
+                Successfully!
+              </div>
+            )}
+          </form> */}
+        </div>
         </div>
       </div>
-      <Drawer
-        title={change}
-        width={500}
-        onClose={closeChangePasswordDrawer}
-        visible={changePasswordDrawer}
-        bodyStyle={{ paddingBottom: 80 }}
-        className={styles.changePasswordDrawer}
-      >
-        {active === 1 ? (
-          <form onSubmit={changePasswordFormik.handleSubmit}>
-            <div className={styles.inputDiv}>
-              <label>Old Password</label>
-              <div className={styles.input}>
-                <input
-                  type={revealOldPassword ? "text" : "password"}
-                  {...changePasswordFormik.getFieldProps("oldPassword")}
-                />
-                <div
-                  className={styles.inputIcon}
-                  onMouseDown={() => setRevealOldPassword(true)}
-                  onMouseUp={() => setRevealOldPassword(false)}
-                >
-                  <img src={eye} alt="check" />
-                </div>
-              </div>
-            </div>
-            {changePasswordFormik.touched.oldPassword &&
-            changePasswordFormik.errors.oldPassword ? (
-              <div className={styles.passwordError}>
-                {changePasswordFormik.errors.oldPassword}
-              </div>
-            ) : null}
-            <div className={styles.inputDiv}>
-              <label>Enter New Password</label>
-              <div className={styles.input}>
-                <input
-                  type={revealPassword ? "text" : "password"}
-                  {...changePasswordFormik.getFieldProps("confirmPassword")}
-                />
-                <div
-                  className={styles.inputIcon}
-                  onMouseDown={() => setRevealPassword(true)}
-                  onMouseUp={() => setRevealPassword(false)}
-                >
-                  <img src={eye} alt="check" />
-                </div>
-              </div>
-            </div>
-            {changePasswordFormik.touched.password &&
-            changePasswordFormik.errors.password ? (
-              <div className={styles.passwordError}>
-                {changePasswordFormik.errors.password}
-              </div>
-            ) : null}
-            <div className={styles.inputDiv}>
-              <label>Confirm Password</label>
-              <div className={styles.input}>
-                <input
-                  type={revealConfirmPassword ? "text" : "password"}
-                  {...changePasswordFormik.getFieldProps("password")}
-                />
-                <div
-                  className={styles.inputIcon}
-                  onMouseDown={() => setRevealConfirmPassword(true)}
-                  onMouseUp={() => setRevealConfirmPassword(false)}
-                >
-                  <img src={eye} alt="check" />
-                </div>
-              </div>
-            </div>
-            {changePasswordFormik.touched.confirmPassword &&
-            changePasswordFormik.errors.confirmPassword ? (
-              <div className={styles.passwordError}>
-                {changePasswordFormik.errors.confirmPassword}
-              </div>
-            ) : null}
-
-            <button type="submit" className={styles.passwordButton}>
-              SAVE
-            </button>
-
-            {changePasswordError ? (
-              <div className={styles.passwordError}>
-                Change password failed!
-              </div>
-            ) : null}
-
-            {changePasswordSuccess ? (
-              <div className={styles.passwordSuccess}>
-                Password changed successfully!
-              </div>
-            ) : null}
-          </form>
-        ) : active === 2 ? (
-          <form onSubmit={changeAPFeeFormik.handleSubmit}>
-            <div className={styles.inputDiv}>
-              <label>CHANGE ALGORITHMIC PROTECTION FEE</label>
-              <div className={styles.input}>
-                <input
-                  inputMode="numeric"
-                  {...changeAPFeeFormik.getFieldProps("apFee")}
-                />
-              </div>
-            </div>
-            {changeAPFeeFormik.touched.apFee &&
-            changeAPFeeFormik.errors.apFee ? (
-              <div className={styles.passwordError}>
-                {changeAPFeeFormik.errors.apFee}
-              </div>
-            ) : null}
-
-            <button type="submit" className={styles.passwordButton}>
-              SAVE
-            </button>
-
-            {changeAPFeeError ? (
-              <div className={styles.passwordError}>
-                Change Algorithmic Protection Fee failed!
-              </div>
-            ) : null}
-
-            {changeAPFeeSuccess ? (
-              <div className={styles.passwordSuccess}>
-                Algorithmic Protection Fee changed successfully!
-              </div>
-            ) : null}
-          </form>
-        ) : (
-          ""
-        )}
-      </Drawer>
+      
       <Modal
         title="Alert"
         visible={showModal}

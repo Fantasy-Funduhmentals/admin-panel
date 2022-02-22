@@ -153,7 +153,6 @@ const walletReducer = (state = initialState, action) => {
         changeAPFeeError: action.payload.changeAPFeeError,
       };
     case CHANGE_APFEE:
-      console.log("----SET_APPFEE--CALLED--", action.payload);
       return {
         ...state,
         merchantSettings: {

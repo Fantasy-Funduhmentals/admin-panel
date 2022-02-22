@@ -351,14 +351,14 @@ const CoinManagement = () => {
         <div className={styles.title}>Coin Management</div>
 
         <div className={styles.addToken}>
-          <Link to="/add-new-token">
+          {/* <Link to="/add-new-token">
             <button className={styles.button}>
               <span>
                 <PlusOutlined />
               </span>
               Add New Token
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className={styles.divider} />
