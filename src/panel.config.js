@@ -7,7 +7,7 @@ const panelConfig = {
   /**
    Development
    */
-  API_URL: "http://localhost:8081",
+  API_URL: "http://localhost:8080",
 };
 
 export default panelConfig;

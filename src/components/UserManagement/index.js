@@ -14,7 +14,6 @@ import styles from "./userManagement.module.scss";
 const API_URL = karaConfig.API_URL;
 
 const UserManagement = () => {
-  const history = useHistory();
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
@@ -87,15 +86,6 @@ const UserManagement = () => {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          {/* <a
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              updateHandler(e, record.key);
-            }}
-          >
-            <EditOutlined />
-          </a> */}
           <a
             style={{ fontSize: "25px", cursor: "pointer" }}
             onClick={(e) => {

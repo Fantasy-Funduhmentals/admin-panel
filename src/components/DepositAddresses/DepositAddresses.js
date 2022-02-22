@@ -24,6 +24,8 @@ const DepositAddresses = () => {
     (state) => state.wallet.depositAddresses
   );
 
+  console.log("--deposit addresses-----", depositAddresses);
+
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
