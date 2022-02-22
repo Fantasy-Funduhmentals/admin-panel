@@ -224,8 +224,6 @@ const MerchantManagment = () => {
                 </Button>
               </Popconfirm>
             )}
-
-            {/* <EditOutlined className={styles.editIcon} /> */}
           </div>
         );
       },

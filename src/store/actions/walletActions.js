@@ -47,44 +47,47 @@ export const renderAdminPanelData = () => async (dispatch) => {
   try {
     const jwt = await localStorage.getItem("accessToken");
 
-    const merchantSettingsRes = await getMerchantSettings(jwt);
-    // //Parse Merchant Settings Response
-    const merchantSettings = {
-      apFee: merchantSettingsRes.apFee,
-    };
-    // //Dispatch Merchant Settings
-    dispatch({
-      type: SET_MERCHANT_SETTINGS,
-      payload: {
-        merchantSettings,
-      },
-    });
+    // const merchantSettingsRes = await getMerchantSettings(jwt);
+    // // //Parse Merchant Settings Response
+    // const merchantSettings = {
+    //   apFee: merchantSettingsRes.apFee,
+    // };
+    // // //Dispatch Merchant Settings
+    // dispatch({
+    //   type: SET_MERCHANT_SETTINGS,
+    //   payload: {
+    //     merchantSettings,
+    //   },
+    // });
 
-    const totalAddresses = await axios({
-      method: "get",
-      url: `${API_URL}/admin/wallet/totalCount`,
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    });
+    // const totalAddresses = await axios({
+    //   method: "get",
+    //   url: `${API_URL}/admin/wallet/totalCount`,
+    //   headers: {
+    //     Authorization: `Bearer ${jwt}`,
+    //   },
+    // });
 
-    const currentDate = await moment().format("YYYY-MM-DD");
-    const startDate = await moment().subtract(7, "days").format("YYYY-MM-DD");
-    const dailyChartData = await axios({
-      method: "get",
-      url: `${API_URL}/admin/wallet/dailyWalletGenerated?from=${startDate}&to=${currentDate}`,
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    });
+    // const currentDate = await moment().format("YYYY-MM-DD");
+    // const startDate = await moment().subtract(7, "days").format("YYYY-MM-DD");
+    // // const dailyChartData = await axios({
+    // //   method: "get",
+    // //   url: `${API_URL}/admin/wallet/dailyWalletGenerated?from=${startDate}&to=${currentDate}`,
+    // //   headers: {
+    // //     Authorization: `Bearer ${jwt}`,
+    // //   },
+    // // });
 
-    const sortedDailyChartData = await dailyChartData?.data?.sort((b, c) =>
-      new Date(b?._id)?.valueOf() > new Date(c?._id)?.valueOf() ? 1 : -1
-    );
+    // // const sortedDailyChartData = await dailyChartData?.data?.sort((b, c) =>
+    // //   new Date(b?._id)?.valueOf() > new Date(c?._id)?.valueOf() ? 1 : -1
+    // // );
 
     const coinsList = await axios({
       method: "get",
-      url: `${API_URL}/coin-rates/list/coins`,
+      url: `${API_URL}/coin/all`,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
     });
 
     const coins = await coinsList.data
@@ -115,13 +118,11 @@ export const renderAdminPanelData = () => async (dispatch) => {
         };
       });
 
-    console.log("--sortedDailyChartData--", sortedDailyChartData);
-
     dispatch({
       type: SET_ADMIN_PANEL_DATA,
       payload: {
-        totalAddresses: totalAddresses.data,
-        dailyChartData: sortedDailyChartData,
+        // totalAddresses: totalAddresses.data,
+        // dailyChartData: sortedDailyChartData,
         coins: coins,
       },
     });
@@ -309,7 +310,7 @@ export const renderDepositAddresses = () => async (dispatch) => {
     const jwt = await localStorage.getItem("accessToken");
     const coinsList = await axios({
       method: "get",
-      url: `${API_URL}/coin-rates/list/coins`,
+      url: `${API_URL}/coin/all`,
     });
     const coins = await coinsList.data
       .filter((coin) => {
@@ -330,43 +331,50 @@ export const renderDepositAddresses = () => async (dispatch) => {
         };
       });
     const allDepositAddressesResponse = [];
+    console.log("--coins----", coins);
+
     for (const coin of coins) {
       const response = await axios({
         method: "get",
-        url: `${API_URL}/admin/wallet?coinSymbol=${coin.symbol}`,
+        url: `${API_URL}/coin/${coin.symbol}`,
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
+
+      console.log("--cpoins response----", response);
+
       allDepositAddressesResponse.push(response.data);
     }
     const sortedAddressArray = allDepositAddressesResponse.map(
       (singleCoinAddresses) => {
-        return singleCoinAddresses.map((singleAddress) => {
-          if (singleAddress.isERC20 || singleAddress.coinSymbol === "eth") {
-            return {
-              key: uuidv4(),
-              address: singleAddress.address,
-              balance:
-                singleAddress.balance == "undefined"
-                  ? 0
-                  : singleAddress.balance,
-              symbol: singleAddress.coinSymbol,
-              network: "Ethereum",
-            };
-          } else {
-            return {
-              key: uuidv4(),
-              address: singleAddress.address,
-              balance:
-                singleAddress.balance == "undefined"
-                  ? 0
-                  : singleAddress.balance,
-              symbol: singleAddress.coinSymbol,
-              network: "Bitcoin",
-            };
-          }
-        });
+        console.log("--single coin address----", singleCoinAddresses);
+
+        // return singleCoinAddresses.map((singleAddress) => {
+        //   if (singleAddress.isERC20 || singleAddress.coinSymbol === "eth") {
+        //     return {
+        //       key: uuidv4(),
+        //       address: singleAddress.address,
+        //       balance:
+        //         singleAddress.balance == "undefined"
+        //           ? 0
+        //           : singleAddress.balance,
+        //       symbol: singleAddress.coinSymbol,
+        //       network: "Ethereum",
+        //     };
+        //   } else {
+        //     return {
+        //       key: uuidv4(),
+        //       address: singleAddress.address,
+        //       balance:
+        //         singleAddress.balance == "undefined"
+        //           ? 0
+        //           : singleAddress.balance,
+        //       symbol: singleAddress.coinSymbol,
+        //       network: "Bitcoin",
+        //     };
+        //   }
+        // });
       }
     );
 
