@@ -1,0 +1,18 @@
+<svg id="coin" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-0.088" y1="0.497" x2="1.08" y2="0.503" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#9e1fdd"/>
+      <stop offset="1" stop-color="#2b34e4"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_22" data-name="Group 22">
+    <g id="Group_21" data-name="Group 21">
+      <path id="Path_23" data-name="Path 23" d="M38.41,6.59A22.5,22.5,0,0,0,6.59,38.41,22.5,22.5,0,0,0,38.41,6.59ZM22.5,42.363A19.863,19.863,0,1,1,42.363,22.5,19.886,19.886,0,0,1,22.5,42.363Z" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+  <g id="Group_24" data-name="Group 24" transform="translate(15.533 8.473)">
+    <g id="Group_23" data-name="Group 23">
+      <path id="Path_24" data-name="Path 24" d="M185.113,109.11h-2.824a2.918,2.918,0,1,1,0-5.836h5.648a1.318,1.318,0,0,0,0-2.637h-2.918V97.719a1.318,1.318,0,0,0-2.637,0v2.918h-.094a5.555,5.555,0,1,0,0,11.109h2.824a2.918,2.918,0,0,1,0,5.836h-5.648a1.318,1.318,0,0,0,0,2.637h2.918v2.918a1.318,1.318,0,0,0,2.637,0v-2.918h.094a5.555,5.555,0,0,0,0-11.109Z" transform="translate(-176.734 -96.401)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,251 @@
+.wrapper {
+  width: 100%;
+  .title {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .divider {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(158, 31, 221, 1) 0%,
+      rgba(43, 52, 228, 1) 100%
+    );
+  }
+  .settingsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+    .settingCard {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 70px;
+      border: 1px solid #353535;
+      padding: 20px;
+      border-radius: 5px;
+      .settingInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .settingInfoTop {
+          display: flex;
+          align-items: center;
+          .settingIcon {
+            margin-right: 10px;
+            width: 40px;
+            img {
+              max-height: 30px;
+              max-width: 100%;
+              height: auto;
+            }
+          }
+          .settingName {
+            font-size: 16px;
+            text-transform: uppercase;
+          }
+        }
+      }
+      .settingButton {
+        width: 200px;
+        height: 40px;
+        background: linear-gradient(
+          90deg,
+          rgba(158, 31, 221, 1) 0%,
+          rgba(43, 52, 228, 1) 100%
+        );
+        border: 1px solid transparent;
+        outline: none;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-size: 14px;
+        background-size: 101% 100%;
+      }
+      .secButton {
+        display: flex;
+        column-gap: 1rem;
+        @media screen and(max-width:1024px) {
+          flex-direction: column;
+          row-gap: 1rem;
+        }
+        .editButton {
+          display: flex;
+          align-items: center;
+          width: 200px;
+          height: 40px;
+          background: linear-gradient(
+            90deg,
+            rgba(158, 31, 221, 1) 0%,
+            rgba(43, 52, 228, 1) 100%
+          );
+          border: 1px solid transparent;
+          outline: none;
+          border-radius: 5px;
+          text-transform: uppercase;
+          background-size: 101% 100%;
+          cursor: pointer;
+          span {
+            font-size: 14px;
+            text-align: center;
+            width: 100%;
+          }
+          img {
+            height: 20px;
+            margin-right: 15px;
+          }
+        }
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #2b2b2b;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        left: 7px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+      input:checked + .slider {
+        background-color: #177ddc;
+      }
+      input:focus + .slider {
+        //box-shadow: 0 0 1px #00d983;
+      }
+      input:checked + .slider:before {
+        -webkit-transform: translateX(28px);
+        -ms-transform: translateX(28px);
+        transform: translateX(28px);
+        left: 4px;
+      }
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 20px;
+      }
+      .slider.round:before {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+.changePasswordDrawer {
+  .inputDiv {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    //row-gap: 10px;
+    label {
+      font-size: 14px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .input {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 10px;
+      background-color: #2b2b2b;
+      column-gap: 10px;
+      input {
+        width: 100%;
+        background-color: transparent;
+        outline: none;
+        border: 1px solid transparent;
+        color: white;
+        font-size: 14px;
+      }
+
+      ::placeholder {
+        font-size: 14px;
+        color: #606060;
+      }
+
+      .inputIcon {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        img {
+          cursor: pointer;
+          width: 16px;
+          height: 11.64px;
+        }
+      }
+    }
+  }
+  .passwordButton {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+    width: 100%;
+    border-radius: 5px;
+    height: 40px;
+    outline: none;
+    border: 1px solid transparent;
+    background: linear-gradient(
+      90deg,
+      rgba(158, 31, 221, 1) 0%,
+      rgba(43, 52, 228, 1) 100%
+    );
+    background-size: 101% 100%;
+  }
+  .passwordError {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 300;
+    font-size: 14px;
+    width: 100%;
+    // text-align: center;
+    font-style: italic;
+    // background-color: red;
+    color: red;
+    font-size: 12px;
+  }
+  .passwordSuccess {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 300;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+    color: #00d983;
+  }
+}

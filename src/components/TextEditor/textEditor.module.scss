@@ -1,0 +1,50 @@
+.editor {
+    box-sizing: border-box;
+    border: 1px solid black;
+    cursor: text;
+    padding: 16px;
+    border-radius: 2px;
+    margin-bottom: 0em;
+    background: #2b2b2b;
+    border-radius: 5px;
+  }
+  
+  .editor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+    max-height: 200px;
+    overflow: auto;
+    :-webkit-scrollbar {
+      width: 1em;
+    }
+     
+    :-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+     
+    :-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+  }
+
+  .headlineButtonWrapper {
+    display: inline-block;
+  }
+  
+  .headlineButton {
+    background: #3b3b3b;
+    color: #888;
+    font-size: 18px;
+    border: 0;
+    padding-top: 5px;
+    vertical-align: bottom;
+    height: 34px;
+    width: 36px;
+    border-radius: 4px;
+  }
+  
+  .headlineButton:hover,
+  .headlineButton:focus {
+    background: #2b2b2b;
+    outline: 0;
+  }

@@ -1,0 +1,49 @@
+@import-normalize;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, Sans-Serif, serif;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom Styles */
+
+.siteLayout {
+  .siteLayoutBackground {
+    background: #141414;
+  }
+}
+
+.sidebarLogo {
+  margin: 16px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.ant-upload.ant-upload-select {
+  display: inline-block;
+  width: 100%;
+}
+.ant-btn, .ant-btn:active, .ant-btn:focus {
+  outline: 0;
+  width: 100%;
+}
+

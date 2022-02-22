@@ -1,0 +1,19 @@
+.wrapper {
+  width: 100%;
+  .title {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .divider {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(158, 31, 221, 1) 0%,
+      rgba(43, 52, 228, 1) 100%
+    );
+  }
+}

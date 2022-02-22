@@ -1,0 +1,101 @@
+.inputDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    .label {
+      margin-bottom: 5px;
+      label {
+        width: 100%;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+      span {
+        margin-left: 5px;
+        .tooltip {
+          font-size: 14px;
+        }
+        .tooltip:hover {
+          color: #4c7bf6;
+        }
+      }
+    }
+    input {
+      width: 100%;
+      outline: none;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: #2b2b2b;
+      height: 40px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      flex-wrap: nowrap;
+      padding: 10px;
+    }
+    textarea {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      padding: 10px;
+      resize: none;
+      width: 100%;
+      height: 80px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      outline: none;
+      background-color: #2b2b2b;
+    }
+    //===============>Switchable Toggle Start
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2b2b2b;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      left: 5px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+    }
+    input:checked + .slider {
+      background-color: #177ddc;
+    }
+    input:focus + .slider {
+      //box-shadow: 0 0 1px #00d983;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+      left: -2px;
+    }
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 20px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    //==============>Switchable Toggle End
+  }
