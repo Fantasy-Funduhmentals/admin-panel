@@ -63,7 +63,7 @@ const App = () => {
                     {collapsed ? (
                       <img
                         style={{ width: "100%" }}
-                        src={logoIcon}
+                        src={"https://development.cqrvault.org/static/media/logo.0bdeaa77.svg"}
                         alt="logo"
                       />
                     ) : (

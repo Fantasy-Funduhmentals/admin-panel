@@ -29,7 +29,7 @@ const Login = () => {
     <div className={styles.wrapper}>
       <div className={styles.login}>
         <div className={styles.logo}>
-          <img src={logo} alt="logo" />
+          <img src={"https://development.cqrvault.org/static/media/logo.0bdeaa77.svg"} alt="logo" />
         </div>
         <div className={styles.logoText}>Admin Panel</div>
         <form onSubmit={formik.handleSubmit}>
