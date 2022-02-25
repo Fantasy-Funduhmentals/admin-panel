@@ -52,7 +52,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login | Material Kit</title>
+        <title>Login | Icovest Admin</title>
       </Head>
       <Box
         component="main"

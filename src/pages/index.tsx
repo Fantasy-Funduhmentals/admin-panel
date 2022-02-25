@@ -13,7 +13,7 @@ import { TrafficByDevice } from "../components/dashboard/traffic-by-device";
 const Dashboard = () => (
   <>
     <Head>
-      <title>Dashboard | Material Kit</title>
+      <title>Dashboard | Icovest Admin</title>
     </Head>
     <Box
       component="main"

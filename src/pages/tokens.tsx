@@ -44,7 +44,7 @@ const Tokens = () => {
   return (
     <>
       <Head>
-        <title>Customers | Material Kit</title>
+        <title>Customers | Icovest Admin</title>
       </Head>
       <Box
         component="main"

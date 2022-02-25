@@ -17,7 +17,6 @@ import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import { SeverityPill } from "../severity-pill";
-import { SeverityPill } from "../severity-pill";
 
 interface Props extends CardProps {
   data: any[];

@@ -6,7 +6,7 @@ import { SettingsPassword } from "../components/settings/settings-password";
 const Settings = () => (
   <>
     <Head>
-      <title>Settings | Material Kit</title>
+      <title>Settings | Icovest Admin</title>
     </Head>
     <Box
       component="main"

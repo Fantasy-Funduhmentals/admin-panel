@@ -8,7 +8,7 @@ import { products } from "../__mocks__/products";
 const Products = () => (
   <>
     <Head>
-      <title>Products | Material Kit</title>
+      <title>Products | Icovest Admin</title>
     </Head>
     <Box
       component="main"

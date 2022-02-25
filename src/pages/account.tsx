@@ -7,7 +7,7 @@ import { DashboardLayout } from "../components/dashboard-layout";
 const Account = () => (
   <>
     <Head>
-      <title>Account | Material Kit</title>
+      <title>Account | Icovest Admin</title>
     </Head>
     <Box
       component="main"
