@@ -61,6 +61,11 @@ const items = [
     icon: <NativeWalletsIcon fontSize="small" />,
     title: "Native Wallets",
   },
+  {
+    href: "/import-data",
+    icon: <NativeWalletsIcon fontSize="small" />,
+    title: "Import Data",
+  },
 
   // {
   //   href: "/account",
