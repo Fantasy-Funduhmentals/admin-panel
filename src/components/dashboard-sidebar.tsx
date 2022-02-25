@@ -128,7 +128,7 @@ export const DashboardSidebar = (props) => {
                   variant="h6"
                   component="div"
                 >
-                  CQR Admin Panel
+                  CQR Admin
                 </Typography>
               </Box>
             </NextLink>
