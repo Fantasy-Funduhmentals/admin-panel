@@ -40,6 +40,8 @@ const CryptoWallets = () => {
     getUserListing();
   }, []);
 
+  console.log(wallets);
+
   return (
     <>
       <Head>
