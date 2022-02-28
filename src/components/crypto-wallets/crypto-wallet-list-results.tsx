@@ -47,10 +47,10 @@ export const CryptoWalletListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.userId?.name
+            user.userId?.name?
               .toLowerCase()
               .includes(searchQuery.toLowerCase()) ||
-            user.userId?.email.toLowerCase().includes(searchQuery.toLowerCase())
+            user.userId?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
