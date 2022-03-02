@@ -12,4 +12,8 @@ const changePassword = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/change-password", params);
 };
 
-export { handleUserLogin, getAllUsers, changePassword };
+const createNewUser = async (params: any) => {
+  return await HTTP_CLIENT.post("/auth/admin-create-user", params);
+};
+
+export { handleUserLogin, getAllUsers, changePassword, createNewUser };

@@ -1,6 +1,7 @@
 import { Box, Container } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import AddUserModal from "../components/add-user-modal";
 import { UserListResults } from "../components/customer/customer-list-results";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
@@ -17,6 +18,8 @@ const Users = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [userModelOpen, setUserModalOpen] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const getUserListing = async () => {
     try {
@@ -37,7 +40,7 @@ const Users = () => {
 
   useEffect(() => {
     getUserListing();
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -60,6 +63,7 @@ const Users = () => {
             }}
             onPressAdd={() => {
               console.log("button pressed");
+              setUserModalOpen(true);
             }}
           />
           <Box sx={{ mt: 3 }}>
@@ -70,6 +74,13 @@ const Users = () => {
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}
+      />
+      <AddUserModal
+        open={userModelOpen}
+        onClose={() => {
+          setUserModalOpen(false);
+          setReload(!reload);
+        }}
       />
     </>
   );
