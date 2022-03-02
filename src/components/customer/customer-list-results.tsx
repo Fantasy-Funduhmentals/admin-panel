@@ -55,6 +55,8 @@ export const UserListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
+  console.log(data);
+
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -77,6 +79,7 @@ export const UserListResults = (props: Props) => {
                 <TableCell>Email</TableCell>
                 <TableCell>Wallet Activation Status</TableCell>
                 <TableCell>Customer Status</TableCell>
+                <TableCell>User type</TableCell>
                 <TableCell>Created At</TableCell>
               </TableRow>
             </TableHead>
@@ -129,6 +132,7 @@ export const UserListResults = (props: Props) => {
                       {customer.isCustomer ? "Verified" : "Not Verified"}
                     </SeverityPill>
                   </TableCell>
+                  <TableCell>{customer.sdira ? "Sdira" : "IRA"}</TableCell>
                   <TableCell>
                     {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
                   </TableCell>

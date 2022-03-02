@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   CardProps,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -12,18 +11,18 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
+  onPressEdit?: any;
 }
 
 export const TokenListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, onPressEdit } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -81,47 +80,46 @@ export const TokenListResults = (props: Props) => {
 
                 <TableCell>Price</TableCell>
                 <TableCell>Order Index</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataToDisplay.map((customer) => (
-                <TableRow
-                  hover
-                  key={customer._id}
-                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer._id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer._id)}
-                      value="true"
-                    />
-                  </TableCell> */}
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
-                        {getInitials(customer.displayName)}
-                      </Avatar>
-                      <Typography color="textPrimary" variant="body1">
-                        {customer.displayName}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <img
-                      src={customer?.displaySymbol}
-                      style={{ height: 30, width: 30 }}
-                    />
-                  </TableCell>
-                  <TableCell>${customer.price} </TableCell>
-                  <TableCell>{customer.orderIndex}</TableCell>
-                </TableRow>
-              ))}
+              {dataToDisplay.map((customer) => {
+                return (
+                  <TableRow
+                    hover
+                    key={customer._id}
+                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                  >
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
+                          {getInitials(customer.displayName)}
+                        </Avatar>
+                        <Typography color="textPrimary" variant="body1">
+                          {customer.displayName}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <img
+                        src={customer?.displaySymbol}
+                        style={{ height: 30, width: 30 }}
+                      />
+                    </TableCell>
+                    <TableCell>${customer.price} </TableCell>
+                    <TableCell>{customer.orderIndex}</TableCell>
+                    <TableCell onClick={() => onPressEdit(customer)}>
+                      <ModeEditIcon color="secondary" />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </Box>

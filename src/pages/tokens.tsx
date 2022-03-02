@@ -23,6 +23,8 @@ const Tokens = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
 
+  const [editToken, setEditToken] = useState(null);
+
   const getTokensListing = async () => {
     try {
       setLoading(true);
@@ -35,6 +37,13 @@ const Tokens = () => {
         message: error,
       });
     }
+  };
+
+  const onPressEdit = (token: any) => {
+    console.log("--token----", token);
+
+    setEditToken(token);
+    setCustomerModalOpen(true);
   };
 
   useEffect(() => {
@@ -65,17 +74,25 @@ const Tokens = () => {
             }}
           />
           <Box sx={{ mt: 3 }}>
-            <TokenListResults data={tokens} searchQuery={searchText} />
+            <TokenListResults
+              data={tokens}
+              searchQuery={searchText}
+              onPressEdit={onPressEdit}
+            />
           </Box>
         </Container>
       </Box>
 
-      <FullScreenDialog
-        open={customerModelOpen}
-        onClose={() => {
-          setCustomerModalOpen(false);
-        }}
-      />
+      {customerModelOpen && (
+        <FullScreenDialog
+          open={customerModelOpen}
+          onClose={() => {
+            setCustomerModalOpen(false);
+            setEditToken(null);
+          }}
+          editData={editToken}
+        />
+      )}
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}

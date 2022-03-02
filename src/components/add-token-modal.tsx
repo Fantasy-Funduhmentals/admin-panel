@@ -20,7 +20,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
 import { createNewToken } from "../services/tokenService";
@@ -39,31 +39,41 @@ const Transition = React.forwardRef(function Transition(
 interface Props {
   open: boolean;
   onClose: any;
+  editData?: any;
 }
 
 const FullScreenDialog = (props: Props) => {
-  const { open, onClose } = props;
+  const { open, onClose, editData } = props;
 
   const [image, setImage] = useState(null);
-
   const [symbolImage, setSymbolImage] = useState(null);
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [editImage, setEditImage] = useState(null);
+  const [editSymbolImage, setEditSymbolImage] = useState(null);
+
+  useEffect(() => {
+    if (editData) {
+      setEditImage(editData.icon.url);
+      setEditSymbolImage(editData.displaySymbol);
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      coinSymbol: "",
-      displayName: "",
-      totalSupply: "",
-      isActive: false,
-      description: "",
-      coinColor: "",
-      orderIndex: "",
-      decimals: "",
-      icon: "",
+      name: editData ? editData?.name : "",
+      coinSymbol: editData ? editData?.coinSymbol : "",
+      displayName: editData ? editData?.displayName : "",
+      totalSupply: editData ? editData?.totalSupply : "",
+      isActive: editData ? editData?.isActive : false,
+      description: editData ? editData?.description : "",
+      coinColor: editData ? editData?.coinColor : "",
+      orderIndex: editData ? editData?.orderIndex : "",
+      decimals: editData ? editData?.decimals : "",
+      icon: editData ? editData?.icon : "",
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       name: Yup.string()
         .required("Enter your first name")
@@ -108,28 +118,44 @@ const FullScreenDialog = (props: Props) => {
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
-      if (!image) {
+      if (!image && !editData) {
         setStatusData({
           type: "error",
           message: "Please select an image to continue",
         });
         return;
-      } else if (!symbolImage) {
+      } else if (!symbolImage && !editData) {
         setStatusData({
           type: "error",
           message: "Please select an symbol image to continue",
         });
         return;
       }
+
       setLoading(true);
-      const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
-      const tokensymbolUrl = await handleImageUpload(symbolImage, "tokenFonts");
-      const params = {
+
+      let params = {
         ...values,
-        icon: tokenImageUrl,
-        displaySymbol: tokensymbolUrl,
         isActive: true,
       };
+
+      if (editData) {
+        params.icon = editData.icon.url;
+        params.displaySymbol = editData.displaySymbol;
+      }
+
+      if (image) {
+        const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
+        params.icon = tokenImageUrl;
+      }
+
+      if (symbolImage) {
+        const tokensymbolUrl = await handleImageUpload(
+          symbolImage,
+          "tokenFonts"
+        );
+        params.displaySymbol = tokensymbolUrl;
+      }
 
       await createNewToken(params);
 
@@ -158,11 +184,15 @@ const FullScreenDialog = (props: Props) => {
 
       if (type == "token") {
         setImage(img);
+        setEditImage(null);
       } else if (type == "symbol") {
         setSymbolImage(event.target.files[0]);
+        setEditSymbolImage(null);
       }
     }
   };
+
+  console.log(editData);
 
   return (
     <div>
@@ -212,7 +242,11 @@ const FullScreenDialog = (props: Props) => {
                       }}
                     >
                       <Avatar
-                        src={image && URL.createObjectURL(image)}
+                        src={
+                          editImage
+                            ? editImage
+                            : image && URL.createObjectURL(image)
+                        }
                         sx={{
                           height: 64,
                           mb: 2,
@@ -249,7 +283,11 @@ const FullScreenDialog = (props: Props) => {
                       }}
                     >
                       <Avatar
-                        src={symbolImage && URL.createObjectURL(symbolImage)}
+                        src={
+                          editSymbolImage
+                            ? editSymbolImage
+                            : symbolImage && URL.createObjectURL(symbolImage)
+                        }
                         sx={{
                           height: 64,
                           mb: 2,

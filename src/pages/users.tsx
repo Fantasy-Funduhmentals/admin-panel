@@ -58,6 +58,9 @@ const Users = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            onPressAdd={() => {
+              console.log("button pressed");
+            }}
           />
           <Box sx={{ mt: 3 }}>
             <UserListResults data={users} searchQuery={searchText} />
