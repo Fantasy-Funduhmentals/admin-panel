@@ -23,7 +23,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
-import { createNewToken } from "../services/tokenService";
+import { createNewToken, updateToken } from "../services/tokenService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
 
@@ -52,13 +52,6 @@ const FullScreenDialog = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [editSymbolImage, setEditSymbolImage] = useState(null);
-
-  useEffect(() => {
-    if (editData) {
-      setEditImage(editData.icon.url);
-      setEditSymbolImage(editData.displaySymbol);
-    }
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -137,6 +130,7 @@ const FullScreenDialog = (props: Props) => {
       let params = {
         ...values,
         isActive: true,
+        orderIndex: String(values.orderIndex),
       };
 
       if (editData) {
@@ -157,7 +151,15 @@ const FullScreenDialog = (props: Props) => {
         params.displaySymbol = tokensymbolUrl;
       }
 
-      await createNewToken(params);
+      if (editData) {
+        params._id = editData._id;
+
+        console.log("--params---", params);
+
+        await updateToken(params);
+      } else {
+        await createNewToken(params);
+      }
 
       formik.resetForm();
       setImage(null);
@@ -192,7 +194,12 @@ const FullScreenDialog = (props: Props) => {
     }
   };
 
-  console.log(editData);
+  useEffect(() => {
+    if (editData) {
+      setEditImage(editData.icon.url);
+      setEditSymbolImage(editData.displaySymbol);
+    }
+  }, []);
 
   return (
     <div>

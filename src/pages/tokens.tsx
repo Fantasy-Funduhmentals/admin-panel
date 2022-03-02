@@ -22,7 +22,7 @@ const Tokens = () => {
   const [customerModelOpen, setCustomerModalOpen] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [reload, setReload] = useState(false);
   const [editToken, setEditToken] = useState(null);
 
   const getTokensListing = async () => {
@@ -40,15 +40,13 @@ const Tokens = () => {
   };
 
   const onPressEdit = (token: any) => {
-    console.log("--token----", token);
-
     setEditToken(token);
     setCustomerModalOpen(true);
   };
 
   useEffect(() => {
     getTokensListing();
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -89,6 +87,7 @@ const Tokens = () => {
           onClose={() => {
             setCustomerModalOpen(false);
             setEditToken(null);
+            setReload(!reload);
           }}
           editData={editToken}
         />

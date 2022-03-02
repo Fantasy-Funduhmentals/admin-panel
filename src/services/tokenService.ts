@@ -12,4 +12,8 @@ const createNewToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/createNewToken", params);
 };
 
-export { getTokensData, getNativeWalletsData, createNewToken };
+const updateToken = async (params: any) => {
+  return await HTTP_CLIENT.post("/native-token/updateToken", params);
+};
+
+export { getTokensData, getNativeWalletsData, createNewToken, updateToken };
