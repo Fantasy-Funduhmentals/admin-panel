@@ -55,8 +55,6 @@ export const UserListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  console.log(data);
-
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -64,17 +62,6 @@ export const UserListResults = (props: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === data.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < data.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Wallet Activation Status</TableCell>
@@ -90,13 +77,6 @@ export const UserListResults = (props: Props) => {
                   key={customer._id}
                   selected={selectedCustomerIds.indexOf(customer._id) !== -1}
                 >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer._id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer._id)}
-                      value="true"
-                    />
-                  </TableCell> */}
                   <TableCell>
                     <Box
                       sx={{

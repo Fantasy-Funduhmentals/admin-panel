@@ -8,6 +8,10 @@ import {
   Container,
   Grid,
   TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
@@ -20,7 +24,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
 import { createNewToken, updateToken } from "../services/tokenService";
@@ -42,12 +46,29 @@ interface Props {
   editData?: any;
 }
 
+const coins = [
+  { name: "gold", symbol: "Au" },
+  { name: "silver", symbol: "Ag" },
+  { name: "platinum", symbol: "Pt" },
+  { name: "palladium", symbol: "Pd" },
+  { name: "iridium", symbol: "Ir" },
+  { name: "rhodium", symbol: "Rh" },
+  { name: "ruthenium", symbol: "Ru" },
+  { name: "aluminum", symbol: "Al" },
+  { name: "nickel", symbol: "Ni" },
+  { name: "copper", symbol: "Cu" },
+  { name: "lead", symbol: "Pb" },
+  { name: "tin", symbol: "Sn" },
+  { name: "zinc", symbol: "Zn" },
+  { name: "cobalt", symbol: "Co" },
+  { name: "bronze", symbol: "CuSn" },
+];
+
 const FullScreenDialog = (props: Props) => {
   const { open, onClose, editData } = props;
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);
-
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editImage, setEditImage] = useState(null);
@@ -55,8 +76,9 @@ const FullScreenDialog = (props: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      name: editData ? editData?.name : "",
-      coinSymbol: editData ? editData?.coinSymbol : "",
+      metal: editData
+        ? { name: editData?.name, symbol: editData?.coinSymbol }
+        : null,
       displayName: editData ? editData?.displayName : "",
       totalSupply: editData ? editData?.totalSupply : "",
       isActive: editData ? editData?.isActive : false,
@@ -68,16 +90,10 @@ const FullScreenDialog = (props: Props) => {
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: Yup.string()
-        .required("Enter your first name")
-        .min(2, "Name must be atleast 2 character")
-        .max(50, "Name must be atmost 50 character")
-        .trim(),
-      coinSymbol: Yup.string()
-        .required("Coin Symbol is required")
-        .min(1, "Coin SYmbol must be atleast 2 character")
-        .max(50, "Coin SYmbol must be atmost 50 character")
-        .trim(),
+      metal: Yup.object({
+        name: Yup.string().required("Coin name is required"),
+        symbol: Yup.string().required("Coin symbol is required"),
+      }),
 
       displayName: Yup.string()
         .required("Coin name is required")
@@ -129,6 +145,8 @@ const FullScreenDialog = (props: Props) => {
 
       let params = {
         ...values,
+        name: values.metal.name,
+        coinSymbol: values.metal.symbol,
         isActive: true,
         orderIndex: String(values.orderIndex),
       };
@@ -154,8 +172,6 @@ const FullScreenDialog = (props: Props) => {
       if (editData) {
         params._id = editData._id;
 
-        console.log("--params---", params);
-
         await updateToken(params);
       } else {
         await createNewToken(params);
@@ -180,6 +196,8 @@ const FullScreenDialog = (props: Props) => {
     }
   };
 
+  console.log("--metal value--", formik.values.metal);
+
   const handleImageSelection = (event: any, type: "token" | "symbol") => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
@@ -198,6 +216,10 @@ const FullScreenDialog = (props: Props) => {
     if (editData) {
       setEditImage(editData.icon.url);
       setEditSymbolImage(editData.displaySymbol);
+      formik?.setFieldValue("metal", {
+        name: editData?.name,
+        symbol: editData?.coinSymbol,
+      });
     }
   }, []);
 
@@ -332,23 +354,6 @@ const FullScreenDialog = (props: Props) => {
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.name && formik.errors.name
-                            )}
-                            fullWidth
-                            helperText="Please specify the real metal name associated with the token."
-                            label="Name"
-                            name="name"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            required
-                            value={formik.values.name}
-                            variant="outlined"
-                          />
-                        </Grid>
-
-                        <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
                               formik.touched.displayName &&
                                 formik.errors.displayName
                             )}
@@ -365,39 +370,38 @@ const FullScreenDialog = (props: Props) => {
                         </Grid>
 
                         <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.coinSymbol &&
-                                formik.errors.coinSymbol
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.coinSymbol}
-                            fullWidth
-                            label="Coin Symbol"
-                            name="coinSymbol"
-                            helperText="Please specify real market coin symbol of corresponding metal"
-                            required
-                            variant="outlined"
-                          />
+                          <FormControl sx={{ m: 1, minWidth: "100%" }}>
+                            <InputLabel id="demo-simple-select-helper-label">
+                              {editData
+                                ? formik.values.metal.name
+                                : "Corresponding Metal"}
+                            </InputLabel>
+                            <Select
+                              error={Boolean(
+                                formik.touched.metal && formik.errors.metal
+                              )}
+                              labelId="demo-simple-select-helper-label"
+                              id="demo-simple-select-helper"
+                              value={formik.values.metal}
+                              label={
+                                editData
+                                  ? formik.values.metal.name
+                                  : "Corresponding Metal"
+                              }
+                              name="metal"
+                              onChange={formik.handleChange}
+                              disabled={Boolean(editData)}
+                            >
+                              {coins.map((coin, index) => {
+                                return (
+                                  <MenuItem key={index} value={coin}>
+                                    {coin.name}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
                         </Grid>
-                        {/* <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.displaySymbol &&
-                                formik.errors.displaySymbol
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.displaySymbol}
-                            fullWidth
-                            label="Display Symbol"
-                            name="displaySymbol"
-                            // helperText="Please enter the display symbol of the token"
-                            required
-                            variant="outlined"
-                          />
-                        </Grid> */}
 
                         <Grid item md={6} xs={12}>
                           <TextField
