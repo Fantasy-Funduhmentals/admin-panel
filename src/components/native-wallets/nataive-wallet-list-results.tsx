@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardProps,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -59,85 +60,74 @@ export const NativeWalletListResults = (props: Props) => {
   return (
     <Card {...props}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === data.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < data.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
-                <TableCell>User</TableCell>
-                <TableCell>Coin</TableCell>
-                {/* <TableCell>Address</TableCell> */}
-                <TableCell>Balance</TableCell>
-                <TableCell>Created At</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataToDisplay.map((customer) => (
-                <TableRow
-                  hover
-                  key={customer._id}
-                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer._id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer._id)}
-                      value="true"
-                    />
-                  </TableCell> */}
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Avatar
-                        src={customer.user?.profilePicture}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.user?.name)}
-                      </Avatar>
+        <Paper
+          style={{
+            width: "100%",
+            // marginTop: theme.spacing.unit * 3,
+            overflowX: "auto",
+          }}
+        >
+          <Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>User</TableCell>
+                  <TableCell>Coin</TableCell>
+
+                  <TableCell>Balance</TableCell>
+                  <TableCell>Created At</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataToDisplay.map((customer) => (
+                  <TableRow
+                    hover
+                    key={customer._id}
+                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                  >
+                    <TableCell>
                       <Box
                         sx={{
                           alignItems: "center",
-                          // display: "flex",
+                          display: "flex",
                         }}
                       >
-                        <Typography color="textPrimary" variant="body1">
-                          {customer.user?.name}
-                        </Typography>
-                        {customer?.user?.email}
+                        <Avatar
+                          src={customer.user?.profilePicture}
+                          sx={{ mr: 2 }}
+                        >
+                          {getInitials(customer.user?.name)}
+                        </Avatar>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography color="textPrimary" variant="body1">
+                            {customer.user?.name}
+                          </Typography>
+                          {customer?.user?.email}
+                        </Box>
                       </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
+                    </TableCell>
+                    <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
 
-                  {/* <TableCell>{customer?.address}</TableCell> */}
-                  <TableCell>
-                    {customer?.balance
-                      ? parseFloat(customer?.balance).toFixed(3)
-                      : "0.00"}{" "}
-                    {customer.coinSymbol?.toUpperCase()}
-                  </TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
+                    {/* <TableCell>{customer?.address}</TableCell> */}
+                    <TableCell>
+                      {customer?.balance
+                        ? parseFloat(customer?.balance).toFixed(3)
+                        : "0.00"}{" "}
+                      {customer.coinSymbol?.toUpperCase()}
+                    </TableCell>
+                    <TableCell>
+                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </Paper>
       </PerfectScrollbar>
       <TablePagination
         component="div"

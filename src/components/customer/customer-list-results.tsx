@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardProps,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -58,69 +59,77 @@ export const UserListResults = (props: Props) => {
   return (
     <Card {...props}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Wallet Activation Status</TableCell>
-                <TableCell>Customer Status</TableCell>
-                <TableCell>User type</TableCell>
-                <TableCell>Created At</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataToDisplay.map((customer) => (
-                <TableRow
-                  hover
-                  key={customer._id}
-                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Avatar src={customer.profilePicture} sx={{ mr: 2 }}>
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography color="textPrimary" variant="body1">
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>{customer.email}</TableCell>
-
-                  <TableCell>
-                    <SeverityPill
-                      color={
-                        (customer.isWalletActivated && "success") || "error"
-                      }
-                    >
-                      {customer.isWalletActivated
-                        ? "Activated"
-                        : "Not Activated"}
-                    </SeverityPill>
-                  </TableCell>
-                  <TableCell>
-                    <SeverityPill
-                      color={(customer.isCustomer && "success") || "error"}
-                    >
-                      {customer.isCustomer ? "Verified" : "Not Verified"}
-                    </SeverityPill>
-                  </TableCell>
-                  <TableCell>{customer.sdira ? "Sdira" : "IRA"}</TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
-                  </TableCell>
+        <Paper
+          style={{
+            width: "100%",
+            // marginTop: theme.spacing.unit * 3,
+            overflowX: "auto",
+          }}
+        >
+          <Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Wallet Activation Status</TableCell>
+                  <TableCell>Customer Status</TableCell>
+                  <TableCell>User type</TableCell>
+                  <TableCell>Created At</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
+              </TableHead>
+              <TableBody>
+                {dataToDisplay.map((customer) => (
+                  <TableRow
+                    hover
+                    key={customer._id}
+                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                  >
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        <Avatar src={customer.profilePicture} sx={{ mr: 2 }}>
+                          {getInitials(customer.name)}
+                        </Avatar>
+                        <Typography color="textPrimary" variant="body1">
+                          {customer.name}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{customer.email}</TableCell>
+
+                    <TableCell>
+                      <SeverityPill
+                        color={
+                          (customer.isWalletActivated && "success") || "error"
+                        }
+                      >
+                        {customer.isWalletActivated
+                          ? "Activated"
+                          : "Not Activated"}
+                      </SeverityPill>
+                    </TableCell>
+                    <TableCell>
+                      <SeverityPill
+                        color={(customer.isCustomer && "success") || "error"}
+                      >
+                        {customer.isCustomer ? "Verified" : "Not Verified"}
+                      </SeverityPill>
+                    </TableCell>
+                    <TableCell>{customer.sdira ? "Sdira" : "IRA"}</TableCell>
+                    <TableCell>
+                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </Paper>
       </PerfectScrollbar>
       <TablePagination
         component="div"

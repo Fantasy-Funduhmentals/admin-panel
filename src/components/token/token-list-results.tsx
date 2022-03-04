@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardProps,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -60,11 +61,18 @@ export const TokenListResults = (props: Props) => {
   return (
     <Card {...props}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {/* <TableCell padding="checkbox">
+        <Paper
+          style={{
+            width: "100%",
+            // marginTop: theme.spacing.unit * 3,
+            overflowX: "auto",
+          }}
+        >
+          <Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === data.length}
                     color="primary"
@@ -75,54 +83,57 @@ export const TokenListResults = (props: Props) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                <TableCell>Name</TableCell>
-                <TableCell>Symbol</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Symbol</TableCell>
 
-                <TableCell>Price</TableCell>
-                <TableCell>Order Index</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataToDisplay.map((customer) => {
-                return (
-                  <TableRow
-                    hover
-                    key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                  >
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
-                          {getInitials(customer.displayName)}
-                        </Avatar>
-                        <Typography color="textPrimary" variant="body1">
-                          {customer.displayName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <img
-                        src={customer?.displaySymbol}
-                        style={{ height: 30, width: 30 }}
-                      />
-                    </TableCell>
-                    <TableCell>${customer.price} </TableCell>
-                    <TableCell>{customer.orderIndex}</TableCell>
-                    <TableCell onClick={() => onPressEdit(customer)}>
-                      <ModeEditIcon color="secondary" />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Box>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Order Index</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataToDisplay.map((customer) => {
+                  return (
+                    <TableRow
+                      hover
+                      key={customer._id}
+                      selected={
+                        selectedCustomerIds.indexOf(customer._id) !== -1
+                      }
+                    >
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                            display: "flex",
+                          }}
+                        >
+                          <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
+                            {getInitials(customer.displayName)}
+                          </Avatar>
+                          <Typography color="textPrimary" variant="body1">
+                            {customer.displayName}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <img
+                          src={customer?.displaySymbol}
+                          style={{ height: 30, width: 30 }}
+                        />
+                      </TableCell>
+                      <TableCell>${customer.price} </TableCell>
+                      <TableCell>{customer.orderIndex}</TableCell>
+                      <TableCell onClick={() => onPressEdit(customer)}>
+                        <ModeEditIcon color="secondary" />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Box>
+        </Paper>
       </PerfectScrollbar>
       <TablePagination
         component="div"

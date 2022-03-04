@@ -4,6 +4,7 @@ import {
   Card,
   CardProps,
   Checkbox,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -61,7 +62,14 @@ export const CryptoWalletListResults = (props: Props) => {
   return (
     <Card {...props}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
+          <Paper
+            style={{
+              width: "100%",
+              // marginTop: theme.spacing.unit * 3,
+              overflowX: "auto",
+            }}
+        >
+        <Box >
           <Table>
             <TableHead>
               <TableRow>
@@ -121,6 +129,7 @@ export const CryptoWalletListResults = (props: Props) => {
             </TableBody>
           </Table>
         </Box>
+        </Paper>
       </PerfectScrollbar>
       <TablePagination
         component="div"
