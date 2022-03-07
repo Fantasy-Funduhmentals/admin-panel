@@ -11,13 +11,14 @@ import ReduxThunk from "redux-thunk";
 import userSlice from "./reducers/userSlice";
 import coinSlice from "./reducers/coinSlice";
 import tokenSlice from "./reducers/tokenSlice";
+import requestSlice from "./reducers/requestSlice";
 
 declare var window: any;
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["user", "coin", "token"],
+  whitelist: ["user", "coin", "token", "request"],
   blacklist: [],
   transforms: [],
 };
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   user: userSlice,
   coin: coinSlice,
   token: tokenSlice,
+  request: requestSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

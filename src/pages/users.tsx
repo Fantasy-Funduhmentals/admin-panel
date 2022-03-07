@@ -25,7 +25,6 @@ const Users = () => {
     try {
       setLoading(true);
       const usersRes = await getAllUsers();
-
       dispatch(saveUsers(usersRes.data));
       setLoading(false);
     } catch (err) {

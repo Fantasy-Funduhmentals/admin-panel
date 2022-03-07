@@ -31,6 +31,11 @@ const items = [
     title: "Tokens",
   },
   {
+    href: "/sdiraRequests",
+    icon: <TokensIcon fontSize="small" />,
+    title: "Requests",
+  },
+  {
     href: "/users",
     icon: <UsersIcon fontSize="small" />,
     title: "Users",
