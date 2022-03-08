@@ -18,6 +18,7 @@ import {
   CardHeader,
   CardContent,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -44,6 +45,7 @@ interface Props extends CardProps {
 const Row = (props) => {
   const { row, handleRequest } = props;
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getExplanationText = (requestType: REQUEST_TYPES) => {
     let explanation = "";
@@ -65,161 +67,142 @@ const Row = (props) => {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {/* {row.name} */}
-          <Box
-            sx={{
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            <Avatar src={row.user?.profilePicture} sx={{ mr: 2 }}>
-              {getInitials(row.user?.name)}
-            </Avatar>
-            <Box
-              sx={{
-                alignItems: "center",
-              }}
-            >
-              <Typography color="textPrimary" variant="body1">
-                {row.user?.name}
-              </Typography>
-              {row?.user?.email}
-            </Box>
-          </Box>
-        </TableCell>
-        <TableCell>{getExplanationText(row.type)}</TableCell>
-        <TableCell align="center">
-          {moment(row.createdAt).format("DD/MM/YYYY hh:mm A")}
-        </TableCell>
-        <TableCell>
-          <Button
-            variant="outlined"
-            color="success"
-            onClick={() => {
-              handleRequest(row._id, REQUEST_STATUS.APPROVED);
-            }}
-          >
-            Accept
-          </Button>
-        </TableCell>
-        <TableCell>
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={() => {
-              handleRequest(row._id, REQUEST_STATUS.REJECTED);
-            }}
-          >
-            Reject
-          </Button>
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Card>
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                      }}
-                    >
-                      <Table size="small" aria-label="purchases">
-                        <TableHead>
-                          <TableCell align="left">
-                            <Typography color="textPrimary" variant="h6">
-                              Details
-                            </Typography>
-                          </TableCell>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell align="left">Amount</TableCell>
-                            <TableCell align="left">{row.amount}</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell align="left">From</TableCell>
-                            <TableCell align="left">{row.from}</TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell align="left">To</TableCell>
-                            <TableCell align="left">{row.to}</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-
-                      {/* <Typography sx={{ textAlign: "left" }}>Amount</Typography>
-                      <Typography sx={{ textAlign: "right" }}>
-                        Amount
-                      </Typography> */}
-                    </Box>
-                  </Box>
-                </CardContent>
-                <Divider />
+      {loading ? (
+        <TableRow>
+          <CircularProgress color="secondary" />
+        </TableRow>
+      ) : (
+        <>
+          <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+            <TableCell>
+              <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => setOpen(!open)}
+              >
+                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              </IconButton>
+            </TableCell>
+            <TableCell component="th" scope="row">
+              {/* {row.name} */}
+              <Box
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <Avatar src={row.user?.profilePicture} sx={{ mr: 2 }}>
+                  {getInitials(row.user?.name)}
+                </Avatar>
                 <Box
                   sx={{
                     alignItems: "center",
-                    display: "flex",
-                    flexDirection: "column",
                   }}
                 >
-                  {/* <TextField
-                    type="file"
-                    onChange={(ev) => handleImageSelection(ev)}
-                  /> */}
+                  <Typography color="textPrimary" variant="body1">
+                    {row.user?.name}
+                  </Typography>
+                  {row?.user?.email}
                 </Box>
-              </Card>
+              </Box>
+            </TableCell>
+            <TableCell>{getExplanationText(row.type)}</TableCell>
+            <TableCell align="center">
+              {moment(row.createdAt).format("DD/MM/YYYY hh:mm A")}
+            </TableCell>
+            <TableCell>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => {
+                  setLoading(true);
+                  handleRequest(row._id, REQUEST_STATUS.APPROVED, () => {
+                    setLoading(false);
+                  });
+                }}
+              >
+                Accept
+              </Button>
+            </TableCell>
+            <TableCell>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => {
+                  setLoading(true);
+                  handleRequest(row._id, REQUEST_STATUS.REJECTED, () => {
+                    setLoading(false);
+                  });
+                }}
+              >
+                Reject
+              </Button>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <Box sx={{ margin: 1 }}>
+                  <Card>
+                    <CardContent>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                          }}
+                        >
+                          <Table size="small" aria-label="purchases">
+                            <TableHead>
+                              <TableCell align="left">
+                                <Typography color="textPrimary" variant="h6">
+                                  Details
+                                </Typography>
+                              </TableCell>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                <TableCell align="left">Amount</TableCell>
+                                <TableCell align="left">{row.amount}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell align="left">From</TableCell>
+                                <TableCell align="left">{row.from}</TableCell>
+                              </TableRow>
 
-              {/* <Typography variant="h6" gutterBottom component="div">
-                Details
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history?.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell>{historyRow.amount}</TableCell>
-                      <TableCell>
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table> */}
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+                              <TableRow>
+                                <TableCell align="left">To</TableCell>
+                                <TableCell align="left">{row.to}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+
+                          {/* <Typography sx={{ textAlign: "left" }}>Amount</Typography>
+                      <Typography sx={{ textAlign: "right" }}>
+                        Amount
+                      </Typography> */}
+                        </Box>
+                      </Box>
+                    </CardContent>
+                    <Divider />
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    ></Box>
+                  </Card>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+        </>
+      )}
     </React.Fragment>
   );
 };
@@ -231,7 +214,6 @@ export const RequestListResults = (props: Props) => {
 
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [rowOpen, setRowopen] = useState(false);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -241,10 +223,14 @@ export const RequestListResults = (props: Props) => {
     setPage(newPage);
   };
 
-  const handleRequest = async (requestId: string, status: string) => {
+  const handleRequest = async (
+    requestId: string,
+    status: string,
+    callback: any
+  ) => {
     try {
       setLoading(true);
-      const loginRes = await handleRequestInteraction({
+      await handleRequestInteraction({
         requestId,
         status,
       });
@@ -252,6 +238,7 @@ export const RequestListResults = (props: Props) => {
         setLoading(false);
       });
 
+      callback();
       setStatusData({
         type: "success",
         message: "Request handled successfully",
@@ -294,7 +281,6 @@ export const RequestListResults = (props: Props) => {
         <Paper
           style={{
             width: "100%",
-
             overflowX: "auto",
           }}
         >
@@ -312,91 +298,17 @@ export const RequestListResults = (props: Props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((row) => (
+                  {dataToDisplay.map((row) => (
                     <Row
                       key={row.name}
                       row={row}
                       handleRequest={handleRequest}
+                      loading={loading}
                     />
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-
-            {/* <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Wallet Activation Status</TableCell>
-
-                  <TableCell>Request Type</TableCell>
-                  <TableCell>Created At</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataToDisplay.map((customer) => (
-                  <TableRow
-                    hover
-                    key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                  >
-                    <TableCell>
-                      <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setRowopen(!rowOpen)}
-                      >
-                        {rowOpen ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                      </IconButton>
-                    </TableCell>
-
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <Avatar
-                          src={customer.user.profilePicture}
-                          sx={{ mr: 2 }}
-                        >
-                          {getInitials(customer.user.name)}
-                        </Avatar>
-                        <Typography color="textPrimary" variant="body1">
-                          {customer.user.name}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{customer.user.email}</TableCell>
-
-                    <TableCell>
-                      <SeverityPill
-                        color={
-                          (customer.user.isWalletActivated && "success") ||
-                          "error"
-                        }
-                      >
-                        {customer.user.isWalletActivated
-                          ? "Activated"
-                          : "Not Activated"}
-                      </SeverityPill>
-                    </TableCell>
-                   
-                    <TableCell>{getExplanationText(customer.type)}</TableCell>
-                    <TableCell>
-                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table> */}
           </Box>
         </Paper>
       </PerfectScrollbar>
