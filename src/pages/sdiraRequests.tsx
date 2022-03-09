@@ -35,8 +35,6 @@ const SdiraRequests = () => {
     getCoinsListing();
   }, []);
 
-  console.log("--requests---", requests);
-
   return (
     <>
       <Head>

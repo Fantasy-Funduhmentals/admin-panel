@@ -12,6 +12,7 @@ import userSlice from "./reducers/userSlice";
 import coinSlice from "./reducers/coinSlice";
 import tokenSlice from "./reducers/tokenSlice";
 import requestSlice from "./reducers/requestSlice";
+import chatSlice from "./reducers/chatSlice";
 
 declare var window: any;
 
@@ -28,6 +29,7 @@ const reducers = combineReducers({
   coin: coinSlice,
   token: tokenSlice,
   request: requestSlice,
+  chat: chatSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

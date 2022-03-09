@@ -66,6 +66,11 @@ const items = [
     icon: <CogIcon fontSize="small" />,
     title: "Settings",
   },
+  {
+    href: "/chat",
+    icon: <CogIcon fontSize="small" />,
+    title: "Support",
+  },
 ];
 
 export const DashboardSidebar = (props) => {

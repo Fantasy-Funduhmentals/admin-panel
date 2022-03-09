@@ -249,6 +249,7 @@ export const RequestListResults = (props: Props) => {
         type: "error",
         message: error,
       });
+      callback();
 
       setLoading(false);
     }
