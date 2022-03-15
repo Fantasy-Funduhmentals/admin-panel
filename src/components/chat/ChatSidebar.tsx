@@ -1,11 +1,18 @@
 import { Box, Drawer, IconButton, Stack } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Socket } from "socket.io-client";
 import Iconify from "../../components/Iconify";
 import Scrollbar from "../../components/Scrollbar";
+import { SocketContext } from "../../context/socket";
+import { RootState } from "../../store";
 import { useAppSelector } from "../../store/hooks";
+
 import axios from "../../utils/axiosClient";
+import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import ChatAccount from "./ChatAccount";
 import ChatContactSearch from "./ChatContactSearch";
 import ChatConversationList from "./ChatConversationList";
@@ -45,9 +52,10 @@ export default function ChatSidebar() {
 
   const [isSearchFocused, setSearchFocused] = useState(false);
 
-  const { conversations, activeConversationId } = useAppSelector(
-    (state) => state.chat
+  const { chats, conversations, activeConversationId } = useSelector(
+    (state: RootState) => state.chat
   );
+  const socket: Socket = useContext(SocketContext);
 
   // const isDesktop = useResponsive("up", "md");
   const isDesktop = true;
@@ -78,15 +86,12 @@ export default function ChatSidebar() {
   const handleChangeSearch = async (event) => {
     try {
       const { value } = event.target;
-
-      console.log("--value----", value);
-
       setSearchQuery(value);
       if (value) {
-        // const response = await axios.get("/api/chat/search", {
-        //   params: { query: value },
-        // });
-        // setSearchResults(response.data.results);
+        const response = await axios.get("/api/chat/search", {
+          params: { query: value },
+        });
+        setSearchResults(response.data.results);
       } else {
         setSearchResults([]);
       }
@@ -162,7 +167,7 @@ export default function ChatSidebar() {
       <Scrollbar sx={{}}>
         {!displayResults ? (
           <ChatConversationList
-            conversations={conversations}
+            conversations={chats}
             isOpenSidebar={openSidebar}
             activeConversationId={activeConversationId}
             sx={{ ...(isSearchFocused && { display: "none" }) }}
