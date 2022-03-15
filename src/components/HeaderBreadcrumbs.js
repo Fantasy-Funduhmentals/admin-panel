@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import isString from 'lodash/isString';
+import PropTypes from "prop-types";
+import isString from "lodash/isString";
 // @mui
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link } from "@mui/material";
 //
-import Breadcrumbs from './Breadcrumbs';
+import Breadcrumbs from "./Breadcrumbs";
 
 // ----------------------------------------------------------------------
 
@@ -15,15 +15,20 @@ HeaderBreadcrumbs.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function HeaderBreadcrumbs({ links, action, heading, moreLink = '' || [], sx, ...other }) {
+export default function HeaderBreadcrumbs({
+  action,
+  heading,
+  moreLink = "" || [],
+  sx,
+  ...other
+}) {
   return (
-    <Box sx={{ mb: 5, ...sx }}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ mb: 3, mt: 3, ...sx }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="h4" gutterBottom>
             {heading}
           </Typography>
-          <Breadcrumbs links={links} {...other} />
         </Box>
 
         {action && <Box sx={{ flexShrink: 0 }}>{action}</Box>}
@@ -36,7 +41,14 @@ export default function HeaderBreadcrumbs({ links, action, heading, moreLink = '
           </Link>
         ) : (
           moreLink.map((href) => (
-            <Link noWrap key={href} href={href} variant="body2" target="_blank" sx={{ display: 'table' }}>
+            <Link
+              noWrap
+              key={href}
+              href={href}
+              variant="body2"
+              target="_blank"
+              sx={{ display: "table" }}
+            >
               {href}
             </Link>
           ))

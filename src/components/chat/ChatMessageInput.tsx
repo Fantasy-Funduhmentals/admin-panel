@@ -1,14 +1,7 @@
-import {
-  Divider,
-  IconButton,
-  Input,
-  InputAdornment,
-  Stack,
-} from "@mui/material";
+import { Divider, IconButton, Input, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
-import EmojiPicker from "../../components/EmojiPicker";
 import Iconify from "../../components/Iconify";
 
 const RootStyle = styled("div")(({ theme }) => ({
@@ -60,15 +53,6 @@ export default function ChatMessageInput({ disabled, conversationId, onSend }) {
         onKeyUp={handleKeyUp}
         onChange={(event) => setMessage(event.target.value)}
         placeholder="Type a message"
-        startAdornment={
-          <InputAdornment position="start">
-            <EmojiPicker
-              disabled={disabled}
-              value={message}
-              setValue={setMessage}
-            />
-          </InputAdornment>
-        }
         endAdornment={
           <Stack direction="row" spacing={1} sx={{ flexShrink: 0, mr: 1.5 }}>
             <IconButton disabled={disabled} size="small" onClick={handleAttach}>
@@ -76,13 +60,8 @@ export default function ChatMessageInput({ disabled, conversationId, onSend }) {
                 icon="ic:round-add-photo-alternate"
                 width={22}
                 height={22}
+                sx={{}}
               />
-            </IconButton>
-            <IconButton disabled={disabled} size="small" onClick={handleAttach}>
-              <Iconify icon="eva:attach-2-fill" width={22} height={22} />
-            </IconButton>
-            <IconButton disabled={disabled} size="small">
-              <Iconify icon="eva:mic-fill" width={22} height={22} />
             </IconButton>
           </Stack>
         }
@@ -96,7 +75,7 @@ export default function ChatMessageInput({ disabled, conversationId, onSend }) {
         onClick={handleSend}
         sx={{ mx: 1 }}
       >
-        <Iconify icon="ic:round-send" width={22} height={22} />
+        <Iconify icon="ic:round-send" width={22} height={22} sx={{}} />
       </IconButton>
 
       <input type="file" ref={fileInputRef} style={{ display: "none" }} />

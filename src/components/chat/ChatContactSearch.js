@@ -1,11 +1,7 @@
+import { ClickAwayListener, InputAdornment } from "@mui/material";
 import PropTypes from "prop-types";
-// @mui
-import { InputAdornment, ClickAwayListener } from "@mui/material";
-// components
 import Iconify from "../../components/Iconify";
 import InputStyle from "../../components/InputStyle";
-
-// ----------------------------------------------------------------------
 
 ChatContactSearch.propTypes = {
   query: PropTypes.string,

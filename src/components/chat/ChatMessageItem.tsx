@@ -36,15 +36,22 @@ ChatMessageItem.propTypes = {
   message: PropTypes.object.isRequired,
   conversation: PropTypes.object.isRequired,
   onOpenLightbox: PropTypes.func,
+  otherUser: PropTypes.object.isRequired,
 };
 
-export default function ChatMessageItem({ message, onOpenLightbox }) {
-  const senderDetails = message?.user;
+export default function ChatMessageItem({
+  message,
+  onOpenLightbox,
+  otherUser,
+}) {
   const isImage = Boolean(message?.image);
-  const firstName = senderDetails?.name && senderDetails.name.split(" ")[0];
 
-  const isMe = useMemo(() => {
-    return message?.user == "ADMIN";
+  const [isMe, senderDetails, firstName] = useMemo(() => {
+    let isMe = message?.user == "ADMIN";
+    const senderDetails = message?.user == "ADMIN" ? "ADMIN" : otherUser;
+    const firstName = senderDetails?.name && senderDetails.name.split(" ")[0];
+
+    return [isMe, senderDetails, firstName];
   }, []);
 
   return (

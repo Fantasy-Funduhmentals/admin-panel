@@ -17,13 +17,22 @@ const Chat = () => {
 
   useEffect(() => {
     socket.emit(CHAT_SOCKET_TYPES.ALL_ROOMS_LISTING, { userId: "ADMIN" });
+    socket.emit(CHAT_SOCKET_TYPES.USER_CONNECT, { userId: "ADMIN" });
 
     socket.on(CHAT_SOCKET_TYPES.ALL_ROOMS, (data) => {
+      data = data.sort(function (a: any, b: any) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
       dispatch(saveChats(data));
     });
 
     socket.on("connect_error", (err) => {
       console.log("--error connecting to socket--", err);
+    });
+
+    socket.on(CHAT_SOCKET_TYPES.CHAT_ROOM_CHANGED, (data: any) => {
+      // setMessages(data.messages);
+      console.log("--chat room changed---", data);
     });
 
     return () => {
@@ -32,12 +41,9 @@ const Chat = () => {
   }, []);
 
   return (
-    <Page title="Chat">
+    <Page title="Chat Support">
       <Container>
-        <HeaderBreadcrumbs
-          heading="Chat"
-          links={[{ name: "Dashboard" }, { name: "Chat" }]}
-        />
+        <HeaderBreadcrumbs heading="Chat Support" />
         <Card sx={{ height: "72vh", display: "flex" }}>
           <ChatSidebar />
           <ChatWindow />

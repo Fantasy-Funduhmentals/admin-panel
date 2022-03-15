@@ -1,7 +1,6 @@
 import { Box, Drawer, IconButton, Stack } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Iconify from "../../components/Iconify";
 import Scrollbar from "../../components/Scrollbar";
@@ -37,8 +36,6 @@ const SIDEBAR_COLLAPSE_WIDTH = 96;
 
 export default function ChatSidebar() {
   const theme = useTheme();
-
-  const { push, pathname } = useRouter();
 
   const [openSidebar, setOpenSidebar] = useState(true);
 
@@ -81,12 +78,15 @@ export default function ChatSidebar() {
   const handleChangeSearch = async (event) => {
     try {
       const { value } = event.target;
+
+      console.log("--value----", value);
+
       setSearchQuery(value);
       if (value) {
-        const response = await axios.get("/api/chat/search", {
-          params: { query: value },
-        });
-        setSearchResults(response.data.results);
+        // const response = await axios.get("/api/chat/search", {
+        //   params: { query: value },
+        // });
+        // setSearchResults(response.data.results);
       } else {
         setSearchResults([]);
       }
@@ -102,7 +102,6 @@ export default function ChatSidebar() {
   const handleSearchSelect = (username) => {
     setSearchFocused(false);
     setSearchQuery("");
-    // push(`${PATH_DASHBOARD.chat.root}/${username}`);
   };
 
   const handleSelectContact = (result) => {
@@ -126,6 +125,7 @@ export default function ChatSidebar() {
             <Iconify
               width={20}
               height={20}
+              sx={{}}
               icon={
                 openSidebar
                   ? "eva:arrow-ios-back-fill"
@@ -138,7 +138,12 @@ export default function ChatSidebar() {
             // <NextLink href={PATH_DASHBOARD.chat.new}>
             <NextLink href="/chat">
               <IconButton>
-                <Iconify icon={"eva:edit-fill"} width={20} height={20} />
+                <Iconify
+                  icon={"eva:edit-fill"}
+                  width={20}
+                  height={20}
+                  sx={{}}
+                />
               </IconButton>
             </NextLink>
           )}
@@ -154,7 +159,7 @@ export default function ChatSidebar() {
         )}
       </Box>
 
-      <Scrollbar>
+      <Scrollbar sx={{}}>
         {!displayResults ? (
           <ChatConversationList
             conversations={conversations}
@@ -177,7 +182,7 @@ export default function ChatSidebar() {
     <>
       {!isDesktop && (
         <ToggleButtonStyle onClick={handleToggleSidebar}>
-          <Iconify width={16} height={16} icon={"eva:people-fill"} />
+          <Iconify sx={{}} width={16} height={16} icon={"eva:people-fill"} />
         </ToggleButtonStyle>
       )}
 

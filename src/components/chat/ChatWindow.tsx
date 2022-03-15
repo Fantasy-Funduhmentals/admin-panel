@@ -2,42 +2,21 @@ import { Box, Divider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { Socket } from "socket.io-client";
 import { SocketContext } from "../../context/socket";
 import { RootState } from "../../store";
-import { useAppDispatch } from "../../store/hooks";
-import { addRecipients, onSendMessage } from "../../store/reducers/chatSlice";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import { getOtherUser } from "../../utils/helpers";
-import ChatHeaderCompose from "./ChatHeaderCompose";
 import ChatHeaderDetail from "./ChatHeaderDetail";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatMessageList from "./ChatMessageList";
 import ChatRoom from "./ChatRoom";
 
-const conversationSelector = (state) => {
-  const { conversations, activeConversationId } = state.chat;
-  const conversation = activeConversationId
-    ? conversations.byId[activeConversationId]
-    : null;
-  if (conversation) {
-    return conversation;
-  }
-  const initState = {
-    id: "",
-    messages: [],
-    participants: [],
-    unreadCount: 0,
-    type: "",
-  };
-  return initState;
-};
-
 export default function ChatWindow() {
-  const dispatch = useAppDispatch();
-  const socket = useContext(SocketContext);
+  const socket: Socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
 
-  const { pathname, query } = useRouter();
+  const { query } = useRouter();
 
   const { chats, currentChatRoom } = useSelector(
     (state: RootState) => state.chat
@@ -57,15 +36,10 @@ export default function ChatWindow() {
     return [current, otherUser];
   }, [conversationKey]);
 
-  const { contacts, recipients, participants, activeConversationId } =
-    useSelector((state: RootState) => state.chat);
-
   const mode = conversationKey ? "DETAIL" : "COMPOSE";
 
   const listeners = useCallback(async () => {
     if (otherUser) {
-      console.log("--listeners initialized---");
-
       socket.emit(CHAT_SOCKET_TYPES.ENTER_CHAT_ROOM, {
         userId: "ADMIN",
         otherUserId: otherUser?._id,
@@ -73,7 +47,6 @@ export default function ChatWindow() {
       });
 
       socket.on(CHAT_SOCKET_TYPES.ALL_MESSAGES, (data: any) => {
-        console.log("--messages all----", data);
         setMessages(data.messages);
       });
 
@@ -81,8 +54,6 @@ export default function ChatWindow() {
         let index = messages.findIndex((data: any) => data._id == msg._id);
 
         if (index == -1) {
-          console.log("--new message received---", msg);
-          // setMessages()
           setMessages((previousArr: any[]) => [...previousArr, msg]);
         }
       });
@@ -91,38 +62,30 @@ export default function ChatWindow() {
 
   useEffect(() => {
     listeners();
-  }, []);
 
-  const handleAddRecipients = (recipients) => {
-    dispatch(addRecipients(recipients));
-  };
+    return () => {
+      socket.removeListener(CHAT_SOCKET_TYPES.ALL_MESSAGES);
+      socket.removeListener(CHAT_SOCKET_TYPES.NEW_MESSAGE);
+    };
+  }, [otherUser]);
 
-  const handleSendMessage = async (value) => {
+  const handleSendMessage = async (value: string) => {
     socket.emit("add-message", {
       text: value,
       user: "ADMIN",
-      recipient: otherUser._id,
+      recipient: otherUser?._id,
       chatRoom: conversationKey,
     });
   };
 
   return (
     <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-      {mode === "DETAIL" ? (
-        <ChatHeaderDetail participants={[otherUser]} />
-      ) : (
-        <ChatHeaderCompose
-          recipients={recipients}
-          contacts={Object.values(contacts.byId)}
-          onAddRecipients={handleAddRecipients}
-        />
-      )}
-
+      {otherUser && <ChatHeaderDetail participant={otherUser} />}
       <Divider />
 
       <Box sx={{ flexGrow: 1, display: "flex", overflow: "hidden" }}>
         <Box sx={{ display: "flex", flexGrow: 1, flexDirection: "column" }}>
-          <ChatMessageList conversation={messages} />
+          <ChatMessageList conversation={messages} otherUser={otherUser} />
 
           <Divider />
 

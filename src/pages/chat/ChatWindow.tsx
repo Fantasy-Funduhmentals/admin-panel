@@ -16,11 +16,11 @@ export default function ChatDetails() {
   useEffect(() => {}, [dispatch]);
 
   return (
-    <Page title="Chat">
+    <Page title="Chat Support">
       <Container maxWidth={"xl"}>
         <HeaderBreadcrumbs
-          heading="Chat"
-          links={[{ name: "Dashboard" }, { name: "Chat" }]}
+          heading="Chat Support"
+          links={[{ name: "Dashboard" }, { name: "Chat Support" }]}
         />
         <Card sx={{ height: "72vh", display: "flex" }}>
           <ChatSidebar />

@@ -11,4 +11,5 @@ export enum CHAT_SOCKET_TYPES {
   USER_CONNECT = "user-connect",
   ALL_ROOMS_LISTING = "all-rooms-listing",
   ALL_ROOMS = "all-rooms",
+  CHAT_ROOM_CHANGED = "chat-room-changed",
 }
