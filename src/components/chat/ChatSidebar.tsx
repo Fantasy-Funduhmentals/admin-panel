@@ -86,12 +86,14 @@ export default function ChatSidebar() {
   const handleChangeSearch = async (event) => {
     try {
       const { value } = event.target;
+
+      const searchData = chats.filter((chat) =>
+        chat?.members[0]?.name?.toLowerCase().includes(value.toLowerCase())
+      );
+
       setSearchQuery(value);
+      setSearchResults(searchData);
       if (value) {
-        const response = await axios.get("/api/chat/search", {
-          params: { query: value },
-        });
-        setSearchResults(response.data.results);
       } else {
         setSearchResults([]);
       }
@@ -167,7 +169,6 @@ export default function ChatSidebar() {
       <Scrollbar sx={{}}>
         {!displayResults ? (
           <ChatConversationList
-            conversations={chats}
             isOpenSidebar={openSidebar}
             activeConversationId={activeConversationId}
             sx={{ ...(isSearchFocused && { display: "none" }) }}

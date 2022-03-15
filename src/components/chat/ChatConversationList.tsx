@@ -8,14 +8,12 @@ import { RootState } from "../../store";
 import { setCurrentChat } from "../../store/reducers/chatSlice";
 
 ChatConversationList.propTypes = {
-  conversations: PropTypes.object,
   isOpenSidebar: PropTypes.bool,
   activeConversationId: PropTypes.string,
   sx: PropTypes.object,
 };
 
 export default function ChatConversationList({
-  conversations,
   isOpenSidebar,
   activeConversationId,
   sx,

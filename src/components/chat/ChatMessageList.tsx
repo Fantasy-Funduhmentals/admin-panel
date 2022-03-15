@@ -18,9 +18,14 @@ export default function ChatMessageList({ conversation, otherUser }) {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      console.log("---use effect called---");
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+
+      // scrollRef.current.scrollBottom = scrollRef.current.scrollHeight + 100;
     }
   }, [conversation.length]);
+
+  console.log(scrollRef);
 
   const imagesLightbox = conversation
     .filter((messages) => messages.image)
@@ -35,18 +40,22 @@ export default function ChatMessageList({ conversation, otherUser }) {
   return (
     <>
       <Scrollbar
-        scrollableNodeProps={{ ref: scrollRef }}
+        // scrollableNodeProps={{ ref: scrollRef }}
         sx={{ p: 3, height: 1 }}
+        // ref={scrollRef}
       >
-        {conversation.map((message) => (
-          <ChatMessageItem
-            key={message.id}
-            message={message}
-            otherUser={otherUser}
-            conversation={currentChatRoom}
-            onOpenLightbox={handleOpenLightbox}
-          />
-        ))}
+        <div>
+          {conversation.map((message) => (
+            <ChatMessageItem
+              key={message.id}
+              message={message}
+              otherUser={otherUser}
+              conversation={currentChatRoom}
+              onOpenLightbox={handleOpenLightbox}
+            />
+          ))}
+          <div ref={scrollRef} />
+        </div>
       </Scrollbar>
 
       <LightboxModal
