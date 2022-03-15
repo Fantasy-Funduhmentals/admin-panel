@@ -10,13 +10,10 @@ import Page from "../../components/Page";
 //   return <Layout>{page}</Layout>;
 // };
 
-export default function Chat() {
+export default function ChatDetails() {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // dispatch(getConversations());
-    // dispatch(getContacts());
-  }, [dispatch]);
+  useEffect(() => {}, [dispatch]);
 
   return (
     <Page title="Chat">

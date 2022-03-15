@@ -75,7 +75,7 @@ export default function ChatRoomOneParticipant({
       >
         <Avatar
           alt={participant.name}
-          src={participant.avatar}
+          src={participant.profilePicture}
           sx={{ width: 96, height: 96 }}
         />
         <Box sx={{ mt: 2, textAlign: "center" }}>
@@ -109,14 +109,14 @@ export default function ChatRoomOneParticipant({
 
       <Collapse in={isCollapse}>
         <Box sx={{ px: 2.5, pb: 1 }}>
-          <RowStyle>
+          {/* <RowStyle>
             <RowIconStyle icon={"eva:pin-fill"} />
             <RowTextStyle>{participant.address}</RowTextStyle>
           </RowStyle>
           <RowStyle>
             <RowIconStyle icon={"eva:phone-fill"} />
             <RowTextStyle>{participant.phone}</RowTextStyle>
-          </RowStyle>
+          </RowStyle> */}
           <RowStyle>
             <RowIconStyle icon={"eva:email-fill"} />
             <RowTextStyle>{participant.email}</RowTextStyle>

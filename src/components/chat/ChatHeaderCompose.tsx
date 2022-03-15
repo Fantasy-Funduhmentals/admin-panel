@@ -1,22 +1,18 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-// @mui
-import { alpha, styled } from "@mui/material/styles";
 import {
-  Box,
+  Autocomplete,
   Avatar,
+  Box,
+  Chip,
   TextField,
   Typography,
-  Autocomplete,
-  Chip,
 } from "@mui/material";
-// components
+import { alpha, styled } from "@mui/material/styles";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import PropTypes from "prop-types";
+import { useState } from "react";
 import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled("div")(({ theme }) => ({
   display: "flex",
@@ -43,8 +39,6 @@ const AutocompleteStyle = styled("div")(({ theme }) => ({
     },
   },
 }));
-
-// ----------------------------------------------------------------------
 
 ChatHeaderCompose.propTypes = {
   contacts: PropTypes.array,

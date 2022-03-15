@@ -12,8 +12,6 @@ import ChatContactSearch from "./ChatContactSearch";
 import ChatConversationList from "./ChatConversationList";
 import ChatSearchResults from "./ChatSearchResults";
 
-// ----------------------------------------------------------------------
-
 const ToggleButtonStyle = styled((props) => (
   <IconButton disableRipple {...props} />
 ))(({ theme }) => ({
@@ -61,23 +59,11 @@ export default function ChatSidebar() {
 
   const isCollapse = isDesktop && !openSidebar;
 
-  // useEffect(() => {
-  //   if (!isDesktop) {
-  //     return handleCloseSidebar();
-  //   }
-  //   return handleOpenSidebar();
-  // }, [isDesktop, pathname]);
-
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (!openSidebar) {
       return setSearchFocused(false);
     }
   }, [openSidebar]);
-
-  const handleOpenSidebar = () => {
-    setOpenSidebar(true);
-  };
 
   const handleCloseSidebar = () => {
     setOpenSidebar(false);

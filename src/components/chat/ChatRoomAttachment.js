@@ -65,9 +65,9 @@ export default function ChatRoomAttachment({
   isCollapse,
   onCollapse,
 }) {
-  const totalAttachment = uniq(
-    flatten(conversation.messages.map((item) => item.attachments))
-  ).length;
+  // const totalAttachment = uniq(
+  //   flatten(conversation.messages.map((item) => item.attachments))
+  // ).length;
 
   return (
     <RootStyle>
@@ -87,14 +87,14 @@ export default function ChatRoomAttachment({
           />
         }
       >
-        attachment ({totalAttachment})
+        {/* attachment ({totalAttachment}) */}
       </CollapseButtonStyle>
 
       {!isCollapse && <Divider />}
 
       <Scrollbar>
         <Collapse in={isCollapse}>
-          {conversation.messages.map((file) => (
+          {conversation?.messages?.map((file) => (
             <div key={file.id}>
               {file.attachments.map((fileUrl) => (
                 <AttachmentItem key={fileUrl} file={file} fileUrl={fileUrl} />

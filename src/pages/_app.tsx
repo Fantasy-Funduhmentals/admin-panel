@@ -7,6 +7,7 @@ import Head from "next/head";
 import Router from "next/router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
+import { socket, SocketContext } from "../context/socket";
 import { store } from "../store";
 import { theme } from "../theme";
 import { setupAxios } from "../utils/axiosClient";
@@ -31,18 +32,23 @@ const App = (props) => {
 
   return (
     <Provider store={store}>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <title>CQR - Admin Panel</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
-        </LocalizationProvider>
-      </CacheProvider>
+      <SocketContext.Provider value={socket}>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <title>CQR - Admin Panel</title>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+          </Head>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+          </LocalizationProvider>
+        </CacheProvider>
+      </SocketContext.Provider>
     </Provider>
   );
 };

@@ -50,8 +50,6 @@ export default function ChatHeaderDetail({ participants }) {
   );
 }
 
-// ----------------------------------------------------------------------
-
 OneAvatar.propTypes = {
   participants: PropTypes.array.isRequired,
 };

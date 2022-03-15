@@ -50,26 +50,7 @@ export default function ChatRoom({ conversation, participants }) {
 
   const [showInfo, setShowInfo] = useState(true);
 
-  const [selectUser, setSelectUser] = useState(null);
-
-  const [showAttachment, setShowAttachment] = useState(true);
-
-  const [showParticipants, setShowParticipants] = useState(true);
-
-  // const isDesktop = useResponsive('up', 'lg');
-
-  const isGroup = participants.length > 1;
-
-  // useEffect(() => {
-  //   if (!isDesktop) {
-  //     return handleCloseSidebar();
-  //   }
-  //   return handleOpenSidebar();
-  // }, [isDesktop]);
-
-  const handleOpenSidebar = () => {
-    setOpenSidebar(true);
-  };
+  const isDesktop = true;
 
   const handleCloseSidebar = () => {
     setOpenSidebar(false);
@@ -81,30 +62,13 @@ export default function ChatRoom({ conversation, participants }) {
 
   const renderContent = (
     <>
-      {isGroup ? (
-        <ChatRoomGroupParticipant
-          selectUserId={selectUser}
+      <div>
+        <ChatRoomOneParticipant
           participants={participants}
-          isCollapse={showParticipants}
-          onShowPopupUserInfo={(participantId) => setSelectUser(participantId)}
-          onCollapse={() => setShowParticipants((prev) => !prev)}
+          isCollapse={showInfo}
+          onCollapse={() => setShowInfo((prev) => !prev)}
         />
-      ) : (
-        <div>
-          <ChatRoomOneParticipant
-            participants={participants}
-            isCollapse={showInfo}
-            onCollapse={() => setShowInfo((prev) => !prev)}
-          />
-        </div>
-      )}
-      <Divider />
-
-      <ChatRoomAttachment
-        conversation={conversation}
-        isCollapse={showAttachment}
-        onCollapse={() => setShowAttachment((prev) => !prev)}
-      />
+      </div>
     </>
   );
 

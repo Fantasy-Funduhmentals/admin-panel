@@ -19,7 +19,7 @@ declare var window: any;
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["user", "coin", "token", "request"],
+  whitelist: ["user", "coin", "token", "request", "chat"],
   blacklist: [],
   transforms: [],
 };

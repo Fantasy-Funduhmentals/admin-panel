@@ -1,19 +1,15 @@
-import PropTypes from "prop-types";
-import { useRef, useState } from "react";
-
-import { styled } from "@mui/material/styles";
 import {
-  Stack,
-  Input,
   Divider,
   IconButton,
+  Input,
   InputAdornment,
+  Stack,
 } from "@mui/material";
-
-import uuidv4 from "../../utils/uuidv4";
-
-import Iconify from "../../components/Iconify";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import { useRef, useState } from "react";
 import EmojiPicker from "../../components/EmojiPicker";
+import Iconify from "../../components/Iconify";
 
 const RootStyle = styled("div")(({ theme }) => ({
   minHeight: 56,
@@ -49,15 +45,7 @@ export default function ChatMessageInput({ disabled, conversationId, onSend }) {
       return "";
     }
     if (onSend && conversationId) {
-      onSend({
-        conversationId,
-        messageId: uuidv4(),
-        message,
-        contentType: "text",
-        attachments: [],
-        createdAt: new Date(),
-        senderId: "8864c717-587d-472a-929a-8e5f298024da-0",
-      });
+      onSend(message);
     }
     return setMessage("");
   };

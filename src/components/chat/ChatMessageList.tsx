@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
-import { useEffect, useState, useRef } from "react";
-//
-import Scrollbar from "../../components/Scrollbar";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Socket } from "socket.io-client";
 import LightboxModal from "../../components/LightboxModal";
+import Scrollbar from "../../components/Scrollbar";
+import { SocketContext } from "../../context/socket";
+import { RootState } from "../../store/";
+import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import ChatMessageItem from "./ChatMessageItem";
-
-// ----------------------------------------------------------------------
 
 ChatMessageList.propTypes = {
   conversation: PropTypes.object.isRequired,
@@ -13,23 +15,22 @@ ChatMessageList.propTypes = {
 
 export default function ChatMessageList({ conversation }) {
   const scrollRef = useRef(null);
-
   const [openLightbox, setOpenLightbox] = useState(false);
-
   const [selectedImage, setSelectedImage] = useState(0);
+  const { currentChatRoom } = useSelector((state: RootState) => state.chat);
 
   useEffect(() => {
-    const scrollMessagesToBottom = () => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    };
-    scrollMessagesToBottom();
-  }, [conversation.messages]);
+    console.log("--use effect called--");
+    console.log(scrollRef.current);
 
-  const imagesLightbox = conversation.messages
-    .filter((messages) => messages.contentType === "image")
-    .map((messages) => messages.body);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [conversation.length]);
+
+  const imagesLightbox = conversation
+    .filter((messages) => messages.image)
+    .map((messages) => messages.image);
 
   const handleOpenLightbox = (url) => {
     const selectedImage = imagesLightbox.findIndex((index) => index === url);
@@ -43,11 +44,11 @@ export default function ChatMessageList({ conversation }) {
         scrollableNodeProps={{ ref: scrollRef }}
         sx={{ p: 3, height: 1 }}
       >
-        {conversation.messages.map((message) => (
+        {conversation.map((message) => (
           <ChatMessageItem
             key={message.id}
             message={message}
-            conversation={conversation}
+            conversation={currentChatRoom}
             onOpenLightbox={handleOpenLightbox}
           />
         ))}
