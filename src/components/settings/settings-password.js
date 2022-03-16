@@ -78,8 +78,6 @@ export const SettingsPassword = (props) => {
       });
       setLoading(false);
     } catch (err) {
-      console.log("--error---", err);
-
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",

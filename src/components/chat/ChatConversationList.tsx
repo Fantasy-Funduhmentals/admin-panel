@@ -29,7 +29,7 @@ export default function ChatConversationList({
 
   return (
     <List disablePadding sx={sx} {...other}>
-      {(loading ? [...Array(12)] : chats).map((item, index) =>
+      {(loading ? [...Array(12)] : chats)?.map((item, index) =>
         item ? (
           <ChatConversationItem
             key={item?._id}

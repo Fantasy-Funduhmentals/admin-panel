@@ -37,8 +37,6 @@ const Coins = () => {
     getCoinsListing();
   }, []);
 
-  console.log(coins);
-
   return (
     <>
       <Head>

@@ -196,8 +196,6 @@ const FullScreenDialog = (props: Props) => {
     }
   };
 
-  console.log("--metal value--", formik.values.metal);
-
   const handleImageSelection = (event: any, type: "token" | "symbol") => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];

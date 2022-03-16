@@ -69,7 +69,7 @@ export default function ChatAccount() {
         >
           <div>
             <Typography noWrap variant="subtitle1">
-              {/* {user?.displayName} */}
+              Admin Support
             </Typography>
             <Typography noWrap variant="body2" sx={{ color: "text.secondary" }}>
               {/* {user?.email} */}

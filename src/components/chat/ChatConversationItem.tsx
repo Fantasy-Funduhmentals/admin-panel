@@ -4,11 +4,13 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 import BadgeStatus from "../../components/BadgeStatus";
+import { theme } from "../../theme";
 import { getOtherUser } from "../../utils/helpers";
 
 const AVATAR_SIZE = 48;
@@ -39,11 +41,14 @@ export default function ChatConversationItem({
   onSelectConversation,
   isOpenSidebar,
 }: any) {
-  const otherUser = useMemo(() => {
-    return getOtherUser(conversation.members);
-  }, []);
+  const otherUser = getOtherUser(conversation.members);
 
-  const isUnread = false;
+  const isUnread = conversation?.recentMessage?.recipient == "ADMIN";
+
+  const recentMessage =
+    conversation?.recentMessage?.recipient == "ADMIN"
+      ? conversation?.recentMessage
+      : null;
 
   return (
     <RootStyle
@@ -57,12 +62,6 @@ export default function ChatConversationItem({
         <Box>
           <AvatarWrapperStyle className="avatarWrapper">
             <Avatar alt={otherUser?.name} src={otherUser?.profilePicture} />
-            {otherUser?.onlineStatus && (
-              <BadgeStatus
-                status={otherUser?.onlineStatus}
-                sx={{ right: 2, bottom: 2, position: "absolute" }}
-              />
-            )}
           </AvatarWrapperStyle>
         </Box>
       </ListItemAvatar>
@@ -75,7 +74,7 @@ export default function ChatConversationItem({
               noWrap: true,
               variant: "subtitle2",
             }}
-            secondary={otherUser?.name}
+            secondary={recentMessage?.text}
             secondaryTypographyProps={{
               noWrap: true,
               variant: isUnread ? "subtitle2" : "body2",
@@ -92,7 +91,23 @@ export default function ChatConversationItem({
               flexDirection: "column",
             }}
           >
-            {isUnread && <BadgeStatus status="unread" size="small" />}
+            {isUnread && (
+              <Box
+                sx={{
+                  background: theme.palette.primary.main,
+                  height: 15,
+                  width: 15,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                  borderRadius: 9999,
+                }}
+              >
+                <Typography sx={{ fontSize: 10, color: "white" }}>
+                  {conversation?.unReadMessages}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </>
       )}

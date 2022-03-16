@@ -24,9 +24,28 @@ const slice = createSlice({
     setCurrentChat(state, action) {
       state.currentChatRoom = action.payload;
     },
+    updateChatRoom(state, action) {
+      let message = action.payload?.payload;
+      let temp = [...state.chats];
+
+      let index = temp.findIndex(
+        (chat) => chat.chatRoomId == message.chatRoomId
+      );
+
+      if (index == -1) {
+        temp.push(message);
+      } else {
+        temp[index] = message;
+
+        temp = temp?.sort(function (a: any, b: any) {
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+      }
+      state.chats = temp;
+    },
   },
 });
 
 export default slice.reducer;
 
-export const { saveChats, setCurrentChat } = slice.actions;
+export const { saveChats, setCurrentChat, updateChatRoom } = slice.actions;

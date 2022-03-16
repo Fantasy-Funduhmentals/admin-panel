@@ -6,7 +6,7 @@ const getNormalizedError = (err: any) => {
 
 const getOtherUser = (members: any[]) => {
   const { userId } = store.getState().user;
-  return members.find((item) => item._id != userId);
+  return members?.find((item) => item._id != userId);
 };
 
 export { getNormalizedError, getOtherUser };

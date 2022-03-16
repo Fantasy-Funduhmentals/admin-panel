@@ -122,7 +122,7 @@ export default function ChatSidebar() {
         <Stack direction="row" alignItems="center" justifyContent="center">
           {!isCollapse && (
             <>
-              <ChatAccount />
+              {/* <ChatAccount /> */}
               <Box sx={{ flexGrow: 1 }} />
             </>
           )}
@@ -140,7 +140,7 @@ export default function ChatSidebar() {
             />
           </IconButton>
 
-          {!isCollapse && (
+          {/* {!isCollapse && (
             // <NextLink href={PATH_DASHBOARD.chat.new}>
             <NextLink href="/chat">
               <IconButton>
@@ -152,7 +152,7 @@ export default function ChatSidebar() {
                 />
               </IconButton>
             </NextLink>
-          )}
+          )} */}
         </Stack>
 
         {!isCollapse && (

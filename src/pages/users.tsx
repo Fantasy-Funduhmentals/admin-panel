@@ -61,7 +61,6 @@ const Users = () => {
               setSearchText(ev.target.value);
             }}
             onPressAdd={() => {
-              console.log("button pressed");
               setUserModalOpen(true);
             }}
           />

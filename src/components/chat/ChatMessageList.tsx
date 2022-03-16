@@ -38,7 +38,7 @@ export default function ChatMessageList({ conversation, otherUser }) {
         <div>
           {conversation.map((message) => (
             <ChatMessageItem
-              key={message.id}
+              key={message._id}
               message={message}
               otherUser={otherUser}
               conversation={currentChatRoom}

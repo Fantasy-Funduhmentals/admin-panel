@@ -1,4 +1,4 @@
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -55,6 +55,11 @@ export default function ChatWindow() {
 
         if (index == -1 && msg.chatRoom == conversationKey) {
           setMessages((previousArr: any[]) => [...previousArr, msg]);
+          socket.emit(CHAT_SOCKET_TYPES.CLEAR_RECENT_MESSAGE, {
+            userId: "ADMIN",
+            otherUserId: otherUser?._id,
+            chatRoomId: conversationKey,
+          });
         }
       });
     }
@@ -85,14 +90,33 @@ export default function ChatWindow() {
 
       <Box sx={{ flexGrow: 1, display: "flex", overflow: "hidden" }}>
         <Box sx={{ display: "flex", flexGrow: 1, flexDirection: "column" }}>
-          <ChatMessageList conversation={messages} otherUser={otherUser} />
+          {otherUser && (
+            <ChatMessageList conversation={messages} otherUser={otherUser} />
+          )}
+
+          {!otherUser && (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h5">
+                Please select a chat to continue
+              </Typography>
+            </Box>
+          )}
 
           <Divider />
 
-          <ChatMessageInput
-            conversationId={currentChatRoom?.chatRoomId}
-            onSend={handleSendMessage}
-          />
+          {otherUser && (
+            <ChatMessageInput
+              conversationId={currentChatRoom?.chatRoomId}
+              onSend={handleSendMessage}
+            />
+          )}
         </Box>
 
         {mode === "DETAIL" && (
