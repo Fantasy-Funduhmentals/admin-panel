@@ -1,17 +1,20 @@
 import { Card, Container } from "@mui/material";
 import React, { useContext, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Socket } from "socket.io-client";
 import { ChatSidebar, ChatWindow } from "../../components/chat";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
 import Page from "../../components/Page";
 import { SocketContext } from "../../context/socket";
+import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 import { saveChats } from "../../store/reducers/chatSlice";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 
 const Chat = () => {
   const socket: Socket = useContext(SocketContext);
+  const { chats } = useSelector((state: RootState) => state.chat);
 
   const dispatch = useAppDispatch();
 
@@ -26,17 +29,25 @@ const Chat = () => {
       dispatch(saveChats(data));
     });
 
+    socket.on(CHAT_SOCKET_TYPES.CHAT_ROOM_CHANGED, (data: any) => {
+      let chatTemp = [...chats];
+      let index = chatTemp.findIndex((chat) => chat._id == data._id);
+      chatTemp[index] = data;
+
+      chatTemp = chatTemp.sort(function (a: any, b: any) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
+
+      dispatch(saveChats(chatTemp));
+    });
+
     socket.on("connect_error", (err) => {
       console.log("--error connecting to socket--", err);
     });
 
-    socket.on(CHAT_SOCKET_TYPES.CHAT_ROOM_CHANGED, (data: any) => {
-      // setMessages(data.messages);
-      console.log("--chat room changed---", data);
-    });
-
     return () => {
-      socket.removeAllListeners();
+      console.log("--listeners removed---");
+      // socket.removeAllListeners();
     };
   }, []);
 

@@ -52,10 +52,9 @@ export default function ChatSidebar() {
 
   const [isSearchFocused, setSearchFocused] = useState(false);
 
-  const { chats, conversations, activeConversationId } = useSelector(
+  const { chats, currentChatRoom, activeConversationId } = useSelector(
     (state: RootState) => state.chat
   );
-  const socket: Socket = useContext(SocketContext);
 
   // const isDesktop = useResponsive("up", "md");
   const isDesktop = true;
@@ -170,7 +169,7 @@ export default function ChatSidebar() {
         {!displayResults ? (
           <ChatConversationList
             isOpenSidebar={openSidebar}
-            activeConversationId={activeConversationId}
+            activeConversationId={currentChatRoom?._id}
             sx={{ ...(isSearchFocused && { display: "none" }) }}
           />
         ) : (

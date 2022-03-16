@@ -53,7 +53,7 @@ export default function ChatWindow() {
       socket.on(CHAT_SOCKET_TYPES.NEW_MESSAGE, (msg: any) => {
         let index = messages.findIndex((data: any) => data._id == msg._id);
 
-        if (index == -1) {
+        if (index == -1 && msg.chatRoom == conversationKey) {
           setMessages((previousArr: any[]) => [...previousArr, msg]);
         }
       });
