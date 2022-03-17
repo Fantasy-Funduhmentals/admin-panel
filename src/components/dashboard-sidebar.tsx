@@ -56,6 +56,11 @@ const items = [
     icon: <NativeWalletsIcon fontSize="small" />,
     title: "Import Data",
   },
+  {
+    href: "/cqr-vest",
+    icon: <TokensIcon fontSize="small" />,
+    title: "CQR Vest",
+  },
 
   // {
   //   href: "/account",

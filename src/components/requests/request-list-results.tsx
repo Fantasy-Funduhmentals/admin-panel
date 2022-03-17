@@ -272,7 +272,7 @@ export const RequestListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data.slice(begin, end);
+      return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 

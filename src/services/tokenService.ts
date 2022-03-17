@@ -1,7 +1,11 @@
 import { HTTP_CLIENT } from "../utils/axiosClient";
 
 const getTokensData = async () => {
-  return await await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
+  return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
+};
+
+const getNFTData = async () => {
+  return await HTTP_CLIENT.get("/nft-token");
 };
 
 const getNativeWalletsData = async () => {
@@ -15,5 +19,14 @@ const createNewToken = async (params: any) => {
 const updateToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/updateToken", params);
 };
-
-export { getTokensData, getNativeWalletsData, createNewToken, updateToken };
+const updateNFT = async (params: any) => {
+  return await HTTP_CLIENT.put("/update-nft-token", params);
+};
+export {
+  getTokensData,
+  getNativeWalletsData,
+  createNewToken,
+  updateToken,
+  getNFTData,
+  updateNFT,
+};

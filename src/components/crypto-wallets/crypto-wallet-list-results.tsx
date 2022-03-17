@@ -48,86 +48,88 @@ export const CryptoWalletListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.userId?.name?
-              .toLowerCase()
+            user.userId?.name
+              ?.toLowerCase()
               .includes(searchQuery.toLowerCase()) ||
-            user.userId?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+            user.userId?.email
+              ?.toLowerCase()
+              .includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
-      return data.slice(begin, end);
+      return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
   return (
     <Card {...props}>
       <PerfectScrollbar>
-          <Paper
-            style={{
-              width: "100%",
-              overflowX: "auto",
-            }}
+        <Paper
+          style={{
+            width: "100%",
+            overflowX: "auto",
+          }}
         >
-        <Box >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>User</TableCell>
-                <TableCell>Coin</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Balance</TableCell>
-                <TableCell>Created At</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataToDisplay.map((customer) => (
-                <TableRow
-                  hover
-                  key={customer._id}
-                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Avatar
-                        src={customer.userId?.profilePicture}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.userId?.name)}
-                      </Avatar>
+          <Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>User</TableCell>
+                  <TableCell>Coin</TableCell>
+                  <TableCell>Address</TableCell>
+                  <TableCell>Balance</TableCell>
+                  <TableCell>Created At</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataToDisplay?.map((customer) => (
+                  <TableRow
+                    hover
+                    key={customer._id}
+                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                  >
+                    <TableCell>
                       <Box
                         sx={{
                           alignItems: "center",
+                          display: "flex",
                         }}
                       >
-                        <Typography color="textPrimary" variant="body1">
-                          {customer.userId?.name}
-                        </Typography>
-                        {customer?.userId?.email}
+                        <Avatar
+                          src={customer.userId?.profilePicture}
+                          sx={{ mr: 2 }}
+                        >
+                          {getInitials(customer.userId?.name)}
+                        </Avatar>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography color="textPrimary" variant="body1">
+                            {customer.userId?.name}
+                          </Typography>
+                          {customer?.userId?.email}
+                        </Box>
                       </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
+                    </TableCell>
+                    <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
 
-                  <TableCell>{customer?.address}</TableCell>
-                  <TableCell>
-                    {customer?.balance
-                      ? parseFloat(customer?.balance).toFixed(3)
-                      : "0.00"}{" "}
-                    {customer.coinSymbol?.toUpperCase()}
-                  </TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
+                    <TableCell>{customer?.address}</TableCell>
+                    <TableCell>
+                      {customer?.balance
+                        ? parseFloat(customer?.balance).toFixed(3)
+                        : "0.00"}{" "}
+                      {customer.coinSymbol?.toUpperCase()}
+                    </TableCell>
+                    <TableCell>
+                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
         </Paper>
       </PerfectScrollbar>
       <TablePagination

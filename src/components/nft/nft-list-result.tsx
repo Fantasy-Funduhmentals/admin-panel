@@ -22,8 +22,9 @@ interface Props extends CardProps {
   onPressEdit?: any;
 }
 
-export const TokenListResults = (props: Props) => {
+export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
+  console.log("data>>>>", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -45,9 +46,7 @@ export const TokenListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.displayName
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
+            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.displaySymbol
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
@@ -73,21 +72,23 @@ export const TokenListResults = (props: Props) => {
               <TableHead>
                 <TableRow>
                   {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === data.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < data.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
+                    <Checkbox
+                      checked={selectedCustomerIds.length === data.length}
+                      color="primary"
+                      indeterminate={
+                        selectedCustomerIds.length > 0 &&
+                        selectedCustomerIds.length < data.length
+                      }
+                      onChange={handleSelectAll}
+                    />
+                  </TableCell> */}
                   <TableCell>Name</TableCell>
-                  <TableCell>Symbol</TableCell>
+                  <TableCell>Image</TableCell>
 
-                  <TableCell>Price</TableCell>
-                  <TableCell>Order Index</TableCell>
+                  <TableCell>Index</TableCell>
+                  <TableCell>PricePerShare</TableCell>
+                  <TableCell>RemainingSupply</TableCell>
+                  <TableCell>TotalSupply</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -108,22 +109,24 @@ export const TokenListResults = (props: Props) => {
                             display: "flex",
                           }}
                         >
-                          <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
-                            {getInitials(customer.displayName)}
-                          </Avatar>
+                          {/* <Avatar src={customer.image} sx={{ mr: 2 }}>
+                            {getInitials(customer.name)}
+                          </Avatar> */}
                           <Typography color="textPrimary" variant="body1">
-                            {customer.displayName}
+                            {customer.name}
                           </Typography>
                         </Box>
                       </TableCell>
                       <TableCell>
                         <img
-                          src={customer?.displaySymbol}
+                          src={customer?.image}
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>${customer.price} </TableCell>
-                      <TableCell>{customer.orderIndex}</TableCell>
+                      <TableCell>{customer.index} </TableCell>
+                      <TableCell>{customer.pricePerShare}</TableCell>
+                      <TableCell>{customer.remainingSupply}</TableCell>
+                      <TableCell>{customer.totalSupply}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>
