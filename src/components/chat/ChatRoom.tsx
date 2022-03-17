@@ -1,19 +1,10 @@
-import { Box, Divider, Drawer, IconButton } from "@mui/material";
-// @mui
+import { Box, Drawer, IconButton } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import useResponsive from "../../store/hooks/useResponsive";
-// hooks
-// import useResponsive from '../../../hooks/useResponsive';
-// components
 import Iconify from "../Iconify";
-//
-import ChatRoomAttachment from "./ChatRoomAttachment";
-import ChatRoomGroupParticipant from "./ChatRoomGroupParticipant";
 import ChatRoomOneParticipant from "./ChatRoomOneParticipant";
-
-// ----------------------------------------------------------------------
 
 const ToggleButtonStyle = styled((props) => (
   <IconButton disableRipple {...props} />
@@ -34,8 +25,6 @@ const ToggleButtonStyle = styled((props) => (
     backgroundColor: theme.palette.background.neutral,
   },
 }));
-
-// ----------------------------------------------------------------------
 
 const SIDEBAR_WIDTH = 240;
 

@@ -107,7 +107,6 @@ export default function ChatSidebar() {
         <Stack direction="row" alignItems="center" justifyContent="center">
           {!isCollapse && (
             <>
-              {/* <ChatAccount /> */}
               <Box sx={{ flexGrow: 1 }} />
             </>
           )}

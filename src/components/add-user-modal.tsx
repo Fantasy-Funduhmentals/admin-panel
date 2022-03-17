@@ -23,7 +23,6 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
-import { createNewToken } from "../services/tokenService";
 import { createNewUser } from "../services/userService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";

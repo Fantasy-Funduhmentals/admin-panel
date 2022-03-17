@@ -1,11 +1,6 @@
-import PropTypes from "prop-types";
+import { Box, Link, Typography } from "@mui/material";
 import isString from "lodash/isString";
-// @mui
-import { Box, Typography, Link } from "@mui/material";
-//
-import Breadcrumbs from "./Breadcrumbs";
-
-// ----------------------------------------------------------------------
+import PropTypes from "prop-types";
 
 HeaderBreadcrumbs.propTypes = {
   links: PropTypes.array,
