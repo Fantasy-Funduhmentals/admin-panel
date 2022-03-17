@@ -14,7 +14,6 @@ import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 
 const Chat = () => {
   const socket: Socket = useContext(SocketContext);
-  const { chats } = useSelector((state: RootState) => state.chat);
 
   const dispatch = useAppDispatch();
 

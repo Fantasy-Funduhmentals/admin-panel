@@ -4,6 +4,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Socket } from "socket.io-client";
 import { SocketContext } from "../../context/socket";
+import { uploadImage } from "../../services/generalService";
 import { RootState } from "../../store";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import { getOtherUser } from "../../utils/helpers";
@@ -83,6 +84,27 @@ export default function ChatWindow() {
     });
   };
 
+  const handleImageSend = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+
+      const formData = new FormData();
+
+      formData.append("file", img);
+      formData.append("type", "chat");
+
+      const uploadRes = await uploadImage(formData);
+
+      socket.emit("add-message", {
+        text: "",
+        user: "ADMIN",
+        image: uploadRes?.data.url,
+        recipient: otherUser?._id,
+        chatRoom: conversationKey,
+      });
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
       {otherUser && <ChatHeaderDetail participant={otherUser} />}
@@ -115,6 +137,7 @@ export default function ChatWindow() {
             <ChatMessageInput
               conversationId={currentChatRoom?.chatRoomId}
               onSend={handleSendMessage}
+              onImageReceived={handleImageSend}
             />
           )}
         </Box>

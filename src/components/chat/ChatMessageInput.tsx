@@ -18,7 +18,12 @@ ChatMessageInput.propTypes = {
   onSend: PropTypes.func,
 };
 
-export default function ChatMessageInput({ disabled, conversationId, onSend }) {
+export default function ChatMessageInput({
+  disabled,
+  conversationId,
+  onSend,
+  onImageReceived,
+}) {
   const fileInputRef = useRef(null);
 
   const [message, setMessage] = useState("");
@@ -78,7 +83,12 @@ export default function ChatMessageInput({ disabled, conversationId, onSend }) {
         <Iconify icon="ic:round-send" width={22} height={22} sx={{}} />
       </IconButton>
 
-      <input type="file" ref={fileInputRef} style={{ display: "none" }} />
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={(ev) => onImageReceived(ev)}
+      />
     </RootStyle>
   );
 }
