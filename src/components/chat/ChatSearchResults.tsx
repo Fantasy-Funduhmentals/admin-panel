@@ -29,9 +29,7 @@ export default function ChatSearchResults({ query, results, onSelectContact }) {
       </Typography>
 
       {results.map((result) => {
-        const otherUser = useMemo(() => {
-          return getOtherUser(result.members);
-        }, []);
+        const otherUser = getOtherUser(result.members);
 
         return (
           <ListItemButton

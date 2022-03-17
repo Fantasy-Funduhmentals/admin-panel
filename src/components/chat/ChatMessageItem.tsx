@@ -99,7 +99,16 @@ export default function ChatMessageItem({
                 onClick={() => onOpenLightbox(message.image)}
               />
             ) : (
-              <Typography variant="body2">{message.text}</Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  maxWidth: "13rem",
+                  width: "auto",
+                  wordWrap: "break-word",
+                }}
+              >
+                {message.text}
+              </Typography>
             )}
           </ContentStyle>
         </Box>
