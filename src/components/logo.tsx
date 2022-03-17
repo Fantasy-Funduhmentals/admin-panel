@@ -18,11 +18,3 @@ export const Logo = styled((props) => {
     />
   );
 })``;
-
-// Logo.defaultProps = {
-//   variant: "primary",
-// };
-
-// Logo.propTypes = {
-//   variant: PropTypes.oneOf(["light", "primary"]),
-// };

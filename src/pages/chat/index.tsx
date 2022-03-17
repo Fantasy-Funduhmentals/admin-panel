@@ -1,13 +1,11 @@
 import { Card, Container } from "@mui/material";
 import React, { useCallback, useContext, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Socket } from "socket.io-client";
 import { ChatSidebar, ChatWindow } from "../../components/chat";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
 import Page from "../../components/Page";
 import { SocketContext } from "../../context/socket";
-import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 import { saveChats, updateChatRoom } from "../../store/reducers/chatSlice";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";

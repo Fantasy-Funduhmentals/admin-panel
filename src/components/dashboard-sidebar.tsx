@@ -9,6 +9,7 @@ import { Cog as CogIcon } from "../icons/cog";
 import { Crypto as CryptoIcon } from "../icons/crypto";
 import { CryptoWallets as CryptoWalletsIcon } from "../icons/cryptoWallets";
 import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
+import { SupportIcon } from "../icons/support";
 import { TokensIcon } from "../icons/tokensIcon";
 import { Users as UsersIcon } from "../icons/users";
 import { Logo } from "./logo";
@@ -68,7 +69,7 @@ const items = [
   },
   {
     href: "/chat",
-    icon: <CogIcon fontSize="small" />,
+    icon: <SupportIcon fontSize="small" />,
     title: "Support",
   },
 ];
