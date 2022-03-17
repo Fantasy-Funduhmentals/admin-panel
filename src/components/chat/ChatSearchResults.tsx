@@ -1,7 +1,6 @@
 import { Avatar, ListItemButton, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { useMemo } from "react";
 import SearchNotFound from "../../components/SearchNotFound";
 import { useAppDispatch } from "../../store/hooks";
 import { setCurrentChat } from "../../store/reducers/chatSlice";

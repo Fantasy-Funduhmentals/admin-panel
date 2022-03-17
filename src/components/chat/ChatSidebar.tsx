@@ -1,19 +1,11 @@
 import { Box, Drawer, IconButton, Stack } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Socket } from "socket.io-client";
 import Iconify from "../../components/Iconify";
 import Scrollbar from "../../components/Scrollbar";
-import { SocketContext } from "../../context/socket";
 import { RootState } from "../../store";
-import { useAppSelector } from "../../store/hooks";
-
-import axios from "../../utils/axiosClient";
-import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
-import ChatAccount from "./ChatAccount";
+import useResponsive from "../../store/hooks/useResponsive";
 import ChatContactSearch from "./ChatContactSearch";
 import ChatConversationList from "./ChatConversationList";
 import ChatSearchResults from "./ChatSearchResults";
@@ -30,13 +22,7 @@ const ToggleButtonStyle = styled((props) => (
   borderRadius: `0 12px 12px 0`,
   color: theme.palette.primary.contrastText,
   backgroundColor: theme.palette.primary.main,
-  boxShadow: theme.customShadows.primary,
-  "&:hover": {
-    backgroundColor: theme.palette.primary.darker,
-  },
 }));
-
-// ----------------------------------------------------------------------
 
 const SIDEBAR_WIDTH = 320;
 const SIDEBAR_COLLAPSE_WIDTH = 96;
@@ -56,8 +42,7 @@ export default function ChatSidebar() {
     (state: RootState) => state.chat
   );
 
-  // const isDesktop = useResponsive("up", "md");
-  const isDesktop = true;
+  const isDesktop = useResponsive("up", "md");
 
   const displayResults = searchQuery && isSearchFocused;
 

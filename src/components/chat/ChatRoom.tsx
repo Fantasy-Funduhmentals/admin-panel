@@ -3,6 +3,7 @@ import { Box, Divider, Drawer, IconButton } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import useResponsive from "../../store/hooks/useResponsive";
 // hooks
 // import useResponsive from '../../../hooks/useResponsive';
 // components
@@ -50,7 +51,7 @@ export default function ChatRoom({ conversation, participants }) {
 
   const [showInfo, setShowInfo] = useState(true);
 
-  const isDesktop = true;
+  const isDesktop = useResponsive("up", "lg");
 
   const handleCloseSidebar = () => {
     setOpenSidebar(false);
