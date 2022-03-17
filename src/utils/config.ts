@@ -8,4 +8,4 @@ const mainnetConfig = {
 
 const defaultConfig = mainnetConfig;
 
-export default mainnetConfig;
+export default defaultConfig;
