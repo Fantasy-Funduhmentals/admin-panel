@@ -22,7 +22,7 @@ import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/system";
+import { Box, height, width } from "@mui/system";
 import { useFormik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
@@ -95,28 +95,25 @@ const FullScreenNFTDialog = (props: Props) => {
       //   icon: editData ? editData?.image : "",
     },
     enableReinitialize: true,
-    // validationSchema: Yup.object({
-    //   metal: Yup.object({
-    //     name: Yup.string().required("Coin name is required"),
-    //     symbol: Yup.string().required("Coin symbol is required"),
-    //   }),
-    //   name: Yup.string()
-    //     .required("Coin name is required")
-    //     .min(1, "Display name must be atleast 2 character")
-    //     .max(50, "Display name must be atmost 50 character")
-    //     .trim(),
-    //   description: Yup.string().required("Total Supply is required").trim(),
-    //   pricePerShare: Yup.string()
-    //     .min(2, "Description must be atleast 2 character")
-    //     .required("Description is required")
-    //     .trim(),
-    //   pricePerShare: Yup.string().required("Coin Color is required").trim(),
-    //   remainingSupply: Yup.string()
-    //     .required("Order pricePerShare is required")
-    //     .trim(),
-    //   decimals: Yup.string().required("Decimals is required").trim(),
-    // }),
+    validationSchema: Yup.object({
+      // metal: Yup.object({
+      //   name: Yup.string().required("Coin name is required"),
+      //   symbol: Yup.string().required("Coin symbol is required"),
+      // }),
+      name: Yup.string()
+        .required("Coin name is required")
+        .min(2, "Display name must be atleast 2 character")
+        .max(50, "Display name must be atmost 50 character")
+        .trim(),
+      description: Yup.string().required("Description is required").trim(),
+      pricePerShare: Yup.string()
+        .min(2, "Description must be atleast 2 character")
+        .required("Description is required")
+        .trim(),
+    }),
     onSubmit: (values, actions) => {
+      console.log("value>>>", values);
+
       handleSubmit(values, actions);
     },
   });
@@ -131,36 +128,45 @@ const FullScreenNFTDialog = (props: Props) => {
     return uploadRes.data.url;
   };
 
+  // function getMeta(url: any, callback: any) {
+  //   var img = new Image();
+  //   img.src = url;
+  //   img.onload = function () {
+  //     callback(width, height);
+  //   };
+  // }
+
   const handleSubmit = async (values, actions) => {
+    debugger;
     try {
       setStatusData(null);
-      //   if (!image && !editData) {
-      //     setStatusData({
-      //       type: "error",
-      //       message: "Please select an image to continue",
-      //     });
-      //     return;
-      //   }
-
       setLoading(true);
 
       let params = {
         ...values,
         name: values.name,
         description: values.description,
-        pricePerShare: Number(values.pricePerShare),
+        pricePerShare: String(values.pricePerShare),
+        isActive: editData.isActive,
       };
 
-      //   if (editData) {
-      //     params.icon = editData.icon.url;
-      //     params.displaySymbol = editData.displaySymbol;
-      //   }
-
+      var myImg = document.querySelector("#city");
+      var currWidth = myImg.clientWidth;
+      var currHeight = myImg.clientHeight;
+      if (currWidth !== currHeight) {
+        setStatusData({
+          type: "error",
+          message: "Image must be in 1X1 ratio",
+        });
+        setLoading(false);
+        return;
+      }
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nftTokens");
         params.image = tokenImageUrl;
+      } else if (editImage) {
+        params.image = editData.image;
       }
-
       if (editData) {
         params._id = editData._id;
 
@@ -200,11 +206,13 @@ const FullScreenNFTDialog = (props: Props) => {
   useEffect(() => {
     if (editData) {
       setEditImage(editData?.image);
+
+      // setImage(editData?.image);
       //   setEditSymbolImage(editData?.displaySymbol);
-      formik?.setFieldValue("metal", {
-        name: editData?.name,
-        symbol: editData?.coinSymbol,
-      });
+      // formik?.setFieldValue("metal", {
+      //   name: editData?.name,
+      //   symbol: editData?.coinSymbol,
+      // });
     }
   }, []);
 
@@ -255,6 +263,16 @@ const FullScreenNFTDialog = (props: Props) => {
                         flexDirection: "column",
                       }}
                     >
+                      <div style={{ visibility: "hidden" }}>
+                        <img
+                          src={
+                            editImage
+                              ? editImage
+                              : image && URL.createObjectURL(image)
+                          }
+                          id="city"
+                        />
+                      </div>
                       <Avatar
                         src={
                           editImage
@@ -306,8 +324,7 @@ const FullScreenNFTDialog = (props: Props) => {
                             fullWidth
                             label="NFT Name"
                             name="name"
-                            helperText="Please enter the name of the NFT"
-                            required
+                            helperText={formik.errors.name}
                             variant="outlined"
                           />
                         </Grid>
@@ -356,9 +373,9 @@ const FullScreenNFTDialog = (props: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.description}
                             fullWidth
-                            label="Total Supply"
+                            label="Description"
                             name="description"
-                            required
+                            helperText={formik.errors.description}
                             variant="outlined"
                           />
                         </Grid>
@@ -375,9 +392,7 @@ const FullScreenNFTDialog = (props: Props) => {
                             fullWidth
                             label="pricePerShare"
                             name="pricePerShare"
-                            // helperText="Please enter token description"
-
-                            required
+                            helperText={formik.errors.pricePerShare}
                             variant="outlined"
                           />
                         </Grid>

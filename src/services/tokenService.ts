@@ -12,6 +12,10 @@ const getNativeWalletsData = async () => {
   return await HTTP_CLIENT.get("/native-wallet/all-native-wallets");
 };
 
+const getNFTBalanceData = async () => {
+  return await HTTP_CLIENT.get("/nft-wallet/all-nft-wallets");
+};
+
 const createNewToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/createNewToken", params);
 };
@@ -20,7 +24,7 @@ const updateToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/updateToken", params);
 };
 const updateNFT = async (params: any) => {
-  return await HTTP_CLIENT.put("/update-nft-token", params);
+  return await HTTP_CLIENT.post("/nft-token/update-nft-token", params);
 };
 export {
   getTokensData,
@@ -29,4 +33,5 @@ export {
   updateToken,
   getNFTData,
   updateNFT,
+  getNFTBalanceData,
 };

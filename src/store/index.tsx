@@ -14,13 +14,14 @@ import tokenSlice from "./reducers/tokenSlice";
 import requestSlice from "./reducers/requestSlice";
 import chatSlice from "./reducers/chatSlice";
 import nftSlice from "./reducers/nftSlice";
+import nftRequest from "./reducers/nftRequestSlice";
 
 declare var window: any;
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["user", "coin", "token", "request", "chat", "nft"],
+  whitelist: ["user", "coin", "token", "request", "chat", "nft", "nftRequest"],
   blacklist: [],
   transforms: [],
 };
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   request: requestSlice,
   chat: chatSlice,
   nft: nftSlice,
+  nftRequest: nftRequest,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
