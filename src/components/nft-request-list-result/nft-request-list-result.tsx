@@ -106,9 +106,11 @@ const Row = (props) => {
                 </Box>
               </Box>
             </TableCell>
-            <TableCell>{getExplanationText(row.type)}</TableCell>
+            <TableCell>{row.assetPool.name}</TableCell>
+            <TableCell align="center">{row.amount}</TableCell>
+            <TableCell align="center">{row.assetPool.index}</TableCell>
             <TableCell align="center">
-              {moment(row.createdAt).format("DD/MM/YYYY hh:mm A")}
+              {row.assetPool.remainingSupply}
             </TableCell>
             <TableCell>
               <Button
@@ -170,13 +172,39 @@ const Row = (props) => {
                                 <TableCell align="left">{row.amount}</TableCell>
                               </TableRow>
                               <TableRow>
-                                <TableCell align="left">From</TableCell>
-                                <TableCell align="left">{row.from}</TableCell>
+                                <TableCell align="left">Status</TableCell>
+                                <TableCell align="left">{row.status}</TableCell>
                               </TableRow>
 
                               <TableRow>
-                                <TableCell align="left">To</TableCell>
-                                <TableCell align="left">{row.to}</TableCell>
+                                <TableCell align="left">createdAt</TableCell>
+                                <TableCell align="left">
+                                  {moment(row.createdAt).format(
+                                    "DD/MM/YYYY hh:mm A"
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell align="left">
+                                  pricePerShare
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row.assetPool.pricePerShare}
+                                </TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell align="left">
+                                  remainingSupply
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row.assetPool.remainingSupply}
+                                </TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell align="left">totalSupply</TableCell>
+                                <TableCell align="left">
+                                  {row.assetPool.totalSupply}
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -209,6 +237,8 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
+  console.log("nftRequest))))", data);
+
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
@@ -292,8 +322,10 @@ export const RequestListResults = (props: Props) => {
                   <TableRow>
                     <TableCell />
                     <TableCell>User</TableCell>
-                    <TableCell>Request Type</TableCell>
-                    <TableCell>Created At</TableCell>
+                    <TableCell>NFT name</TableCell>
+                    <TableCell>Amount</TableCell>
+                    <TableCell>index</TableCell>
+                    <TableCell>remainingSupply</TableCell>
                     <TableCell />
                     <TableCell />
                   </TableRow>

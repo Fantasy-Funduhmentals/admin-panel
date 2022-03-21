@@ -52,7 +52,7 @@ export const UserListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data.slice(begin, end);
+      return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
@@ -79,7 +79,7 @@ export const UserListResults = (props: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataToDisplay.map((customer) => (
+                {dataToDisplay?.map((customer) => (
                   <TableRow
                     hover
                     key={customer._id}

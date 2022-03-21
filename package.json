@@ -29,6 +29,7 @@
     "moment": "^2.29.1",
     "next": "latest",
     "nprogress": "^0.2.0",
+    "probe-image-size": "^7.2.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.4",

@@ -53,7 +53,7 @@ export const NativeWalletListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data.slice(begin, end);
+      return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
@@ -79,7 +79,7 @@ export const NativeWalletListResults = (props: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataToDisplay.map((customer) => (
+                {dataToDisplay?.map((customer) => (
                   <TableRow
                     hover
                     key={customer._id}

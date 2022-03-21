@@ -56,7 +56,21 @@ const items = [
     icon: <NativeWalletsIcon fontSize="small" />,
     title: "Import Data",
   },
-
+  {
+    href: "/cqr-vest",
+    icon: <TokensIcon fontSize="small" />,
+    title: "CQR Vest",
+  },
+  {
+    href: "/nft-purchase-requests",
+    icon: <TokensIcon fontSize="small" />,
+    title: "NFT purchase requests",
+  },
+  {
+    href: "/nft-balance",
+    icon: <NativeWalletsIcon fontSize="small" />,
+    title: "NFT balance",
+  },
   // {
   //   href: "/account",
   //   icon: <UserIcon fontSize="small" />,

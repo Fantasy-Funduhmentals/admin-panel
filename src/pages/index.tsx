@@ -83,7 +83,7 @@ const Dashboard = () => {
                 {/* <Budget /> */}
                 <DashboardCard
                   title="BTC Wallet"
-                  value={`${parseFloat(masterBalances.btc).toFixed(2)} BTC`}
+                  value={`${parseFloat(masterBalances?.btc).toFixed(2)} BTC`}
                   image="/btc.png"
                 />
               </Grid>
@@ -91,7 +91,7 @@ const Dashboard = () => {
                 {/* <TotalCustomers /> */}
                 <DashboardCard
                   title="ETH Wallet"
-                  value={`${parseFloat(masterBalances.eth).toFixed(2)} ETH`}
+                  value={`${parseFloat(masterBalances?.eth).toFixed(2)} ETH`}
                   image="/eth.png"
                 />
               </Grid>
@@ -101,14 +101,14 @@ const Dashboard = () => {
 
                 <DashboardCard
                   title="BNB Wallet"
-                  value={`${parseFloat(masterBalances.bnb).toFixed(2)} BNB`}
+                  value={`${parseFloat(masterBalances?.bnb).toFixed(2)} BNB`}
                   image="/bnb.png"
                 />
               </Grid>
               <Grid item xl={3} lg={3} sm={6} xs={12}>
                 <DashboardCard
                   title="Total Users"
-                  value={String(users.length)}
+                  value={String(users?.length)}
                 />
               </Grid>
 

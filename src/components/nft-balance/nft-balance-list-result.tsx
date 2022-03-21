@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   CardProps,
-  Checkbox,
   Paper,
   Table,
   TableBody,
@@ -18,14 +17,13 @@ import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-import { SeverityPill } from "../severity-pill";
 
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
 }
 
-export const CryptoWalletListResults = (props: Props) => {
+export const NftBalanceListResults = (props: Props) => {
   const { data, searchQuery } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -48,12 +46,10 @@ export const CryptoWalletListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.userId?.name
+            user.user?.name
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase()) ||
-            user.userId?.email
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
+            user.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
@@ -67,6 +63,7 @@ export const CryptoWalletListResults = (props: Props) => {
         <Paper
           style={{
             width: "100%",
+            // marginTop: theme.spacing.unit * 3,
             overflowX: "auto",
           }}
         >
@@ -76,7 +73,7 @@ export const CryptoWalletListResults = (props: Props) => {
                 <TableRow>
                   <TableCell>User</TableCell>
                   <TableCell>Coin</TableCell>
-                  <TableCell>Address</TableCell>
+
                   <TableCell>Balance</TableCell>
                   <TableCell>Created At</TableCell>
                 </TableRow>
@@ -96,10 +93,10 @@ export const CryptoWalletListResults = (props: Props) => {
                         }}
                       >
                         <Avatar
-                          src={customer.userId?.profilePicture}
+                          src={customer.user?.profilePicture}
                           sx={{ mr: 2 }}
                         >
-                          {getInitials(customer.userId?.name)}
+                          {getInitials(customer.user?.name)}
                         </Avatar>
                         <Box
                           sx={{
@@ -107,15 +104,15 @@ export const CryptoWalletListResults = (props: Props) => {
                           }}
                         >
                           <Typography color="textPrimary" variant="body1">
-                            {customer.userId?.name}
+                            {customer.user?.name}
                           </Typography>
-                          {customer?.userId?.email}
+                          {customer?.user?.email}
                         </Box>
                       </Box>
                     </TableCell>
                     <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
 
-                    <TableCell>{customer?.address}</TableCell>
+                    {/* <TableCell>{customer?.address}</TableCell> */}
                     <TableCell>
                       {customer?.balance
                         ? parseFloat(customer?.balance).toFixed(3)
@@ -134,7 +131,7 @@ export const CryptoWalletListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data.length}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -145,6 +142,6 @@ export const CryptoWalletListResults = (props: Props) => {
   );
 };
 
-CryptoWalletListResults.propTypes = {
+NftBalanceListResults.propTypes = {
   data: PropTypes.array.isRequired,
 };

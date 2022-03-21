@@ -1,5 +1,5 @@
 const testnetConfig = {
-  Base_URL: "http://localhost:8080/",
+  Base_URL: "http://c156-101-53-234-165.ngrok.io/",
 };
 
 const mainnetConfig = {
