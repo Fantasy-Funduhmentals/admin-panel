@@ -86,9 +86,9 @@ export const NftListResults = (props: Props) => {
                   <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>
-                  <TableCell>PricePerShare</TableCell>
-                  <TableCell>RemainingSupply</TableCell>
-                  <TableCell>TotalSupply</TableCell>
+                  <TableCell>Price Per Share</TableCell>
+                  <TableCell>Remaining Supply</TableCell>
+                  <TableCell>Total Supply</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
