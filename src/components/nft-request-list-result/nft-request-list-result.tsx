@@ -1,5 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import web3 from "web3";
+
 import {
   Avatar,
   Box,
@@ -30,13 +32,16 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   getRequests,
   handleRequestInteraction,
+  handleRequestNftBalance,
 } from "../../services/requestService";
 import { REQUEST_STATUS, REQUEST_TYPES } from "../../utils/enums/request.enum";
 import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
 import { SeverityPill } from "../severity-pill";
 import StatusModal from "../StatusModal";
-
+import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
+import { useWeb3 } from "@3rdweb/hooks";
+import BigNumber from "big-number";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -46,6 +51,10 @@ const Row = (props) => {
   const { row, handleRequest } = props;
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const { address } = useWeb3();
+  const [statusData, setStatusData] = useState(null);
+  // const authToken = store.getState();
+  // console.log("users{{{", authToken);
 
   const getExplanationText = (requestType: REQUEST_TYPES) => {
     let explanation = "";
@@ -63,6 +72,39 @@ const Row = (props) => {
     }
 
     return explanation;
+  };
+
+  const handleTransaction = async (row: any) => {
+    console.log("userData::::", row);
+
+    if (!address) {
+      setStatusData({
+        type: "error",
+        message: "Please active your wallet first",
+      });
+      return;
+    }
+    try {
+      // let amount = row.amount * 1000000000000000000;
+      let amount = web3.utils.toWei(row.amount, "ether");
+
+      let id = row.assetPool.index;
+      let from = address;
+      let to = row.userAddress;
+      let data = [];
+      const nftBalance = await GetNftBalanceContract();
+      console.log("nftBalance::::", nftBalance);
+
+      const res = nftBalance.methods
+        .safeTransferFrom(from, to, id, amount, data)
+        .send({ from: address });
+
+      //     let requestId = row_id;
+      // let status = REQUEST_STATUS.APPROVED
+      //     handleRequestNftBalance();
+    } catch (err) {
+      console.log("err>>", err);
+    }
   };
 
   return (
@@ -116,12 +158,7 @@ const Row = (props) => {
               <Button
                 variant="outlined"
                 color="success"
-                onClick={() => {
-                  setLoading(true);
-                  handleRequest(row._id, REQUEST_STATUS.APPROVED, () => {
-                    setLoading(false);
-                  });
-                }}
+                onClick={() => handleTransaction(row)}
               >
                 Accept
               </Button>
@@ -186,7 +223,7 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  pricePerShare
+                                  price PerShare
                                 </TableCell>
                                 <TableCell align="left">
                                   {row.assetPool.pricePerShare}
@@ -194,14 +231,14 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  remainingSupply
+                                  remaining Supply
                                 </TableCell>
                                 <TableCell align="left">
                                   {row.assetPool.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
-                                <TableCell align="left">totalSupply</TableCell>
+                                <TableCell align="left">total Supply</TableCell>
                                 <TableCell align="left">
                                   {row.assetPool.totalSupply}
                                 </TableCell>
@@ -231,6 +268,10 @@ const Row = (props) => {
           </TableRow>
         </>
       )}
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
+      />
     </React.Fragment>
   );
 };
@@ -260,7 +301,7 @@ export const RequestListResults = (props: Props) => {
   ) => {
     try {
       setLoading(true);
-      await handleRequestInteraction({
+      await handleRequestNftBalance({
         requestId,
         status,
       });
@@ -325,7 +366,7 @@ export const RequestListResults = (props: Props) => {
                     <TableCell>NFT name</TableCell>
                     <TableCell>Amount</TableCell>
                     <TableCell>index</TableCell>
-                    <TableCell>remainingSupply</TableCell>
+                    <TableCell>remaining Supply</TableCell>
                     <TableCell />
                     <TableCell />
                   </TableRow>
