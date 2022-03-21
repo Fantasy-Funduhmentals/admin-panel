@@ -18,10 +18,19 @@ const getNftRequests = async (callback: any) => {
 };
 
 const handleRequestInteraction = async (params: any) => {
-  const requestsRes = await await HTTP_CLIENT.post(
-    "/request/handle-request",
+  const requestsRes = await HTTP_CLIENT.post("/request/handle-request", params);
+};
+
+const handleRequestNftBalance = async (params: any) => {
+  const requestsRes = await HTTP_CLIENT.post(
+    "/nft-purchase-request/handle-request",
     params
   );
 };
 
-export { getRequests, handleRequestInteraction, getNftRequests };
+export {
+  getRequests,
+  handleRequestInteraction,
+  getNftRequests,
+  handleRequestNftBalance,
+};

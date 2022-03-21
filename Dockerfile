@@ -2,13 +2,13 @@ FROM node:16 as dependencies
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
-
+# install dependencies 
 FROM node:16 as builder
 WORKDIR /build
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN yarn build
-
+# build the project
 FROM node:16 as runner
 WORKDIR /my-project
 # If you are using a custom next.config.js file, uncomment this line.

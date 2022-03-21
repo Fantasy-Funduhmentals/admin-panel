@@ -12,6 +12,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
+  Button,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -25,6 +26,7 @@ import { Users as UsersIcon } from "../icons/users";
 import { useAppDispatch } from "../store/hooks";
 import { resetUserState } from "../store/reducers/userSlice";
 import Router from "next/router";
+import { useWeb3 } from "@3rdweb/hooks";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -36,6 +38,8 @@ export const DashboardNavbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useAppDispatch();
+  const { connectWallet, address, error } = useWeb3();
+  console.log("address:::", address);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +75,19 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
+          <Button
+            variant="contained"
+            onClick={() => {
+              connectWallet("injected");
+            }}
+          >
+            {address
+              ? `${address.substring(0, 6)}...${address.substring(
+                  address.length - 4
+                )}`
+              : " Connect Wallet"}
+            {/* {!address ? "Connect" : "Successfull"} */}
+          </Button>
           <IconButton
             onClick={onSidebarOpen}
             sx={{
@@ -125,6 +142,7 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
         </Toolbar>
       </DashboardNavbarRoot>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
