@@ -13,7 +13,6 @@ import { getNormalizedError } from "../utils/helpers";
 
 const NativeWallets = () => {
   const { userNft } = useAppSelector((state: RootState) => state.nft);
-  console.log("userNft????", userNft);
 
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);

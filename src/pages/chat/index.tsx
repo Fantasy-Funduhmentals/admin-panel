@@ -36,16 +36,13 @@ const Chat = () => {
       }
     });
 
-    socket.on("connect_error", (err) => {
-      console.log("--error connecting to socket--", err);
-    });
+    socket.on("connect_error", (err) => {});
   }, []);
 
   useEffect(() => {
     listeners();
 
     return () => {
-      console.log("--listeners removed---");
       // socket.removeAllListeners();
     };
   }, []);
