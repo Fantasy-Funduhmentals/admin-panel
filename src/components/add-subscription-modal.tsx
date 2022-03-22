@@ -213,7 +213,7 @@ const FullScreenDialog = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Token Registration
+              Package
             </Typography>
           </Toolbar>
         </AppBar>
@@ -276,7 +276,7 @@ const FullScreenDialog = (props: Props) => {
                   <Card>
                     <CardHeader
                       subheader="Please enter all the required information to save new token."
-                      title="Token Information"
+                      title="Package Information"
                     />
                     <Divider />
                     <CardContent>
