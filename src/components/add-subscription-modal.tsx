@@ -22,15 +22,14 @@ import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
-import { Box, height, width } from "@mui/system";
+import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
 import {
-  createNewToken,
-  updateToken,
-  updateNFT,
+  createSubscription,
+  updateSubscription,
 } from "../services/tokenService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
@@ -68,7 +67,7 @@ const coins = [
   { name: "bronze", symbol: "CuSn" },
 ];
 
-const FullScreenNFTDialog = (props: Props) => {
+const FullScreenDialog = (props: Props) => {
   const { open, onClose, editData } = props;
 
   const [image, setImage] = useState(null);
@@ -83,31 +82,35 @@ const FullScreenNFTDialog = (props: Props) => {
       //   metal: editData
       //     ? { name: editData?.name, symbol: editData?.coinSymbol }
       //     : null,
-      name: editData ? editData?.name : "",
+      title: editData ? editData?.title : "",
+      paymentMethod: editData ? editData?.paymentMethod : "",
+      isActive: editData ? editData?.isActive : false,
+      duration: editData ? editData?.duration : "",
       description: editData ? editData?.description : "",
-      //   isActive: editData ? editData?.isActive : false,
-      pricePerShare: editData ? editData?.pricePerShare : "",
-      //   pricePerShare: editData ? editData?.pricePerShare : "",
-      //   remainingSupply: editData ? editData?.remainingSupply : "",
-      //   decimals: editData ? editData?.decimals : "",
-      //   icon: editData ? editData?.image : "",
+      priceUSD: editData ? editData?.priceUSD : "",
+      apr: editData ? editData?.apr : "",
+      //   icon: editData ? editData?.icon : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      // metal: Yup.object({
-      //   name: Yup.string().required("Coin name is required"),
-      //   symbol: Yup.string().required("Coin symbol is required"),
-      // }),
-      name: Yup.string()
-        .required("Coin name is required")
-        .min(2, "Display name must be atleast 2 character")
-        .max(50, "Display name must be atmost 50 character")
+      //   metal: Yup.object({
+      //     name: Yup.string().required("Coin name is required"),
+      //     symbol: Yup.string().required("Coin symbol is required"),
+      //   }),
+
+      title: Yup.string()
+        .required("Name is required")
+        .min(1, "Name must be atleast 2 character")
+        .max(50, "Name must be atmost 50 character")
+        .trim(),
+      paymentMethod: Yup.string().required("Payment method is required").trim(),
+      duration: Yup.string()
+        .required("duration is required")
+        .min(2, "duration must be atleast 2 character")
         .trim(),
       description: Yup.string().required("Description is required").trim(),
-      pricePerShare: Yup.string()
-        .min(2, "Description must be atleast 2 character")
-        .required("Description is required")
-        .trim(),
+      priceUSD: Yup.string().required("Price is required").trim(),
+      apr: Yup.string().required("apr is required").trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -124,50 +127,37 @@ const FullScreenNFTDialog = (props: Props) => {
     return uploadRes.data.url;
   };
 
-  // function getMeta(url: any, callback: any) {
-  //   var img = new Image();
-  //   img.src = url;
-  //   img.onload = function () {
-  //     callback(width, height);
-  //   };
-  // }
-
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
+      if (!image) {
+        setStatusData({
+          type: "error",
+          message: "Please select an image to continue",
+        });
+        return;
+      }
+
       setLoading(true);
 
       let params = {
         ...values,
-        name: values.name,
+        title: values.title,
         description: values.description,
-        pricePerShare: String(values.pricePerShare),
-        isActive: editData.isActive,
+        priceUSD: String(values.priceUSD),
+        paymentMethod: values.description,
       };
-
-      var myImg = document.querySelector("#city");
-      var currWidth = myImg.clientWidth;
-      var currHeight = myImg.clientHeight;
-      if (currWidth !== currHeight) {
-        setStatusData({
-          type: "error",
-          message: "Image must be in 1X1 ratio",
-        });
-        setLoading(false);
-        return;
-      }
       if (image) {
-        const tokenImageUrl = await handleImageUpload(image, "nftTokens");
-        params.image = tokenImageUrl;
-      } else if (editImage) {
-        params.image = editData.image;
+        const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
+        params.logo = String(tokenImageUrl);
+      } else {
+        params.logo = editData.logo;
       }
       if (editData) {
         params._id = editData._id;
-
-        await updateNFT(params);
+        await updateSubscription(params);
       } else {
-        await createNewToken(params);
+        await createSubscription(params);
       }
 
       formik.resetForm();
@@ -192,22 +182,15 @@ const FullScreenNFTDialog = (props: Props) => {
   const handleImageSelection = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-
       setImage(img);
-      setEditImage(null);
+      setSymbolImage(event.target.files[0]);
+      setEditSymbolImage(null);
     }
   };
 
   useEffect(() => {
     if (editData) {
-      setEditImage(editData?.image);
-
-      // setImage(editData?.image);
-      //   setEditSymbolImage(editData?.displaySymbol);
-      // formik?.setFieldValue("metal", {
-      //   name: editData?.name,
-      //   symbol: editData?.coinSymbol,
-      // });
+      setEditSymbolImage(editData?.logo);
     }
   }, []);
 
@@ -247,8 +230,8 @@ const FullScreenNFTDialog = (props: Props) => {
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
-                    subheader="This image will be used as primary token image in all apps."
-                    title="Token Image"
+                    // subheader="This image will be used as token symbol in all apps."
+                    title="NFT Image"
                   />
                   <CardContent>
                     <Box
@@ -258,21 +241,11 @@ const FullScreenNFTDialog = (props: Props) => {
                         flexDirection: "column",
                       }}
                     >
-                      <div style={{ visibility: "hidden" }}>
-                        <img
-                          src={
-                            editImage
-                              ? editImage
-                              : image && URL.createObjectURL(image)
-                          }
-                          id="city"
-                        />
-                      </div>
                       <Avatar
                         src={
-                          editImage
-                            ? editImage
-                            : image && URL.createObjectURL(image)
+                          editSymbolImage
+                            ? editSymbolImage
+                            : symbolImage && URL.createObjectURL(symbolImage)
                         }
                         sx={{
                           height: 64,
@@ -302,8 +275,8 @@ const FullScreenNFTDialog = (props: Props) => {
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
-                      subheader="Please enter all the required information to save new NFT."
-                      title="NFT Information"
+                      subheader="Please enter all the required information to save new token."
+                      title="Token Information"
                     />
                     <Divider />
                     <CardContent>
@@ -311,52 +284,53 @@ const FullScreenNFTDialog = (props: Props) => {
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.name && formik.errors.name
+                              formik.touched.title && formik.errors.title
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.name}
+                            value={formik.values.title}
                             fullWidth
-                            label="NFT Name"
-                            name="name"
-                            helperText={formik.errors.name}
+                            label="Title"
+                            name="title"
+                            helperText={formik.errors.title}
                             variant="outlined"
                           />
                         </Grid>
 
-                        {/* <Grid item md={6} xs={12}>
-                          <FormControl sx={{ m: 1, minWidth: "100%" }}>
-                            <InputLabel id="demo-simple-select-helper-label">
-                              {editData
-                                ? formik.values.metal.name
-                                : "Corresponding Metal"}
-                            </InputLabel>
-                            <Select
-                              error={Boolean(
-                                formik.touched.metal && formik.errors.metal
-                              )}
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={formik.values.metal}
-                              label={
-                                editData
-                                  ? formik.values.metal.name
-                                  : "Corresponding Metal"
-                              }
-                              name="metal"
-                              onChange={formik.handleChange}
-                              disabled={Boolean(editData)}
-                            >
-                              {coins.map((coin, pricePerShare) => {
-                                return (
-                                  <MenuItem key={pricePerShare} value={coin}>
-                                    {coin.name}
-                                  </MenuItem>
-                                );
-                              })}
-                            </Select>
-                          </FormControl>
-                        </Grid> */}
+                        <Grid item md={6} xs={12}></Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.paymentMethod &&
+                                formik.errors.paymentMethod
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.paymentMethod}
+                            fullWidth
+                            label="Payment Method"
+                            name="paymentMethod"
+                            helperText={formik.errors.paymentMethod}
+                            variant="outlined"
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.duration && formik.errors.duration
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.duration}
+                            fullWidth
+                            label="Duration"
+                            name="duration"
+                            helperText={formik.errors.duration}
+                            variant="outlined"
+                          />
+                        </Grid>
 
                         <Grid item md={6} xs={12}>
                           <TextField
@@ -378,72 +352,34 @@ const FullScreenNFTDialog = (props: Props) => {
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.pricePerShare &&
-                                formik.errors.pricePerShare
+                              formik.touched.priceUSD && formik.errors.priceUSD
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.pricePerShare}
+                            value={formik.values.priceUSD}
                             fullWidth
-                            label="pricePerShare"
-                            name="pricePerShare"
-                            helperText={formik.errors.pricePerShare}
+                            label="price USD"
+                            name="priceUSD"
+                            helperText={formik.errors.priceUSD}
                             variant="outlined"
                           />
                         </Grid>
 
-                        {/* <Grid item md={6} xs={12}>
+                        <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.pricePerShare &&
-                                formik.errors.pricePerShare
+                              formik.touched.apr && formik.errors.apr
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.pricePerShare}
+                            value={formik.values.apr}
                             fullWidth
-                            label="pricePerShare"
-                            name="pricePerShare"
-                            helperText="Please enter the hex of the color of corresponding token"
-                            required
+                            label="Apr"
+                            name="apr"
+                            helperText={formik.errors.apr}
                             variant="outlined"
                           />
-                        </Grid> */}
-
-                        {/* <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.remainingSupply &&
-                                formik.errors.remainingSupply
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.remainingSupply}
-                            fullWidth
-                            label="remainingSupply"
-                            name="remainingSupply"
-                            helperText="Please enter the order of the coin"
-                            required
-                            variant="outlined"
-                          />
-                        </Grid> */}
-
-                        {/* <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.decimals && formik.errors.decimals
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.decimals}
-                            fullWidth
-                            label="Token Decimals"
-                            name="decimals"
-                            helperText="Please enter token decimals"
-                            required
-                            variant="outlined"
-                          />
-                        </Grid> */}
+                        </Grid>
                       </Grid>
                     </CardContent>
                     <Divider />
@@ -478,4 +414,4 @@ const FullScreenNFTDialog = (props: Props) => {
   );
 };
 
-export default FullScreenNFTDialog;
+export default FullScreenDialog;

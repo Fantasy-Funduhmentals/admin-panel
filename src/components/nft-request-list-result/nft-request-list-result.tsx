@@ -54,7 +54,6 @@ const Row = (props) => {
   const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
   // const authToken = store.getState();
-  // console.log("users{{{", authToken);
 
   const getExplanationText = (requestType: REQUEST_TYPES) => {
     let explanation = "";
@@ -75,8 +74,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    console.log("userData::::", row);
-
     if (!address) {
       setStatusData({
         type: "error",
@@ -93,7 +90,6 @@ const Row = (props) => {
       let to = row.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
-      console.log("nftBalance::::", nftBalance);
 
       const res = nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
@@ -102,9 +98,7 @@ const Row = (props) => {
       //     let requestId = row_id;
       // let status = REQUEST_STATUS.APPROVED
       //     handleRequestNftBalance();
-    } catch (err) {
-      console.log("err>>", err);
-    }
+    } catch (err) {}
   };
 
   return (
@@ -278,7 +272,6 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
-  console.log("nftRequest))))", data);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
