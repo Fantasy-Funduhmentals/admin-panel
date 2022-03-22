@@ -82,8 +82,8 @@ const Row = (props) => {
       return;
     }
     try {
-      // let amount = row.amount * 1000000000000000000;
-      let amount = web3.utils.toWei(row.amount, "ether");
+      let amount = row.amount;
+      // let amount = web3.utils.toWei(row.amount, "ether");
 
       let id = row.assetPool.index;
       let from = address;
@@ -91,13 +91,16 @@ const Row = (props) => {
       let data = [];
       const nftBalance = await GetNftBalanceContract();
 
-      const res = nftBalance.methods
+      const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
         .send({ from: address });
+      console.log("transaction res", res);
 
-      //     let requestId = row_id;
-      // let status = REQUEST_STATUS.APPROVED
-      //     handleRequestNftBalance();
+      if (res) {
+        let requestId = row._id;
+        let status = REQUEST_STATUS.APPROVED;
+        await handleRequestNftBalance({ requestId, status });
+      }
     } catch (err) {}
   };
 
