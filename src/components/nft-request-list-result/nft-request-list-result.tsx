@@ -54,7 +54,6 @@ const Row = (props) => {
   const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
   // const authToken = store.getState();
-  // console.log("users{{{", authToken);
 
   const getExplanationText = (requestType: REQUEST_TYPES) => {
     let explanation = "";
@@ -75,8 +74,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    console.log("userData::::", row);
-
     if (!address) {
       setStatusData({
         type: "error",
@@ -85,26 +82,26 @@ const Row = (props) => {
       return;
     }
     try {
-      // let amount = row.amount * 1000000000000000000;
-      let amount = web3.utils.toWei(row.amount, "ether");
+      let amount = row.amount;
+      // let amount = web3.utils.toWei(row.amount, "ether");
 
       let id = row.assetPool.index;
       let from = address;
       let to = row.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
-      console.log("nftBalance::::", nftBalance);
 
-      const res = nftBalance.methods
+      const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
         .send({ from: address });
+      console.log("transaction res", res);
 
-      //     let requestId = row_id;
-      // let status = REQUEST_STATUS.APPROVED
-      //     handleRequestNftBalance();
-    } catch (err) {
-      console.log("err>>", err);
-    }
+      if (res) {
+        let requestId = row._id;
+        let status = REQUEST_STATUS.APPROVED;
+        await handleRequestNftBalance({ requestId, status });
+      }
+    } catch (err) {}
   };
 
   return (
@@ -278,7 +275,6 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
-  console.log("nftRequest))))", data);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);

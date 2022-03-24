@@ -22,7 +22,7 @@ interface Props extends CardProps {
   onPressEdit?: any;
 }
 
-export const NftListResults = (props: Props) => {
+export const SubscriptionListListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -45,7 +45,9 @@ export const NftListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.displayName
+              ?.toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
             user.displaySymbol
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
@@ -81,25 +83,22 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Name</TableCell>
                   <TableCell>Image</TableCell>
+                  <TableCell>Title</TableCell>
 
-                  <TableCell>Index</TableCell>
-                  <TableCell>Price Per Share</TableCell>
-                  <TableCell>Remaining Supply</TableCell>
-                  <TableCell>Total Supply</TableCell>
+                  <TableCell>Payment method</TableCell>
+                  <TableCell>Duration</TableCell>
+                  <TableCell>Price in USD</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataToDisplay?.map((customer) => {
+                {dataToDisplay?.map((item) => {
                   return (
                     <TableRow
                       hover
-                      key={customer._id}
-                      selected={
-                        selectedCustomerIds.indexOf(customer._id) !== -1
-                      }
+                      key={item._id}
+                      selected={selectedCustomerIds.indexOf(item?._id) !== -1}
                     >
                       <TableCell>
                         <Box
@@ -108,25 +107,20 @@ export const NftListResults = (props: Props) => {
                             display: "flex",
                           }}
                         >
-                          {/* <Avatar src={customer.image} sx={{ mr: 2 }}>
-                            {getInitials(customer.name)}
-                          </Avatar> */}
-                          <Typography color="textPrimary" variant="body1">
-                            {customer.name}
-                          </Typography>
+                          <Avatar src={item?.logo} sx={{ mr: 2 }}>
+                            {/* {getInitials(item.displayName)} */}
+                          </Avatar>
+                          {/* <Typography color="textPrimary" variant="body1">
+                            {item.displayName}
+                          </Typography> */}
                         </Box>
                       </TableCell>
-                      <TableCell>
-                        <img
-                          src={customer?.image}
-                          style={{ height: 30, width: 30 }}
-                        />
-                      </TableCell>
-                      <TableCell>{customer.index} </TableCell>
-                      <TableCell>{customer.pricePerShare}</TableCell>
-                      <TableCell>{customer.remainingSupply}</TableCell>
-                      <TableCell>{customer.totalSupply}</TableCell>
-                      <TableCell onClick={() => onPressEdit(customer)}>
+
+                      <TableCell>{item.title} </TableCell>
+                      <TableCell>{item.paymentMethod}</TableCell>
+                      <TableCell>{item.duration}</TableCell>
+                      <TableCell>{item.priceUSD}</TableCell>
+                      <TableCell onClick={() => onPressEdit(item)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>
                     </TableRow>

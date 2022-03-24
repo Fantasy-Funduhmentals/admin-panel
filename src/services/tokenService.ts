@@ -4,6 +4,10 @@ const getTokensData = async () => {
   return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
 };
 
+const getSubscriptionData = async () => {
+  return await HTTP_CLIENT.get("/package");
+};
+
 const getNFTData = async () => {
   return await HTTP_CLIENT.get("/nft-token");
 };
@@ -20,8 +24,16 @@ const createNewToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/createNewToken", params);
 };
 
+const createSubscription = async (params: any) => {
+  return await HTTP_CLIENT.post("/package", params);
+};
+
 const updateToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/updateToken", params);
+};
+
+const updateSubscription = async (params: any) => {
+  return await HTTP_CLIENT.put("/package", params);
 };
 const updateNFT = async (params: any) => {
   return await HTTP_CLIENT.post("/nft-token/update-nft-token", params);
@@ -34,4 +46,7 @@ export {
   getNFTData,
   updateNFT,
   getNFTBalanceData,
+  getSubscriptionData,
+  updateSubscription,
+  createSubscription,
 };

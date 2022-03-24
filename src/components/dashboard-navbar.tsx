@@ -39,7 +39,6 @@ export const DashboardNavbar = (props) => {
   const open = Boolean(anchorEl);
   const dispatch = useAppDispatch();
   const { connectWallet, address, error } = useWeb3();
-  console.log("address:::", address);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
