@@ -85,8 +85,8 @@ const Row = (props) => {
       return;
     }
     try {
-      // let amount = row.amount * 1000000000000000000;
-      let amount = web3.utils.toWei(row.amount, "ether");
+      let amount = row.amount;
+      // let amount = web3.utils.toWei(row.amount, "ether");
 
       let id = row.assetPool.index;
       let from = address;
@@ -278,7 +278,6 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
-  console.log("nftRequest))))", data);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
