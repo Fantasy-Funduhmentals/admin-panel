@@ -31,6 +31,7 @@ import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   getRequests,
+  getNftRequests,
   handleRequestInteraction,
   handleRequestNftBalance,
 } from "../../services/requestService";
@@ -94,14 +95,22 @@ const Row = (props) => {
       const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
         .send({ from: address });
-      console.log("transaction res", res);
 
       if (res) {
         let requestId = row._id;
         let status = REQUEST_STATUS.APPROVED;
-        await handleRequestNftBalance({ requestId, status });
+        const response = await handleRequestNftBalance({ requestId, status });
+        setStatusData({
+          type: "success",
+          message: "FNFT transfer successfully",
+        });
       }
-    } catch (err) {}
+    } catch (err) {
+      setStatusData({
+        type: "success",
+        message: "Transaction failed",
+      });
+    }
   };
 
   return (
@@ -301,7 +310,7 @@ export const RequestListResults = (props: Props) => {
         requestId,
         status,
       });
-      getRequests(() => {
+      getNftRequests(() => {
         setLoading(false);
       });
 
