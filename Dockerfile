@@ -1,7 +1,7 @@
 FROM node:16 as dependencies
 WORKDIR /app
 COPY package.json yarn.lock ./
-COPY yarn install
+run yarn install
 # install dependencies 
 FROM node:16 as builder
 WORKDIR /build
