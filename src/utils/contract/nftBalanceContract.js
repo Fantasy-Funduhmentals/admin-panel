@@ -4,7 +4,6 @@ import { NFT_BALANCE_CONTRACT } from "../../../constant";
 
 function GetProvider() {
   // const { account } = useActiveWeb3React();
-  // console.log("useWeb3React",account);
   const web3 = new Web3();
   web3.setProvider(window.web3.currentProvider);
   return web3;
@@ -22,7 +21,5 @@ export const GetNftBalanceContract = async () => {
       );
       return MyContract;
     } else return null;
-  } catch (error) {
-    console.log("error in contract ", error);
-  }
+  } catch (error) {}
 };

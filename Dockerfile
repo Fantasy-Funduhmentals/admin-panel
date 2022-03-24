@@ -1,7 +1,7 @@
 FROM node:16 as dependencies
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json  package-lock.json ./
+run npm install
 # install dependencies 
 FROM node:16 as builder
 WORKDIR /build

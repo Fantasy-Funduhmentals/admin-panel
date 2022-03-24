@@ -71,6 +71,11 @@ const items = [
     icon: <NativeWalletsIcon fontSize="small" />,
     title: "NFT balance",
   },
+  {
+    href: "/subscription",
+    icon: <TokensIcon fontSize="small" />,
+    title: "Subscription",
+  },
   // {
   //   href: "/account",
   //   icon: <UserIcon fontSize="small" />,

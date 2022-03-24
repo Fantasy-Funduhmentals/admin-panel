@@ -31,6 +31,7 @@ import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   getRequests,
+  getNftRequests,
   handleRequestInteraction,
   handleRequestNftBalance,
 } from "../../services/requestService";
@@ -54,7 +55,6 @@ const Row = (props) => {
   const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
   // const authToken = store.getState();
-  // console.log("users{{{", authToken);
 
   const getExplanationText = (requestType: REQUEST_TYPES) => {
     let explanation = "";
@@ -75,8 +75,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    console.log("userData::::", row);
-
     if (!address) {
       setStatusData({
         type: "error",
@@ -93,17 +91,25 @@ const Row = (props) => {
       let to = row.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
-      console.log("nftBalance::::", nftBalance);
 
-      const res = nftBalance.methods
+      const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
         .send({ from: address });
 
-      //     let requestId = row_id;
-      // let status = REQUEST_STATUS.APPROVED
-      //     handleRequestNftBalance();
+      if (res) {
+        let requestId = row._id;
+        let status = REQUEST_STATUS.APPROVED;
+        const response = await handleRequestNftBalance({ requestId, status });
+        setStatusData({
+          type: "success",
+          message: "FNFT transfer successfully",
+        });
+      }
     } catch (err) {
-      console.log("err>>", err);
+      setStatusData({
+        type: "success",
+        message: "Transaction failed",
+      });
     }
   };
 
@@ -304,7 +310,7 @@ export const RequestListResults = (props: Props) => {
         requestId,
         status,
       });
-      getRequests(() => {
+      getNftRequests(() => {
         setLoading(false);
       });
 

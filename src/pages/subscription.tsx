@@ -1,19 +1,21 @@
 import { Box, Container } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import FullScreenNFTDialog from "../components/add-nft-modal";
+import FullScreenDialog from "../components/add-subscription-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
-import { NftListResults } from "../components/nft/nft-list-result";
-import { getNFTData } from "../services/tokenService";
+import { SubscriptionListListResults } from "../components/subscription/subscription";
+import { getSubscriptionData } from "../services/tokenService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveNFT } from "../store/reducers/nftSlice";
+import { saveSubscriptionData } from "../store/reducers/subscriptionSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const Tokens = () => {
-  const { nft } = useAppSelector((state: RootState) => state.nft);
+  const { subscriptionList } = useAppSelector(
+    (state: RootState) => state.subscription
+  );
 
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
@@ -21,13 +23,13 @@ const Tokens = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [reload, setReload] = useState(false);
-  const [nftToken, setNftToken] = useState(null);
+  const [editToken, setEditToken] = useState(null);
 
   const getTokensListing = async () => {
     try {
       setLoading(true);
-      const coinsRes = await getNFTData();
-      dispatch(saveNFT(coinsRes.data));
+      const subscriptionRes = await getSubscriptionData();
+      dispatch(saveSubscriptionData(subscriptionRes.data));
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -38,7 +40,7 @@ const Tokens = () => {
   };
 
   const onPressEdit = (token: any) => {
-    setNftToken(token);
+    setEditToken(token);
     setCustomerModalOpen(true);
   };
 
@@ -60,18 +62,18 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT"
-            subTitle="NFT"
-            // onPressAdd={() => {
-            //   setCustomerModalOpen(true);
-            // }}
+            title="Subscripition Managment"
+            subTitle="Package"
+            onPressAdd={() => {
+              setCustomerModalOpen(true);
+            }}
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
           />
           <Box sx={{ mt: 3 }}>
-            <NftListResults
-              data={nft}
+            <SubscriptionListListResults
+              data={subscriptionList}
               searchQuery={searchText}
               onPressEdit={onPressEdit}
             />
@@ -80,14 +82,14 @@ const Tokens = () => {
       </Box>
 
       {customerModelOpen && (
-        <FullScreenNFTDialog
+        <FullScreenDialog
           open={customerModelOpen}
           onClose={() => {
             setCustomerModalOpen(false);
-            setNftToken(null);
+            setEditToken(null);
             setReload(!reload);
           }}
-          editData={nftToken}
+          editData={editToken}
         />
       )}
       <StatusModal
