@@ -91,6 +91,7 @@ const Row = (props) => {
       let to = row.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
+      setLoading(true);
 
       const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
@@ -105,11 +106,15 @@ const Row = (props) => {
           message: "FNFT transfer successfully",
         });
       }
+      getNftRequests(() => {
+        setLoading(false);
+      });
     } catch (err) {
       setStatusData({
         type: "success",
         message: "Transaction failed",
       });
+      setLoading(false);
     }
   };
 
