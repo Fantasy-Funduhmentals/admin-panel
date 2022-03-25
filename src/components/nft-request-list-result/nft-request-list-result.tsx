@@ -86,9 +86,9 @@ const Row = (props) => {
       let amount = row.amount;
       // let amount = web3.utils.toWei(row.amount, "ether");
 
-      let id = row.assetPool.index;
+      let id = row?.assetPool?.index;
       let from = address;
-      let to = row.userAddress;
+      let to = row?.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
       setLoading(true);
@@ -159,11 +159,11 @@ const Row = (props) => {
                 </Box>
               </Box>
             </TableCell>
-            <TableCell>{row.assetPool.name}</TableCell>
-            <TableCell align="center">{row.amount}</TableCell>
-            <TableCell align="center">{row.assetPool.index}</TableCell>
+            <TableCell>{row?.assetPool?.name}</TableCell>
+            <TableCell align="center">{row?.amount}</TableCell>
+            <TableCell align="center">{row?.assetPool?.index}</TableCell>
             <TableCell align="center">
-              {row.assetPool.remainingSupply}
+              {row?.assetPool?.remainingSupply}
             </TableCell>
             <TableCell>
               <Button
@@ -237,7 +237,7 @@ const Row = (props) => {
                                   price PerShare
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.pricePerShare}
+                                  {row?.assetPool?.pricePerShare}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
@@ -245,13 +245,13 @@ const Row = (props) => {
                                   remaining Supply
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.remainingSupply}
+                                  {row?.assetPool?.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.totalSupply}
+                                  {row?.assetPool?.totalSupply}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
