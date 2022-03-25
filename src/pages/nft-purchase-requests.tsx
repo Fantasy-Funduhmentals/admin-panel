@@ -19,6 +19,7 @@ const SdiraRequests = () => {
   const [searchText, setSearchText] = useState("");
 
   const getCoinsListing = async () => {
+    debugger;
     try {
       setLoading(true);
       await getNftRequests(() => {
