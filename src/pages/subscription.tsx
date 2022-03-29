@@ -62,7 +62,7 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Subscripition Managment"
+            title="Subscription Managment"
             subTitle="Package"
             onPressAdd={() => {
               setCustomerModalOpen(true);

@@ -45,10 +45,8 @@ export const SubscriptionListListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.displayName
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
+            user.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.paymentMethod
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
         )
