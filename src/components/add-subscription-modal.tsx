@@ -121,7 +121,7 @@ const FullScreenDialog = (props: Props) => {
       //   .required("duration is required")
       //   .min(2, "duration must be atleast 2 character")
       //   .trim(),
-      // description: Yup.string().required("Description is required").trim(),
+      description: Yup.string().required("Description is required").trim(),
       priceUSD: Yup.string().required("Price is required").trim(),
       apr: Yup.string().required("apr is required").trim(),
     }),
@@ -247,7 +247,7 @@ const FullScreenDialog = (props: Props) => {
                 <Card>
                   <CardHeader
                     // subheader="This image will be used as token symbol in all apps."
-                    title="NFT Image"
+                    title="Plan Image"
                   />
                   <CardContent>
                     <Box
@@ -384,7 +384,8 @@ const FullScreenDialog = (props: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.priceUSD}
                             fullWidth
-                            label="price USD"
+                            label="Price USD"
+                            type="number"
                             name="priceUSD"
                             helperText={formik.errors.priceUSD}
                             variant="outlined"
@@ -401,6 +402,7 @@ const FullScreenDialog = (props: Props) => {
                             value={formik.values.apr}
                             fullWidth
                             label="Apr"
+                            type="number"
                             name="apr"
                             helperText={formik.errors.apr}
                             variant="outlined"

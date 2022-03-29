@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" &&  next build",
     "start": "next start -p 80",
     "type-check": "tsc"
   },
