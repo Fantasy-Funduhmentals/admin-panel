@@ -258,7 +258,7 @@ const FullScreenNFTDialog = (props: Props) => {
                         flexDirection: "column",
                       }}
                     >
-                      <div style={{ visibility: "hidden" }}>
+                      <div style={{ visibility: "hidden", height: "0px" }}>
                         <img
                           src={
                             editImage
@@ -385,7 +385,8 @@ const FullScreenNFTDialog = (props: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.pricePerShare}
                             fullWidth
-                            label="pricePerShare"
+                            type="number"
+                            label="Price per share"
                             name="pricePerShare"
                             helperText={formik.errors.pricePerShare}
                             variant="outlined"

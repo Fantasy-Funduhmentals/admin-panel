@@ -45,10 +45,8 @@ export const SubscriptionListListResults = (props: Props) => {
       return data
         .filter(
           (user) =>
-            user.displayName
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
+            user.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.paymentMethod
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
         )
@@ -133,7 +131,7 @@ export const SubscriptionListListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data.length}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

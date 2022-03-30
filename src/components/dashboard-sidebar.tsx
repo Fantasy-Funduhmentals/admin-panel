@@ -87,6 +87,11 @@ const items = [
     title: "Settings",
   },
   {
+    href: "/distribute-nfts",
+    icon: <CogIcon fontSize="small" />,
+    title: "Distribute NFTS",
+  },
+  {
     href: "/chat",
     icon: <SupportIcon fontSize="small" />,
     title: "Support",

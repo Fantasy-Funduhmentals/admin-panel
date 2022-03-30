@@ -47,7 +47,6 @@ const ImportData = () => {
       formData.append("file", document);
 
       const uploadRes = await uploadUserCsv(formData);
-
       setStatusData({
         type: "success",
         message: "Token has been created successfully",
@@ -90,6 +89,8 @@ const ImportData = () => {
           <Container maxWidth="lg">
             <TextField
               type="file"
+              id="your_input_id"
+              inputProps={{ accept: ".xlsx" }}
               onChange={(ev) => {
                 handledocumentSelection(ev);
               }}
@@ -104,15 +105,19 @@ const ImportData = () => {
             marginRight: 20,
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            style={{ width: "30%" }}
-            onClick={handleSubmit}
-          >
-            {loading ? <CircularProgress /> : "Upload Document"}
-          </Button>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              style={{ width: "30%" }}
+              onClick={handleSubmit}
+            >
+              Upload Document
+            </Button>
+          )}
         </CardActions>
       </Card>
       <StatusModal

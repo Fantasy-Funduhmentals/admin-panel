@@ -86,11 +86,12 @@ const Row = (props) => {
       let amount = row.amount;
       // let amount = web3.utils.toWei(row.amount, "ether");
 
-      let id = row.assetPool.index;
+      let id = row?.assetPool?.index;
       let from = address;
-      let to = row.userAddress;
+      let to = row?.userAddress;
       let data = [];
       const nftBalance = await GetNftBalanceContract();
+      setLoading(true);
 
       const res = await nftBalance.methods
         .safeTransferFrom(from, to, id, amount, data)
@@ -105,11 +106,15 @@ const Row = (props) => {
           message: "FNFT transfer successfully",
         });
       }
+      getNftRequests(() => {
+        setLoading(false);
+      });
     } catch (err) {
       setStatusData({
         type: "success",
         message: "Transaction failed",
       });
+      setLoading(false);
     }
   };
 
@@ -154,11 +159,11 @@ const Row = (props) => {
                 </Box>
               </Box>
             </TableCell>
-            <TableCell>{row.assetPool.name}</TableCell>
-            <TableCell align="center">{row.amount}</TableCell>
-            <TableCell align="center">{row.assetPool.index}</TableCell>
+            <TableCell>{row?.assetPool?.name}</TableCell>
+            <TableCell align="center">{row?.amount}</TableCell>
+            <TableCell align="center">{row?.assetPool?.index}</TableCell>
             <TableCell align="center">
-              {row.assetPool.remainingSupply}
+              {row?.assetPool?.remainingSupply}
             </TableCell>
             <TableCell>
               <Button
@@ -232,7 +237,7 @@ const Row = (props) => {
                                   price PerShare
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.pricePerShare}
+                                  {row?.assetPool?.pricePerShare}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
@@ -240,13 +245,13 @@ const Row = (props) => {
                                   remaining Supply
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.remainingSupply}
+                                  {row?.assetPool?.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row.assetPool.totalSupply}
+                                  {row?.assetPool?.totalSupply}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
@@ -398,7 +403,7 @@ export const RequestListResults = (props: Props) => {
       />
       <TablePagination
         component="div"
-        count={data.length}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
