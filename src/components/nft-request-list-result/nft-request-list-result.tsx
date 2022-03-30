@@ -381,7 +381,7 @@ export const RequestListResults = (props: Props) => {
                     <TableCell />
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody style={{ height: "100vh" }}>
                   {dataToDisplay.map((row) => (
                     <Row
                       key={row.name}
