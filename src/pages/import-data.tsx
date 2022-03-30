@@ -49,7 +49,7 @@ const ImportData = () => {
       const uploadRes = await uploadUserCsv(formData);
       setStatusData({
         type: "success",
-        message: "Token has been created successfully",
+        message: "sheet has been imported successfully",
       });
       setDocument(null);
       setLoading(false);
