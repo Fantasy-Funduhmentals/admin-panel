@@ -160,6 +160,7 @@ const FullScreenDialog = (props: Props) => {
         priceUSD: String(values.priceUSD),
         paymentMethod: payment,
         duration: duration,
+        apr: String(values.apr),
       };
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
