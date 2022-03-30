@@ -111,7 +111,7 @@ const Row = (props) => {
       });
     } catch (err) {
       setStatusData({
-        type: "success",
+        type: "error",
         message: "Transaction failed",
       });
       setLoading(false);
@@ -381,7 +381,7 @@ export const RequestListResults = (props: Props) => {
                     <TableCell />
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody style={{ height: "100vh" }}>
                   {dataToDisplay.map((row) => (
                     <Row
                       key={row.name}
