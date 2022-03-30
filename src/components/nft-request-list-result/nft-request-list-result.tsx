@@ -111,7 +111,7 @@ const Row = (props) => {
       });
     } catch (err) {
       setStatusData({
-        type: "success",
+        type: "error",
         message: "Transaction failed",
       });
       setLoading(false);
