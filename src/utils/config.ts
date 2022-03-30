@@ -1,5 +1,5 @@
 const testnetConfig = {
-  Base_URL: "https://aa12-101-53-234-165.ngrok.io/",
+  Base_URL: "https://051c-101-53-234-165.ngrok.io/",
 };
 
 const mainnetConfig = {
