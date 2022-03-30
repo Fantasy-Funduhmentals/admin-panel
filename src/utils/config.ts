@@ -1,11 +1,11 @@
 const testnetConfig = {
-  Base_URL: "https://051c-101-53-234-165.ngrok.io/",
+  Base_URL: "https://2bac-101-53-234-165.ngrok.io/",
 };
 
 const mainnetConfig = {
   Base_URL: "https://api-icovest.cqrvault.org/",
 };
 
-const defaultConfig = testnetConfig;
+const defaultConfig = mainnetConfig;
 
 export default defaultConfig;

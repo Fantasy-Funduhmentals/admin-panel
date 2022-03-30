@@ -355,6 +355,12 @@ const FullScreenDialog = (props: Props) => {
                                   3 Months
                                 </MenuItem>
                                 <MenuItem value={"yearly"}>1 Year</MenuItem>
+                                <MenuItem value={"10 minutes"}>
+                                  10 minutes
+                                </MenuItem>
+                                <MenuItem value={"20 minutes"}>
+                                  20 minutes
+                                </MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
