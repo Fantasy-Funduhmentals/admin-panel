@@ -367,7 +367,7 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{ height: "100vh" }}>
               <Table aria-label="collapsible table">
                 <TableHead>
                   <TableRow>
@@ -381,7 +381,7 @@ export const RequestListResults = (props: Props) => {
                     <TableCell />
                   </TableRow>
                 </TableHead>
-                <TableBody style={{ height: "100vh" }}>
+                <TableBody>
                   {dataToDisplay.map((row) => (
                     <Row
                       key={row.name}

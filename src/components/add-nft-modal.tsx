@@ -105,7 +105,7 @@ const FullScreenNFTDialog = (props: Props) => {
         .trim(),
       description: Yup.string().required("Description is required").trim(),
       pricePerShare: Yup.string()
-        .min(2, "Description must be atleast 2 character")
+        .min(1, "Description must be atleast 2 character")
         .required("Description is required")
         .trim(),
     }),
