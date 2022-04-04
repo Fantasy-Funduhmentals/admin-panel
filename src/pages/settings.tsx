@@ -20,7 +20,7 @@ const Settings = () => (
           Settings
         </Typography>
 
-        <Box sx={{ pt: 3 }}>
+        <Box sx={{ pt: 3}}>
           <SettingsPassword />
         </Box>
       </Container>

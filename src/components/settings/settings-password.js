@@ -88,7 +88,7 @@ export const SettingsPassword = (props) => {
   };
 
   return (
-    <form {...props} onSubmit={formik.handleSubmit}>
+    <form {...props}>
       <Card>
         <CardHeader subheader="Update password" title="Password" />
         <Divider />

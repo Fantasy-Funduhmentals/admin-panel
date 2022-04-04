@@ -65,10 +65,12 @@ export const UserListResults = (props: Props) => {
   };
 
   return (
-    <Card {...props}>
-      <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
+    <Card {...props} >
+     <Box style={{width:"100%",marginTop:"2rem",marginLeft:"1.6rem"}}>
+     <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira} >
         Search Sdira
       </Button>
+     </Box>
       <PerfectScrollbar>
         <Paper
           style={{

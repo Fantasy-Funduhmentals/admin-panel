@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container,CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import FullScreenDialog from "../components/add-subscription-modal";
@@ -26,16 +26,20 @@ const Tokens = () => {
   const [editToken, setEditToken] = useState(null);
 
   const getTokensListing = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      
       const subscriptionRes = await getSubscriptionData();
       dispatch(saveSubscriptionData(subscriptionRes.data));
+      setLoading(false);
     } catch (err) {
+      
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
+      setLoading(false);
     }
   };
 
@@ -71,12 +75,12 @@ const Tokens = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }}>
-            <SubscriptionListListResults
+          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
+           {loading ? <CircularProgress/>: <SubscriptionListListResults
               data={subscriptionList}
               searchQuery={searchText}
               onPressEdit={onPressEdit}
-            />
+            />}
           </Box>
         </Container>
       </Box>
