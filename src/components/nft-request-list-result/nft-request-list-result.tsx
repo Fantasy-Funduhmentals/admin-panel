@@ -219,13 +219,13 @@ const Row = (props) => {
                                 <TableCell align="left">Amount</TableCell>
                                 <TableCell align="left">{row.amount}</TableCell>
                               </TableRow>
-                              <TableRow>
+                              {/* <TableRow>
                                 <TableCell align="left">Status</TableCell>
                                 <TableCell align="left">{row.status}</TableCell>
-                              </TableRow>
+                              </TableRow> */}
 
                               <TableRow>
-                                <TableCell align="left">createdAt</TableCell>
+                                <TableCell align="left">Created At</TableCell>
                                 <TableCell align="left">
                                   {moment(row.createdAt).format(
                                     "DD/MM/YYYY hh:mm A"
@@ -234,7 +234,7 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  price PerShare
+                                  Price PerShare
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.pricePerShare}
@@ -242,14 +242,14 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  remaining Supply
+                                  Remaining Supply
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
-                                <TableCell align="left">total Supply</TableCell>
+                                <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.totalSupply}
                                 </TableCell>

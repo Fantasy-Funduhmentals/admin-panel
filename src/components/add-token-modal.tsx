@@ -66,7 +66,7 @@ const coins = [
 
 const FullScreenDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log("editData::::", editData);
+  // console.log("editData::::", editData);
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);
@@ -256,7 +256,8 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+    borderRadius:" 10px"}}>
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
