@@ -1,0 +1,29 @@
+/*scrollBar*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(206, 203, 203);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5048e5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5048e5;
+}
+/*scrollBar*/
+/***ImageViewer***/
+.styles-module_wrapper__1I_qj {
+  z-index: 100 !important;
+}
+.styles-module_image__2hdkJ {
+  max-height: 50%;
+  max-width: 50%;
+}
+/***ImageViewer***/

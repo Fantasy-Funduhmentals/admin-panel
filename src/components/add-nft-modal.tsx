@@ -242,7 +242,7 @@ const FullScreenNFTDialog = (props: Props) => {
             py: 8,
           }}
         >
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" >
             <Grid container spacing={3} style={{    boxShadow: "#0000004a 1px 1px 18px",borderRadius:"10px"}}>
               <Grid item lg={4} md={6} xs={12}>
                 <Card >

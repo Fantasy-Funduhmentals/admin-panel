@@ -88,7 +88,7 @@ const FullScreenDialog = (props: Props) => {
     setPayment(event.target.value);
   };
 
-  console.log("editData:::", editData);
+  // console.log("editData:::", editData);
 
   const formik = useFormik({
     initialValues: {
@@ -243,7 +243,8 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
+            <Grid container spacing={3}  style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+    borderRadius:" 10px"}}>
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
@@ -288,12 +289,12 @@ const FullScreenDialog = (props: Props) => {
                 </Card>
               </Grid>
 
-              <Grid item lg={8} md={6} xs={12}>
+              <Grid item lg={8} md={6} xs={12} >
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
                       subheader="Please enter all the required information to save new token."
-                      title="Package Information"
+                      title="  Information"
                     />
                     <Divider />
                     <CardContent>
