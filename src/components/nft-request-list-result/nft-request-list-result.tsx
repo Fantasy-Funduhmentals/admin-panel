@@ -111,7 +111,7 @@ const Row = (props) => {
       });
     } catch (err) {
       setStatusData({
-        type: "success",
+        type: "error",
         message: "Transaction failed",
       });
       setLoading(false);
@@ -367,7 +367,7 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{ height: "100vh" }}>
               <Table aria-label="collapsible table">
                 <TableHead>
                   <TableRow>

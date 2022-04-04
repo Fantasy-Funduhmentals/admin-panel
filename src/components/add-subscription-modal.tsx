@@ -160,6 +160,7 @@ const FullScreenDialog = (props: Props) => {
         priceUSD: String(values.priceUSD),
         paymentMethod: payment,
         duration: duration,
+        apr: String(values.apr),
       };
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
@@ -354,6 +355,12 @@ const FullScreenDialog = (props: Props) => {
                                   3 Months
                                 </MenuItem>
                                 <MenuItem value={"yearly"}>1 Year</MenuItem>
+                                <MenuItem value={"10 minutes"}>
+                                  10 minutes
+                                </MenuItem>
+                                <MenuItem value={"20 minutes"}>
+                                  20 minutes
+                                </MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
