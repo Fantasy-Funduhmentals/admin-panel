@@ -19,7 +19,7 @@ export default function Chat() {
   return (
     <Page title="Chat">
       {/* <Container maxWidth={themeStretch ? false : "xl"}> */}
-      <Container>
+      <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading="Chat"
           links={[{ name: "Dashboard" }, { name: "Chat" }]}

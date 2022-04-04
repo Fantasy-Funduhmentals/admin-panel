@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container,CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -60,8 +60,8 @@ const NativeWallets = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }}>
-            <NftBalanceListResults data={userNft} searchQuery={searchText} />
+          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
+            {loading ? <CircularProgress/> : <NftBalanceListResults data={userNft} searchQuery={searchText} />}
           </Box>
         </Container>
       </Box>

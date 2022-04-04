@@ -106,7 +106,7 @@ const FullScreenNFTDialog = (props: Props) => {
       description: Yup.string().required("Description is required").trim(),
       pricePerShare: Yup.string()
         .min(1, "price Per Share must be atleast 1 character")
-        .required("Description is required")
+        .required("Price per share is required")
         .trim(),
     }),
     onSubmit: (values, actions) => {
@@ -243,9 +243,9 @@ const FullScreenNFTDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{    boxShadow: "#0000004a 1px 1px 18px",borderRadius:"10px"}}>
               <Grid item lg={4} md={6} xs={12}>
-                <Card>
+                <Card >
                   <CardHeader
                     subheader="This image will be used as primary token image in all apps."
                     title="Token Image"
@@ -288,6 +288,7 @@ const FullScreenNFTDialog = (props: Props) => {
                       alignItems: "center",
                       display: "flex",
                       flexDirection: "column",
+                      borderRadius:"0px"
                     }}
                   >
                     <TextField
@@ -300,7 +301,7 @@ const FullScreenNFTDialog = (props: Props) => {
 
               <Grid item lg={8} md={6} xs={12}>
                 <form onSubmit={formik.handleSubmit}>
-                  <Card>
+                  <Card >
                     <CardHeader
                       subheader="Please enter all the required information to save new NFT."
                       title="NFT Information"
@@ -308,8 +309,8 @@ const FullScreenNFTDialog = (props: Props) => {
                     <Divider />
                     <CardContent>
                       <Grid container spacing={3}>
-                        <Grid item md={6} xs={12}>
-                          <TextField
+                        <Grid item md={6} xs={12} >
+                          <TextField 
                             error={Boolean(
                               formik.touched.name && formik.errors.name
                             )}

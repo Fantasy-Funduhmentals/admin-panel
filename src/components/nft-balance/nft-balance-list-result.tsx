@@ -72,7 +72,7 @@ export const NftBalanceListResults = (props: Props) => {
               <TableHead>
                 <TableRow>
                   <TableCell>User</TableCell>
-                  <TableCell>Coin</TableCell>
+                  <TableCell>Token</TableCell>
 
                   <TableCell>Balance</TableCell>
                   <TableCell>Created At</TableCell>
@@ -110,9 +110,9 @@ export const NftBalanceListResults = (props: Props) => {
                         </Box>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.coinSymbol?.toUpperCase()}</TableCell>
+                    <TableCell>{customer?.nftToken?.name?.toUpperCase()}</TableCell>
 
-                    {/* <TableCell>{customer?.address}</TableCell> */}
+                    {/* <TableCell>{customer?.name}</TableCell> */}
                     <TableCell>
                       {customer?.balance
                         ? parseFloat(customer?.balance).toFixed(3)
