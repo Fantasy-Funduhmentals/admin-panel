@@ -1,7 +1,9 @@
 import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+/* @ts-ignore */
 import { Theme } from "@mui/system";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import Router from "next/router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
@@ -12,8 +14,11 @@ import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
 import { SupportIcon } from "../icons/support";
 import { TokensIcon } from "../icons/tokensIcon";
 import { Users as UsersIcon } from "../icons/users";
+import { resetUserState } from "../store/reducers/userSlice";
+import { HTTP_CLIENT } from "../utils/axiosClient";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
+import { useAppDispatch } from "../store/hooks";
 
 const items = [
   {
@@ -101,6 +106,7 @@ const items = [
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -115,6 +121,8 @@ export const DashboardSidebar = (props) => {
       onClose?.();
     }
   }, [router.asPath]);
+
+  
 
   const content = (
     <>

@@ -19,7 +19,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bell as BellIcon } from "../icons/bell";
 import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
@@ -27,6 +27,7 @@ import { useAppDispatch } from "../store/hooks";
 import { resetUserState } from "../store/reducers/userSlice";
 import Router from "next/router";
 import { useWeb3 } from "@3rdweb/hooks";
+import { HTTP_CLIENT } from "../utils/axiosClient";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -52,6 +53,15 @@ export const DashboardNavbar = (props) => {
     dispatch(resetUserState());
     Router.push("/login");
   };
+
+/* @ts-ignore */
+  useEffect(async() => {
+    try {
+      await HTTP_CLIENT.get(`/admin-auth/info`);
+    } catch (error) {
+      handleLogout()
+    }
+  }, []);
 
   return (
     <>
