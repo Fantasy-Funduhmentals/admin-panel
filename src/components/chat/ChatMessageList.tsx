@@ -18,8 +18,14 @@ export default function ChatMessageList({ conversation, otherUser }) {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+        setTimeout(() => {
+          scrollRef?.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
+        }, );
+      }
   }, [conversation.length]);
 
   const imagesLightbox = conversation
@@ -45,7 +51,7 @@ export default function ChatMessageList({ conversation, otherUser }) {
               onOpenLightbox={handleOpenLightbox}
             />
           ))}
-          <div ref={scrollRef} />
+        <div ref={scrollRef} />
         </div>
       </Scrollbar>
 
@@ -57,6 +63,7 @@ export default function ChatMessageList({ conversation, otherUser }) {
         isOpen={openLightbox}
         onCloseRequest={() => setOpenLightbox(false)}
       />
+
     </>
   );
 }
