@@ -97,6 +97,11 @@ const items = [
     title: "Distribute NFTS",
   },
   {
+    href: "/loan-request-completed",
+    icon: <TokensIcon fontSize="small" />,
+    title: "Loan Request completed",
+  },
+  {
     href: "/chat",
     icon: <SupportIcon fontSize="small" />,
     title: "Support",
