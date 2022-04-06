@@ -82,22 +82,10 @@ const Row = (props) => {
       });
       return;
     }
+    setLoading(true);
+
     try {
-      let amount = row.amount;
-      // let amount = web3.utils.toWei(row.amount, "ether");
-
-      let id = row?.assetPool?.index;
-      let from = address;
-      let to = row?.userAddress;
-      let data = [];
-      const nftBalance = await GetNftBalanceContract();
-      setLoading(true);
-
-      const res = await nftBalance.methods
-        .safeTransferFrom(from, to, id, amount, data)
-        .send({ from: address });
-
-      if (res) {
+      if (row.isLoan) {
         let requestId = row._id;
         let status = REQUEST_STATUS.APPROVED;
         const response = await handleRequestNftBalance({ requestId, status });
@@ -105,10 +93,35 @@ const Row = (props) => {
           type: "success",
           message: "FNFT transfer successfully",
         });
+        getNftRequests(() => {
+          setLoading(false);
+        });
+      } else {
+        let amount = row.amount;
+        // let amount = web3.utils.toWei(row.amount, "ether");
+        let id = row?.assetPool?.index;
+        let from = address;
+        let to = row?.userAddress;
+        let data = [];
+        const nftBalance = await GetNftBalanceContract();
+        setLoading(true);
+        const res = await nftBalance.methods
+          .safeTransferFrom(from, to, id, amount, data)
+          .send({ from: address });
+
+        if (res) {
+          let requestId = row._id;
+          let status = REQUEST_STATUS.APPROVED;
+          const response = await handleRequestNftBalance({ requestId, status });
+          setStatusData({
+            type: "success",
+            message: "FNFT transfer successfully",
+          });
+        }
+        getNftRequests(() => {
+          setLoading(false);
+        });
       }
-      getNftRequests(() => {
-        setLoading(false);
-      });
     } catch (err) {
       setStatusData({
         type: "error",
@@ -162,6 +175,12 @@ const Row = (props) => {
             <TableCell>{row?.assetPool?.name}</TableCell>
             <TableCell align="center">{row?.amount}</TableCell>
             <TableCell align="center">{row?.assetPool?.index}</TableCell>
+            <SeverityPill
+              style={{ marginTop: "37px" }}
+              color={(row.isLoan && "success") || "error"}
+            >
+              {row.isLoan ? "True" : "False"}
+            </SeverityPill>
             <TableCell align="center">
               {row?.assetPool?.remainingSupply}
             </TableCell>
@@ -240,6 +259,7 @@ const Row = (props) => {
                                   {row?.assetPool?.pricePerShare}
                                 </TableCell>
                               </TableRow>
+
                               <TableRow>
                                 <TableCell align="left">
                                   Remaining Supply
@@ -376,6 +396,8 @@ export const RequestListResults = (props: Props) => {
                     <TableCell>NFT name</TableCell>
                     <TableCell>Amount</TableCell>
                     <TableCell>index</TableCell>
+                    <TableCell>Loan Status</TableCell>
+
                     <TableCell>remaining Supply</TableCell>
                     <TableCell />
                     <TableCell />

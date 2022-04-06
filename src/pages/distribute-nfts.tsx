@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { SettingsPassword } from "../components/distribute-nfts/distribute";
+import { DistributeNft } from "../components/distribute-nfts/distribute";
 
 const Settings = () => (
   <>
@@ -21,7 +21,7 @@ const Settings = () => (
         </Typography>
 
         <Box sx={{ pt: 3 }}>
-          <SettingsPassword />
+          <DistributeNft />
         </Box>
       </Container>
     </Box>
