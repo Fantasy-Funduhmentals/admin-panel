@@ -113,6 +113,7 @@ const Login = () => {
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
+          
               <Button
                 color="primary"
                 // disabled={formik.isSubmitting}
@@ -121,8 +122,10 @@ const Login = () => {
                 type="submit"
                 variant="contained"
               >
-                {loading ? <CircularProgress /> : "Sign In Now"}
+               
+                {loading ?  <CircularProgress color="inherit"  /> :" Sign In Now"}
               </Button>
+              
             </Box>
             {/* <Typography color="textSecondary" variant="body2">
               Don&apos;t have an account?{" "}
