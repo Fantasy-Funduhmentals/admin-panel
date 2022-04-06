@@ -1,4 +1,4 @@
-import { Box, Container,CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import FullScreenNFTDialog from "../components/add-nft-modal";
@@ -24,20 +24,18 @@ const Tokens = () => {
   const [nftToken, setNftToken] = useState(null);
 
   const getTokensListing = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const coinsRes = await getNFTData();
       dispatch(saveNFT(coinsRes.data));
       setLoading(false);
-
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
-    setLoading(false)
-
+      setLoading(false);
     }
   };
 
@@ -73,20 +71,22 @@ const Tokens = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-          {loading ? <CircularProgress/> : 
-            <NftListResults
-              data={nft}
-              searchQuery={searchText}
-              onPressEdit={onPressEdit}
-            />}
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <NftListResults
+                data={nft}
+                searchQuery={searchText}
+                onPressEdit={onPressEdit}
+              />
+            )}
           </Box>
         </Container>
       </Box>
 
- 
-     {customerModelOpen && (
-           <FullScreenNFTDialog
+      {customerModelOpen && (
+        <FullScreenNFTDialog
           open={customerModelOpen}
           onClose={() => {
             setCustomerModalOpen(false);
@@ -97,7 +97,7 @@ const Tokens = () => {
         />
       )}
 
-    <StatusModal
+      <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
