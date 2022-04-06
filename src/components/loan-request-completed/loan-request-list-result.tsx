@@ -31,7 +31,7 @@ import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   getRequests,
-  getNftRequests,
+  getLoanRequests,
   handleRequestInteraction,
   handleRequestNftBalance,
 } from "../../services/requestService";
@@ -43,6 +43,7 @@ import StatusModal from "../StatusModal";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -82,43 +83,40 @@ const Row = (props) => {
       });
       return;
     }
-    setLoading(true);
+    // setLoading(true);
 
     try {
-      if (row.isLoan) {
-        let requestId = row._id;
-        let status = REQUEST_STATUS.APPROVED;
-        const response = await handleRequestNftBalance({ requestId, status });
-        setStatusData({
-          type: "success",
-          message: "FNFT transfer successfully",
-        });
-        getNftRequests(() => {
-          setLoading(false);
-        });
-      } else {
-        let amount = row.amount;
+      const addressRes = await HTTP_CLIENT.get(
+        `wallet/get-user-bnb-wallet/${row?.user?.email}`
+      );
+      if (addressRes.data.address) {
+        let amount = row.balance;
         // let amount = web3.utils.toWei(row.amount, "ether");
-        let id = row?.assetPool?.index;
+        let id = row?.nftToken?.index;
         let from = address;
-        let to = row?.userAddress;
+        let to = addressRes.data.address;
         let data = [];
         const nftBalance = await GetNftBalanceContract();
         setLoading(true);
         const res = await nftBalance.methods
           .safeTransferFrom(from, to, id, amount, data)
           .send({ from: address });
-
         if (res) {
-          let requestId = row._id;
-          let status = REQUEST_STATUS.APPROVED;
-          const response = await handleRequestNftBalance({ requestId, status });
+          let params = {
+            walletId: row?._id,
+          };
+
+          const addressRes = await HTTP_CLIENT.post(
+            "nft-wallet/complete-loan-status/",
+            params
+          );
+          // const response = await handleRequestNftBalance({ requestId, status });
           setStatusData({
             type: "success",
-            message: "FNFT transfer successfully",
+            message: "Transacion successfully",
           });
         }
-        getNftRequests(() => {
+        getLoanRequests(() => {
           setLoading(false);
         });
       }
@@ -172,17 +170,17 @@ const Row = (props) => {
                 </Box>
               </Box>
             </TableCell>
-            <TableCell>{row?.assetPool?.name}</TableCell>
-            <TableCell align="center">{row?.amount}</TableCell>
-            <TableCell align="center">{row?.assetPool?.index}</TableCell>
+            <TableCell>{row?.nftToken?.name}</TableCell>
+            <TableCell align="center">{row?.loanAmount}</TableCell>
+            <TableCell align="center">{row?.nftToken?.index}</TableCell>
             <SeverityPill
-              style={{ marginTop: "37px" }}
+              style={{ marginTop: "27px" }}
               color={(row.isLoan && "success") || "error"}
             >
-              {row.isLoan ? "Loan request" : "Normal request "}
+              {row.isLoan ? "completed" : "Incomplete"}
             </SeverityPill>
             <TableCell align="center">
-              {row?.assetPool?.remainingSupply}
+              {row?.nftToken?.remainingSupply}
             </TableCell>
             <TableCell>
               <Button
@@ -193,7 +191,7 @@ const Row = (props) => {
                 Accept
               </Button>
             </TableCell>
-            <TableCell>
+            {/* <TableCell>
               <Button
                 variant="outlined"
                 color="error"
@@ -206,7 +204,7 @@ const Row = (props) => {
               >
                 Reject
               </Button>
-            </TableCell>
+            </TableCell> */}
           </TableRow>
           <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -235,8 +233,10 @@ const Row = (props) => {
                             </TableHead>
                             <TableBody>
                               <TableRow>
-                                <TableCell align="left">Amount</TableCell>
-                                <TableCell align="left">{row.amount}</TableCell>
+                                <TableCell align="left">Balance</TableCell>
+                                <TableCell align="left">
+                                  {row.balance}
+                                </TableCell>
                               </TableRow>
                               {/* <TableRow>
                                 <TableCell align="left">Status</TableCell>
@@ -256,7 +256,7 @@ const Row = (props) => {
                                   Price PerShare
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.assetPool?.pricePerShare}
+                                  {row?.nftToken?.pricePerShare}
                                 </TableCell>
                               </TableRow>
 
@@ -265,13 +265,13 @@ const Row = (props) => {
                                   Remaining Supply
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.assetPool?.remainingSupply}
+                                  {row?.nftToken?.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row?.assetPool?.totalSupply}
+                                  {row?.nftToken?.totalSupply}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
@@ -309,6 +309,7 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
+  console.log("DATA RECIEVE", data);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -331,11 +332,11 @@ export const RequestListResults = (props: Props) => {
   ) => {
     try {
       setLoading(true);
-      await handleRequestNftBalance({
-        requestId,
-        status,
-      });
-      getNftRequests(() => {
+      // await handleRequestNftBalance({
+      //   requestId,
+      //   status,
+      // });
+      getLoanRequests(() => {
         setLoading(false);
       });
 
@@ -394,7 +395,7 @@ export const RequestListResults = (props: Props) => {
                     <TableCell />
                     <TableCell>User</TableCell>
                     <TableCell>NFT name</TableCell>
-                    <TableCell>Amount</TableCell>
+                    <TableCell>Loan Amount</TableCell>
                     <TableCell>index</TableCell>
                     <TableCell>Loan Status</TableCell>
 
