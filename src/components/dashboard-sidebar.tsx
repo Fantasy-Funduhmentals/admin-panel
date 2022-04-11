@@ -91,11 +91,16 @@ const items = [
     icon: <CogIcon fontSize="small" />,
     title: "Settings",
   },
-  // {
-  //   href: "/distribute-nfts",
-  //   icon: <CogIcon fontSize="small" />,
-  //   title: "Distribute NFTS",
-  // },
+  {
+    href: "/distribute-nfts",
+    icon: <CogIcon fontSize="small" />,
+    title: "Distribute NFTS",
+  },
+  {
+    href: "/loan-request-completed",
+    icon: <TokensIcon fontSize="small" />,
+    title: "Loan Request completed",
+  },
   {
     href: "/chat",
     icon: <SupportIcon fontSize="small" />,
@@ -121,8 +126,6 @@ export const DashboardSidebar = (props) => {
       onClose?.();
     }
   }, [router.asPath]);
-
-  
 
   const content = (
     <>

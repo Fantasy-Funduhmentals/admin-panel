@@ -16,18 +16,23 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { changePassword } from "../../services/userService";
+import { changePassword } from "../../services/userService.ts";
 import StatusModal from "../StatusModal";
+import { RootState } from "../../store";
+import { useWeb3 } from "@3rdweb/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { HTTP_CLIENT } from "../../utils/axiosClient.tsx";
 import { getNormalizedError } from "../../utils/helpers";
+import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 
-export const SettingsPassword = (props) => {
+export const DistributeNft = (props) => {
+  const { nft } = useAppSelector((state) => state.nft);
+  const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
-  const [duration, setDuration] = useState("month");
-
+  const [selectNft, setSelectNft] = useState("");
   const [loading, setLoading] = useState(false);
-
   const handleDurationChange = (event) => {
-    setDuration(event.target.value);
+    setSelectNft(event.target.value);
   };
 
   const formik = useFormik({
@@ -36,8 +41,11 @@ export const SettingsPassword = (props) => {
       amount: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string().required().min(8).max(33).trim(),
-      amount: Yup.string().required().min(8).max(33).trim(),
+      email: Yup.string()
+        .email("Email is invalid")
+        .required("Email is required")
+        .trim(),
+      amount: Yup.string().required("Amount is required").max(33).trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -45,22 +53,71 @@ export const SettingsPassword = (props) => {
   });
 
   const handleSubmit = async (values, actions) => {
+    if (Number(selectNft?.remainingSupply) < Number(values.amount)) {
+      setStatusData({
+        type: "error",
+        message: "Insufficient balance in contract",
+      });
+
+      return;
+    }
+    if (!address) {
+      setStatusData({
+        type: "error",
+        message: "Please active your wallet first",
+      });
+
+      return;
+    }
     try {
       setStatusData(null);
 
       setLoading(true);
       const params = {
-        email: values.email,
-        newPassword: values.amount,
+        balance: String(values.amount),
       };
 
-      await changePassword(params);
+      if (!selectNft) {
+        setStatusData({
+          type: "error",
+          message: "please select nft first",
+        });
+        setLoading(false);
+        return;
+      } else {
+        params.nftToken = String(selectNft._id);
+        params.nftIndex = String(selectNft.index);
+      }
+      const addressRes = await HTTP_CLIENT.get(
+        `wallet/get-user-bnb-wallet/${values.email}`
+      );
 
+      if (addressRes.data.address) {
+        let from = address;
+        let id = selectNft.index;
+        let amount = values.amount;
+        let to = addressRes.data.address;
+        let data = [];
+        const nftDistribution = await GetNftBalanceContract();
+        const res = await nftDistribution.methods
+          .safeTransferFrom(from, to, id, amount, data)
+          .send({ from: address });
+
+        if (res) {
+          params.user = String(addressRes.data.userId);
+
+          const updateBalanceRes = await HTTP_CLIENT.post(
+            "nft-wallet/update-nft-token",
+            params
+          );
+          console.log("updateBalanceRes{{{{{{{", updateBalanceRes);
+        }
+      }
       formik.resetForm();
-
+      setSelectNft("");
       setStatusData({
         type: "success",
-        message: "Password has been changed successfully",
+        message: "Transaction successfully",
       });
       setLoading(false);
     } catch (err) {
@@ -94,6 +151,7 @@ export const SettingsPassword = (props) => {
               fullWidth
               label="Email"
               margin="normal"
+              helperText={formik.errors.email}
               name="email"
               type="text"
               variant="outlined"
@@ -104,11 +162,12 @@ export const SettingsPassword = (props) => {
               value={formik.values.amount}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              helperText={formik.errors.amount}
               fullWidth
               label="Amount"
               margin="normal"
               name="amount"
-              type="text"
+              type="number"
               variant="outlined"
             />
           </Box>
@@ -122,13 +181,13 @@ export const SettingsPassword = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={duration}
-                  label="Duration"
+                  value={selectNft}
+                  label="NFT"
                   onChange={handleDurationChange}
                 >
-                  <MenuItem value={"month"}>1 Month</MenuItem>
-                  <MenuItem value={"threeMonths"}>3 Months</MenuItem>
-                  <MenuItem value={"yearly"}>1 Year</MenuItem>
+                  {nft.map((item) => (
+                    <MenuItem value={item}>{item.name}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
@@ -143,7 +202,7 @@ export const SettingsPassword = (props) => {
           }}
         >
           <Button color="primary" variant="contained" type="submit">
-            {loading ? <CircularProgress /> : "Update"}
+            {loading ? <CircularProgress color="inherit" /> : "Update"}
           </Button>
         </Box>
       </Card>

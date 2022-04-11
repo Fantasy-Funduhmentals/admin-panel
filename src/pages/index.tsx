@@ -108,7 +108,7 @@ const Dashboard = () => {
               <Grid item xl={3} lg={3} sm={6} xs={12}>
                 <DashboardCard
                   title="Total Users"
-                  value={String(users?.length)}
+                  value={masterBalances?.users}
                 />
               </Grid>
 

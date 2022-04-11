@@ -122,8 +122,7 @@ const Login = () => {
                 type="submit"
                 variant="contained"
               >
-               
-                {loading ?  <CircularProgress color="inherit"  /> :" Sign In Now"}
+                {loading ? <CircularProgress color="inherit" /> : "Sign In Now"}
               </Button>
               
             </Box>

@@ -59,6 +59,7 @@ export const DashboardNavbar = (props) => {
     try {
       await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
+      console.log(error,"<<<<<<<<<<");
       handleLogout()
     }
   }, []);
