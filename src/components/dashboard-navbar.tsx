@@ -28,6 +28,7 @@ import { resetUserState } from "../store/reducers/userSlice";
 import Router from "next/router";
 import { useWeb3 } from "@3rdweb/hooks";
 import { HTTP_CLIENT } from "../utils/axiosClient";
+import { setupAxios } from "../utils/axiosClient";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -57,9 +58,9 @@ export const DashboardNavbar = (props) => {
 /* @ts-ignore */
   useEffect(async() => {
     try {
+      setupAxios();
       await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
-      console.log(error,"<<<<<<<<<<");
       handleLogout()
     }
   }, []);
