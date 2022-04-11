@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import AddUserModal from "../components/add-user-modal";
@@ -64,8 +64,21 @@ const Users = () => {
               setUserModalOpen(true);
             }}
           />
-          <Box sx={{ mt: 3 }}>
-            <UserListResults data={users} searchQuery={searchText} />
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            sx={{
+              mt: 3,
+            }}
+          >
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <UserListResults data={users} searchQuery={searchText} style={{width:"100%"}}/>
+            )}
           </Box>
         </Container>
       </Box>

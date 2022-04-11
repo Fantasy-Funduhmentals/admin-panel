@@ -1,12 +1,12 @@
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { SettingsPassword } from "../components/settings/settings-password";
+import { DistributeNft } from "../components/distribute-nfts/distribute";
 
 const Settings = () => (
   <>
     <Head>
-      <title>Settings | CQR Admin</title>
+      <title>Distribute | CQR Admin</title>
     </Head>
     <Box
       component="main"
@@ -17,11 +17,11 @@ const Settings = () => (
     >
       <Container maxWidth="lg">
         <Typography sx={{ mb: 3 }} variant="h4">
-          Settings
+          Distribute NFTS
         </Typography>
 
-        <Box sx={{ pt: 3}}>
-          <SettingsPassword />
+        <Box sx={{ pt: 3 }}>
+          <DistributeNft />
         </Box>
       </Container>
     </Box>

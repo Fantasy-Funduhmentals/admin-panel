@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container ,CircularProgress} from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { CoinListResults } from "../components/coin/coin-list-results";
@@ -19,17 +19,21 @@ const Coins = () => {
   const [searchText, setSearchText] = useState("");
 
   const getCoinsListing = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      
       const coinsRes = await getCoins();
 
       dispatch(saveCoins(coinsRes));
+      setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
+      setLoading(false);
+
     }
   };
 
@@ -57,8 +61,8 @@ const Coins = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }}>
-            <CoinListResults data={coins} searchQuery={searchText} />
+          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
+            {loading ? <CircularProgress/>:<CoinListResults data={coins} searchQuery={searchText} />}
           </Box>
         </Container>
       </Box>

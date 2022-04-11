@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container,CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -55,8 +55,8 @@ const SdiraRequests = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }}>
-            <RequestListResults data={requests} searchQuery={searchText} />
+          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
+            {loading ? <CircularProgress/> :<RequestListResults data={requests} searchQuery={searchText} />}
           </Box>
         </Container>
       </Box>

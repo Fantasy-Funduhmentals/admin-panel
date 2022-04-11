@@ -1,4 +1,4 @@
-import { Card, Container } from "@mui/material";
+import {Card, Container } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ChatSidebar, ChatWindow } from "../../components/chat";
@@ -17,9 +17,10 @@ export default function Chat() {
   const dispatch = useDispatch();
 
   return (
+   <>
     <Page title="Chat">
       {/* <Container maxWidth={themeStretch ? false : "xl"}> */}
-      <Container>
+      <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading="Chat"
           links={[{ name: "Dashboard" }, { name: "Chat" }]}
@@ -30,5 +31,6 @@ export default function Chat() {
         </Card>
       </Container>
     </Page>
+   </>
   );
 }

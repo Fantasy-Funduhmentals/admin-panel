@@ -32,19 +32,19 @@ export const ListToolbar = (props: Props) => {
           m: -1,
         }}
       >
-        <Typography sx={{ m: 1 }} variant="h4">
+        <Typography sx={{ m: 1 }} variant="h4" >
           {title}
         </Typography>
         {onPressAdd && (
           <Box sx={{ m: 1 }}>
-            <Button color="primary" variant="contained" onClick={onPressAdd}>
+            <Button color="primary" variant="contained" onClick={onPressAdd} >
               Add {subTitle}
             </Button>
           </Box>
         )}
       </Box>
-      <Box sx={{ mt: 3 }}>
-        <Card>
+      <Box sx={{ mt: 3 }} >
+        <Card >
           <CardContent>
             <Box sx={{ maxWidth: 500 }}>
               <TextField

@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  NativeSelect,
   FormControl,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -76,6 +77,18 @@ const FullScreenDialog = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [editSymbolImage, setEditSymbolImage] = useState(null);
+  const [duration, setDuration] = React.useState("month");
+  const [payment, setPayment] = React.useState("fiat");
+
+  const handleDurationChange = (event) => {
+    setDuration(event.target.value);
+  };
+
+  const handlePaymentChange = (event) => {
+    setPayment(event.target.value);
+  };
+
+  // console.log("editData:::", editData);
 
   const formik = useFormik({
     initialValues: {
@@ -83,9 +96,9 @@ const FullScreenDialog = (props: Props) => {
       //     ? { name: editData?.name, symbol: editData?.coinSymbol }
       //     : null,
       title: editData ? editData?.title : "",
-      paymentMethod: editData ? editData?.paymentMethod : "",
+      // paymentMethod: editData ? editData?.paymentMethod : "",
       isActive: editData ? editData?.isActive : false,
-      duration: editData ? editData?.duration : "",
+      // duration: editData ? editData?.duration : "",
       description: editData ? editData?.description : "",
       priceUSD: editData ? editData?.priceUSD : "",
       apr: editData ? editData?.apr : "",
@@ -100,14 +113,14 @@ const FullScreenDialog = (props: Props) => {
 
       title: Yup.string()
         .required("Name is required")
-        .min(1, "Name must be atleast 2 character")
+        .min(2, "Name must be atleast 2 character")
         .max(50, "Name must be atmost 50 character")
         .trim(),
-      paymentMethod: Yup.string().required("Payment method is required").trim(),
-      duration: Yup.string()
-        .required("duration is required")
-        .min(2, "duration must be atleast 2 character")
-        .trim(),
+      // paymentMethod: Yup.string().required("Payment method is required").trim(),
+      // duration: Yup.string()
+      //   .required("duration is required")
+      //   .min(2, "duration must be atleast 2 character")
+      //   .trim(),
       description: Yup.string().required("Description is required").trim(),
       priceUSD: Yup.string().required("Price is required").trim(),
       apr: Yup.string().required("apr is required").trim(),
@@ -130,7 +143,7 @@ const FullScreenDialog = (props: Props) => {
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
-      if (!image) {
+      if (!image && !editData) {
         setStatusData({
           type: "error",
           message: "Please select an image to continue",
@@ -145,7 +158,9 @@ const FullScreenDialog = (props: Props) => {
         title: values.title,
         description: values.description,
         priceUSD: String(values.priceUSD),
-        paymentMethod: values.description,
+        paymentMethod: payment,
+        duration: duration,
+        apr: String(values.apr),
       };
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
@@ -191,6 +206,8 @@ const FullScreenDialog = (props: Props) => {
   useEffect(() => {
     if (editData) {
       setEditSymbolImage(editData?.logo);
+      setDuration(editData?.duration);
+      setPayment(editData?.paymentMethod);
     }
   }, []);
 
@@ -226,12 +243,13 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
+            <Grid container spacing={3}  style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+    borderRadius:" 10px"}}>
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
                     // subheader="This image will be used as token symbol in all apps."
-                    title="NFT Image"
+                    title="Plan Image"
                   />
                   <CardContent>
                     <Box
@@ -271,12 +289,12 @@ const FullScreenDialog = (props: Props) => {
                 </Card>
               </Grid>
 
-              <Grid item lg={8} md={6} xs={12}>
+              <Grid item lg={8} md={6} xs={12} >
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
                       subheader="Please enter all the required information to save new token."
-                      title="Package Information"
+                      title="  Information"
                     />
                     <Divider />
                     <CardContent>
@@ -298,40 +316,56 @@ const FullScreenDialog = (props: Props) => {
                         </Grid>
 
                         <Grid item md={6} xs={12}></Grid>
-
                         <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.paymentMethod &&
-                                formik.errors.paymentMethod
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.paymentMethod}
-                            fullWidth
-                            label="Payment Method"
-                            name="paymentMethod"
-                            helperText={formik.errors.paymentMethod}
-                            variant="outlined"
-                          />
+                          <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">
+                                Payment Method
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={payment}
+                                label="Payment Method"
+                                onChange={handlePaymentChange}
+                              >
+                                <MenuItem value={"fiat"}>Fiat </MenuItem>
+                                <MenuItem value={"crypto"}>Crypto </MenuItem>
+                                <MenuItem value={"nativeToken"}>
+                                  NativeToken{" "}
+                                </MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
                         </Grid>
-
                         <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.duration && formik.errors.duration
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.duration}
-                            fullWidth
-                            label="Duration"
-                            name="duration"
-                            helperText={formik.errors.duration}
-                            variant="outlined"
-                          />
+                          <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">
+                                Duration
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={duration}
+                                label="Duration"
+                                onChange={handleDurationChange}
+                              >
+                                <MenuItem value={"month"}>1 Month</MenuItem>
+                                <MenuItem value={"threeMonths"}>
+                                  3 Months
+                                </MenuItem>
+                                <MenuItem value={"yearly"}>1 Year</MenuItem>
+                                <MenuItem value={"10 minutes"}>
+                                  10 minutes
+                                </MenuItem>
+                                <MenuItem value={"20 minutes"}>
+                                  20 minutes
+                                </MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
                         </Grid>
-
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
@@ -358,7 +392,8 @@ const FullScreenDialog = (props: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.priceUSD}
                             fullWidth
-                            label="price USD"
+                            label="Price USD"
+                            type="number"
                             name="priceUSD"
                             helperText={formik.errors.priceUSD}
                             variant="outlined"
@@ -375,6 +410,7 @@ const FullScreenDialog = (props: Props) => {
                             value={formik.values.apr}
                             fullWidth
                             label="Apr"
+                            type="number"
                             name="apr"
                             helperText={formik.errors.apr}
                             variant="outlined"
@@ -383,22 +419,26 @@ const FullScreenDialog = (props: Props) => {
                       </Grid>
                     </CardContent>
                     <Divider />
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        p: 2,
-                      }}
-                    >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        fullWidth
+                    {loading ? (
+                      <CircularProgress />
+                    ) : (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          p: 2,
+                        }}
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
-                      </Button>
-                    </Box>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          type="submit"
+                          fullWidth
+                        >
+                          Save details
+                        </Button>
+                      </Box>
+                    )}
                   </Card>
                 </form>
               </Grid>
