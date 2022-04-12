@@ -106,6 +106,11 @@ const items = [
     icon: <SupportIcon fontSize="small" />,
     title: "Support",
   },
+  {
+    href: "/supply",
+    icon: <CogIcon fontSize="small" />,
+    title: "supply",
+  },
 ];
 
 export const DashboardSidebar = (props) => {
