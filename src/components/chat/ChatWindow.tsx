@@ -8,6 +8,7 @@ import { uploadImage } from "../../services/generalService";
 import { RootState } from "../../store";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import { getOtherUser } from "../../utils/helpers";
+import StatusModal from "../StatusModal";
 import ChatHeaderDetail from "./ChatHeaderDetail";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatMessageList from "./ChatMessageList";
@@ -16,6 +17,7 @@ import ChatRoom from "./ChatRoom";
 export default function ChatWindow() {
   const socket: Socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
+  const [statusData, setStatusData] = useState(null);
 
   const { query } = useRouter();
 
@@ -85,6 +87,19 @@ export default function ChatWindow() {
   };
 
   const handleImageSend = async (event: any) => {
+    if (
+      !(
+        event.target.files[0].type == "image/jpeg" ||
+        event.target.files[0].type == "image/jpg" ||
+        event.target.files[0].type == "image/png"
+      )
+    ) {
+      setStatusData({
+        type: "error",
+        message: "Please select image only",
+      });
+      return;
+    }
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
 
@@ -146,6 +161,10 @@ export default function ChatWindow() {
           <ChatRoom conversation={otherUser} participants={[otherUser]} />
         )}
       </Box>
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
+      />
     </Box>
   );
 }

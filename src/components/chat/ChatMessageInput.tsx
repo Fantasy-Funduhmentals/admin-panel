@@ -85,6 +85,8 @@ export default function ChatMessageInput({
 
       <input
         type="file"
+        multiple
+        accept="image/png, image/gif, image/jpeg"
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={(ev) => onImageReceived(ev)}
