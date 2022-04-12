@@ -12,6 +12,7 @@ import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
 import { saveMasterBalances } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
+import { setupAxios } from "../utils/axiosClient";
 
 const Dashboard = () => {
   const { masterBalances, users } = useAppSelector(
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const getCardsData = async () => {
     try {
       setLoading(true);
+      setupAxios();
       const cardsData = await getMasterAddressBalances();
 
       dispatch(saveMasterBalances(cardsData.data));

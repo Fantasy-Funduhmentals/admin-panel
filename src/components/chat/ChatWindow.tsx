@@ -113,7 +113,7 @@ export default function ChatWindow() {
       <Box sx={{ flexGrow: 1, display: "flex", overflow: "hidden" }}>
         <Box sx={{ display: "flex", flexGrow: 1, flexDirection: "column" }}>
           {otherUser && (
-            <ChatMessageList conversation={messages} otherUser={otherUser} style={{border:"1px solid red"}}/>
+            <ChatMessageList conversation={messages} otherUser={otherUser} />
           )}
 
           {!otherUser && (
