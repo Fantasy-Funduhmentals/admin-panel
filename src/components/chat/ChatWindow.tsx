@@ -16,6 +16,7 @@ import ChatRoom from "./ChatRoom";
 export default function ChatWindow() {
   const socket: Socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
+  const [statusData, setStatusData] = useState(null);
 
   const { query } = useRouter();
 
@@ -85,6 +86,17 @@ export default function ChatWindow() {
   };
 
   const handleImageSend = async (event: any) => {
+    if (
+      !(
+        event.target.files[0].type == "image/jpeg" ||
+        event.target.files[0].type == "image/jpg" ||
+        event.target.files[0].type == "image/png"
+      )
+    ) {
+      
+      alert("Please select image only", { type: "error" });
+      return;
+    }
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
 
