@@ -8,6 +8,7 @@ import { uploadImage } from "../../services/generalService";
 import { RootState } from "../../store";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 import { getOtherUser } from "../../utils/helpers";
+import StatusModal from "../StatusModal";
 import ChatHeaderDetail from "./ChatHeaderDetail";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatMessageList from "./ChatMessageList";
@@ -93,8 +94,10 @@ export default function ChatWindow() {
         event.target.files[0].type == "image/png"
       )
     ) {
-      
-      alert("Please select image only", { type: "error" });
+      setStatusData({
+        type: "error",
+        message: "Please select image only",
+      });
       return;
     }
     if (event.target.files && event.target.files[0]) {
@@ -158,6 +161,10 @@ export default function ChatWindow() {
           <ChatRoom conversation={otherUser} participants={[otherUser]} />
         )}
       </Box>
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
+      />
     </Box>
   );
 }
