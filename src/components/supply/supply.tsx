@@ -51,7 +51,6 @@ export const DistributeNft = (props) => {
 
   useEffect(() => {
     setSelectNft(nft[0])
-
   },[])
 
   const fetchBalance = async () => {  
@@ -78,6 +77,7 @@ export const DistributeNft = (props) => {
     const nftDistribution = await GetNftBalanceContract();
     const res = await nftDistribution.methods.mint(to,id,amount, data).send({ from: address });;
     console.log("nftDistribution:::", res);
+    fetchBalance()
     setLoading(false)
 
 
