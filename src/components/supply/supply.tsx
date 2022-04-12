@@ -32,16 +32,27 @@ export const DistributeNft = (props) => {
   const [selectNft, setSelectNft] = useState(nft[0]);
   const [loading, setLoading] = useState(false);
   const [supply, setSupply] = useState(false);
-  const handleDurationChange = (event) => {
-    setSelectNft(event.target.value);
+  const handleDurationChange = (e) => {
+    console.log("selectNft%%%%%", e.target.value);
+
+    setSelectNft(e.target.value);
   };
 
-  // console.log("selectNft:::", nft);
+
+  console.log("nft%%%%", nft[0]);
+  console.log("selectNft%%%%", selectNft);
+  
+
+  useEffect(() => {
+    if(address){
+      fetchBalance();
+    }
+  }, [selectNft,address]);
 
   useEffect(() => {
     setSelectNft(nft[0])
-    fetchBalance();
-  }, [selectNft]);
+
+  },[])
 
   const fetchBalance = async () => {  
     const nftDistribution = await GetNftBalanceContract();
@@ -57,6 +68,7 @@ export const DistributeNft = (props) => {
     let amount = values.amount;
     let from = address;
     let to = address;
+    let id = selectNft.index
     let data = []
     console.log("amount:::", amount);
     console.log("from:::", from);
@@ -64,7 +76,7 @@ export const DistributeNft = (props) => {
     console.log("data:::", data);
 
     const nftDistribution = await GetNftBalanceContract();
-    const res = await nftDistribution.methods.mint(amount,to,from,data)
+    const res = await nftDistribution.methods.mint(to,id,amount, data).send({ from: address });;
     console.log("nftDistribution:::", res);
     setLoading(false)
 
@@ -97,7 +109,8 @@ export const DistributeNft = (props) => {
     <>
       <form {...props} onSubmit={formik.handleSubmit}>
         <Card>
-          <CardHeader title="Total Supply :" subheader= {supply}  />
+          {loading ? <CircularProgress/>  : <CardHeader title="Total Supply :" subheader= {supply}  /> }
+          
           <Divider />
           <CardContent>
             <Box
@@ -151,7 +164,7 @@ export const DistributeNft = (props) => {
                     id="demo-simple-select"
                     value={selectNft}
                     label="NFT"
-                    onChange={handleDurationChange}
+                    onChange={(e) => handleDurationChange(e)}
                   >
                     {nft.map((item) => (
                       <MenuItem value={item}>{item.name}</MenuItem>
