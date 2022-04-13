@@ -24,6 +24,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { HTTP_CLIENT } from "../../utils/axiosClient.tsx";
 import { getNormalizedError } from "../../utils/helpers";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
+import {getNFTData} from "../../services/tokenService.ts"
+import { saveNFT } from "../../store/reducers/nftSlice";
+// import { useAppDispatch, useAppSelector } from "../store/hooks";
+
 
 export const DistributeNft = (props) => {
   const { nft } = useAppSelector((state) => state.nft);
@@ -32,33 +36,58 @@ export const DistributeNft = (props) => {
   const [selectNft, setSelectNft] = useState(nft[0]);
   const [loading, setLoading] = useState(false);
   const [supply, setSupply] = useState(false);
+  const dispatch = useAppDispatch();
+
+
+
   const handleDurationChange = (e) => {
-    console.log("selectNft%%%%%", e.target.value);
 
     setSelectNft(e.target.value);
   };
 
+  const getTokensListing = async () => {
+    setLoading(true);
+    try {
+      const coinsRes = await getNFTData();
+      dispatch(saveNFT(coinsRes.data));
+      setLoading(false);
+    } 
+    catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setLoading(false);
+    }
+  };
 
-  console.log("nft%%%%", nft[0]);
-  console.log("selectNft%%%%", selectNft);
-  
 
   useEffect(() => {
     if(address){
       fetchBalance();
     }
+    if(nft){
+      setSelectNft(nft[0]);
+
+    }
   }, [selectNft,address]);
 
   useEffect(() => {
-    setSelectNft(nft[0])
+    
+    getTokensListing();
+
   },[])
 
   const fetchBalance = async () => {  
-    const nftDistribution = await GetNftBalanceContract();
-    const res = await nftDistribution?.methods?
-      .balanceOf(address, selectNft?.index)?
-      .call();
-    setSupply(res);
+    if(nft){
+      const nftDistribution = await GetNftBalanceContract();
+      const res = await nftDistribution?.methods?
+        .balanceOf(address, selectNft?.index)?
+        .call();
+      setSupply(res);
+    }
+    
     // console.log("nftDistribution:::", res);
   };
 
