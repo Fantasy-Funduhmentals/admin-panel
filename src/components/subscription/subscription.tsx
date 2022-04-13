@@ -15,7 +15,9 @@ import {
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ModeEditIcon, from "@mui/icons-material/ModeEdit";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -36,6 +38,10 @@ export const SubscriptionListListResults = (props: Props) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleDelete = (item) => {
+
+  }
 
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
@@ -119,7 +125,8 @@ export const SubscriptionListListResults = (props: Props) => {
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
                       <TableCell onClick={() => onPressEdit(item)}>
-                        <ModeEditIcon color="secondary" />
+                        <ModeEditIcon  color="secondary" />
+                       <DeleteOutlineIcon onClick={() => handleDelete(item)} />
                       </TableCell>
                     </TableRow>
                   );
