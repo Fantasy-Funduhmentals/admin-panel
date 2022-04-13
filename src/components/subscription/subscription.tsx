@@ -84,7 +84,7 @@ export const SubscriptionListListResults = (props: Props) => {
                   <TableCell>Image</TableCell>
                   <TableCell>Title</TableCell>
 
-                  <TableCell>Payment method</TableCell>
+                  {/* <TableCell>Payment method</TableCell> */}
                   <TableCell>Duration</TableCell>
                   <TableCell>Price in USD</TableCell>
                   <TableCell></TableCell>
@@ -115,7 +115,7 @@ export const SubscriptionListListResults = (props: Props) => {
                       </TableCell>
 
                       <TableCell>{item.title} </TableCell>
-                      <TableCell>{item.paymentMethod}</TableCell>
+                      {/* <TableCell>{item.paymentMethod}</TableCell> */}
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
                       <TableCell onClick={() => onPressEdit(item)}>

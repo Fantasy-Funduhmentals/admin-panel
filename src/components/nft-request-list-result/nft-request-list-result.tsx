@@ -103,24 +103,26 @@ const Row = (props) => {
         let from = address;
         let to = row?.userAddress;
         let data = [];
+
+        let requestId = row._id;
+        let status = REQUEST_STATUS.APPROVED;
+        const response = await handleRequestNftBalance({ requestId, status });
+        // setStatusData({
+        //   type: "success",
+        //   message: "FNFT transfer successfully",
+        // });
+        // if (response) {
         const nftBalance = await GetNftBalanceContract();
         setLoading(true);
         const res = await nftBalance.methods
           .safeTransferFrom(from, to, id, amount, data)
           .send({ from: address });
 
-        if (res) {
-          let requestId = row._id;
-          let status = REQUEST_STATUS.APPROVED;
-          const response = await handleRequestNftBalance({ requestId, status });
-          setStatusData({
-            type: "success",
-            message: "FNFT transfer successfully",
-          });
-        }
         getNftRequests(() => {
           setLoading(false);
         });
+        // }
+        setLoading(false);
       }
     } catch (err) {
       setStatusData({

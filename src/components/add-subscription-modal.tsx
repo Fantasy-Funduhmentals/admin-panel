@@ -101,7 +101,7 @@ const FullScreenDialog = (props: Props) => {
       // duration: editData ? editData?.duration : "",
       description: editData ? editData?.description : "",
       priceUSD: editData ? editData?.priceUSD : "",
-      apr: editData ? editData?.apr : "",
+      // apr: editData ? editData?.apr : "",
       //   icon: editData ? editData?.icon : "",
     },
     enableReinitialize: true,
@@ -123,7 +123,7 @@ const FullScreenDialog = (props: Props) => {
       //   .trim(),
       description: Yup.string().required("Description is required").trim(),
       priceUSD: Yup.string().required("Price is required").trim(),
-      apr: Yup.string().required("apr is required").trim(),
+      // apr: Yup.string().required("apr is required").trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -158,9 +158,9 @@ const FullScreenDialog = (props: Props) => {
         title: values.title,
         description: values.description,
         priceUSD: String(values.priceUSD),
-        paymentMethod: payment,
+        // paymentMethod: payment,
         duration: duration,
-        apr: String(values.apr),
+        // apr: String(values.apr),
       };
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
@@ -243,8 +243,14 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}  style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
-    borderRadius:" 10px"}}>
+            <Grid
+              container
+              spacing={3}
+              style={{
+                boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+                borderRadius: " 10px",
+              }}
+            >
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
@@ -289,7 +295,7 @@ const FullScreenDialog = (props: Props) => {
                 </Card>
               </Grid>
 
-              <Grid item lg={8} md={6} xs={12} >
+              <Grid item lg={8} md={6} xs={12}>
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
@@ -316,7 +322,7 @@ const FullScreenDialog = (props: Props) => {
                         </Grid>
 
                         <Grid item md={6} xs={12}></Grid>
-                        <Grid item md={6} xs={12}>
+                        {/* <Grid item md={6} xs={12}>
                           <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
                               <InputLabel id="demo-simple-select-label">
@@ -337,7 +343,7 @@ const FullScreenDialog = (props: Props) => {
                               </Select>
                             </FormControl>
                           </Box>
-                        </Grid>
+                        </Grid> */}
                         <Grid item md={6} xs={12}>
                           <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
@@ -399,8 +405,7 @@ const FullScreenDialog = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-
-                        <Grid item md={6} xs={12}>
+                        {/* <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
                               formik.touched.apr && formik.errors.apr
@@ -415,7 +420,7 @@ const FullScreenDialog = (props: Props) => {
                             helperText={formik.errors.apr}
                             variant="outlined"
                           />
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     </CardContent>
                     <Divider />
