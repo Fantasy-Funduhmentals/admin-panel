@@ -24,6 +24,7 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
+  console.log("data&&&", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -40,9 +41,10 @@ export const NftListResults = (props: Props) => {
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
     const end = begin + limit;
+    let filterData = data?.slice().sort((v1, v2) => v1.index - v2.index);
 
     if (searchQuery.length > 0) {
-      return data
+      return filterData
         .filter(
           (user) =>
             user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,7 +54,7 @@ export const NftListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return filterData?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
@@ -85,7 +87,7 @@ export const NftListResults = (props: Props) => {
                   <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>
-                  <TableCell>Price Per Share</TableCell>
+                  <TableCell>Price Per unit</TableCell>
                   <TableCell>Remaining Supply</TableCell>
                   <TableCell>Total Supply</TableCell>
                   <TableCell></TableCell>
