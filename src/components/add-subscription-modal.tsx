@@ -299,7 +299,7 @@ const FullScreenDialog = (props: Props) => {
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
-                      subheader="Please enter all the required information to save new token."
+                      subheader="Please enter all the required information to save new plan."
                       title="  Information"
                     />
                     <Divider />
@@ -365,9 +365,9 @@ const FullScreenDialog = (props: Props) => {
                                 <MenuItem value={"10 minutes"}>
                                   10 minutes
                                 </MenuItem>
-                                <MenuItem value={"20 minutes"}>
+                                {/* <MenuItem value={"20 minutes"}>
                                   20 minutes
-                                </MenuItem>
+                                </MenuItem> */}
                               </Select>
                             </FormControl>
                           </Box>

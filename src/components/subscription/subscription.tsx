@@ -22,13 +22,14 @@ import { getNormalizedError } from "../../utils/helpers";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 import { getSubscriptionData } from "../../services/tokenService";
 import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
-
+import {deleteSubscription} from "../../services/tokenService.ts"
 
 
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
   onPressEdit?: any;
+  onRefresh?: any;
 }
 
 export const SubscriptionListListResults = (props: Props) => {
@@ -52,14 +53,16 @@ export const SubscriptionListListResults = (props: Props) => {
   const handleDelete = async (item) => {
     setLoading(true);
     try {
-      const response =await  HTTP_CLIENT.delete(`/package/${item._id}`)
-      setStatusData({
-        type: "success",
-        message: response.data.message,
-      });
-      console.log("item>>>>", response);
-      // const subscriptionRes = await getSubscriptionData();
-      dispatch(saveSubscriptionData(subscriptionRes.data));
+      const response = await deleteSubscription(item)
+      console.log("response", response);
+
+        setStatusData({
+          type: "success",
+          message: response.data.message,
+        });
+      
+        onRefresh()
+      
       setLoading(false);
     } catch (err) {
       

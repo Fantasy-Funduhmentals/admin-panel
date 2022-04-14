@@ -38,6 +38,10 @@ const updateSubscription = async (params: any) => {
 const updateNFT = async (params: any) => {
   return await HTTP_CLIENT.post("/nft-token/update-nft-token", params);
 };
+
+const deleteSubscription = async (params: any) => {
+  return await HTTP_CLIENT.delete(`/package/${params._id}`);
+};
 export {
   getTokensData,
   getNativeWalletsData,
@@ -49,4 +53,5 @@ export {
   getSubscriptionData,
   updateSubscription,
   createSubscription,
+  deleteSubscription,
 };
