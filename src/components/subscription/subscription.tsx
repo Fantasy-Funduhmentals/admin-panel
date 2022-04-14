@@ -5,6 +5,7 @@ import {
   CardProps,
   Paper,
   Table,
+  CircularProgress,
   TableBody,
   TableCell,
   TableHead,
@@ -15,7 +16,15 @@ import {
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ModeEditIcon, from "@mui/icons-material/ModeEdit";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { getNormalizedError } from "../../utils/helpers";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { getSubscriptionData } from "../../services/tokenService";
+import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
+
+
+
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -26,6 +35,9 @@ export const SubscriptionListListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [statusData, setStatusData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -36,6 +48,29 @@ export const SubscriptionListListResults = (props: Props) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleDelete = async (item) => {
+    setLoading(true);
+    try {
+      const response =await  HTTP_CLIENT.delete(`/package/${item._id}`)
+      setStatusData({
+        type: "success",
+        message: response.data.message,
+      });
+      console.log("item>>>>", response);
+      // const subscriptionRes = await getSubscriptionData();
+      dispatch(saveSubscriptionData(subscriptionRes.data));
+      setLoading(false);
+    } catch (err) {
+      
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setLoading(false);
+    }
+  }
 
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
@@ -58,7 +93,7 @@ export const SubscriptionListListResults = (props: Props) => {
 
   return (
     <Card {...props}>
-      <PerfectScrollbar>
+      {loading ?<CircularProgress/>  : <PerfectScrollbar>
         <Paper
           style={{
             width: "100%",
@@ -119,8 +154,11 @@ export const SubscriptionListListResults = (props: Props) => {
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
                       <TableCell onClick={() => onPressEdit(item)}>
-                        <ModeEditIcon color="secondary" />
+                        <ModeEditIcon  color="secondary" />
+                    
                       </TableCell>
+                      <TableCell>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
+
                     </TableRow>
                   );
                 })}
@@ -128,7 +166,8 @@ export const SubscriptionListListResults = (props: Props) => {
             </Table>
           </Box>
         </Paper>
-      </PerfectScrollbar>
+      </PerfectScrollbar>}
+     
       <TablePagination
         component="div"
         count={data?.length}
