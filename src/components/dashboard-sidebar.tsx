@@ -19,6 +19,8 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 import { useAppDispatch } from "../store/hooks";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 const items = [
   {
@@ -93,7 +95,7 @@ const items = [
   },
   {
     href: "/distribute-nfts",
-    icon: <CogIcon fontSize="small" />,
+    icon: <BugReportIcon fontSize="small" />,
     title: "Distribute NFTS",
   },
   {
@@ -108,8 +110,8 @@ const items = [
   },
   {
     href: "/supply",
-    icon: <CogIcon fontSize="small" />,
-    title: "supply",
+    icon: <Inventory2Icon fontSize="small" />,
+    title: "Supply",
   },
 ];
 
