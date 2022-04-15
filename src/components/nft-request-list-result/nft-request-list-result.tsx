@@ -75,6 +75,7 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
+    debugger;
     if (!address) {
       setStatusData({
         type: "error",
@@ -104,9 +105,6 @@ const Row = (props) => {
         let to = row?.userAddress;
         let data = [];
 
-        let requestId = row._id;
-        let status = REQUEST_STATUS.APPROVED;
-        const response = await handleRequestNftBalance({ requestId, status });
         // setStatusData({
         //   type: "success",
         //   message: "FNFT transfer successfully",
@@ -117,6 +115,11 @@ const Row = (props) => {
         const res = await nftBalance.methods
           .safeTransferFrom(from, to, id, amount, data)
           .send({ from: address });
+        if (res) {
+          let requestId = row._id;
+          let status = REQUEST_STATUS.APPROVED;
+          const response = await handleRequestNftBalance({ requestId, status });
+        }
 
         getNftRequests(() => {
           setLoading(false);
