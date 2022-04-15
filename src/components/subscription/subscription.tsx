@@ -33,7 +33,7 @@ interface Props extends CardProps {
 }
 
 export const SubscriptionListListResults = (props: Props) => {
-  const { data, searchQuery, onPressEdit } = props;
+  const { data, searchQuery, onPressEdit,onRefresh } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [statusData, setStatusData] = useState(null);
