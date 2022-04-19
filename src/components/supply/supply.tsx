@@ -33,7 +33,7 @@ export const DistributeNft = (props) => {
   const { nft } = useAppSelector((state) => state.nft);
   const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
-  const [selectNft, setSelectNft] = useState(nft[0]);
+  const [selectNft, setSelectNft] = useState("");
   const [loading, setLoading] = useState(false);
   const [supply, setSupply] = useState(false);
   const dispatch = useAppDispatch();
@@ -41,9 +41,11 @@ export const DistributeNft = (props) => {
 
 
   const handleDurationChange = (e) => {
+    console.log("e.target.value:::", e.target.value);
 
     setSelectNft(e.target.value);
   };
+console.log("selectNft:::", selectNft);
 
   const getTokensListing = async () => {
     setLoading(true);
@@ -64,17 +66,13 @@ export const DistributeNft = (props) => {
 
 
   useEffect(() => {
-    if(address){
+    if(address && selectNft){
       fetchBalance();
     }
-    if(nft){
-      setSelectNft(nft[0]);
-
-    }
+   
   }, [selectNft,address]);
 
   useEffect(() => {
-    
     getTokensListing();
 
   },[])
@@ -92,20 +90,21 @@ export const DistributeNft = (props) => {
   };
 
   const handleSubmit = async (values) => {
+    if(!selectNft){
+      setStatusData({
+        type: "error",
+        message: "Please select NFT first",
+      });
+      return
+    }
     setLoading(true)
     let amount = values.amount;
     let from = address;
     let to = address;
     let id = selectNft.index
     let data = []
-    console.log("amount:::", amount);
-    console.log("from:::", from);
-    console.log("to:::", to);
-    console.log("data:::", data);
-
     const nftDistribution = await GetNftBalanceContract();
     const res = await nftDistribution.methods.mint(to,id,amount, data).send({ from: address });;
-    console.log("nftDistribution:::", res);
     fetchBalance()
     setLoading(false)
 
@@ -191,9 +190,9 @@ export const DistributeNft = (props) => {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={selectNft}
+                    value={selectNft?.name}
                     label="NFT"
-                    onChange={(e) => handleDurationChange(e)}
+                    onChange={handleDurationChange}
                   >
                     {nft.map((item) => (
                       <MenuItem value={item}>{item.name}</MenuItem>

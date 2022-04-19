@@ -76,10 +76,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    console.log("rowwww", row);
-    // return;
-
-    debugger;
     if (!address) {
       setStatusData({
         type: "error",
@@ -93,7 +89,7 @@ const Row = (props) => {
       const addressRes = await HTTP_CLIENT.get(
         `wallet/get-user-bnb-wallet/${row?.user?.email}`
       );
-      debugger;
+
       console.log("addressRes>>>", addressRes);
 
       if (addressRes?.data?.address) {
@@ -105,7 +101,7 @@ const Row = (props) => {
         let data = [];
         const nftBalance = await GetNftBalanceContract();
         setLoading(true);
-        debugger;
+
         const res = await nftBalance.methods
           .safeTransferFrom(from, to, id, amount, data)
           .send({ from: address });
