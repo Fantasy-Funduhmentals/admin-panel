@@ -256,8 +256,14 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3} style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
-    borderRadius:" 10px"}}>
+            <Grid
+              container
+              spacing={3}
+              style={{
+                boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+                borderRadius: " 10px",
+              }}
+            >
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
@@ -526,7 +532,11 @@ const FullScreenDialog = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Save details"
+                        )}
                       </Button>
                     </Box>
                   </Card>
