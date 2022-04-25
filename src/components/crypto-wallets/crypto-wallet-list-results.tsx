@@ -84,7 +84,14 @@ export const CryptoWalletListResults = (props: Props) => {
 
   return (
     <Card {...props}>
-      <Box style={{ width: "100%", marginTop: "2rem", marginLeft: "28rem" }}>
+      <Box
+        style={{
+          width: "100%",
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "right",
+        }}
+      >
         <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
           Export Crypto Wallets
         </Button>
