@@ -19,6 +19,7 @@ import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import { SeverityPill } from "../severity-pill";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
   data: any[];
@@ -64,13 +65,39 @@ export const UserListResults = (props: Props) => {
     setSdira(!sdira);
   };
 
+  const handleExport = async () => {
+    try {
+      const response = await HTTP_CLIENT.get("/user/export-all-users", {
+        responseType: "blob",
+      });
+
+      console.log("response>>", response);
+      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+      const fileLink = document.createElement("a");
+      fileLink.href = fileURL;
+      const fileName = "Users.xlsx";
+      fileLink.setAttribute("download", fileName);
+      fileLink.setAttribute("target", "_blank");
+      document.body.appendChild(fileLink);
+      fileLink.click();
+      fileLink.remove();
+    } catch (error) {}
+  };
+
   return (
-    <Card {...props} >
-     <Box style={{width:"100%",marginTop:"2rem",marginLeft:"1.6rem"}}>
-     <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira} >
-        Search Sdira
-      </Button>
-     </Box>
+    <Card {...props}>
+      <Box style={{ width: "100%", marginTop: "2rem", marginLeft: "1.6rem" }}>
+        <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
+          Search Sdira
+        </Button>
+        <Button
+          sx={{ ml: 110, mb: 3 }}
+          variant="contained"
+          onClick={handleExport}
+        >
+          export users
+        </Button>
+      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
