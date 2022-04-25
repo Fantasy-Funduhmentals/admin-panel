@@ -123,7 +123,7 @@ export const UserListResults = (props: Props) => {
             variant="contained"
             onClick={handleExport}
           >
-            export users
+            Export Users
           </Button>
         </Box>
       </Box>
