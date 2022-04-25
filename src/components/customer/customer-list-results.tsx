@@ -86,18 +86,48 @@ export const UserListResults = (props: Props) => {
 
   return (
     <Card {...props}>
-      <Box style={{ width: "100%", marginTop: "2rem", marginLeft: "1.6rem" }}>
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
-          Search Sdira
-        </Button>
-        <Button
-          sx={{ ml: 110, mb: 3 }}
-          variant="contained"
-          onClick={handleExport}
+      <Box
+        style={{
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          style={
+            {
+              // width: "50%",
+              // marginTop: "2rem",
+              // display: "flex",
+              // justifyContent: "left",
+            }
+          }
         >
-          export users
-        </Button>
+          <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
+            Search Sdira
+          </Button>
+        </Box>
+
+        <Box
+          style={
+            {
+              // width: "50%",
+              // marginTop: "2rem",
+              // display: "flex",
+              // justifyContent: "right",
+            }
+          }
+        >
+          <Button
+            // sx={{ ml: 110, mb: 3 }}
+            variant="contained"
+            onClick={handleExport}
+          >
+            export users
+          </Button>
+        </Box>
       </Box>
+
       <PerfectScrollbar>
         <Paper
           style={{
