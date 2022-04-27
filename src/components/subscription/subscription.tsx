@@ -5,6 +5,7 @@ import {
   CardProps,
   Paper,
   Table,
+  CircularProgress,
   TableBody,
   TableCell,
   TableHead,
@@ -15,17 +16,29 @@ import {
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ModeEditIcon, from "@mui/icons-material/ModeEdit";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { getNormalizedError } from "../../utils/helpers";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { getSubscriptionData } from "../../services/tokenService";
+import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
+import {deleteSubscription} from "../../services/tokenService.ts"
+
+
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
   onPressEdit?: any;
+  onRefresh?: any;
 }
 
 export const SubscriptionListListResults = (props: Props) => {
-  const { data, searchQuery, onPressEdit } = props;
+  const { data, searchQuery, onPressEdit,onRefresh } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [statusData, setStatusData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -36,6 +49,31 @@ export const SubscriptionListListResults = (props: Props) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleDelete = async (item) => {
+    setLoading(true);
+    try {
+      const response = await deleteSubscription(item)
+      console.log("response", response);
+
+        setStatusData({
+          type: "success",
+          message: response.data.message,
+        });
+      
+        onRefresh()
+      
+      setLoading(false);
+    } catch (err) {
+      
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setLoading(false);
+    }
+  }
 
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
@@ -58,7 +96,7 @@ export const SubscriptionListListResults = (props: Props) => {
 
   return (
     <Card {...props}>
-      <PerfectScrollbar>
+      {loading ?<CircularProgress/>  : <PerfectScrollbar>
         <Paper
           style={{
             width: "100%",
@@ -84,7 +122,7 @@ export const SubscriptionListListResults = (props: Props) => {
                   <TableCell>Image</TableCell>
                   <TableCell>Title</TableCell>
 
-                  <TableCell>Payment method</TableCell>
+                  {/* <TableCell>Payment method</TableCell> */}
                   <TableCell>Duration</TableCell>
                   <TableCell>Price in USD</TableCell>
                   <TableCell></TableCell>
@@ -115,12 +153,15 @@ export const SubscriptionListListResults = (props: Props) => {
                       </TableCell>
 
                       <TableCell>{item.title} </TableCell>
-                      <TableCell>{item.paymentMethod}</TableCell>
+                      {/* <TableCell>{item.paymentMethod}</TableCell> */}
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
                       <TableCell onClick={() => onPressEdit(item)}>
-                        <ModeEditIcon color="secondary" />
+                        <ModeEditIcon  color="secondary" />
+                    
                       </TableCell>
+                      <TableCell>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
+
                     </TableRow>
                   );
                 })}
@@ -128,7 +169,8 @@ export const SubscriptionListListResults = (props: Props) => {
             </Table>
           </Box>
         </Paper>
-      </PerfectScrollbar>
+      </PerfectScrollbar>}
+     
       <TablePagination
         component="div"
         count={data?.length}

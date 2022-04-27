@@ -11,11 +11,14 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Button,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
+
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -24,6 +27,7 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
+  console.log("data&&&", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -40,9 +44,10 @@ export const NftListResults = (props: Props) => {
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
     const end = begin + limit;
+    let filterData = data?.slice().sort((v1, v2) => v1.index - v2.index);
 
     if (searchQuery.length > 0) {
-      return data
+      return filterData
         .filter(
           (user) =>
             user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,12 +57,46 @@ export const NftListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return filterData?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
+  const handleExport = async () => {
+    try {
+      const response = await HTTP_CLIENT.get(
+        "/nft-token/export-all-native-wallets",
+        {
+          responseType: "blob",
+        }
+      );
+
+      console.log("response>>", response);
+      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+      const fileLink = document.createElement("a");
+      fileLink.href = fileURL;
+      const fileName = "NFTs.xlsx";
+      fileLink.setAttribute("download", fileName);
+      fileLink.setAttribute("target", "_blank");
+      document.body.appendChild(fileLink);
+      fileLink.click();
+      fileLink.remove();
+    } catch (error) {}
+  };
+
   return (
     <Card {...props}>
+      <Box
+        style={{
+          width: "100%",
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "right",
+        }}
+      >
+        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
+          Export NFTs
+        </Button>
+      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -85,7 +124,7 @@ export const NftListResults = (props: Props) => {
                   <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>
-                  <TableCell>Price Per Share</TableCell>
+                  <TableCell>Price Per unit</TableCell>
                   <TableCell>Remaining Supply</TableCell>
                   <TableCell>Total Supply</TableCell>
                   <TableCell></TableCell>

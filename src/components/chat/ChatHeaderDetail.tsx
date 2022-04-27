@@ -40,9 +40,9 @@ function OneAvatar({ participant }) {
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">{participant?.name}</Typography>
 
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        {/* <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {participant?.onlineStatus ? "Active Now" : "Offline"}
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );
