@@ -394,7 +394,7 @@ const FullScreenNFTDialog = (props: Props) => {
                             value={formik.values.pricePerShare}
                             fullWidth
                             type="number"
-                            label="Price per share"
+                            label="Price per unit"
                             name="pricePerShare"
                             helperText={formik.errors.pricePerShare}
                             variant="outlined"
@@ -469,7 +469,11 @@ const FullScreenNFTDialog = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Save details"
+                        )}
                       </Button>
                     </Box>
                   </Card>
