@@ -89,6 +89,8 @@ const FullScreenDialog = (props: Props) => {
       decimals: editData ? editData?.decimals : "",
       icon: editData ? editData?.icon : "",
       multiplier: editData ? editData?.multiplier : "",
+      shortDescription: editData ? editData?.shortDescription : "",
+      shortName: editData ? editData?.shortName : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -111,6 +113,15 @@ const FullScreenDialog = (props: Props) => {
       orderIndex: Yup.string().required("Order Index is required").trim(),
       decimals: Yup.string().required("Decimals is required").trim(),
       multiplier: Yup.string().required("multiplier is required").trim(),
+      shortDescription: Yup.string()
+        .min(2, "Short description must be atleast 2 character")
+        .required("Short Description is required")
+        .trim(),
+      shortName: Yup.string()
+        .required("Coin short name is required")
+        .min(1, "Coin short name must be atleast 2 character")
+        .max(10, "Coin short name must be atmost 50 character")
+        .trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -119,10 +130,8 @@ const FullScreenDialog = (props: Props) => {
 
   const handleImageUpload = async (file: any, type: string) => {
     const formData = new FormData();
-
     formData.append("file", file);
     formData.append("type", type);
-
     const uploadRes = await uploadImage(formData);
     return uploadRes.data.url;
   };
@@ -378,6 +387,24 @@ const FullScreenDialog = (props: Props) => {
                         </Grid>
 
                         <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.shortName &&
+                                formik.errors.shortName
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.shortName}
+                            fullWidth
+                            label="Short Name"
+                            name="shortName"
+                            helperText="Please enter the short Name of the token"
+                            required
+                            variant="outlined"
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
                           <FormControl sx={{ m: 1, minWidth: "100%" }}>
                             <InputLabel id="demo-simple-select-helper-label">
                               {editData
@@ -398,7 +425,7 @@ const FullScreenDialog = (props: Props) => {
                               }
                               name="metal"
                               onChange={formik.handleChange}
-                              disabled={Boolean(editData)}
+                              // disabled={Boolean(editData)}
                             >
                               {coins.map((coin, index) => {
                                 return (
@@ -440,6 +467,24 @@ const FullScreenDialog = (props: Props) => {
                             fullWidth
                             label="Description"
                             name="description"
+                            // helperText="Please enter token description"
+
+                            required
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.shortDescription &&
+                                formik.errors.shortDescription
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.shortDescription}
+                            fullWidth
+                            label="Short Description"
+                            name="shortDescription"
                             // helperText="Please enter token description"
 
                             required
