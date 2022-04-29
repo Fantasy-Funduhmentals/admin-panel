@@ -21,12 +21,12 @@ jobs:
           name: Get last task definition
           command: >
             TASK_DEFINITION_ARN=$(aws ecs describe-task-definition \
-                --task-definition crq-admin-td \
+                --task-definition admin-td \
                 --output text \
                 --query 'taskDefinition.taskDefinitionArn')
             echo "export TASK_DEFINITION_ARN='${TASK_DEFINITION_ARN}'" >> $BASH_ENV
       - aws-ecs/verify-revision-is-deployed:
-          family: 'crq-admin-td'
+          family: 'admin-td'
           cluster-name: 'cqr-cluster'
           service-name: 'admin-service'
           task-definition-arn: '${TASK_DEFINITION_ARN}'
@@ -37,7 +37,7 @@ workflows:
      - aws-ecs/deploy-service-update:
           cluster-name: 'cqr-cluster'
           container-image-name-updates: 'container=admin,tag=latest'
-          family: 'crq-admin-td'
+          family: 'admin-td'
           service-name: 'admin-service'
           force-new-deployment: true
           requires:
