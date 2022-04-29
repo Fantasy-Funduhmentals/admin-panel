@@ -42,6 +42,11 @@ workflows:
           force-new-deployment: true
           requires:
           - configure_docker_env
+          filters:
+            branches:
+              only:
+              -  dev/tabed
+              - staging
      - deployment_ecs:
         requires:
          - aws-ecs/deploy-service-update
