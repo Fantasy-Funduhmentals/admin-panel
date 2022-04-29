@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { formatDistanceToNowStrict } from "date-fns";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
+import LightboxModal from "../../components/LightboxModal";
 
 const RootStyle = styled("div")(({ theme }) => ({
   display: "flex",
@@ -35,13 +36,13 @@ const MessageImgStyle = styled("img")(({ theme }) => ({
 ChatMessageItem.propTypes = {
   message: PropTypes.object.isRequired,
   conversation: PropTypes.object.isRequired,
-  onOpenLightbox: PropTypes.func,
+  // onOpenLightbox: PropTypes.func,
   otherUser: PropTypes.object.isRequired,
 };
 
 export default function ChatMessageItem({
   message,
-  onOpenLightbox,
+  // onOpenLightbox,
   otherUser,
 }) {
   const isImage = Boolean(message?.image);
@@ -57,6 +58,7 @@ export default function ChatMessageItem({
   return (
     <RootStyle>
       <Box
+                 
         sx={{
           display: "flex",
           ...(isMe && {
@@ -72,11 +74,14 @@ export default function ChatMessageItem({
           />
         )}
 
-        <Box sx={{ ml: 2 }}>
+        <Box sx={{ ml: 2 }}  style={{background:"#00000021",padding:"0.3rem 1rem 0rem 0.8rem",borderRadius:"20px 20px 20px 20px"}}>
           <InfoStyle
+          
+          
             noWrap
             variant="caption"
-            sx={{ ...(isMe && { justifyContent: "flex-end" }) }}
+          
+          sx={{ ...(isMe && { justifyContent: "flex-end" }) }}
           >
             {!isMe && `${firstName},`}&nbsp;
             {formatDistanceToNowStrict(new Date(message.createdAt), {
@@ -86,6 +91,8 @@ export default function ChatMessageItem({
 
           <ContentStyle
             sx={{
+              padding:"0px 0px 3px 0px",
+
               ...(isMe && {
                 color: "grey.800",
                 bgcolor: "primary.lighter",
@@ -93,10 +100,19 @@ export default function ChatMessageItem({
             }}
           >
             {isImage ? (
-              <MessageImgStyle
-                alt="attachment"
-                src={message.image}
-                onClick={() => onOpenLightbox(message.image)}
+              // <MessageImgStyle
+              //   alt="attachment"
+              //   src={message.image}
+              //   onClick={() => onOpenLightbox(message.image)}
+              // />
+              <LightboxModal
+
+                style={{
+                  width: "150px",
+                  cursor: "pointer",
+                  zIndex: 100,
+                }}
+                Imageurl={message.image}
               />
             ) : (
               <Typography
@@ -105,6 +121,7 @@ export default function ChatMessageItem({
                   maxWidth: "13rem",
                   width: "auto",
                   wordWrap: "break-word",
+                  padding:"0px 0px 3px 0px"
                 }}
               >
                 {message.text}

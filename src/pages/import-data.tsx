@@ -47,10 +47,9 @@ const ImportData = () => {
       formData.append("file", document);
 
       const uploadRes = await uploadUserCsv(formData);
-
       setStatusData({
         type: "success",
-        message: "Token has been created successfully",
+        message: "sheet has been imported successfully",
       });
       setDocument(null);
       setLoading(false);
@@ -70,11 +69,12 @@ const ImportData = () => {
         <title>CQR Admin</title>
       </Head>
 
-      <Typography sx={{ m: 2 }} variant="h4">
+      <Typography sx={{ m: 2 }} variant="h4" >
         Import User Data
       </Typography>
 
-      <Card>
+      <Card style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+    borderRadius:" 10px"}} sx={{m:2}}>
         <CardHeader
           subheader="Upload users csv data to import users and their balances in database. Note that this operation is irreversible."
           title="Upload Document"
@@ -90,6 +90,8 @@ const ImportData = () => {
           <Container maxWidth="lg">
             <TextField
               type="file"
+              id="your_input_id"
+              inputProps={{ accept: ".xlsx" }}
               onChange={(ev) => {
                 handledocumentSelection(ev);
               }}
@@ -104,15 +106,19 @@ const ImportData = () => {
             marginRight: 20,
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            style={{ width: "30%" }}
-            onClick={handleSubmit}
-          >
-            {loading ? <CircularProgress /> : "Upload Document"}
-          </Button>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              style={{ width: "30%" }}
+              onClick={handleSubmit}
+            >
+              Upload Document
+            </Button>
+          )}
         </CardActions>
       </Card>
       <StatusModal

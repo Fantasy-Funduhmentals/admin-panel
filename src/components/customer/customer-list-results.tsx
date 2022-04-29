@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Button,
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -30,6 +31,7 @@ export const UserListResults = (props: Props) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [sdira, setSdira] = useState(false);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -51,13 +53,24 @@ export const UserListResults = (props: Props) => {
             user.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
+    } else if (sdira) {
+      return data.filter((user) => user.sdira);
     } else {
       return data?.slice(begin, end);
     }
-  }, [page, limit, data, searchQuery]);
+  }, [page, limit, data, searchQuery, sdira]);
+
+  const handleSdira = () => {
+    setSdira(!sdira);
+  };
 
   return (
-    <Card {...props}>
+    <Card {...props} >
+     <Box style={{width:"100%",marginTop:"2rem",marginLeft:"1.6rem"}}>
+     <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira} >
+        Search Sdira
+      </Button>
+     </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -133,7 +146,7 @@ export const UserListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data.length}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

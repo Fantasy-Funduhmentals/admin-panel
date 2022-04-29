@@ -2,6 +2,7 @@ import { store } from "../store";
 import { saveRequests } from "../store/reducers/requestSlice";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { saveNftRequests } from "../store/reducers/nftRequestSlice";
+import { saveLoanRequests } from "../store/reducers/loanSlice";
 
 const getRequests = async (callback: any) => {
   const requestsRes = await HTTP_CLIENT.get("/request/get-all-requests");
@@ -17,6 +18,13 @@ const getNftRequests = async (callback: any) => {
   callback();
 };
 
+const getLoanRequests = async (callback: any) => {
+  const requestsRes = await HTTP_CLIENT.get(
+    "/nft-wallet/completed-loan-requests"
+  );
+  store.dispatch(saveLoanRequests(requestsRes.data));
+  callback();
+};
 const handleRequestInteraction = async (params: any) => {
   const requestsRes = await HTTP_CLIENT.post("/request/handle-request", params);
 };
@@ -33,4 +41,5 @@ export {
   handleRequestInteraction,
   getNftRequests,
   handleRequestNftBalance,
+  getLoanRequests,
 };

@@ -1,4 +1,4 @@
-import { Card, Container } from "@mui/material";
+import {Box, Card, Container } from "@mui/material";
 import React, { useCallback, useContext, useEffect } from "react";
 import { Socket } from "socket.io-client";
 import { ChatSidebar, ChatWindow } from "../../components/chat";
@@ -48,15 +48,17 @@ const Chat = () => {
   }, []);
 
   return (
-    <Page title="Chat Support">
-      <Container>
+  <>
+      <Page title="Chat Support" >
+      <Container maxWidth={false}>
         <HeaderBreadcrumbs heading="Chat Support" />
-        <Card sx={{ height: "72vh", display: "flex" }}>
+        <Card sx={{ height: "72vh", display:"flex" }} >
           <ChatSidebar />
           <ChatWindow />
         </Card>
       </Container>
     </Page>
+  </>
   );
 };
 

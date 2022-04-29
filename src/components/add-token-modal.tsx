@@ -66,6 +66,7 @@ const coins = [
 
 const FullScreenDialog = (props: Props) => {
   const { open, onClose, editData } = props;
+  // console.log("editData::::", editData);
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);
@@ -87,6 +88,7 @@ const FullScreenDialog = (props: Props) => {
       orderIndex: editData ? editData?.orderIndex : "",
       decimals: editData ? editData?.decimals : "",
       icon: editData ? editData?.icon : "",
+      multiplier: editData ? editData?.multiplier : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -108,6 +110,7 @@ const FullScreenDialog = (props: Props) => {
       coinColor: Yup.string().required("Coin Color is required").trim(),
       orderIndex: Yup.string().required("Order Index is required").trim(),
       decimals: Yup.string().required("Decimals is required").trim(),
+      multiplier: Yup.string().required("multiplier is required").trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -253,7 +256,8 @@ const FullScreenDialog = (props: Props) => {
           }}
         >
           <Container maxWidth="lg">
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+    borderRadius:" 10px"}}>
               <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
@@ -485,6 +489,23 @@ const FullScreenDialog = (props: Props) => {
                             label="Token Decimals"
                             name="decimals"
                             helperText="Please enter token decimals"
+                            required
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.multiplier &&
+                                formik.errors.multiplier
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.multiplier}
+                            fullWidth
+                            label="Multiplier"
+                            name="multiplier"
+                            helperText="Please enter multiplier"
                             required
                             variant="outlined"
                           />

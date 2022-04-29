@@ -3,6 +3,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import '../../styles.css'
 import Head from "next/head";
 import Router from "next/router";
 import { useEffect } from "react";

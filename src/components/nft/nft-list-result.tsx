@@ -81,7 +81,7 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Name</TableCell>
+                  <TableCell>Owned by</TableCell>
                   <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>
@@ -139,7 +139,7 @@ export const NftListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data.length}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
