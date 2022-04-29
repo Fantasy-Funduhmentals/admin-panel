@@ -17,7 +17,7 @@ import nftSlice from "./reducers/nftSlice";
 import nftRequest from "./reducers/nftRequestSlice";
 import subscriptionSlice from "./reducers/subscriptionSlice";
 import loanRequestSlice from "./reducers/loanSlice.ts";
-
+import newsLetterSlice from "./reducers//newsLetterSlice";
 declare var window: any;
 
 const persistConfig = {
@@ -33,6 +33,7 @@ const persistConfig = {
     "nftRequest",
     "subscription",
     "loanrequest",
+    "newsletter",
   ],
   blacklist: [],
   transforms: [],
@@ -48,6 +49,7 @@ const reducers = combineReducers({
   nftRequest: nftRequest,
   subscription: subscriptionSlice,
   loanRequest: loanRequestSlice,
+  newsletter: newsLetterSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
