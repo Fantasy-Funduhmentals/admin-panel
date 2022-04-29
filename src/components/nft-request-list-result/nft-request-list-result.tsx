@@ -75,7 +75,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    debugger;
     if (!address) {
       setStatusData({
         type: "error",

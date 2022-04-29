@@ -89,6 +89,11 @@ const items = [
   //   title: "Account",
   // },
   {
+    href: "/newsletter",
+    icon: <CogIcon fontSize="small" />,
+    title: "Newsletter",
+  },
+  {
     href: "/settings",
     icon: <CogIcon fontSize="small" />,
     title: "Settings",

@@ -12,6 +12,10 @@ const getNFTData = async () => {
   return await HTTP_CLIENT.get("/nft-token");
 };
 
+const getNewsLetter = async () => {
+  return await HTTP_CLIENT.get("/newsletter");
+};
+
 const getNativeWalletsData = async () => {
   return await HTTP_CLIENT.get("/native-wallet/all-native-wallets");
 };
@@ -48,6 +52,7 @@ export {
   createNewToken,
   updateToken,
   getNFTData,
+  getNewsLetter,
   updateNFT,
   getNFTBalanceData,
   getSubscriptionData,
