@@ -242,10 +242,17 @@ const FullScreenNFTDialog = (props: Props) => {
             py: 8,
           }}
         >
-          <Container maxWidth="lg" >
-            <Grid container spacing={3} style={{    boxShadow: "#0000004a 1px 1px 18px",borderRadius:"10px"}}>
+          <Container maxWidth="lg">
+            <Grid
+              container
+              spacing={3}
+              style={{
+                boxShadow: "#0000004a 1px 1px 18px",
+                borderRadius: "10px",
+              }}
+            >
               <Grid item lg={4} md={6} xs={12}>
-                <Card >
+                <Card>
                   <CardHeader
                     subheader="This image will be used as primary token image in all apps."
                     title="Token Image"
@@ -288,7 +295,7 @@ const FullScreenNFTDialog = (props: Props) => {
                       alignItems: "center",
                       display: "flex",
                       flexDirection: "column",
-                      borderRadius:"0px"
+                      borderRadius: "0px",
                     }}
                   >
                     <TextField
@@ -301,7 +308,7 @@ const FullScreenNFTDialog = (props: Props) => {
 
               <Grid item lg={8} md={6} xs={12}>
                 <form onSubmit={formik.handleSubmit}>
-                  <Card >
+                  <Card>
                     <CardHeader
                       subheader="Please enter all the required information to save new NFT."
                       title="NFT Information"
@@ -309,8 +316,8 @@ const FullScreenNFTDialog = (props: Props) => {
                     <Divider />
                     <CardContent>
                       <Grid container spacing={3}>
-                        <Grid item md={6} xs={12} >
-                          <TextField 
+                        <Grid item md={6} xs={12}>
+                          <TextField
                             error={Boolean(
                               formik.touched.name && formik.errors.name
                             )}
@@ -387,7 +394,7 @@ const FullScreenNFTDialog = (props: Props) => {
                             value={formik.values.pricePerShare}
                             fullWidth
                             type="number"
-                            label="Price per share"
+                            label="Price per unit"
                             name="pricePerShare"
                             helperText={formik.errors.pricePerShare}
                             variant="outlined"
@@ -462,7 +469,11 @@ const FullScreenNFTDialog = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Save details"
+                        )}
                       </Button>
                     </Box>
                   </Card>

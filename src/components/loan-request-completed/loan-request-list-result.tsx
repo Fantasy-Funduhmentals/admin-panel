@@ -89,15 +89,19 @@ const Row = (props) => {
       const addressRes = await HTTP_CLIENT.get(
         `wallet/get-user-bnb-wallet/${row?.user?.email}`
       );
-      if (addressRes.data.address) {
+
+      console.log("addressRes>>>", addressRes);
+
+      if (addressRes?.data?.address) {
         let amount = row.balance;
         // let amount = web3.utils.toWei(row.amount, "ether");
-        let id = row?.nftToken?.index;
+        let id = row?.token?.index;
         let from = address;
         let to = addressRes.data.address;
         let data = [];
         const nftBalance = await GetNftBalanceContract();
         setLoading(true);
+
         const res = await nftBalance.methods
           .safeTransferFrom(from, to, id, amount, data)
           .send({ from: address });
@@ -119,8 +123,11 @@ const Row = (props) => {
         getLoanRequests(() => {
           setLoading(false);
         });
+        setLoading(false);
       }
     } catch (err) {
+      console.log("errrrrrrrr", err);
+
       setStatusData({
         type: "error",
         message: "Transaction failed",

@@ -133,7 +133,7 @@ export const DistributeNft = (props) => {
   return (
     <form {...props} onSubmit={formik.handleSubmit}>
       <Card>
-        <CardHeader subheader="NFTS" title="NFT detail" />
+        <CardHeader subheader="NFTS" title="NFT details" />
         <Divider />
         <CardContent>
           <Box
