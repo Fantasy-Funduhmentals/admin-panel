@@ -114,6 +114,11 @@ const items = [
     title: "Support",
   },
   {
+    href: "/report",
+    icon: <CogIcon fontSize="small" />,
+    title: "Reports",
+  },
+  {
     href: "/supply",
     icon: <Inventory2Icon fontSize="small" />,
     title: "Supply",
