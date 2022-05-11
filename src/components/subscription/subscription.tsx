@@ -124,7 +124,7 @@ export const SubscriptionListListResults = (props: Props) => {
 
                   {/* <TableCell>Payment method</TableCell> */}
                   <TableCell>Duration</TableCell>
-                  <TableCell>Price in USD</TableCell>
+                  <TableCell>Value in USD</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>

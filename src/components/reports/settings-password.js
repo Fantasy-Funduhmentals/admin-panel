@@ -76,35 +76,35 @@ export const SettingsReport = (props) => {
       // name = " NFTBalance.xlsx";
     }
 
-    // switch (values) {
-    //   case values.label == "Export users":
-    //     url = "/user/export-all-users";
-    //     name = "users.xlsx";
-    //     break;
+    switch (values) {
+      case values.label == "Export users":
+        url = "/user/export-all-users";
+        name = "users.xlsx";
+        break;
 
-    //   case values.label == "Export Token":
-    //     url = "/native-token/export-all-native-tokens";
-    //     name = "Token.xlsx";
-    //     break;
+      case values.label == "Export Token":
+        url = "/native-token/export-all-native-tokens";
+        name = "Token.xlsx";
+        break;
 
-    //   case values.label == "Export Crypto Wallets":
-    //     url = "/wallet/export-all-wallets";
-    //     name = "CryptoWallets.xlsx";
-    //     break;
+      case values.label == "Export Crypto Wallets":
+        url = "/wallet/export-all-wallets";
+        name = "CryptoWallets.xlsx";
+        break;
 
-    //   case values.label == "Export NFTs":
-    //     url = "/nft-token/export-all-native-wallets";
-    //     name = "NFTsWallets.xlsx";
-    //     break;
+      case values.label == "Export NFTs":
+        url = "/nft-token/export-all-native-wallets";
+        name = "NFTsWallets.xlsx";
+        break;
 
-    //   case values.label == "Export NFT Balance":
-    //     url = "/nft-wallet/export-all-nft-wallets";
-    //     name = " NFTBalance.xlsx";
-    //     break;
+      case values.label == "Export NFT Balance":
+        url = "/nft-wallet/export-all-nft-wallets";
+        name = " NFTBalance.xlsx";
+        break;
 
-    //   default:
-    //     break;
-    // }
+      default:
+        break;
+    }
 
     try {
       const response = await HTTP_CLIENT.get(url, {
