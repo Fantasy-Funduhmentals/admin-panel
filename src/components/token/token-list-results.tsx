@@ -122,7 +122,8 @@ export const TokenListResults = (props: Props) => {
                   <TableCell>Name</TableCell>
                   <TableCell>Symbol</TableCell>
 
-                  <TableCell>Price</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell>Multiplier</TableCell>
                   <TableCell>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -159,6 +160,7 @@ export const TokenListResults = (props: Props) => {
                         />
                       </TableCell>
                       <TableCell>${customer.price} </TableCell>
+                      <TableCell>{customer.strikePrice} </TableCell>
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
