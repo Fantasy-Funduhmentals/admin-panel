@@ -1,7 +1,5 @@
 import { Button } from "@mui/material";
 import Carousel, { consts } from "react-elastic-carousel";
-// import BackButton from "../../../Assets/icons/Back_White.svg";
-// import NextButton from "../../../Assets/icons/Next_White.svg";
 
 function Slider({ children, team }) {
   const breakpoints1 = [
@@ -51,12 +49,12 @@ function Slider({ children, team }) {
         </Button>
       );
     return (
-      <button
+      <Button
         style={{ background: "transparent", border: "none" }}
         onClick={onClick}
       >
         {pointer}
-      </button>
+      </Button>
     );
   };
 
@@ -64,7 +62,6 @@ function Slider({ children, team }) {
     <>
       <Carousel
         breakPoints={brackpointsList[team]}
-        // className={Styles.innerWrapper}
         autoPlaySpeed={5000}
         enableAutoPlay
         renderArrow={myArrow}
