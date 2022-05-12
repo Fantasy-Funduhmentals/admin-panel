@@ -65,25 +65,6 @@ export const UserListResults = (props: Props) => {
     setSdira(!sdira);
   };
 
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get("/user/export-all-users", {
-        responseType: "blob",
-      });
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "Users.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
-
   return (
     <Card {...props}>
       <Box
@@ -105,25 +86,6 @@ export const UserListResults = (props: Props) => {
         >
           <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
             Search Sdira
-          </Button>
-        </Box>
-
-        <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "right",
-            }
-          }
-        >
-          <Button
-            // sx={{ ml: 110, mb: 3 }}
-            variant="contained"
-            onClick={handleExport}
-          >
-            Export Users
           </Button>
         </Box>
       </Box>
