@@ -1,4 +1,4 @@
-import { Box, Container ,CircularProgress} from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -13,6 +13,7 @@ import { getNormalizedError } from "../utils/helpers";
 
 const NativeWallets = () => {
   const { wallets } = useAppSelector((state: RootState) => state.token);
+
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -59,10 +60,15 @@ const NativeWallets = () => {
               setSearchText(ev.target.value);
             }}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-           {
-             loading ? <CircularProgress/> :  <NativeWalletListResults data={wallets} searchQuery={searchText} />
-           }
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <NativeWalletListResults
+                data={wallets}
+                searchQuery={searchText}
+              />
+            )}
           </Box>
         </Container>
       </Box>

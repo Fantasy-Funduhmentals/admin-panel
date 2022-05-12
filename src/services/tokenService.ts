@@ -19,6 +19,9 @@ const getNewsLetter = async () => {
 const getNativeWalletsData = async () => {
   return await HTTP_CLIENT.get("/native-wallet/all-native-wallets");
 };
+const getAllNativeWalletsData = async () => {
+  return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
+};
 
 const getNFTBalanceData = async () => {
   return await HTTP_CLIENT.get("/nft-wallet/all-nft-wallets");
@@ -59,4 +62,5 @@ export {
   updateSubscription,
   createSubscription,
   deleteSubscription,
+  getAllNativeWalletsData,
 };
