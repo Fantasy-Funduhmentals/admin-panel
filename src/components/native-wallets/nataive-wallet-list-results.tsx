@@ -27,7 +27,6 @@ interface Props extends CardProps {
 
 export const NativeWalletListResults = (props: Props) => {
   const { data, searchQuery } = props;
-  console.log("data::::", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -151,7 +150,7 @@ export const NativeWalletListResults = (props: Props) => {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        {customer.coinSymbol?.toUpperCase()}
+                        {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
 
                       {/* <TableCell>{customer?.address}</TableCell> */}
@@ -159,7 +158,7 @@ export const NativeWalletListResults = (props: Props) => {
                         {customer?.balance
                           ? parseFloat(customer?.balance).toFixed(3)
                           : "0.00"}{" "}
-                        {customer.coinSymbol?.toUpperCase()}
+                        {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
                       <TableCell>
                         {moment(customer.createdAt).format(

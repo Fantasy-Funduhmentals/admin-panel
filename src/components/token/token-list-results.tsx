@@ -124,7 +124,7 @@ export const TokenListResults = (props: Props) => {
 
                   <TableCell>Value</TableCell>
                   <TableCell>Multiplier</TableCell>
-                  <TableCell>strike Price</TableCell>
+                  <TableCell>Total amount</TableCell>
                   <TableCell>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
