@@ -61,42 +61,8 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/nft-token/export-all-native-wallets",
-        {
-          responseType: "blob",
-        }
-      );
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "NFTs.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
-
   return (
     <Card {...props}>
-      <Box
-        style={{
-          width: "100%",
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-          Export NFTs
-        </Button>
-      </Box>
       <PerfectScrollbar>
         <Paper
           style={{

@@ -44,8 +44,22 @@ export const NativeWalletListResults = (props: Props) => {
     const begin = page * limit;
     const end = begin + limit;
 
+    const rates = data.rates;
+    let wallets = data.wallets;
+
+    wallets = wallets.map((wallet) => {
+      const rateIndex = rates.findIndex((rate) => {
+        return rate.coinSymbol === wallet.coinSymbol;
+      });
+      return {
+        ...wallet,
+        rate: rates[rateIndex],
+      };
+    });
+
+
     if (searchQuery.length > 0) {
-      return data?.wallets
+      return wallets?
         .filter(
           (user) =>
             user.user?.name
@@ -55,47 +69,18 @@ export const NativeWalletListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data.wallets?.slice(begin, end);
+      return wallets?.slice(begin, end);
     }
-  }, [page, limit, data.wallets, searchQuery]);
+  }, [page, limit, data, searchQuery]);
 
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/native-wallet/export-all-native-wallets",
-        {
-          responseType: "blob",
-        }
-      );
+  console.log("dataToDisplay", dataToDisplay);
+  
 
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "native-wallets.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
 
   return (
     <>
       <Card {...props}>
-        <Box
-          style={{
-            width: "100%",
-            marginTop: "2rem",
-            display: "flex",
-            justifyContent: "right",
-          }}
-        >
-          <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-            Export Native Wallets
-          </Button>
-        </Box>
+      
         <PerfectScrollbar>
           <Paper
             style={{
@@ -112,6 +97,8 @@ export const NativeWalletListResults = (props: Props) => {
                     <TableCell>Coin</TableCell>
 
                     <TableCell>Balance</TableCell>
+                    <TableCell>USD Value</TableCell>
+                    <TableCell>Token value</TableCell>
                     <TableCell>Created At</TableCell>
                   </TableRow>
                 </TableHead>
@@ -159,6 +146,12 @@ export const NativeWalletListResults = (props: Props) => {
                           ? parseFloat(customer?.balance).toFixed(3)
                           : "0.00"}{" "}
                         {customer.coin?.shortName.toUpperCase()}
+                      </TableCell>
+                      <TableCell>
+                        {customer?.balance * customer?.rate?.price }
+                      </TableCell>
+                      <TableCell>
+                        {customer?.rate?.price }
                       </TableCell>
                       <TableCell>
                         {moment(customer.createdAt).format(
