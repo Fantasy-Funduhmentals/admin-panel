@@ -27,6 +27,7 @@ interface Props extends CardProps {
 
 export const NativeWalletListResults = (props: Props) => {
   const { data, searchQuery } = props;
+  console.log("data::::", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -45,7 +46,7 @@ export const NativeWalletListResults = (props: Props) => {
     const end = begin + limit;
 
     if (searchQuery.length > 0) {
-      return data
+      return data?.wallets
         .filter(
           (user) =>
             user.user?.name
@@ -55,9 +56,9 @@ export const NativeWalletListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return data.wallets?.slice(begin, end);
     }
-  }, [page, limit, data, searchQuery]);
+  }, [page, limit, data.wallets, searchQuery]);
 
   const handleExport = async () => {
     try {

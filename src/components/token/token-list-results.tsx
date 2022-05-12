@@ -124,6 +124,7 @@ export const TokenListResults = (props: Props) => {
 
                   <TableCell>Value</TableCell>
                   <TableCell>Multiplier</TableCell>
+                  <TableCell>strike Price</TableCell>
                   <TableCell>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -160,7 +161,9 @@ export const TokenListResults = (props: Props) => {
                         />
                       </TableCell>
                       <TableCell>${customer.price} </TableCell>
+                      <TableCell>{customer.multiplier} </TableCell>
                       <TableCell>{customer.strikePrice} </TableCell>
+
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
