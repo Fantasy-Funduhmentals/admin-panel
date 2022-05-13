@@ -6,6 +6,7 @@ import {
   Paper,
   Table,
   TableBody,
+  CircularProgress,
   TableCell,
   TableHead,
   TablePagination,
@@ -13,11 +14,42 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+
+
+import dynamic from 'next/dynamic'
+import { EditorProps } from 'react-draft-wysiwyg'
+
+// install @types/draft-js @types/react-draft-wysiwyg and @types/draft-js @types/react-draft-wysiwyg for types
+
+const Editor = dynamic<EditorProps>(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  { ssr: false }
+)
+
+// import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import StatusModal from "../StatusModal";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 700,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 interface Props extends CardProps {
   data: any[];
@@ -27,11 +59,17 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log("data&&&", data);
+  console.log("data&&&{{{{", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [editorState, setEditorState] = useState("");
+  const [loading, setloading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [statusData, setStatusData] = useState(null);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -48,12 +86,8 @@ export const NftListResults = (props: Props) => {
 
     if (searchQuery.length > 0) {
       return filterData
-        .filter(
-          (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
+        .filter((user) =>
+          user.userEmail?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
@@ -61,8 +95,77 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+  };
+
+  const hanldeSubmitNewletter = async () => {
+    setloading(true);
+    const convertedData = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    let params = {
+      markup: convertedData,
+    };
+    try {
+      const response = await HTTP_CLIENT.post("newsletter/broadcast", params);
+      console.log("markup data", response);
+      if (response.data) {
+        setStatusData({
+          type: "success",
+          message: "successfully sent",
+        });
+      }
+      handleClose();
+      setloading(false);
+    } catch (error) {
+      setStatusData({
+        type: "error",
+        message: error.data.response.message,
+      });
+      setloading(false);
+    }
+  };
+
   return (
     <Card {...props}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Newsletter
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Editor
+              editorState={editorState}
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+              onEditorStateChange={onEditorStateChange}
+            />
+          </Typography>
+          <Button variant="contained" onClick={hanldeSubmitNewletter}>
+            {loading ? <CircularProgress color="inherit" /> : "Submit"}
+          </Button>
+        </Box>
+      </Modal>
+      <Box
+        style={{
+          width: "100%",
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "right",
+        }}
+      >
+        <Button sx={{ mb: 4 }} variant="contained" onClick={handleOpen}>
+          send Newsletter
+        </Button>
+      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -86,13 +189,18 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Owned by</TableCell>
-                  <TableCell>Image</TableCell>
+                  <TableCell>Users</TableCell>
+                  {/* <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>
                   <TableCell>Price Per unit</TableCell>
                   <TableCell>Remaining Supply</TableCell>
-                  <TableCell>Total Supply</TableCell>
+                  <TableCell>Total Supply</TableCell> */}
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -117,11 +225,11 @@ export const NftListResults = (props: Props) => {
                             {getInitials(customer.name)}
                           </Avatar> */}
                           <Typography color="textPrimary" variant="body1">
-                            {customer.name}
+                            {customer.userEmail}
                           </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <img
                           src={customer?.image}
                           style={{ height: 30, width: 30 }}
@@ -133,7 +241,7 @@ export const NftListResults = (props: Props) => {
                       <TableCell>{customer.totalSupply}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   );
                 })}
@@ -150,6 +258,10 @@ export const NftListResults = (props: Props) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
+      />
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
       />
     </Card>
   );

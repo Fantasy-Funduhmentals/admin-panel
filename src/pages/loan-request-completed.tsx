@@ -54,7 +54,7 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Loan Request Completed"
+            title="Lavage in Loan Request Completed"
             subTitle="Loan"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

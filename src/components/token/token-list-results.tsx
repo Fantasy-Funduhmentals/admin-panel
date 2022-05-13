@@ -44,58 +44,23 @@ export const TokenListResults = (props: Props) => {
     const end = begin + limit;
 
     if (searchQuery.length > 0) {
-      return data
-        .filter(
-          (user) =>
-            user.displayName
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-        .slice(begin, end);
+      // return data
+      //   .filter(
+      //     (user) =>
+      //       user.displayName
+      //         ?.toLowerCase()
+      //         .includes(searchQuery.toLowerCase()) ||
+      //       user.displaySymbol
+      //         ?.toLowerCase()
+      //         .includes(searchQuery.toLowerCase())
+      //   )
+      //   .slice(begin, end);
     } else {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
-
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/native-token/export-all-native-tokens",
-        {
-          responseType: "blob",
-        }
-      );
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "Tokens.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
-
   return (
     <Card {...props}>
-      <Box
-        style={{
-          width: "100%",
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-          Export Token
-        </Button>
-      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -122,7 +87,9 @@ export const TokenListResults = (props: Props) => {
                   <TableCell>Name</TableCell>
                   <TableCell>Symbol</TableCell>
 
-                  <TableCell>Price</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell>Multiplier</TableCell>
+                  <TableCell>Total amount</TableCell>
                   <TableCell>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -159,6 +126,9 @@ export const TokenListResults = (props: Props) => {
                         />
                       </TableCell>
                       <TableCell>${customer.price} </TableCell>
+                      <TableCell>{customer.multiplier} </TableCell>
+                      <TableCell>{customer.strikePrice} </TableCell>
+
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />

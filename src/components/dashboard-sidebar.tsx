@@ -89,6 +89,11 @@ const items = [
   //   title: "Account",
   // },
   {
+    href: "/newsletter",
+    icon: <CogIcon fontSize="small" />,
+    title: "Newsletter",
+  },
+  {
     href: "/settings",
     icon: <CogIcon fontSize="small" />,
     title: "Settings",
@@ -107,6 +112,11 @@ const items = [
     href: "/chat",
     icon: <SupportIcon fontSize="small" />,
     title: "Support",
+  },
+  {
+    href: "/report",
+    icon: <CogIcon fontSize="small" />,
+    title: "Reports",
   },
   {
     href: "/supply",
