@@ -209,7 +209,7 @@ console.log("resp>>>>", resp);
             value={swap}
             onChange={(e) => handleSwapChange(e)}
             fullWidth
-            label="Swap Multiplier"
+            placeholder="Swap Multiplier"
             margin="normal"
             name="swapFee"
             type="number"
