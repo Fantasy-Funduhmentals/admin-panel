@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,13 +11,18 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { changePassword } from "../../services/userService";
+import { changePassword , swapFee, getSwapRate} from "../../services/userService";
 import StatusModal from "../StatusModal";
 import { getNormalizedError } from "../../utils/helpers";
 
 export const SettingsPassword = (props) => {
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [swap, setswap] = useState(null);
+
+  useEffect(() => {
+    getSwap()
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -58,6 +63,13 @@ export const SettingsPassword = (props) => {
     },
   });
 
+
+  const getSwap = async () => {
+const resp =   await getSwapRate()
+setswap(resp.data.swapRate)
+console.log("resp>>>>", resp);
+  }
+
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
@@ -86,6 +98,44 @@ export const SettingsPassword = (props) => {
       setLoading(false);
     }
   };
+
+  const handleSwapChange = (e) => {
+    setswap(e.target.value)
+  }
+
+  const handleSubmitSwap = async () => {
+    try {
+      if(!swap){
+        setStatusData({
+          type: "error",
+          message: "Swap field can not be empty",
+        });
+        return
+      }
+      setLoading(true);
+
+  let params = {
+    rate:Number(swap)
+  };
+  const response =  await swapFee(params)
+  if(response){
+    setStatusData({
+      type: "error",
+      message: "Swap fee updated successfully",
+    });
+  }
+  setLoading(false);
+
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setLoading(false);
+    }
+       
+  }
 
   return (
     <form {...props}>
@@ -141,9 +191,45 @@ export const SettingsPassword = (props) => {
             p: 2,
           }}
         >
+          
           <Button color="primary" variant="contained" type="submit">
             {loading ? <CircularProgress /> : "Update"}
           </Button>
+        </Box>
+      </Card>
+
+  
+
+
+      <Card>
+        <CardHeader subheader="Swap fee" title="Swap" />
+        <Divider />
+        <CardContent>
+          <TextField
+            value={swap}
+            onChange={(e) => handleSwapChange(e)}
+            fullWidth
+            label="Swap fee"
+            margin="normal"
+            name="swapFee"
+            type="number"
+            variant="outlined"
+          />
+        </CardContent>
+        <Divider />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+        >
+          {loading ? <CircularProgress /> : 
+           <Button color="primary" variant="contained" onClick={handleSubmitSwap}>
+           Update
+         </Button>
+          }
+         
         </Box>
       </Card>
 
