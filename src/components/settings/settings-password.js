@@ -120,7 +120,7 @@ console.log("resp>>>>", resp);
   const response =  await swapFee(params)
   if(response){
     setStatusData({
-      type: "error",
+      type: "success",
       message: "Swap fee updated successfully",
     });
   }
@@ -209,7 +209,7 @@ console.log("resp>>>>", resp);
             value={swap}
             onChange={(e) => handleSwapChange(e)}
             fullWidth
-            label="Swap fee"
+            label="Swap Multiplier"
             margin="normal"
             name="swapFee"
             type="number"
