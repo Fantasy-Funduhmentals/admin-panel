@@ -54,7 +54,7 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Native Wallets Managment"
+            title="Native Wallets Management"
             subTitle="Native Wallet"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

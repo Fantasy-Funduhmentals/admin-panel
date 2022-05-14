@@ -55,7 +55,7 @@ const Coins = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Coin Managment"
+            title="Coin Management"
             subTitle="Coin"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

@@ -55,7 +55,7 @@ const Users = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="User Managment"
+            title="User Management"
             subTitle="User"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

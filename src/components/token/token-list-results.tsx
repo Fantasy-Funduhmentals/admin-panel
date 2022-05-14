@@ -56,7 +56,9 @@ export const TokenListResults = (props: Props) => {
       //   )
       //   .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return data?.slice(begin, end).sort(
+        (a, b) => a.orderIndex - b.orderIndex,
+      );
     }
   }, [page, limit, data, searchQuery]);
   return (
@@ -87,9 +89,10 @@ export const TokenListResults = (props: Props) => {
                   <TableCell>Name</TableCell>
                   <TableCell>Symbol</TableCell>
 
-                  <TableCell>Value</TableCell>
-                  <TableCell>Multiplier</TableCell>
-                  <TableCell>Total amount</TableCell>
+                  <TableCell>minted</TableCell>
+                  <TableCell>available</TableCell>
+                  <TableCell>market(usd)</TableCell>
+                  <TableCell>strike(usd)</TableCell>
                   <TableCell>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -125,9 +128,9 @@ export const TokenListResults = (props: Props) => {
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>${customer.price} </TableCell>
-                      <TableCell>{customer.multiplier} </TableCell>
-                      <TableCell>{customer.strikePrice} </TableCell>
+                      <TableCell>${customer?.totalSupply} </TableCell>
+                      <TableCell>{customer?.multiplier} </TableCell>
+                      <TableCell>{(customer?.multiplier * customer?.price).toFixed(4)} </TableCell>
 
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>

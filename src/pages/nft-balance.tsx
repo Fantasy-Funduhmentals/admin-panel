@@ -54,7 +54,7 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT Balance Management"
+            title="NFT Balance  Management"
             subTitle="NFT balance"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

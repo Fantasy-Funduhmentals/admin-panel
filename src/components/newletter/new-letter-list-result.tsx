@@ -20,7 +20,17 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
-import { Editor } from "react-draft-wysiwyg";
+
+
+import dynamic from 'next/dynamic'
+import { EditorProps } from 'react-draft-wysiwyg'
+
+const Editor = dynamic<EditorProps>(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  { ssr: false }
+)
+
+// import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
@@ -58,7 +68,6 @@ export const NftListResults = (props: Props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [statusData, setStatusData] = useState(null);
-
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };

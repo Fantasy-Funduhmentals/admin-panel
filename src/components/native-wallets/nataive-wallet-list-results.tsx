@@ -47,7 +47,7 @@ export const NativeWalletListResults = (props: Props) => {
     const rates = data.rates;
     let wallets = data.wallets;
 
-    wallets = wallets.map((wallet) => {
+    wallets = wallets?.map((wallet) => {
       const rateIndex = rates.findIndex((rate) => {
         return rate.coinSymbol === wallet.coinSymbol;
       });
