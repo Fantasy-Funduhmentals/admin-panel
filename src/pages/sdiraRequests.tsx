@@ -49,7 +49,7 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Requests Managment"
+            title="Requests Management"
             subTitle="Request"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

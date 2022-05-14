@@ -54,7 +54,7 @@ const CryptoWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Wallets Managment"
+            title="Wallets Management"
             subTitle="Wallet"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);

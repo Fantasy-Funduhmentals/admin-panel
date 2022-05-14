@@ -51,7 +51,7 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT purchase requests managment"
+            title="NFT purchase requests Management"
             subTitle="Request"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
