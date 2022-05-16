@@ -23,7 +23,6 @@ export const Sales = (props) => {
   const getNativeWallets = async () => {
     try {
       const walletRes = await getAllNativeWalletsData();
-      console.log(walletRes?.data, "asdasdasdas");
       setGraphData(walletRes?.data, "asdasdasdas");
     } catch (err) {
       const error = getNormalizedError(err);

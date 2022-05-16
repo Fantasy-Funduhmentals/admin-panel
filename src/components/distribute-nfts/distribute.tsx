@@ -110,7 +110,6 @@ export const DistributeNft = (props) => {
             "nft-wallet/update-nft-token",
             params
           );
-          console.log("updateBalanceRes{{{{{{{", updateBalanceRes);
         }
       }
       formik.resetForm();

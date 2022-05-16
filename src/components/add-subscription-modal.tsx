@@ -88,7 +88,6 @@ const FullScreenDialog = (props: Props) => {
     setPayment(event.target.value);
   };
 
-  // console.log("editData:::", editData);
 
   const formik = useFormik({
     initialValues: {

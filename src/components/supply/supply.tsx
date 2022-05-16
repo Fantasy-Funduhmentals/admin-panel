@@ -41,11 +41,9 @@ export const DistributeNft = (props) => {
 
 
   const handleDurationChange = (e) => {
-    console.log("e.target.value:::", e.target.value);
 
     setSelectNft(e.target.value);
   };
-console.log("selectNft:::", selectNft);
 
   const getTokensListing = async () => {
     setLoading(true);
@@ -86,7 +84,6 @@ console.log("selectNft:::", selectNft);
       setSupply(res);
     }
     
-    // console.log("nftDistribution:::", res);
   };
 
   const handleSubmit = async (values) => {
@@ -299,7 +296,6 @@ console.log("selectNft:::", selectNft);
 //         "nft-wallet/update-nft-token",
 //         params
 //       );
-//       console.log("updateBalanceRes{{{{{{{", updateBalanceRes);
 //     }
 //   }
 //   formik.resetForm();
