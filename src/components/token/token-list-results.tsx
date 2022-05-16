@@ -61,6 +61,15 @@ export const TokenListResults = (props: Props) => {
       );
     }
   }, [page, limit, data, searchQuery]);
+  
+
+
+  function premium(customer) {
+
+    return (
+      ( customer?.strikePrice - customer?.price).toFixed(4)
+    );
+  }
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -73,8 +82,8 @@ export const TokenListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
-                <TableRow>
+              <TableHead sx={{background:"#5a82d7"}}>
+                <TableRow >
                   {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === data.length}
@@ -86,14 +95,15 @@ export const TokenListResults = (props: Props) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                  <TableCell>Name</TableCell>
-                  <TableCell>Symbol</TableCell>
+                  <TableCell style={{color:"white"}}>Name</TableCell>
+                  <TableCell style={{color:"white"}}>Symbol</TableCell>
 
-                  <TableCell>minted</TableCell>
-                  <TableCell>available</TableCell>
-                  <TableCell>market(usd)</TableCell>
-                  <TableCell>strike(usd)</TableCell>
-                  <TableCell>Order Index</TableCell>
+                  <TableCell style={{color:"white"}}>minted</TableCell>
+                  <TableCell style={{color:"white"}}>available</TableCell>
+                  <TableCell style={{color:"white"}}>market(usd)</TableCell>
+                  <TableCell style={{color:"white"}}>Premium(usd)</TableCell>
+                  <TableCell style={{color:"white"}}>strike(usd)</TableCell>
+                  <TableCell style={{color:"white"}}>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -129,8 +139,10 @@ export const TokenListResults = (props: Props) => {
                         />
                       </TableCell>
                       <TableCell>${customer?.totalSupply} </TableCell>
-                      <TableCell>{customer?.multiplier} </TableCell>
-                      <TableCell>{(customer?.multiplier * customer?.price).toFixed(4)} </TableCell>
+                      <TableCell> </TableCell>
+                      <TableCell>{(customer?.price)}</TableCell>
+                      <TableCell>{premium(customer)}  </TableCell>
+                      <TableCell>{customer.strikePrice}  </TableCell>
 
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
