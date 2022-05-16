@@ -57,7 +57,6 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log("data&&&{{{{", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -107,7 +106,6 @@ export const NftListResults = (props: Props) => {
     };
     try {
       const response = await HTTP_CLIENT.post("newsletter/broadcast", params);
-      console.log("markup data", response);
       if (response.data) {
         setStatusData({
           type: "success",

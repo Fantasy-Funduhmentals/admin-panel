@@ -15,7 +15,6 @@ const SdiraRequests = () => {
     (state: RootState) => state.loanRequest
   );
 
-  console.log("loanRequests:::", loanRequests);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);

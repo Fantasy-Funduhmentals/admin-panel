@@ -73,7 +73,6 @@ export const NativeWalletListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  console.log("dataToDisplay", dataToDisplay);
   
 
 

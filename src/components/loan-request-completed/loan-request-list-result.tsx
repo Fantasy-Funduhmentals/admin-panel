@@ -90,7 +90,6 @@ const Row = (props) => {
         `wallet/get-user-bnb-wallet/${row?.user?.email}`
       );
 
-      console.log("addressRes>>>", addressRes);
 
       if (addressRes?.data?.address) {
         let amount = row.balance;
@@ -126,7 +125,6 @@ const Row = (props) => {
         setLoading(false);
       }
     } catch (err) {
-      console.log("errrrrrrrr", err);
 
       setStatusData({
         type: "error",
@@ -316,7 +314,6 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
-  console.log("DATA RECIEVE", data);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);

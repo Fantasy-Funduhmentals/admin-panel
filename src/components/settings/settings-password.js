@@ -67,7 +67,6 @@ export const SettingsPassword = (props) => {
   const getSwap = async () => {
 const resp =   await getSwapRate()
 setswap(resp.data.swapRate)
-console.log("resp>>>>", resp);
   }
 
   const handleSubmit = async (values, actions) => {

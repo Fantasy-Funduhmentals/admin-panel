@@ -54,7 +54,6 @@ export const SubscriptionListListResults = (props: Props) => {
     setLoading(true);
     try {
       const response = await deleteSubscription(item)
-      console.log("response", response);
 
         setStatusData({
           type: "success",

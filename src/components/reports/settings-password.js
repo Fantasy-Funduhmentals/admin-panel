@@ -54,7 +54,6 @@ export const SettingsReport = (props) => {
     let url;
     let name;
     setLoading(true);
-    console.log("values****", values);
 
     if (values.label == "Export users") {
       url = "/user/export-all-users";
@@ -111,7 +110,6 @@ export const SettingsReport = (props) => {
         responseType: "blob",
       });
 
-      console.log("response>>", response);
       const fileURL = window.URL.createObjectURL(new Blob([response.data]));
       const fileLink = document.createElement("a");
       fileLink.href = fileURL;
