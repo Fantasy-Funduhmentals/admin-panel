@@ -56,10 +56,10 @@ export const DashboardNavbar = (props) => {
   };
 
 /* @ts-ignore */
-  useEffect(async() => {
+  useEffect(() => {
     try {
       setupAxios();
-      await HTTP_CLIENT.get(`/admin-auth/info`);
+      // await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
       handleLogout()
     }
