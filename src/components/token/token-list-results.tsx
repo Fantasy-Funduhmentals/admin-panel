@@ -142,7 +142,7 @@ export const TokenListResults = (props: Props) => {
                       <TableCell> </TableCell>
                       <TableCell>{(customer?.price)}</TableCell>
                       <TableCell>{premium(customer)}  </TableCell>
-                      <TableCell>{customer.strikePrice}  </TableCell>
+                      <TableCell>{(customer.price * customer.multiplier).toFixed(3)}  </TableCell>
 
                       <TableCell>{customer.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
