@@ -26,26 +26,32 @@ export const SettingsReport = (props) => {
     {
       id: 1,
       label: "Export users",
+      dec:" [Generate a detailed list of user export]"
     },
     {
       id: 2,
-      label: "Export Token",
+      label: "Export Token ",
+      dec:"[Generate a detailed list of Export Token]"
     },
     {
       id: 3,
-      label: "Export Crypto Wallets",
+      label: "Export Crypto Wallets ",
+      dec:"[Generate a detailed list of Crypto Wallets]"
     },
     {
       id: 4,
-      label: "Export Native Wallets",
+      label: "Export Native Wallets ",
+      dec:"[Generate a detailed list of Native Wallets]"
     },
     {
       id: 5,
-      label: "Export NFTs",
+      label: "Export NFTs ",
+      dec:"[Generate a detailed list of Export NFTs ]"
     },
     {
       id: 6,
-      label: "Export NFT Balance",
+      label: "Export NFT Balance ",
+      dec:"[Generate a detailed list of Export NFT Balance ]"
     },
   ];
 
@@ -75,35 +81,35 @@ export const SettingsReport = (props) => {
       // name = " NFTBalance.xlsx";
     }
 
-    switch (values) {
-      case values.label == "Export users":
-        url = "/user/export-all-users";
-        name = "users.xlsx";
-        break;
+    // switch (values) {
+    //   case values.label == "Export users":
+    //     url = "/user/export-all-users";
+    //     name = "users.xlsx";
+    //     break;
 
-      case values.label == "Export Token":
-        url = "/native-token/export-all-native-tokens";
-        name = "Token.xlsx";
-        break;
+    //   case values.label == "Export Token":
+    //     url = "/native-token/export-all-native-tokens";
+    //     name = "Token.xlsx";
+    //     break;
 
-      case values.label == "Export Crypto Wallets":
-        url = "/wallet/export-all-wallets";
-        name = "CryptoWallets.xlsx";
-        break;
+    //   case values.label == "Export Crypto Wallets":
+    //     url = "/wallet/export-all-wallets";
+    //     name = "CryptoWallets.xlsx";
+    //     break;
 
-      case values.label == "Export NFTs":
-        url = "/nft-token/export-all-native-wallets";
-        name = "NFTsWallets.xlsx";
-        break;
+    //   case values.label == "Export NFTs":
+    //     url = "/nft-token/export-all-native-wallets";
+    //     name = "NFTsWallets.xlsx";
+    //     break;
 
-      case values.label == "Export NFT Balance":
-        url = "/nft-wallet/export-all-nft-wallets";
-        name = " NFTBalance.xlsx";
-        break;
+    //   case values.label == "Export NFT Balance":
+    //     url = "/nft-wallet/export-all-nft-wallets";
+    //     name = " NFTBalance.xlsx";
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
 
     try {
       const response = await HTTP_CLIENT.get(url, {
@@ -157,7 +163,7 @@ export const SettingsReport = (props) => {
   return (
     <form {...props}>
       <Card>
-        <CardHeader subheader="Download Report" title="Report" />
+        <CardHeader subheader="Generate and export pre-defined reports" title="Report" />
         <Divider />
         <CardContent>
           <Box
@@ -178,7 +184,7 @@ export const SettingsReport = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="h6">{item.label}</Typography>
+                <Typography sx={{display:"flex" ,columnGap:"1rem"}}><Typography variant="h6">{item.label}</Typography><Typography sx={{color:"gray"}}>{item.dec}</Typography></Typography>
                 {loading && selected == index ? (
                   <CircularProgress color="inherit" />
                 ) : (

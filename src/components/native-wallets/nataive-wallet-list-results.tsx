@@ -147,7 +147,7 @@ export const NativeWalletListResults = (props: Props) => {
                         {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
                       <TableCell>
-                        {customer?.balance * customer?.rate?.price }
+                        {(customer?.balance * customer?.rate?.price).toFixed(3) }
                       </TableCell>
                       <TableCell>
                         {customer?.rate?.price }
