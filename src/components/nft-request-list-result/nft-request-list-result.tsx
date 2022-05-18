@@ -393,16 +393,15 @@ export const RequestListResults = (props: Props) => {
           <Box>
             <TableContainer component={Paper} style={{ height: "100vh" }}>
               <Table aria-label="collapsible table">
-                <TableHead>
+                <TableHead sx={{background:"#5a82d7"}}>
                   <TableRow>
                     <TableCell />
-                    <TableCell>User</TableCell>
-                    <TableCell>NFT name</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>index</TableCell>
-                    <TableCell>Loan Status</TableCell>
-
-                    <TableCell>remaining Supply</TableCell>
+                    <TableCell style={{color:"#fff"}}>User</TableCell>
+                    <TableCell style={{color:"#fff"}}>NFT name</TableCell>
+                    <TableCell style={{color:"#fff"}}>Amount</TableCell>
+                    <TableCell style={{color:"#fff"}}>index</TableCell>
+                    <TableCell style={{color:"#fff"}}>Loan Status</TableCell>
+                    <TableCell style={{color:"#fff"}}>remaining Supply</TableCell>
                     <TableCell />
                     <TableCell />
                   </TableRow>

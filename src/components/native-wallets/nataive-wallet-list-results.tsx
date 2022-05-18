@@ -21,7 +21,7 @@ import { getInitials } from "../../utils/get-initials";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | [] | {};
   searchQuery?: string;
 }
 
@@ -90,15 +90,14 @@ export const NativeWalletListResults = (props: Props) => {
           >
             <Box>
               <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>User</TableCell>
-                    <TableCell>Coin</TableCell>
-
-                    <TableCell>Balance</TableCell>
-                    <TableCell>USD Value</TableCell>
-                    <TableCell>Token value</TableCell>
-                    <TableCell>Created At</TableCell>
+                <TableHead sx={{background:"#5a82d7"}}>
+                  <TableRow >
+                    <TableCell style={{color:"#fff"}}>User</TableCell>
+                    <TableCell style={{color:"#fff"}}>Coin</TableCell>
+                    <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                    <TableCell style={{color:"#fff"}}>USD Value</TableCell>
+                    <TableCell style={{color:"#fff"}}>Token value</TableCell>
+                    <TableCell style={{color:"#fff"}}>Created At</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

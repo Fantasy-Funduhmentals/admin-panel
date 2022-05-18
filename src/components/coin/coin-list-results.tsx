@@ -54,6 +54,13 @@ export const CoinListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
+  function numberWithCommas(n) {
+    var parts = n ? n.toString().split(".") : "";
+    return (
+      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + parts[1] : "")
+    );}
+
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -66,16 +73,16 @@ export const CoinListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Blockchain</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Change 24H</TableCell>
-                  <TableCell>High 24H</TableCell>
-                  <TableCell>Low 24H</TableCell>
-                  <TableCell>Market Cap</TableCell>
-                  <TableCell>Total Volume</TableCell>
+              <TableHead sx={{background:"#5a82d7"}}>
+                <TableRow >
+                  <TableCell style={{color:"#fff"}}>Name</TableCell>
+                  <TableCell style={{color:"#fff"}}>Blockchain</TableCell>
+                  <TableCell style={{color:"#fff"}}>Price</TableCell>
+                  <TableCell style={{color:"#fff"}}>Change 24H</TableCell>
+                  <TableCell style={{color:"#fff"}}>High 24H</TableCell>
+                  <TableCell style={{color:"#fff"}}>Low 24H</TableCell>
+                  <TableCell style={{color:"#fff"}}>Market Cap</TableCell>
+                  <TableCell style={{color:"#fff"}}>Total Volume</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -101,7 +108,7 @@ export const CoinListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.blockchain}</TableCell>
-                    <TableCell>{customer.rate} $</TableCell>
+                    <TableCell>{numberWithCommas(customer.rate)} $</TableCell>
                     <TableCell
                       style={{
                         color:
@@ -113,14 +120,14 @@ export const CoinListResults = (props: Props) => {
                       {parseFloat(customer.changePercentage24h).toFixed(2)} %
                     </TableCell>
                     <TableCell style={{ color: "green" }}>
-                      {customer.high24h}
+                      {numberWithCommas(customer.high24h)}
                     </TableCell>
                     <TableCell style={{ color: "red" }}>
-                      {customer.low24h}{" "}
+                      {numberWithCommas(customer.low24h)}{" "}
                     </TableCell>
 
-                    <TableCell>{customer.marketCap}</TableCell>
-                    <TableCell>{customer.totalVolume}</TableCell>
+                    <TableCell>{numberWithCommas(customer.marketCap)}</TableCell>
+                    <TableCell>{numberWithCommas(customer.totalVolume)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

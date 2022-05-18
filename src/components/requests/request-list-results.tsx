@@ -211,7 +211,6 @@ export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
-
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -275,6 +274,7 @@ export const RequestListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
+  console.log(dataToDisplay, "<<<<<<<<<<<<<<<<<<");
 
   return (
     <Card {...props}>
@@ -288,25 +288,42 @@ export const RequestListResults = (props: Props) => {
           <Box>
             <TableContainer component={Paper}>
               <Table aria-label="collapsible table">
-                <TableHead>
+                <TableHead sx={{ background: "#5a82d7" }}>
                   <TableRow>
-                    <TableCell />
-                    <TableCell>User</TableCell>
-                    <TableCell>Request Type</TableCell>
-                    <TableCell>Created At</TableCell>
-                    <TableCell />
-                    <TableCell />
+                    <TableCell style={{ color: "#fff" }}>User</TableCell>
+                    <TableCell style={{ color: "#fff" }}>
+                      Request Type
+                    </TableCell>
+                    <TableCell style={{ color: "#fff" }}>Created At</TableCell>
+                    
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
+                  {dataToDisplay.length == 0 ? (
+                    <TableRow>
+                    
+                    <TableCell></TableCell>
+                      <TableCell sx={{display:"flex" ,justifyContent:"center",alignItems:"center"}}>
+                      <img
+                      src={"/noData.gif"}
+                      alt=""
+                      style={{ height: "100%", width: "250px",}}
                     />
-                  ))}
+                      </TableCell>
+                      
+                      <TableCell></TableCell>
+                    </TableRow>
+                   
+                  ) : (
+                    dataToDisplay.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

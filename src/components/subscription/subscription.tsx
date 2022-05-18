@@ -106,7 +106,7 @@ export const SubscriptionListListResults = (props: Props) => {
           <Box>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{background:"#5a82d7"}}>
                   {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.length === data.length}
@@ -118,12 +118,12 @@ export const SubscriptionListListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Image</TableCell>
-                  <TableCell>Title</TableCell>
-
+                  <TableCell style={{color:"#fff"}}>Image</TableCell>
+                  <TableCell style={{color:"#fff"}}>Title</TableCell>
                   {/* <TableCell>Payment method</TableCell> */}
-                  <TableCell>Duration</TableCell>
-                  <TableCell>Value in USD</TableCell>
+                  <TableCell style={{color:"#fff"}}>Duration</TableCell>
+                  <TableCell style={{color:"#fff"}}>Value in USD</TableCell>
+                  <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>

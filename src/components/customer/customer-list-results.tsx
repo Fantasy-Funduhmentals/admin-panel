@@ -100,14 +100,14 @@ export const UserListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Wallet Activation Status</TableCell>
-                  <TableCell>Customer Status</TableCell>
-                  <TableCell>User type</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>Name</TableCell>
+                  <TableCell style={{color:"#fff"}}>Email</TableCell>
+                  <TableCell style={{color:"#fff"}}>Wallet Activation Status</TableCell>
+                  <TableCell style={{color:"#fff"}}>Customer Status</TableCell>
+                  <TableCell style={{color:"#fff"}}>User type</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
