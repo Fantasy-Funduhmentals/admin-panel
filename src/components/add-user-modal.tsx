@@ -6,7 +6,11 @@ import {
   CardHeader,
   CircularProgress,
   Container,
+  Select,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -24,6 +28,7 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
 import { createNewUser } from "../services/userService";
+import { useAppSelector } from "../store/hooks";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
 
@@ -43,6 +48,19 @@ interface Props {
 }
 
 const AddUserModal = (props: Props) => {
+  
+  const Item = [
+    {
+      name:"CQR user"
+    },
+    {
+      name:"IRA user"
+    },
+    {
+      name:"SDIRA user"
+    }
+  ]
+
   const { open, onClose, editData } = props;
 
   const [image, setImage] = useState(null);
@@ -52,14 +70,19 @@ const AddUserModal = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [editSymbolImage, setEditSymbolImage] = useState(null);
+  const [selectItems, setSelectItems] = useState("");
 
+  
+  const handleDurationChange = (event) => {
+    setSelectItems(event.target.value);
+  };
   useEffect(() => {
     if (editData) {
       setEditImage(editData.icon.url);
       setEditSymbolImage(editData.displaySymbol);
     }
   }, []);
-
+  
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -113,7 +136,8 @@ const AddUserModal = (props: Props) => {
 
       let params = {
         ...values,
-        sdira: true,
+        // sdira: true,
+        type:selectItems
       };
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
@@ -148,7 +172,7 @@ const AddUserModal = (props: Props) => {
   };
 
   return (
-    <div>
+    <Box>
       <Dialog
         fullScreen
         open={open}
@@ -250,7 +274,6 @@ const AddUserModal = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
@@ -267,7 +290,6 @@ const AddUserModal = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
@@ -283,6 +305,25 @@ const AddUserModal = (props: Props) => {
                             required
                             variant="outlined"
                           />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                            Select Items
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={selectItems}
+                              label="Select Items"
+                              onChange={handleDurationChange}
+                            >
+                              {Item.map((item,index) => (
+                                <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <Grid />
                         </Grid>
                       </Grid>
                     </CardContent>
@@ -300,7 +341,11 @@ const AddUserModal = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress color="inherit"/> : "Save details"}
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Save details"
+                        )}
                       </Button>
                     </Box>
                   </Card>
@@ -314,7 +359,7 @@ const AddUserModal = (props: Props) => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-    </div>
+    </Box>
   );
 };
 
