@@ -7,10 +7,19 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
-import { Cog as CogIcon } from "../icons/cog";
+import { Newsletter } from "../icons/Newsletter";
 import { Crypto as CryptoIcon } from "../icons/crypto";
 import { CryptoWallets as CryptoWalletsIcon } from "../icons/cryptoWallets";
 import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
+import { Nftbalance } from "../icons/Nft balance";
+import { Nftpurchase } from "../icons/Nftpurchase";
+import { Cog } from "../icons/cog";
+import { Reports } from "../icons/reports";
+import { RequestCompleted } from "../icons/requestCompleted";
+import { Request } from "../icons/Request";
+import { ImportData } from "../icons/importData";
+import { Subscription } from "../icons/Subscription";
+import { Token } from "../icons/Token";
 import { SupportIcon } from "../icons/support";
 import { TokensIcon } from "../icons/tokensIcon";
 import { Users as UsersIcon } from "../icons/users";
@@ -35,12 +44,12 @@ const items = [
   },
   {
     href: "/tokens",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Token fontSize="small" />,
     title: "Tokens",
   },
   {
     href: "/sdiraRequests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Request fontSize="small" />,
     title: "Requests",
   },
   {
@@ -60,7 +69,7 @@ const items = [
   },
   {
     href: "/import-data",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <ImportData fontSize="small" />,
     title: "Import Data",
   },
   {
@@ -70,17 +79,17 @@ const items = [
   },
   {
     href: "/nft-purchase-requests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Nftpurchase fontSize="small" />,
     title: "NFT purchase requests",
   },
   {
     href: "/nft-balance",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <Nftbalance fontSize="small" />,
     title: "NFT balance",
   },
   {
     href: "/subscription",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Subscription fontSize="small" />,
     title: "Subscription",
   },
   // {
@@ -90,12 +99,12 @@ const items = [
   // },
   {
     href: "/newsletter",
-    icon: <CogIcon fontSize="small" />,
+    icon: <Newsletter fontSize="small" />,
     title: "Newsletter",
   },
   {
     href: "/settings",
-    icon: <CogIcon fontSize="small" />,
+    icon: <Cog fontSize="small" />,
     title: "Settings",
   },
   {
@@ -105,7 +114,7 @@ const items = [
   },
   {
     href: "/loan-request-completed",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <RequestCompleted fontSize="small" />,
     title: "Lavage Request completed",
   },
   {
@@ -115,7 +124,7 @@ const items = [
   },
   {
     href: "/report",
-    icon: <CogIcon fontSize="small" />,
+    icon: <Reports fontSize="small" />,
     title: "Reports",
   },
   {
