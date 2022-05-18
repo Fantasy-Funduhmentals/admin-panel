@@ -75,14 +75,7 @@ export const UserListResults = (props: Props) => {
         }}
       >
         <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "left",
-            }
-          }
+         sx={{ml:3}}
         >
           <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
             Search Sdira
