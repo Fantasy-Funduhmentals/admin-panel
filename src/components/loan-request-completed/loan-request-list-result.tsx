@@ -90,7 +90,6 @@ const Row = (props) => {
         `wallet/get-user-bnb-wallet/${row?.user?.email}`
       );
 
-
       if (addressRes?.data?.address) {
         let amount = row.balance;
         // let amount = web3.utils.toWei(row.amount, "ether");
@@ -125,7 +124,6 @@ const Row = (props) => {
         setLoading(false);
       }
     } catch (err) {
-
       setStatusData({
         type: "error",
         message: "Transaction failed",
@@ -394,29 +392,48 @@ export const RequestListResults = (props: Props) => {
           <Box>
             <TableContainer component={Paper} style={{ height: "100vh" }}>
               <Table aria-label="collapsible table">
-                <TableHead>
+                <TableHead sx={{ background: "#5a82d7" }}>
                   <TableRow>
                     <TableCell />
-                    <TableCell>User</TableCell>
-                    <TableCell>NFT name</TableCell>
-                    <TableCell>Loan Amount</TableCell>
-                    <TableCell>index</TableCell>
-                    <TableCell>Loan Status</TableCell>
+                    <TableCell style={{ color: "#fff" }}>User</TableCell>
+                    <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Loan Amount</TableCell>
+                    <TableCell style={{ color: "#fff" }}>index</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Loan Status</TableCell>
 
-                    <TableCell>remaining Supply</TableCell>
+                    <TableCell style={{ color: "#fff" }}>
+                      remaining Supply
+                    </TableCell>
                     <TableCell />
                     <TableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
-                    />
-                  ))}
+                  {dataToDisplay.length == 0 ? (
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell sx={{display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
+                        <img
+                          src={"/noData.gif"}
+                          alt=""
+                          style={{ height: "auto" ,width:"250px" }}
+                        />
+                      </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  ) : (
+                    dataToDisplay?.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

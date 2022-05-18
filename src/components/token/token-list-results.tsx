@@ -67,7 +67,14 @@ export const TokenListResults = (props: Props) => {
   function premium(customer) {
 
     return (
-      ( customer?.strikePrice - customer?.price).toFixed(4)
+      ( customer?.strikePrice - customer?.price).toFixed(2)
+    );
+  }
+  function numberWithCommas(n) {
+    var parts = n ? n.toString().split(".") : "";
+    return (
+      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + parts[1] : "")
     );
   }
   return (
@@ -138,13 +145,13 @@ export const TokenListResults = (props: Props) => {
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>${customer?.totalSupply} </TableCell>
-                      <TableCell> </TableCell>
-                      <TableCell>{(customer?.price)}</TableCell>
+                      <TableCell>${numberWithCommas(customer?.totalSupply)} </TableCell>
+                      <TableCell>{numberWithCommas(customer?.remainingSupply.toFixed(2))}</TableCell>
+                      <TableCell>{numberWithCommas(customer?.price)}</TableCell>
                       <TableCell>{premium(customer)}  </TableCell>
                       <TableCell>{(customer.price * customer.multiplier).toFixed(3)}  </TableCell>
 
-                      <TableCell>{customer.orderIndex}</TableCell>
+                      <TableCell>{numberWithCommas(customer.orderIndex)}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>

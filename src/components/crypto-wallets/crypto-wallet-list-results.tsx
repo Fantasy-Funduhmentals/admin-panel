@@ -74,13 +74,13 @@ export const CryptoWalletListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>User</TableCell>
-                  <TableCell>Coin</TableCell>
-                  <TableCell>Address</TableCell>
-                  <TableCell>Balance</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>User</TableCell>
+                  <TableCell style={{color:"#fff"}}>Coin</TableCell>
+                  <TableCell style={{color:"#fff"}}>Address</TableCell>
+                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

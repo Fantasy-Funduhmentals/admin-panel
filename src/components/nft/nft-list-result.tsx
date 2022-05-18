@@ -72,7 +72,7 @@ export const NftListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
                   {/* <TableCell padding="checkbox">
                     <Checkbox
@@ -85,13 +85,13 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Owned by</TableCell>
-                  <TableCell>Image</TableCell>
+                  <TableCell style={{color:"#fff"}}>Owned by</TableCell>
+                  <TableCell style={{color:"#fff"}}>Image</TableCell>
 
-                  <TableCell>Index</TableCell>
-                  <TableCell>Price Per unit</TableCell>
-                  <TableCell>Remaining Supply</TableCell>
-                  <TableCell>Total Supply</TableCell>
+                  <TableCell style={{color:"#fff"}}>Index</TableCell>
+                  <TableCell style={{color:"#fff"}}>Price Per unit</TableCell>
+                  <TableCell style={{color:"#fff"}}>Remaining Supply</TableCell>
+                  <TableCell style={{color:"#fff"}}>Total Supply</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>

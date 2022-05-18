@@ -71,13 +71,13 @@ export const NftBalanceListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>User</TableCell>
-                  <TableCell>Token</TableCell>
+                  <TableCell style={{color:"#fff"}}>User</TableCell>
+                  <TableCell style={{color:"#fff"}}>Token</TableCell>
 
-                  <TableCell>Balance</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
