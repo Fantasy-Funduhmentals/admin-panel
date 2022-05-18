@@ -134,7 +134,13 @@ const Row = (props) => {
       setLoading(false);
     }
   };
-
+  function numberWithCommas(n) {
+    var parts = n ? n.toString().split(".") : "";
+    return (
+      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + parts[1] : "")
+    );
+  }
   return (
     <React.Fragment>
       {loading ? (
@@ -186,7 +192,7 @@ const Row = (props) => {
               {row.isLoan ? "Loan request" : "Normal request "}
             </SeverityPill>
             <TableCell align="center">
-              {row?.assetPool?.remainingSupply}
+              {numberWithCommas(row?.assetPool?.remainingSupply)}
             </TableCell>
             <TableCell>
               <Button
@@ -393,15 +399,17 @@ export const RequestListResults = (props: Props) => {
           <Box>
             <TableContainer component={Paper} style={{ height: "100vh" }}>
               <Table aria-label="collapsible table">
-                <TableHead sx={{background:"#5a82d7"}}>
+                <TableHead sx={{ background: "#5a82d7" }}>
                   <TableRow>
                     <TableCell />
-                    <TableCell style={{color:"#fff"}}>User</TableCell>
-                    <TableCell style={{color:"#fff"}}>NFT name</TableCell>
-                    <TableCell style={{color:"#fff"}}>Amount</TableCell>
-                    <TableCell style={{color:"#fff"}}>index</TableCell>
-                    <TableCell style={{color:"#fff"}}>Loan Status</TableCell>
-                    <TableCell style={{color:"#fff"}}>remaining Supply</TableCell>
+                    <TableCell style={{ color: "#fff" }}>User</TableCell>
+                    <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Amount</TableCell>
+                    <TableCell style={{ color: "#fff" }}>index</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Loan Status</TableCell>
+                    <TableCell style={{ color: "#fff" }}>
+                      remaining Supply
+                    </TableCell>
                     <TableCell />
                     <TableCell />
                   </TableRow>

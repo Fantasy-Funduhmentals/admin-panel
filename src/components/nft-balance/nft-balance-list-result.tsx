@@ -58,6 +58,13 @@ export const NftBalanceListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
+  function numberWithCommas(n) {
+    var parts = n ? n.toString().split(".") : "";
+    return (
+      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + parts[1] : "")
+    );
+  }
 
   return (
     <Card {...props}>
@@ -119,7 +126,7 @@ export const NftBalanceListResults = (props: Props) => {
                     {/* <TableCell>{customer?.name}</TableCell> */}
                     <TableCell>
                       {customer?.balance
-                        ? parseFloat(customer?.balance).toFixed(3)
+                        ? numberWithCommas(parseFloat(customer?.balance).toFixed(3))
                         : "0.00"}{" "}
                       {customer.coinSymbol?.toUpperCase()}
                     </TableCell>

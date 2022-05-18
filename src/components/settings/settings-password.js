@@ -200,7 +200,7 @@ setswap(resp.data.swapRate)
   
 
 
-      <Card>
+      <Card sx={{mt:5}}>
         <CardHeader subheader="Token Gas Fee " title="Gas Fee" />
         <Divider />
         <CardContent>

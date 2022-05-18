@@ -390,52 +390,47 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper} style={{ height: "100vh" }}>
-              <Table aria-label="collapsible table">
-                <TableHead sx={{ background: "#5a82d7" }}>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell style={{ color: "#fff" }}>User</TableCell>
-                    <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
-                    <TableCell style={{ color: "#fff" }}>Loan Amount</TableCell>
-                    <TableCell style={{ color: "#fff" }}>index</TableCell>
-                    <TableCell style={{ color: "#fff" }}>Loan Status</TableCell>
-
-                    <TableCell style={{ color: "#fff" }}>
-                      remaining Supply
-                    </TableCell>
-                    <TableCell />
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {dataToDisplay.length == 0 ? (
+            <TableContainer component={Paper} >
+              {dataToDisplay.length == 0 ? (
+                <img
+                  src={"/noData.gif"}
+                  alt=""
+                  style={{ height: "auto", width: "350px" }}
+                />
+              ) : (
+                <Table aria-label="collapsible table">
+                  <TableHead sx={{ background: "#5a82d7" }}>
                     <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell sx={{display:"flex",justifyContent:"flex-end",alignItems:"flex-end"}}>
-                        <img
-                          src={"/noData.gif"}
-                          alt=""
-                          style={{ height: "auto" ,width:"250px" }}
-                        />
+                      <TableCell />
+                      <TableCell style={{ color: "#fff" }}>User</TableCell>
+                      <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Loan Amount
                       </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
+                      <TableCell style={{ color: "#fff" }}>index</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Loan Status
+                      </TableCell>
+
+                      <TableCell style={{ color: "#fff" }}>
+                        remaining Supply
+                      </TableCell>
+                      <TableCell />
+                      <TableCell />
                     </TableRow>
-                  ) : (
-                    dataToDisplay?.map((row) => (
+                  </TableHead>
+                  <TableBody>
+                    {dataToDisplay?.map((row) => (
                       <Row
                         key={row.name}
                         row={row}
                         handleRequest={handleRequest}
                         loading={loading}
                       />
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </TableContainer>
           </Box>
         </Paper>

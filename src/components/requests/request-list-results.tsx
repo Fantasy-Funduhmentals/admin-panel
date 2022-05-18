@@ -287,7 +287,14 @@ export const RequestListResults = (props: Props) => {
         >
           <Box>
             <TableContainer component={Paper}>
-              <Table aria-label="collapsible table">
+             { dataToDisplay.length == 0 ? 
+              
+              <img
+              src={"/noData.gif"}
+              alt=""
+              style={{ height: "100%", width: "300px",}}
+            /> :
+             <Table aria-label="collapsible table">
                 <TableHead sx={{ background: "#5a82d7" }}>
                   <TableRow>
                     <TableCell style={{ color: "#fff" }}>User</TableCell>
@@ -295,37 +302,19 @@ export const RequestListResults = (props: Props) => {
                       Request Type
                     </TableCell>
                     <TableCell style={{ color: "#fff" }}>Created At</TableCell>
-                    
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {dataToDisplay.length == 0 ? (
-                    <TableRow>
-                    
-                    <TableCell></TableCell>
-                      <TableCell sx={{display:"flex" ,justifyContent:"center",alignItems:"center"}}>
-                      <img
-                      src={"/noData.gif"}
-                      alt=""
-                      style={{ height: "100%", width: "250px",}}
+                  {dataToDisplay.map((row) => (
+                    <Row
+                      key={row.name}
+                      row={row}
+                      handleRequest={handleRequest}
+                      loading={loading}
                     />
-                      </TableCell>
-                      
-                      <TableCell></TableCell>
-                    </TableRow>
-                   
-                  ) : (
-                    dataToDisplay.map((row) => (
-                      <Row
-                        key={row.name}
-                        row={row}
-                        handleRequest={handleRequest}
-                        loading={loading}
-                      />
-                    ))
-                  )}
+                  ))}
                 </TableBody>
-              </Table>
+              </Table>}
             </TableContainer>
           </Box>
         </Paper>
