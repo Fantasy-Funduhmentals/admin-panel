@@ -9,8 +9,12 @@ import React, { useState, useCallback } from "react";
 import { render } from "react-dom";
 import ImageViewer from "react-simple-image-viewer";
 // ----------------------------------------------------------------------
-
-const LightboxModalStyles = ({ Imageurl, style }) => {
+interface Props {
+  Imageurl:string ;
+  style:undefined
+}
+const LightboxModalStyles = (props:Props) => {
+  const {Imageurl, style  } =props;
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [Imageurl];

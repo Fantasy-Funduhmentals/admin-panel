@@ -300,7 +300,7 @@ const AddUserModal = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
+                        {loading ? <CircularProgress color="inherit"/> : "Save details"}
                       </Button>
                     </Box>
                   </Card>

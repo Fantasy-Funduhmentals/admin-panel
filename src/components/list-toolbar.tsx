@@ -59,7 +59,7 @@ export const ListToolbar = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-                placeholder={`Search ${subTitle}`}
+                placeholder={`Search ${title}`}
                 variant="outlined"
               />
             </Box>

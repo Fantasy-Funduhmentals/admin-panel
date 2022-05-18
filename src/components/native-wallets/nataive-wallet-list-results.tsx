@@ -72,6 +72,13 @@ export const NativeWalletListResults = (props: Props) => {
       return wallets?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
+  function numberWithCommas(n) {
+    var parts = n ? n.toString().split(".") : "";
+    return (
+      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + parts[1] : "")
+    );
+  }
 
   
 
@@ -141,7 +148,7 @@ export const NativeWalletListResults = (props: Props) => {
                       {/* <TableCell>{customer?.address}</TableCell> */}
                       <TableCell>
                         {customer?.balance
-                          ? parseFloat(customer?.balance).toFixed(3)
+                          ? numberWithCommas(parseFloat(customer?.balance).toFixed(3))
                           : "0.00"}{" "}
                         {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
