@@ -97,6 +97,36 @@ const items = [
   //   icon: <UserIcon fontSize="small" />,
   //   title: "Account",
   // },
+
+  
+ 
+  {
+    href: "/loan-request-completed",
+    icon: <RequestCompleted fontSize="small" />,
+    title: "Lavage Request completed",
+  },
+  {
+    href: "/supply",
+    icon: <Inventory2Icon fontSize="small" />,
+    title: "Supply",
+  },
+  {
+    href: "/chat",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Support",
+  },
+ 
+
+  {
+    href: "/distribute-nfts",
+    icon: <BugReportIcon fontSize="small" />,
+    title: "Distribute NFTS",
+  },
+  {
+    href: "/report",
+    icon: <Reports fontSize="small" />,
+    title: "Reports",
+  },
   {
     href: "/newsletter",
     icon: <Newsletter fontSize="small" />,
@@ -106,31 +136,6 @@ const items = [
     href: "/settings",
     icon: <Cog fontSize="small" />,
     title: "Settings",
-  },
-  {
-    href: "/distribute-nfts",
-    icon: <BugReportIcon fontSize="small" />,
-    title: "Distribute NFTS",
-  },
-  {
-    href: "/loan-request-completed",
-    icon: <RequestCompleted fontSize="small" />,
-    title: "Lavage Request completed",
-  },
-  {
-    href: "/chat",
-    icon: <SupportIcon fontSize="small" />,
-    title: "Support",
-  },
-  {
-    href: "/report",
-    icon: <Reports fontSize="small" />,
-    title: "Reports",
-  },
-  {
-    href: "/supply",
-    icon: <Inventory2Icon fontSize="small" />,
-    title: "Supply",
   },
 ];
 
