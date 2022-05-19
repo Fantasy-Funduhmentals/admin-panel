@@ -45,8 +45,8 @@ export const ListToolbar = (props: Props) => {
       </Box>
       <Box sx={{ mt: 3 }} >
         <Card >
-          <CardContent>
-            <Box sx={{ maxWidth: 500 }}>
+          <CardContent >
+            <Box sx={{ maxWidth: 500}}>
               <TextField
                 fullWidth
                 onChange={onChangeText}
@@ -63,6 +63,7 @@ export const ListToolbar = (props: Props) => {
                 variant="outlined"
               />
             </Box>
+         
           </CardContent>
         </Card>
       </Box>
