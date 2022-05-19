@@ -303,58 +303,114 @@ const FullScreenNFTDialog = (props: Props) => {
                   </Card>
                 </Grid>
 
-                <Grid item lg={7} md={7} xs={12} sx={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+                <Grid
+                  item
+                  lg={7}
+                  md={7}
+                  xs={12}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
                   <Typography variant="h4" sx={{ pb: 3, textAlign: "center" }}>
                     Remittance Address
                   </Typography>
-                  <Card sx={{ display: "flex",width:"100%" }}>
+                  <Card sx={{ display: "flex", width: "100%" }}>
                     <Box
                       sx={{
                         display: "flex",
                         flexDirection: "column",
-                        width: "40%",
+                        width: "100%",
+                        justifyContent:"space-around"
                       }}
-                    >
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Name
-                      </TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Email
-                      </TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>Country</TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>State</TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>City</TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>Street Address</TableCell>
-                      <Divider />
-                      <TableCell sx={{ fontWeight: "bold" }}>Zip Code</TableCell>
-                      {/* <TableCell></TableCell> */}
-                    </Box>
-
-                    <Box
-                      sx={{ display: "flex", flexDirection: "column",width:"60%" }}
                       key={editData._id}
                     >
-                      <TableCell>{editData?.remittanceAddress.name}</TableCell>
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>Name</TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData?.remittanceAddress.name}
+                        </TableCell>
+                      </Box>
                       <Divider />
-                      <TableCell>{editData?.remittanceAddress.email}</TableCell>
-                      <Divider />
-                      <TableCell>{editData?.remittanceAddress.country}</TableCell>
-                      <Divider />
-                      <TableCell>
-                        {editData?.remittanceAddress?.state}
-                      </TableCell>
-                      <Divider />
-                      <TableCell>{editData.remittanceAddress.city}</TableCell>
-                      <Divider />
-                      <TableCell>{editData.remittanceAddress.streetAddress}</TableCell>
-                      <Divider />
-                      <TableCell>{editData.remittanceAddress.zipCode}</TableCell>
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>Email</TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData?.remittanceAddress.email}
+                        </TableCell>
+                      </Box>
 
+                      <Divider />
+
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>
+                          Country
+                        </TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData?.remittanceAddress.country}
+                        </TableCell>
+                      </Box>
+                      <Divider />
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>State</TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData?.remittanceAddress?.state}
+                        </TableCell>
+                      </Box>
+                      <Divider />
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>City</TableCell>
+                        <TableCell sx={{ width:"70%"}}>{editData.remittanceAddress.city}</TableCell>
+                      </Box>
+                      <Divider />
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold",width:"30%" }}>
+                          Street Address
+                        </TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData.remittanceAddress.streetAddress}
+                        </TableCell>
+                      </Box>
+                      <Divider />
+                      <Box sx={{
+                        display: "flex",
+                     width:"100%",
+                        justifyContent:"space-between"
+                      }}>
+                        <TableCell sx={{ fontWeight: "bold" ,width:"30%"}}>
+                          Zip Code
+                        </TableCell>
+                        <TableCell sx={{ width:"70%"}}>
+                          {editData.remittanceAddress.zipCode}
+                        </TableCell>
+                      </Box>
+
+                      {/* <TableCell></TableCell> */}
                     </Box>
                   </Card>
                   <Box
