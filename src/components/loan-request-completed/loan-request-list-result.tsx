@@ -44,6 +44,7 @@ import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import NoDataFound from "../NoDataFound/NoDataFound";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -392,11 +393,7 @@ export const RequestListResults = (props: Props) => {
           <Box>
             <TableContainer component={Paper} >
               {dataToDisplay.length == 0 ? (
-                <img
-                  src={"/noData.gif"}
-                  alt=""
-                  style={{ height: "auto", width: "350px" }}
-                />
+               <NoDataFound/>
               ) : (
                 <Table aria-label="collapsible table">
                   <TableHead sx={{ background: "#5a82d7" }}>

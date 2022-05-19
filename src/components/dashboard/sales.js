@@ -135,7 +135,7 @@ export const Sales = (props) => {
       <CardContent>
         <Box
           sx={{
-            height: 360,
+            height: 430,
             position: "relative",
             display:"flex",
             justifyContent:"center",
@@ -194,7 +194,7 @@ export const Sales = (props) => {
           {/* <Line data={DataFile} options={options} /> */}
         </Box>
       </CardContent>
-      <Divider />
+      {/* <Divider />
       <Box
         sx={{
           display: "flex",
@@ -209,7 +209,7 @@ export const Sales = (props) => {
         >
           Overview
         </Button>
-      </Box>
+      </Box> */}
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}

@@ -34,6 +34,7 @@ import {
 import { REQUEST_STATUS, REQUEST_TYPES } from "../../utils/enums/request.enum";
 import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
+import NoDataFound from "../NoDataFound/NoDataFound";
 import { SeverityPill } from "../severity-pill";
 import StatusModal from "../StatusModal";
 
@@ -289,11 +290,7 @@ export const RequestListResults = (props: Props) => {
             <TableContainer component={Paper}>
              { dataToDisplay.length == 0 ? 
               
-              <img
-              src={"/noData.gif"}
-              alt=""
-              style={{ height: "100%", width: "300px",}}
-            /> :
+             <NoDataFound/> :
              <Table aria-label="collapsible table">
                 <TableHead sx={{ background: "#5a82d7" }}>
                   <TableRow>

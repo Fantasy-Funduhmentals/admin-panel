@@ -43,6 +43,7 @@ import StatusModal from "../StatusModal";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
+import NoDataFound from "../NoDataFound/NoDataFound";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -397,34 +398,40 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper} style={{ height: "100vh" }}>
-              <Table aria-label="collapsible table">
-                <TableHead sx={{ background: "#5a82d7" }}>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell style={{ color: "#fff" }}>User</TableCell>
-                    <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
-                    <TableCell style={{ color: "#fff" }}>Amount</TableCell>
-                    <TableCell style={{ color: "#fff" }}>index</TableCell>
-                    <TableCell style={{ color: "#fff" }}>Loan Status</TableCell>
-                    <TableCell style={{ color: "#fff" }}>
-                      remaining Supply
-                    </TableCell>
-                    <TableCell />
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
+            <TableContainer component={Paper} >
+              {dataToDisplay.length == 0 ? (
+              <NoDataFound/>
+              ) : (
+                <Table aria-label="collapsible table">
+                  <TableHead sx={{ background: "#5a82d7" }}>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell style={{ color: "#fff" }}>User</TableCell>
+                      <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
+                      <TableCell style={{ color: "#fff" }}>Amount</TableCell>
+                      <TableCell style={{ color: "#fff" }}>index</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Loan Status
+                      </TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        remaining Supply
+                      </TableCell>
+                      <TableCell />
+                      <TableCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dataToDisplay.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </TableContainer>
           </Box>
         </Paper>
