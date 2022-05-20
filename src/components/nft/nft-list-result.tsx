@@ -60,13 +60,7 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  function numberWithCommas(n) {
-    var parts = n ? n.toString().split(".") : "";
-    return (
-      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      (parts[1] ? "." + parts[1] : "")
-    );
-  }
+
 
   return (
     <Card {...props}>
@@ -136,8 +130,8 @@ export const NftListResults = (props: Props) => {
                       </TableCell>
                       <TableCell>{customer.index} </TableCell>
                       <TableCell>{customer.pricePerShare}</TableCell>
-                      <TableCell>{numberWithCommas(customer.remainingSupply)}</TableCell>
-                      <TableCell>{numberWithCommas(customer.totalSupply)}</TableCell>
+                      <TableCell>{customer.remainingSupply?.toLocaleString()}</TableCell>
+                      <TableCell>{customer.totalSupply?.toLocaleString()}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>

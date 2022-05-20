@@ -59,6 +59,7 @@ const NativeWallets = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getNativeWallets}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
             {loading ? <CircularProgress/> : <NftBalanceListResults data={userNft} searchQuery={searchText} />}
