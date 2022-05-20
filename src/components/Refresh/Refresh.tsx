@@ -20,7 +20,7 @@ const Refresh = (props: Props) => {
     <>
       <Box sx={{ textAlign: "center", cursor: "pointer" }} >
         <img
-          src={"/Refresh.svg"}
+          src={"/Refresh.svg" }
           alt=""
           style={style}
           onClick={()=>handleClick()}
