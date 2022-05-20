@@ -26,6 +26,7 @@ interface Props extends CardProps {
 
 export const TokenListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
+console.log(data,">>>>>>>>>>>>>>>>");
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -103,6 +104,7 @@ export const TokenListResults = (props: Props) => {
                   />
                 </TableCell> */}
                   <TableCell style={{color:"white"}}>Name</TableCell>
+                  <TableCell style={{color:"white"}}>ID</TableCell>
                   <TableCell style={{color:"white"}}>Symbol</TableCell>
 
                   <TableCell style={{color:"white"}}>minted</TableCell>
@@ -134,18 +136,20 @@ export const TokenListResults = (props: Props) => {
                           <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
                             {getInitials(customer.displayName)}
                           </Avatar>
-                          <Typography color="textPrimary" variant="body1">
+                          <Typography color="textPrimary" variant="body1" sx={{minWidth:"150px"}}>
                             {customer.displayName}
                           </Typography>
                         </Box>
                       </TableCell>
+                      <TableCell>{customer?._id} </TableCell>
+
                       <TableCell>
                         <img
                           src={customer?.displaySymbol}
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>${numberWithCommas(customer?.totalSupply)} </TableCell>
+                      <TableCell>${customer?.totalSupply.toLocaleString()} </TableCell>
                       <TableCell>{numberWithCommas(customer?.remainingSupply.toFixed(2))}</TableCell>
                       <TableCell>{numberWithCommas(customer?.price)}</TableCell>
                       <TableCell>{premium(customer)}  </TableCell>
