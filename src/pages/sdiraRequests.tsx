@@ -54,6 +54,7 @@ const SdiraRequests = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getCoinsListing}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
             {loading ? <CircularProgress/> :<RequestListResults data={requests} searchQuery={searchText} />}

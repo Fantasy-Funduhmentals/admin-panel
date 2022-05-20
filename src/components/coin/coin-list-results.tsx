@@ -54,12 +54,12 @@ export const CoinListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  function numberWithCommas(n) {
-    var parts = n ? n.toString().split(".") : "";
-    return (
-      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      (parts[1] ? "." + parts[1] : "")
-    );}
+  // function numberWithCommas(n) {
+  //   var parts = n ? n.toString().split(".") : "";
+  //   return (
+  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+  //     (parts[1] ? "." + parts[1] : "")
+  //   );}
 
   return (
     <Card {...props}>
@@ -108,7 +108,7 @@ export const CoinListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.blockchain}</TableCell>
-                    <TableCell>{numberWithCommas(customer.rate)} $</TableCell>
+                    <TableCell>{customer.rate.toLocaleString()} $</TableCell>
                     <TableCell
                       style={{
                         color:
@@ -120,14 +120,14 @@ export const CoinListResults = (props: Props) => {
                       {parseFloat(customer.changePercentage24h).toFixed(2)} %
                     </TableCell>
                     <TableCell style={{ color: "green" }}>
-                      {numberWithCommas(customer.high24h)}
+                      {customer.high24h.toLocaleString()}
                     </TableCell>
                     <TableCell style={{ color: "red" }}>
-                      {numberWithCommas(customer.low24h)}{" "}
+                      {customer.low24h.toLocaleString()}{" "}
                     </TableCell>
 
-                    <TableCell>{numberWithCommas(customer.marketCap)}</TableCell>
-                    <TableCell>{numberWithCommas(customer.totalVolume)}</TableCell>
+                    <TableCell>{customer.marketCap.toLocaleString()}</TableCell>
+                    <TableCell>{customer.totalVolume.toLocaleString()}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
