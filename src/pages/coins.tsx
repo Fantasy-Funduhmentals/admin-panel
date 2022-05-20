@@ -60,6 +60,7 @@ const Coins = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getCoinsListing}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
             {loading ? <CircularProgress/>:<CoinListResults data={coins} searchQuery={searchText} />}

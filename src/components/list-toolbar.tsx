@@ -10,16 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 import { Search as SearchIcon } from "../icons/search";
+import Refresh from "./Refresh/Refresh";
 
 interface Props extends BoxProps {
   title: string;
   subTitle: string;
   onPressAdd?: () => any;
   onChangeText?: (val: any) => any;
+  handleRefresh:()=> any;
 }
 
 export const ListToolbar = (props: Props) => {
-  const { title, subTitle, onPressAdd, onChangeText } = props;
+  const { title, subTitle, onPressAdd, onChangeText,handleRefresh } = props;
 
   return (
     <Box {...props}>
@@ -45,8 +47,8 @@ export const ListToolbar = (props: Props) => {
       </Box>
       <Box sx={{ mt: 3 }} >
         <Card >
-          <CardContent >
-            <Box sx={{ maxWidth: 500}}>
+          <CardContent sx={{display:"flex",justifyContent:"space-between"}}>
+            <Box sx={{ maxWidth: 500,minWidth:350}}>
               <TextField
                 fullWidth
                 onChange={onChangeText}
@@ -62,6 +64,9 @@ export const ListToolbar = (props: Props) => {
                 placeholder={`Search ${title}`}
                 variant="outlined"
               />
+            </Box>
+            <Box sx={{ maxWidth: 500}}>
+              <Refresh style={{width:"30px",height:"30px"}} headingStyle={{fontSize:"13px"}} onClick={()=>handleRefresh()}/>
             </Box>
          
           </CardContent>

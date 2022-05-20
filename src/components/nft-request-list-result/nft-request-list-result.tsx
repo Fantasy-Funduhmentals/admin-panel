@@ -135,13 +135,13 @@ const Row = (props) => {
       setLoading(false);
     }
   };
-  function numberWithCommas(n) {
-    var parts = n ? n.toString().split(".") : "";
-    return (
-      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      (parts[1] ? "." + parts[1] : "")
-    );
-  }
+  // function numberWithCommas(n) {
+  //   var parts = n ? n.toString().split(".") : "";
+  //   return (
+  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+  //     (parts[1] ? "." + parts[1] : "")
+  //   );
+  // }
   return (
     <React.Fragment>
       {loading ? (
@@ -193,7 +193,7 @@ const Row = (props) => {
               {row.isLoan ? "Loan request" : "Normal request "}
             </SeverityPill>
             <TableCell align="center">
-              {numberWithCommas(row?.assetPool?.remainingSupply)}
+              {row?.assetPool?.remainingSupply.toLocaleString()}
             </TableCell>
             <TableCell>
               <Button

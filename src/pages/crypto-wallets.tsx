@@ -59,6 +59,7 @@ const CryptoWallets = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getUserListing}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
           {

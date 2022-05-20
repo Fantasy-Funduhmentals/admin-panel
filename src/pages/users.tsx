@@ -63,6 +63,7 @@ const Users = () => {
             onPressAdd={() => {
               setUserModalOpen(true);
             }}
+            handleRefresh={getUserListing}
           />
           <Box
             style={{

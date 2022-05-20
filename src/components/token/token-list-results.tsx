@@ -71,13 +71,11 @@ console.log(data,">>>>>>>>>>>>>>>>");
       ( customer?.strikePrice - customer?.price).toFixed(2)
     );
   }
-  function numberWithCommas(n) {
-    var parts = n ? n.toString().split(".") : "";
-    return (
-      parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      (parts[1] ? "." + parts[1] : "")
-    );
-  }
+
+
+
+
+
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -150,12 +148,12 @@ console.log(data,">>>>>>>>>>>>>>>>");
                         />
                       </TableCell>
                       <TableCell>${customer?.totalSupply.toLocaleString()} </TableCell>
-                      <TableCell>{numberWithCommas(customer?.remainingSupply.toFixed(2))}</TableCell>
-                      <TableCell>{numberWithCommas(customer?.price)}</TableCell>
+                      <TableCell>{customer?.remainingSupply.toFixed(2)}</TableCell>
+                      <TableCell>{customer?.price.toLocaleString()}</TableCell>
                       <TableCell>{premium(customer)}  </TableCell>
                       <TableCell>{(customer.price * customer.multiplier).toFixed(3)}  </TableCell>
 
-                      <TableCell>{numberWithCommas(customer.orderIndex)}</TableCell>
+                      <TableCell>{customer.orderIndex.toLocaleString()}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>

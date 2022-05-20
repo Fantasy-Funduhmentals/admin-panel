@@ -1,0 +1,15 @@
+/******* rotate*****/
+.rotateRefrechComponent {
+    margin: auto;
+    animation: mymove 2s infinite;
+  }
+  
+  @keyframes mymove {
+    100% {transform: rotate(180deg);}
+    
+  }
+  
+  .notRotateRefrechComponent{
+    margin: auto;
+  }
+  /******* rotate*****/

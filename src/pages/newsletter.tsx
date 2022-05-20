@@ -73,6 +73,7 @@ const Tokens = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getNewsLetterList}
           />
 
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
