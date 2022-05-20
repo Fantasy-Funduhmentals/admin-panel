@@ -29,6 +29,9 @@ const getAllNativeWalletsData = async () => {
 const getNFTBalanceData = async () => {
   return await HTTP_CLIENT.get("/nft-wallet/all-nft-wallets");
 };
+const directWiresPost = async (data) => {
+  return await HTTP_CLIENT.post("direct-wires/handle-wire",data);
+};
 
 const createNewToken = async (params: any) => {
   return await HTTP_CLIENT.post("/native-token/createNewToken", params);
@@ -66,5 +69,6 @@ export {
   createSubscription,
   deleteSubscription,
   getAllNativeWalletsData,
-  directWireData
+  directWireData,
+  directWiresPost
 };

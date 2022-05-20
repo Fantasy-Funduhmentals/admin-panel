@@ -98,11 +98,11 @@ const items = [
   //   title: "Account",
   // },
 
-  {
-    href: "/direct-wire",
-    icon: <RequestCompleted fontSize="small" />,
-    title: "Direct Wire",
-  },
+  // {
+  //   href: "/direct-wire",
+  //   icon: <RequestCompleted fontSize="small" />,
+  //   title: "Direct Wire",
+  // },
  
   {
     href: "/loan-request-completed",
