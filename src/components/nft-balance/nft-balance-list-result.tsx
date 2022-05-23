@@ -126,8 +126,8 @@ export const NftBalanceListResults = (props: Props) => {
                     {/* <TableCell>{customer?.name}</TableCell> */}
                     <TableCell>
                       {customer?.balance
-                        ? parseFloat(customer?.balance).toFixed(3).toLocaleString()
-                        : "0.00"}{" "}
+                        ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
+                        : "0.00"}
                       {customer.coinSymbol?.toUpperCase()}
                     </TableCell>
                     <TableCell>

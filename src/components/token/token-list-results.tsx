@@ -148,10 +148,10 @@ console.log(data,">>>>>>>>>>>>>>>>");
                         />
                       </TableCell>
                       <TableCell>${customer?.totalSupply.toLocaleString()} </TableCell>
-                      <TableCell>{customer?.remainingSupply.toFixed(2)}</TableCell>
+                      <TableCell>{Number(customer?.remainingSupply.toFixed(2)).toLocaleString()}</TableCell>
                       <TableCell>{customer?.price.toLocaleString()}</TableCell>
                       <TableCell>{premium(customer)}  </TableCell>
-                      <TableCell>{(customer.price * customer.multiplier).toFixed(3)}  </TableCell>
+                      <TableCell>{Number((customer.price * customer.multiplier).toFixed(3)).toLocaleString()}  </TableCell>
 
                       <TableCell>{customer.orderIndex.toLocaleString()}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
