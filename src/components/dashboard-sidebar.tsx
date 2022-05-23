@@ -13,6 +13,7 @@ import { CryptoWallets as CryptoWalletsIcon } from "../icons/cryptoWallets";
 import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
 import { Nftbalance } from "../icons/Nft balance";
 import { Nftpurchase } from "../icons/Nftpurchase";
+import { DirectWire } from "../icons/DirectWire";
 import { Cog } from "../icons/cog";
 import { Reports } from "../icons/reports";
 import { RequestCompleted } from "../icons/requestCompleted";
@@ -98,11 +99,11 @@ const items = [
   //   title: "Account",
   // },
 
-  // {
-  //   href: "/direct-wire",
-  //   icon: <RequestCompleted fontSize="small" />,
-  //   title: "Direct Wire",
-  // },
+  {
+    href: "/direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Direct Wire",
+  },
  
   {
     href: "/loan-request-completed",

@@ -37,9 +37,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
-
-
 interface Props {
   open: boolean;
   onClose: any;
@@ -50,26 +47,32 @@ const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handlePost = async (editData) =>{
+  const handlePost = async (editData) => {
     try {
-      const data={
-        wireId:"1",
-        editData,
-      }
-      setLoading(true)
-     await directWiresPost(data);
-     setLoading(false)
+      const data = {
+        wireId: editData._id,
+      };
+      setLoading(true);
+      const res = await directWiresPost(data);
+
+      setStatusData({
+        type: "success",
+        message: res.data.message,
+      });
+      setLoading(false);
+
+      setTimeout(() => {
+        onClose();
+      }, 1000);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
-      
     }
-  
-  }
+  };
 
   return (
     <div>
@@ -191,7 +194,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Name
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData?.remittanceAddress.name}
+                          {editData?.remittanceAddress?.name}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -206,7 +209,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Email
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData?.remittanceAddress.email}
+                          {editData?.remittanceAddress?.email}
                         </TableCell>
                       </Box>
 
@@ -223,7 +226,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Country
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData?.remittanceAddress.country}
+                          {editData?.remittanceAddress?.country}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -253,7 +256,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           City
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData.remittanceAddress.city}
+                          {editData.remittanceAddress?.city}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -268,7 +271,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Street Address
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData.remittanceAddress.streetAddress}
+                          {editData.remittanceAddress?.streetAddress}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -283,7 +286,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Zip Code
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData.remittanceAddress.zipCode}
+                          {editData?.remittanceAddress?.zipCode}
                         </TableCell>
                       </Box>
 
@@ -305,7 +308,7 @@ const FullScreenNFTDialog = (props: Props) => {
                       variant="contained"
                       type="submit"
                       fullWidth
-                      onClick={()=>handlePost(editData)}
+                      onClick={() => handlePost(editData)}
                     >
                       {loading ? (
                         <CircularProgress color="inherit" />
