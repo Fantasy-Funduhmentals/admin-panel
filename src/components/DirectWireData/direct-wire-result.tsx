@@ -18,6 +18,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import NoDataFound from "../NoDataFound/NoDataFound";
 
 interface Props extends CardProps {
   data: any[];
@@ -79,6 +80,7 @@ export const NftListResults = (props: Props) => {
           }}
         >
           <Box>
+         {dataToDisplay.length == 0 ?  <NoDataFound/> :
             <Table>
               <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
@@ -154,7 +156,7 @@ export const NftListResults = (props: Props) => {
                   );
                 })}
               </TableBody>
-            </Table>
+            </Table>}
           </Box>
         </Paper>
       </PerfectScrollbar>

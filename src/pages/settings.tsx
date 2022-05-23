@@ -15,7 +15,7 @@ const Settings = () => (
         py: 8,
       }}
     >
-      <Container maxWidth="lg">
+      <Box sx={{ml:5,mr:5}}>
         <Typography sx={{ mb: 3 }} variant="h4">
           Settings
         </Typography>
@@ -23,7 +23,7 @@ const Settings = () => (
         <Box sx={{ pt: 3}}>
           <SettingsPassword />
         </Box>
-      </Container>
+      </Box>
     </Box>
   </>
 );
