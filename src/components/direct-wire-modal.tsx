@@ -45,6 +45,8 @@ interface Props {
 
 const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
+  console.log(editData,"<<<<<<<");
+  
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const handlePost = async (editData) => {
@@ -73,7 +75,9 @@ const FullScreenNFTDialog = (props: Props) => {
       });
     }
   };
-
+  function capitalizeFirstLetter(str:string) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
   return (
     <div>
       <Dialog
@@ -287,6 +291,36 @@ const FullScreenNFTDialog = (props: Props) => {
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
                           {editData?.remittanceAddress?.zipCode}
+                        </TableCell>
+                      </Box>
+                      <Divider />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                          Amount
+                        </TableCell>
+                        <TableCell sx={{ width: "70%" }}>
+                       { editData?.amount}
+                        </TableCell>
+                      </Box>
+                      <Divider />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                        Type
+                        </TableCell>
+                        <TableCell sx={{ width: "70%" }}>
+                          {capitalizeFirstLetter(editData?.type)}
                         </TableCell>
                       </Box>
 
