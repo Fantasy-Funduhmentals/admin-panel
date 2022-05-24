@@ -108,7 +108,7 @@ const items = [
   {
     href: "/loan-request-completed",
     icon: <RequestCompleted fontSize="small" />,
-    title: "Lavage Request completed",
+    title: "Leverage Request completed",
   },
   {
     href: "/supply",
