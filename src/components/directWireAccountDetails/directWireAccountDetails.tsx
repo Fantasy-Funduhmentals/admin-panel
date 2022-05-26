@@ -9,24 +9,38 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { directWireAccountDetails } from "../../services/userService";
+import { RootState } from "../../store";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
+import { getSwapRate } from "../../services/userService";
 
 const WireAccountDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const [bankDetails, setBankDetails] = useState(null);
+  console.log(
+    "🚀 ~ file: directWireAccountDetails.tsx ~ line 25 ~ WireAccountDetails ~ bankDetails",
+    bankDetails
+  );
+
+  const getSettings = async () => {
+    const response = await getSwapRate();
+    setBankDetails(response?.data?.directWireAccount);
+  };
+
   const formik = useFormik({
     initialValues: {
-      fullname: "",
-      physicaladdress: "",
-      bankname: "",
-      bankaddress: "",
-      accountnumber: "",
-      accounttype: "",
-      bankrouting: "",
+      fullname: bankDetails?.name ? bankDetails.name : "",
+      physicaladdress: bankDetails?.address ? bankDetails?.address : "",
+      bankname: bankDetails?.bankName ? bankDetails?.bankName : "",
+      bankaddress: bankDetails?.bankAddress ? bankDetails?.bankAddress : "",
+      accountnumber: bankDetails?.accountNo ? bankDetails?.accountNo : "",
+      accounttype: bankDetails?.accounttype ? bankDetails?.accounttype : "",
+      bankrouting: bankDetails?.routingNo ? bankDetails?.routingNo : "",
     },
     validationSchema: Yup.object({
       fullname: Yup.string().required().min(1).max(33).label("fullname"),
@@ -49,6 +63,7 @@ const WireAccountDetails = (props) => {
         .label("accountnumber"),
       bankrouting: Yup.string().required().min(1).max(33).label("bankrouting"),
     }),
+    enableReinitialize: true,
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
       console.log(values, "values");
@@ -75,6 +90,8 @@ const WireAccountDetails = (props) => {
         type: "success",
         message: "Account details has been submitted successfully",
       });
+      getSettings();
+
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
@@ -85,6 +102,13 @@ const WireAccountDetails = (props) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    getSettings();
+  }, []);
+
+  console.log(formik.values);
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} {...props}>
@@ -156,7 +180,7 @@ const WireAccountDetails = (props) => {
               label="Bank Account Number "
               margin="normal"
               name="accountnumber"
-              type="number"
+              type="string"
               variant="outlined"
             />
             <TextField
