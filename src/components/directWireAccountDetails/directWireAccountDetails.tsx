@@ -22,10 +22,6 @@ const WireAccountDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [bankDetails, setBankDetails] = useState(null);
-  console.log(
-    "🚀 ~ file: directWireAccountDetails.tsx ~ line 25 ~ WireAccountDetails ~ bankDetails",
-    bankDetails
-  );
 
   const getSettings = async () => {
     const response = await getSwapRate();
