@@ -28,6 +28,10 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
+  console.log(
+    "🚀 ~ file: direct-wire-result.tsx ~ line 31 ~ NftListResults ~ data",
+    data
+  );
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -61,14 +65,7 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  // function numberWithCommas(n) {
-  //   var parts = n ? n.toString().split(".") : "";
-  //   return (
-  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-  //     (parts[1] ? "." + parts[1] : "")
-  //   );
-  // }
-  function capitalizeFirstLetter(str:string) {
+  function capitalizeFirstLetter(str: string) {
     return str[0].toUpperCase() + str.slice(1);
   }
   return (
@@ -77,88 +74,82 @@ export const NftListResults = (props: Props) => {
         <Paper
           style={{
             width: "100%",
-            // marginTop: theme.spacing.unit * 3,
+
             overflowX: "auto",
           }}
         >
           <Box>
-         {dataToDisplay.length == 0 ?  <NoDataFound/> :
-            <Table>
-              <TableHead sx={{ background: "#5a82d7" }}>
-                <TableRow>
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.length === data.length}
-                      color="primary"
-                      indeterminate={
-                        selectedCustomerIds.length > 0 &&
-                        selectedCustomerIds.length < data.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell> */}
-                  <TableCell style={{ color: "#fff" }}>Order Id</TableCell>
-                  <TableCell style={{ color: "#fff" }}>User</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Name</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Email</TableCell>
+            {dataToDisplay.length == 0 ? (
+              <NoDataFound />
+            ) : (
+              <Table>
+                <TableHead sx={{ background: "#5a82d7" }}>
+                  <TableRow>
+                    <TableCell style={{ color: "#fff" }}>Order Id</TableCell>
+                    <TableCell style={{ color: "#fff" }}>User</TableCell>
+                    <TableCell style={{ color: "#fff" }}>User type</TableCell>
+                    <TableCell style={{ color: "#fff" }}>
+                      Request Status
+                    </TableCell>
 
-                  <TableCell style={{ color: "#fff" }}>Amount</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Type</TableCell>
-                  {/* <TableCell></TableCell> */}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataToDisplay?.map((customer) => {
-                  return (
-                    <TableRow
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => onPressEdit(customer)}
-                      hover
-                      key={customer._id}
-                      selected={
-                        selectedCustomerIds.indexOf(customer._id) !== -1
-                      }
-                    >
-                      <TableCell>{customer?.orderId}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            alignItems: "center",
-                            display: "flex",
-                          }}
-                        >
-                          <Avatar
-                            src={customer?.remittanceAddress?.signatureUrl}
-                            sx={{ mr: 2 }}
-                          >
-                            {getInitials(customer?.remittanceAddress?.name)}
-                          </Avatar>
+                    <TableCell style={{ color: "#fff" }}>Amount</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Type</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {dataToDisplay?.map((customer) => {
+                    return (
+                      <TableRow
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => onPressEdit(customer)}
+                        hover
+                        key={customer._id}
+                        selected={
+                          selectedCustomerIds.indexOf(customer._id) !== -1
+                        }
+                      >
+                        <TableCell>{customer?.orderId}</TableCell>
+                        <TableCell>
                           <Box
                             sx={{
                               alignItems: "center",
+                              display: "flex",
                             }}
                           >
-                            <Typography color="textPrimary" variant="body1">
-                              {customer?.remittanceAddress?.name}
-                            </Typography>
-                            {customer?.remittanceAddress?.email}
+                            <Avatar
+                              src={customer?.user?.profilePicture}
+                              sx={{ mr: 2 }}
+                            >
+                              {getInitials(customer?.user?.name)}
+                            </Avatar>
+                            <Box
+                              sx={{
+                                alignItems: "center",
+                              }}
+                            >
+                              <Typography color="textPrimary" variant="body1">
+                                {customer?.user?.name}
+                              </Typography>
+                              {customer?.user?.email}
+                            </Box>
                           </Box>
-                        </Box>
-                      </TableCell>
+                        </TableCell>
 
-                      <TableCell>{customer?.remittanceAddress?.name}</TableCell>
-                      <TableCell>
-                        {customer?.remittanceAddress?.email}
-                      </TableCell>
+                        <TableCell>{customer?.user?.type}</TableCell>
+                        <TableCell>{customer?.status}</TableCell>
 
-                      <TableCell>{customer.amount}</TableCell>
-                      <TableCell>{capitalizeFirstLetter(customer.type)}</TableCell>
-                   
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>}
+                        <TableCell>
+                          ${Number(customer.amount).toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          {capitalizeFirstLetter(customer.type)}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            )}
           </Box>
         </Paper>
       </PerfectScrollbar>
