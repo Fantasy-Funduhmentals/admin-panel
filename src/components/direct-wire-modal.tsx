@@ -45,8 +45,8 @@ interface Props {
 
 const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(editData,"<<<<<<<edit data");
-  
+  console.log(editData, "<<<<<<<edit data");
+
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const handlePost = async (editData) => {
@@ -75,7 +75,7 @@ const FullScreenNFTDialog = (props: Props) => {
       });
     }
   };
-  function capitalizeFirstLetter(str:string) {
+  function capitalizeFirstLetter(str: string) {
     return str[0].toUpperCase() + str.slice(1);
   }
   return (
@@ -161,6 +161,69 @@ const FullScreenNFTDialog = (props: Props) => {
                       </Box>
                     </Box>
                   </Card>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: 30,
+                      width: "50%",
+                      mt: 5,
+                    }}
+                  >
+                    Order Detail
+                  </Typography>
+                  <Box
+                    sx={{
+                      mt: 4,
+                      width: 400,
+                      height: 100,
+
+                      // backgroundColor: "primary.dark",
+                    }}
+                    style={{
+                      boxShadow: "#0000004a 1px 1px 18px",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Card sx={{ width: "100%" }}>
+                      <Table>
+                        {/* sx={{ background: "#5a82d7" }} */}
+                        <TableHead>
+                          <TableRow>
+                            {/* <TableCell>Order Detail</TableCell> */}
+
+                            <TableCell
+                              sx={{ fontWeight: "bold", width: "30%" }}
+                            >
+                              Amount
+                            </TableCell>
+                            <TableCell
+                              sx={{ fontWeight: "bold", width: "30%" }}
+                            >
+                              Type
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow>
+                            {/* <TableCell></TableCell> */}
+                            <TableCell>{editData?.amount}</TableCell>
+
+                            <TableCell>
+                              {capitalizeFirstLetter(editData?.type)}
+                            </TableCell>
+
+                            {/* <TableCell>
+                          {moment(
+                            editData.token
+                              ? editData.token?.createdAt
+                              : editData.subscription?.createdAt
+                          ).format("DD/MM/YYYY hh:mm A")}
+                        </TableCell> */}
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </Card>
+                  </Box>
                 </Grid>
 
                 <Grid
@@ -301,12 +364,12 @@ const FullScreenNFTDialog = (props: Props) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                        {/* <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
                           Amount
-                        </TableCell>
-                        <TableCell sx={{ width: "70%" }}>
-                       { editData?.amount}
-                        </TableCell>
+                        </TableCell> */}
+                        {/* <TableCell sx={{ width: "70%" }}>
+                          {editData?.amount}
+                        </TableCell> */}
                       </Box>
                       <Divider />
                       <Box
@@ -316,12 +379,12 @@ const FullScreenNFTDialog = (props: Props) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
-                        Type
-                        </TableCell>
-                        <TableCell sx={{ width: "70%" }}>
+                        {/* <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                          Type
+                        </TableCell> */}
+                        {/* <TableCell sx={{ width: "70%" }}>
                           {capitalizeFirstLetter(editData?.type)}
-                        </TableCell>
+                        </TableCell> */}
                       </Box>
 
                       {/* <TableCell></TableCell> */}
@@ -379,10 +442,10 @@ const FullScreenNFTDialog = (props: Props) => {
                           {editData.token ? "Coin" : "Payment Method"}
                         </TableCell>
                         <TableCell>
-                          {editData.token ? "Circulating Supply" : "Price USD"}
+                          {editData.token ? "Remaining Supply" : "Price USD"}
                         </TableCell>
 
-                        <TableCell>Created At</TableCell>
+                        {/* <TableCell>Created At</TableCell> */}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -419,10 +482,10 @@ const FullScreenNFTDialog = (props: Props) => {
                             >
                               <Typography color="textPrimary" variant="h6">
                                 {editData.token
-                                  ? editData.token?.displayName
+                                  ? editData.token?.shortName
                                   : editData.subscription?.title}
                               </Typography>
-                              <Typography
+                              {/* <Typography
                                 sx={{
                                   maxWidth: "350px",
                                   fontSize: "14px",
@@ -432,7 +495,7 @@ const FullScreenNFTDialog = (props: Props) => {
                                 {editData.token
                                   ? editData.token?.description
                                   : editData.subscription?.description}
-                              </Typography>
+                              </Typography> */}
                             </Box>
                           </Box>
                         </TableCell>
@@ -445,17 +508,17 @@ const FullScreenNFTDialog = (props: Props) => {
                         <TableCell>
                           {" "}
                           {editData.token
-                            ? editData.token?.circulatingSupply.toFixed(3)
+                            ? editData.token?.remainingSupply.toFixed(3)
                             : editData.subscription?.priceUSD}
                         </TableCell>
 
-                        <TableCell>
+                        {/* <TableCell>
                           {moment(
                             editData.token
                               ? editData.token?.createdAt
                               : editData.subscription?.createdAt
                           ).format("DD/MM/YYYY hh:mm A")}
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     </TableBody>
                   </Table>
