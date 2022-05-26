@@ -128,7 +128,7 @@ const FullScreenNFTDialog = (props: Props) => {
                 }}
               >
                 <Grid item lg={4} md={4} xs={12}>
-                  <Card>
+                  <Card sx={{ pb: 3 }}>
                     <Box
                       sx={{
                         alignItems: "center",
@@ -160,70 +160,72 @@ const FullScreenNFTDialog = (props: Props) => {
                         </Typography>
                       </Box>
                     </Box>
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: 30,
+                        width: "50%",
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        // mt: 5,
+                      }}
+                    >
+                      Order Detail
+                    </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Box
+                        sx={{
+                          mt: 4,
+                          width: "80%",
+                          // height: "50%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignSelf: "center",
+                        }}
+                        style={{
+                          boxShadow: "#0000004a 1px 1px 18px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Card
+                          sx={{
+                            width: "100%",
+                            alignItems: "center",
+                            display: "flex",
+                            justifyContent: "end",
+                          }}
+                        >
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell
+                                  sx={{ fontWeight: "bold", width: "30%" }}
+                                >
+                                  Amount
+                                </TableCell>
+                                <TableCell
+                                  sx={{ fontWeight: "bold", width: "30%" }}
+                                >
+                                  Type
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                {/* <TableCell></TableCell> */}
+                                <TableCell>{editData?.amount}</TableCell>
+
+                                <TableCell>
+                                  {capitalizeFirstLetter(editData?.type)}
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Card>
+                      </Box>
+                    </Box>
                   </Card>
-                  <Typography
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: 30,
-                      width: "50%",
-                      mt: 5,
-                    }}
-                  >
-                    Order Detail
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 4,
-                      width: 400,
-                      height: 100,
-
-                      // backgroundColor: "primary.dark",
-                    }}
-                    style={{
-                      boxShadow: "#0000004a 1px 1px 18px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <Card sx={{ width: "100%" }}>
-                      <Table>
-                        {/* sx={{ background: "#5a82d7" }} */}
-                        <TableHead>
-                          <TableRow>
-                            {/* <TableCell>Order Detail</TableCell> */}
-
-                            <TableCell
-                              sx={{ fontWeight: "bold", width: "30%" }}
-                            >
-                              Amount
-                            </TableCell>
-                            <TableCell
-                              sx={{ fontWeight: "bold", width: "30%" }}
-                            >
-                              Type
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow>
-                            {/* <TableCell></TableCell> */}
-                            <TableCell>{editData?.amount}</TableCell>
-
-                            <TableCell>
-                              {capitalizeFirstLetter(editData?.type)}
-                            </TableCell>
-
-                            {/* <TableCell>
-                          {moment(
-                            editData.token
-                              ? editData.token?.createdAt
-                              : editData.subscription?.createdAt
-                          ).format("DD/MM/YYYY hh:mm A")}
-                        </TableCell> */}
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </Card>
-                  </Box>
                 </Grid>
 
                 <Grid
