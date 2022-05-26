@@ -27,7 +27,6 @@ const Tokens = () => {
     setLoading(true);
     try {
       const coinsRes = await directWireData();
-      console.log(coinsRes.data,"sdsdsdsd");
       
       dispatch(saveDirectWire(coinsRes.data));
       setLoading(false);

@@ -45,7 +45,7 @@ interface Props {
 
 const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(editData,"<<<<<<<");
+  console.log(editData,"<<<<<<<edit data");
   
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
