@@ -123,6 +123,7 @@ export const SubscriptionListListResults = (props: Props) => {
                   {/* <TableCell>Payment method</TableCell> */}
                   <TableCell style={{color:"#fff"}}>Duration</TableCell>
                   <TableCell style={{color:"#fff"}}>Value in USD</TableCell>
+                  <TableCell style={{color:"#fff"}}>Order Index</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -155,6 +156,7 @@ export const SubscriptionListListResults = (props: Props) => {
                       {/* <TableCell>{item.paymentMethod}</TableCell> */}
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
+                      <TableCell>{item.orderIndex}</TableCell>
                       <TableCell onClick={() => onPressEdit(item)}>
                         <ModeEditIcon  color="secondary" />
                     
