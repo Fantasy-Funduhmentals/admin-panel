@@ -43,10 +43,10 @@ const WireAccountDetails = (props) => {
       physicaladdress: Yup.string()
         .required()
         .min(1)
-        .max(33)
+        .max(100)
         .label("physicaladdress"),
       bankname: Yup.string().required().min(1).max(33).label("bankname"),
-      bankaddress: Yup.string().required().min(1).max(33).label("bankaddress"),
+      bankaddress: Yup.string().required().min(1).max(100).label("bankaddress"),
       accountnumber: Yup.string()
         .required()
         .min(1)
