@@ -27,7 +27,7 @@ const Tokens = () => {
     setLoading(true);
     try {
       const coinsRes = await directWireData();
-      
+
       dispatch(saveDirectWire(coinsRes.data));
       setLoading(false);
     } catch (err) {
@@ -63,8 +63,8 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Direct Wire"
-            subTitle="Direct-Wire"
+            title="Pending Direct Wire"
+            subTitle="Pending Direct-Wire"
             // onPressAdd={() => {
             //   setCustomerModalOpen(true);
             // }}
