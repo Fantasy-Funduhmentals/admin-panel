@@ -60,6 +60,7 @@ export const UserListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery, sdira]);
+  console.log("dataToDisplay", dataToDisplay);
 
   const handleSdira = () => {
     setSdira(!sdira);
@@ -74,9 +75,7 @@ export const UserListResults = (props: Props) => {
           justifyContent: "space-between",
         }}
       >
-        <Box
-         sx={{ml:3}}
-        >
+        <Box sx={{ ml: 3 }}>
           <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
             Search Sdira
           </Button>
@@ -93,14 +92,18 @@ export const UserListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{background:"#5a82d7"}}>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
-                  <TableCell style={{color:"#fff"}}>Name</TableCell>
-                  <TableCell style={{color:"#fff"}}>Email</TableCell>
-                  <TableCell style={{color:"#fff"}}>Wallet Activation Status</TableCell>
-                  <TableCell style={{color:"#fff"}}>Customer Status</TableCell>
-                  <TableCell style={{color:"#fff"}}>User type</TableCell>
-                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Name</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Wallet Activation Status
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Customer Status
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>User type</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -145,7 +148,7 @@ export const UserListResults = (props: Props) => {
                         {customer.isCustomer ? "Verified" : "Not Verified"}
                       </SeverityPill>
                     </TableCell>
-                    <TableCell>{customer.sdira ? "Sdira" : "IRA"}</TableCell>
+                    <TableCell>{customer.type}</TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>

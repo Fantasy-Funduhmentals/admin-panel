@@ -29,7 +29,7 @@ interface Props extends CardProps {
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
   console.log(
-    "🚀 ~ file: direct-wire-result.tsx ~ line 31 ~ NftListResults ~ data",
+    " ~ file: direct-wire-result.tsx ~ line 31 ~ NftListResults ~ data",
     data
   );
 
@@ -54,8 +54,8 @@ export const NftListResults = (props: Props) => {
       return filterData
         .filter(
           (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
+            user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user?.remittanceAddress?.name
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
         )

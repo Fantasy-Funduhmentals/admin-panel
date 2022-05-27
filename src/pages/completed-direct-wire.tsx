@@ -65,8 +65,8 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Complete Direct Wire"
-            subTitle="Complete Direct-Wire"
+            title="Completed Direct Wire"
+            subTitle="Completed Direct-Wire"
             // onPressAdd={() => {
             //   setCustomerModalOpen(true);
             // }}
