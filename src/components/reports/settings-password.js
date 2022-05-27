@@ -64,22 +64,22 @@ export const SettingsReport = (props) => {
 
     if (values.label == "Export users") {
       url = "/user/export-all-users";
-      name = "users";
+      name = "users.xlsx";
     } else if (values.label == "Export Token ") {
       url = "/native-token/export-all-native-tokens";
-      name = "Token";
+      name = "Token.xlsx";
     } else if (values.label == "Export Crypto Wallets ") {
       url = "/wallet/export-all-wallets";
-      name = "CryptoWallets";
+      name = "CryptoWallets.xlsx";
     } else if (values.label == "Export Native Wallets ") {
       url = "/native-wallet/export-all-native-wallets";
-      name = " NativeWallets";
+      name = " NativeWallets.xlsx";
     } else if (values.label == "Export NFTs ") {
       url = "/nft-token/export-all-native-wallets";
-      name = "NFTsWallets";
+      name = "NFTsWallets.xlsx";
     } else if (values.label == "Export NFT Balance ") {
       url = "/nft-wallet/export-all-nft-wallets";
-      name = " NFTBalance";
+      name = " NFTBalance.xlsx";
     }
     console.log("name", name);
     try {
