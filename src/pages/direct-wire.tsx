@@ -11,6 +11,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveDirectWire } from "../store/reducers/directWire";
 import { getNormalizedError } from "../utils/helpers";
+import PendingDirectWireModal from "../components/pending-direct-wire-modal";
 
 const Tokens = () => {
   const { directWire } = useAppSelector((state: RootState) => state.directWire);
@@ -88,7 +89,7 @@ const Tokens = () => {
       </Box>
 
       {customerModelOpen && (
-        <FullScreenNFTDialog
+        <PendingDirectWireModal
           open={customerModelOpen}
           onClose={() => {
             setCustomerModalOpen(false);
