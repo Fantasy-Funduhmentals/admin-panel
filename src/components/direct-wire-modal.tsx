@@ -45,7 +45,7 @@ interface Props {
 
 const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(editData, "<<<<<<<edit data");
+  console.log(editData.status == "expired", "<<<<<<<edit data>>>>");
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -214,7 +214,9 @@ const FullScreenNFTDialog = (props: Props) => {
                             <TableBody>
                               <TableRow>
                                 {/* <TableCell></TableCell> */}
-                                <TableCell>{editData?.amount}</TableCell>
+                                <TableCell>
+                                  {(editData?.amount).toLocaleString()}
+                                </TableCell>
 
                                 <TableCell>
                                   {capitalizeFirstLetter(editData?.type)}
@@ -392,6 +394,18 @@ const FullScreenNFTDialog = (props: Props) => {
                       {/* <TableCell></TableCell> */}
                     </Box>
                   </Card>
+                  {editData.status == "expired" ? (
+                    <Typography
+                      sx={{ color: "red", textAlign: "center", mt: 3 }}
+                    >
+                      This direct-wire has already been expired. Please be sure
+                      before accepting this request. This action can not be
+                      reversed.
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+
                   <Box
                     sx={{
                       display: "flex",
@@ -402,19 +416,23 @@ const FullScreenNFTDialog = (props: Props) => {
                       width: "50%",
                     }}
                   >
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      type="submit"
-                      fullWidth
-                      onClick={() => handlePost(editData)}
-                    >
-                      {loading ? (
-                        <CircularProgress color="inherit" />
-                      ) : (
-                        "Accept Request"
-                      )}
-                    </Button>
+                    {editData.status == "expired" ? (
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        onClick={() => handlePost(editData)}
+                      >
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Accept Request"
+                        )}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
                   </Box>
                 </Grid>
               </Grid>

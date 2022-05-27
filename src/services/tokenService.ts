@@ -15,6 +15,10 @@ const directWireData = async () => {
   return await HTTP_CLIENT.get("/direct-wires/all-pending-wires");
 };
 
+const completedDirectWireData = async () => {
+  return await HTTP_CLIENT.get("/direct-wires/all-wires");
+};
+
 const getNewsLetter = async () => {
   return await HTTP_CLIENT.get("/newsletter");
 };
@@ -70,5 +74,6 @@ export {
   deleteSubscription,
   getAllNativeWalletsData,
   directWireData,
-  directWiresPost
+  directWiresPost,
+  completedDirectWireData
 };
