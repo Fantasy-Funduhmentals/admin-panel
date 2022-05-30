@@ -55,15 +55,15 @@ export const NftListResults = (props: Props) => {
         .filter(
           (user) =>
             user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user?.remittanceAddress?.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
+            user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
       return filterData?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
+
+  console.log("dataToDisplay", dataToDisplay);
 
   function capitalizeFirstLetter(str: string) {
     return str[0].toUpperCase() + str.slice(1);

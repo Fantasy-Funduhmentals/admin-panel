@@ -10,6 +10,7 @@ import {
   TableHead,
   Table,
   TableBody,
+  Modal,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
@@ -49,6 +50,12 @@ const PendingDirectWireModal = (props: Props) => {
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [rejectShow, setRejectShow] = useState(false);
+
+  const handleClose = () => {
+    setRejectShow(false);
+  };
+
   const handlePost = async (editData) => {
     try {
       const data = {
@@ -196,6 +203,29 @@ const PendingDirectWireModal = (props: Props) => {
                             justifyContent: "end",
                           }}
                         >
+                          <Modal
+                            open={rejectShow}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                          >
+                            <Box>
+                              <Typography
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                              >
+                                Text in a modal
+                              </Typography>
+                              <Typography
+                                id="modal-modal-description"
+                                sx={{ mt: 2 }}
+                              >
+                                Duis mollis, est non commodo luctus, nisi erat
+                                porttitor ligula.
+                              </Typography>
+                            </Box>
+                          </Modal>
                           <Table>
                             <TableHead>
                               <TableRow>
@@ -242,7 +272,7 @@ const PendingDirectWireModal = (props: Props) => {
                   }}
                 >
                   <Typography variant="h4" sx={{ pb: 3, textAlign: "center" }}>
-                    Remittance Address
+                    Remittance Addresspppp
                   </Typography>
                   <Card sx={{ display: "flex", width: "100%" }}>
                     <Box
@@ -400,6 +430,7 @@ const PendingDirectWireModal = (props: Props) => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
+                      columnGap: "10px",
                       pt: 3,
                       pb: 3,
                       width: "50%",
@@ -418,6 +449,15 @@ const PendingDirectWireModal = (props: Props) => {
                         "Accept Request"
                       )}
                     </Button>
+                    {/* <Button
+                      color="primary"
+                      variant="contained"
+                      type="submit"
+                      fullWidth
+                      onClick={() => setRejectShow(true)}
+                    >
+                      Rejected Request
+                    </Button> */}
                   </Box>
                 </Grid>
               </Grid>

@@ -28,6 +28,8 @@ const WireAccountDetails = (props) => {
     setBankDetails(response?.data?.directWireAccount);
   };
 
+  console.log("bankDetails", bankDetails);
+
   const formik = useFormik({
     initialValues: {
       fullname: bankDetails?.name ? bankDetails.name : "",
@@ -37,6 +39,11 @@ const WireAccountDetails = (props) => {
       accountnumber: bankDetails?.accountNo ? bankDetails?.accountNo : "",
       accounttype: bankDetails?.accounttype ? bankDetails?.accounttype : "",
       bankrouting: bankDetails?.routingNo ? bankDetails?.routingNo : "",
+      wireTransfers: bankDetails?.wireTransfers
+        ? bankDetails?.wireTransfers
+        : "",
+      endorsement: bankDetails?.endorsement ? bankDetails?.endorsement : "",
+      zellePay: bankDetails?.zellePay ? bankDetails?.zellePay : "",
     },
     validationSchema: Yup.object({
       fullname: Yup.string().required().min(1).max(33).label("fullname"),
@@ -46,6 +53,13 @@ const WireAccountDetails = (props) => {
         .max(100)
         .label("physicaladdress"),
       bankname: Yup.string().required().min(1).max(33).label("bankname"),
+      wireTransfers: Yup.string()
+        .required()
+        .min(1)
+        .max(33)
+        .label("wireTransfers"),
+      endorsement: Yup.string().required().min(1).max(33).label("endorsement"),
+      zellePay: Yup.string().required().min(1).max(33).label("zellePay"),
       bankaddress: Yup.string().required().min(1).max(100).label("bankaddress"),
       accountnumber: Yup.string()
         .required()
@@ -79,6 +93,9 @@ const WireAccountDetails = (props) => {
         accountNo: String(values.accountnumber),
         accounttype: values.accounttype,
         routingNo: String(values.bankrouting),
+        wireTransfers: values.wireTransfers,
+        endorsement: values.endorsement,
+        zellePay: values.zellePay,
       };
       await directWireAccountDetails(params);
       formik.resetForm();
@@ -118,7 +135,7 @@ const WireAccountDetails = (props) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="Full Name"
+              label="Account Name"
               margin="normal"
               name="fullname"
               type="text"
@@ -162,6 +179,46 @@ const WireAccountDetails = (props) => {
               label="Bank Address"
               margin="normal"
               name="bankaddress"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.wireTransfers && formik.errors.wireTransfers
+              )}
+              value={formik.values.wireTransfers}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="Wire Transfers"
+              margin="normal"
+              name="wireTransfers"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.endorsement && formik.errors.endorsement
+              )}
+              value={formik.values.endorsement}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="Endorsement"
+              margin="normal"
+              name="endorsement"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.zellePay && formik.errors.zellePay)}
+              value={formik.values.zellePay}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="ZellePay"
+              margin="normal"
+              name="zellePay"
               type="text"
               variant="outlined"
             />
