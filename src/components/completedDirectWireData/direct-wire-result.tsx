@@ -55,9 +55,7 @@ export const NftListResults = (props: Props) => {
         .filter(
           (user) =>
             user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user?.remittanceAddress?.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
+            user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {
