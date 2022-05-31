@@ -51,6 +51,7 @@ const PendingDirectWireModal = (props: Props) => {
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [rejectLoading, setRejectLoading] = useState(false);
   const [rejectShow, setRejectShow] = useState(false);
   const [wireDetail, setWireDetail] = useState("");
   const [textArea, settextArea] = useState("");
@@ -73,17 +74,10 @@ const PendingDirectWireModal = (props: Props) => {
   const handlePost = async (editData, name) => {
     try {
       let data;
-      if (name == "accept") {
-        data = {
-          wireId: editData._id,
-        };
-      } else if (name == "reject") {
-        data = {
-          wireId: wireDetail?._id,
-          rejectionReason: textArea,
-          isRejected: true,
-        };
-      }
+
+      data = {
+        wireId: editData._id,
+      };
 
       setLoading(true);
       const res = await directWiresPost(data);
@@ -99,6 +93,44 @@ const PendingDirectWireModal = (props: Props) => {
       }, 1000);
     } catch (err) {
       setLoading(false);
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+    }
+  };
+  const handleReject = async (editData, name) => {
+    try {
+      let data;
+
+      if (!textArea) {
+        setStatusData({
+          type: "error",
+          message: "please describe reason first",
+        });
+        return;
+      }
+      data = {
+        wireId: wireDetail?._id,
+        rejectionReason: textArea,
+        isRejected: true,
+      };
+
+      setRejectLoading(true);
+      const res = await directWiresPost(data);
+
+      setStatusData({
+        type: "success",
+        message: res.data.message,
+      });
+      setRejectLoading(false);
+
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } catch (err) {
+      setRejectLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -184,7 +216,7 @@ const PendingDirectWireModal = (props: Props) => {
                             alignItems: "center",
                           }}
                         >
-                          <Typography color="textPrimary" variant="h3">
+                          <Typography variant="h5" color="textPrimary">
                             {editData?.remittanceAddress?.name}
                           </Typography>
                           <Typography color="textSecondary" variant="h6">
@@ -195,7 +227,7 @@ const PendingDirectWireModal = (props: Props) => {
                       <Typography
                         sx={{
                           fontWeight: "bold",
-                          fontSize: 30,
+                          fontSize: 25,
                           width: "50%",
                           alignItems: "center",
                           display: "flex",
@@ -277,7 +309,7 @@ const PendingDirectWireModal = (props: Props) => {
                       variant="h4"
                       sx={{ pb: 3, textAlign: "center" }}
                     >
-                      Remittance Addresspppp
+                      Remittance Address
                     </Typography>
                     <Card sx={{ display: "flex", width: "100%" }}>
                       <Box
@@ -461,7 +493,7 @@ const PendingDirectWireModal = (props: Props) => {
                         fullWidth
                         onClick={() => handleRejectOpen(editData)}
                       >
-                        Rejected Request
+                        Reject Request
                       </Button>
                     </Box>
                   </Grid>
@@ -642,9 +674,9 @@ const PendingDirectWireModal = (props: Props) => {
             variant="contained"
             type="submit"
             fullWidth
-            onClick={() => handlePost("", "reject")}
+            onClick={() => handleReject("", "reject")}
           >
-            Submit
+            {rejectLoading ? <CircularProgress color="inherit" /> : "Submit"}
           </Button>
         </Box>
       </Modal>
