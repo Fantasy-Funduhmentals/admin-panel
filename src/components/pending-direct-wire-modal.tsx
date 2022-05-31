@@ -665,7 +665,7 @@ const PendingDirectWireModal = (props: Props) => {
             aria-label="minimum height"
             minRows={3}
             // placeholder="Minimum 3 rows"
-            style={{ width: 300 }}
+            style={{ width: 300, resize: "none", height: "200px" }}
             onChange={(e) => handleTextAreaChange(e)}
           />
           <Button
