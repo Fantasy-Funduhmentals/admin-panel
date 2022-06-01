@@ -5,16 +5,17 @@ import FullScreenNFTDialog from "../components/direct-wire-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
-import { NftListResults } from "../components/DirectWireData/direct-wire-result";
-import { directWireData } from "../services/tokenService";
+import { NftListResults } from "../components/completedDirectWireData/direct-wire-result";
+import { completedDirectWireData } from "../services/tokenService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveDirectWire } from "../store/reducers/directWire";
+import { saveCompleteDirectWire } from "../store/reducers/completeDirectWire";
 import { getNormalizedError } from "../utils/helpers";
-import PendingDirectWireModal from "../components/pending-direct-wire-modal";
 
 const Tokens = () => {
-  const { directWire } = useAppSelector((state: RootState) => state.directWire);
+  const { completeDirectWire } = useAppSelector(
+    (state: RootState) => state.completeDirectWire
+  );
 
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
@@ -27,9 +28,9 @@ const Tokens = () => {
   const getTokensListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await directWireData();
+      const coinsRes = await completedDirectWireData();
 
-      dispatch(saveDirectWire(coinsRes.data));
+      dispatch(saveCompleteDirectWire(coinsRes.data));
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
@@ -64,8 +65,8 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Pending Direct Wire"
-            subTitle="Pending Direct-Wire"
+            title="Completed Direct Wire"
+            subTitle="Completed Direct-Wire"
             // onPressAdd={() => {
             //   setCustomerModalOpen(true);
             // }}
@@ -79,7 +80,7 @@ const Tokens = () => {
               <CircularProgress />
             ) : (
               <NftListResults
-                data={directWire}
+                data={completeDirectWire}
                 searchQuery={searchText}
                 onPressEdit={onPressEdit}
               />
@@ -89,7 +90,7 @@ const Tokens = () => {
       </Box>
 
       {customerModelOpen && (
-        <PendingDirectWireModal
+        <FullScreenNFTDialog
           open={customerModelOpen}
           onClose={() => {
             setCustomerModalOpen(false);

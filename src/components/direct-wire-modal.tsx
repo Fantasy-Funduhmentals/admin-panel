@@ -45,8 +45,8 @@ interface Props {
 
 const FullScreenNFTDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(editData,"<<<<<<<");
-  
+  console.log(editData.status == "expired", "<<<<<<<edit data>>>>");
+
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const handlePost = async (editData) => {
@@ -75,7 +75,7 @@ const FullScreenNFTDialog = (props: Props) => {
       });
     }
   };
-  function capitalizeFirstLetter(str:string) {
+  function capitalizeFirstLetter(str: string) {
     return str[0].toUpperCase() + str.slice(1);
   }
   return (
@@ -128,7 +128,7 @@ const FullScreenNFTDialog = (props: Props) => {
                 }}
               >
                 <Grid item lg={4} md={4} xs={12}>
-                  <Card>
+                  <Card sx={{ pb: 3 }}>
                     <Box
                       sx={{
                         alignItems: "center",
@@ -158,6 +158,73 @@ const FullScreenNFTDialog = (props: Props) => {
                         <Typography color="textSecondary" variant="h6">
                           {editData?.remittanceAddress?.email}
                         </Typography>
+                      </Box>
+                    </Box>
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: 30,
+                        width: "50%",
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        // mt: 5,
+                      }}
+                    >
+                      Order Detail
+                    </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Box
+                        sx={{
+                          mt: 4,
+                          width: "80%",
+                          // height: "50%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignSelf: "center",
+                        }}
+                        style={{
+                          boxShadow: "#0000004a 1px 1px 18px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Card
+                          sx={{
+                            width: "100%",
+                            alignItems: "center",
+                            display: "flex",
+                            justifyContent: "end",
+                          }}
+                        >
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell
+                                  sx={{ fontWeight: "bold", width: "30%" }}
+                                >
+                                  Amount
+                                </TableCell>
+                                <TableCell
+                                  sx={{ fontWeight: "bold", width: "30%" }}
+                                >
+                                  Type
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                {/* <TableCell></TableCell> */}
+                                <TableCell>
+                                  {(editData?.amount).toLocaleString()}
+                                </TableCell>
+
+                                <TableCell>
+                                  {capitalizeFirstLetter(editData?.type)}
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Card>
                       </Box>
                     </Box>
                   </Card>
@@ -301,12 +368,12 @@ const FullScreenNFTDialog = (props: Props) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                        {/* <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
                           Amount
-                        </TableCell>
-                        <TableCell sx={{ width: "70%" }}>
-                       { editData?.amount}
-                        </TableCell>
+                        </TableCell> */}
+                        {/* <TableCell sx={{ width: "70%" }}>
+                          {editData?.amount}
+                        </TableCell> */}
                       </Box>
                       <Divider />
                       <Box
@@ -316,17 +383,29 @@ const FullScreenNFTDialog = (props: Props) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
-                        Type
-                        </TableCell>
-                        <TableCell sx={{ width: "70%" }}>
+                        {/* <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                          Type
+                        </TableCell> */}
+                        {/* <TableCell sx={{ width: "70%" }}>
                           {capitalizeFirstLetter(editData?.type)}
-                        </TableCell>
+                        </TableCell> */}
                       </Box>
 
                       {/* <TableCell></TableCell> */}
                     </Box>
                   </Card>
+                  {editData.status == "expired" ? (
+                    <Typography
+                      sx={{ color: "red", textAlign: "center", mt: 3 }}
+                    >
+                      This direct-wire has already been expired. Please be sure
+                      before accepting this request. This action can not be
+                      reversed.
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+
                   <Box
                     sx={{
                       display: "flex",
@@ -337,19 +416,23 @@ const FullScreenNFTDialog = (props: Props) => {
                       width: "50%",
                     }}
                   >
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      type="submit"
-                      fullWidth
-                      onClick={() => handlePost(editData)}
-                    >
-                      {loading ? (
-                        <CircularProgress color="inherit" />
-                      ) : (
-                        "Accept Request"
-                      )}
-                    </Button>
+                    {editData.status == "expired" ? (
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        onClick={() => handlePost(editData)}
+                      >
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Accept Request"
+                        )}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
                   </Box>
                 </Grid>
               </Grid>
@@ -379,10 +462,10 @@ const FullScreenNFTDialog = (props: Props) => {
                           {editData.token ? "Coin" : "Payment Method"}
                         </TableCell>
                         <TableCell>
-                          {editData.token ? "Circulating Supply" : "Price USD"}
+                          {editData.token ? "Remaining Supply" : "Price USD"}
                         </TableCell>
 
-                        <TableCell>Created At</TableCell>
+                        {/* <TableCell>Created At</TableCell> */}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -419,10 +502,10 @@ const FullScreenNFTDialog = (props: Props) => {
                             >
                               <Typography color="textPrimary" variant="h6">
                                 {editData.token
-                                  ? editData.token?.displayName
+                                  ? editData.token?.shortName
                                   : editData.subscription?.title}
                               </Typography>
-                              <Typography
+                              {/* <Typography
                                 sx={{
                                   maxWidth: "350px",
                                   fontSize: "14px",
@@ -432,7 +515,7 @@ const FullScreenNFTDialog = (props: Props) => {
                                 {editData.token
                                   ? editData.token?.description
                                   : editData.subscription?.description}
-                              </Typography>
+                              </Typography> */}
                             </Box>
                           </Box>
                         </TableCell>
@@ -445,17 +528,17 @@ const FullScreenNFTDialog = (props: Props) => {
                         <TableCell>
                           {" "}
                           {editData.token
-                            ? editData.token?.circulatingSupply.toFixed(3)
+                            ? editData.token?.remainingSupply.toFixed(3)
                             : editData.subscription?.priceUSD}
                         </TableCell>
 
-                        <TableCell>
+                        {/* <TableCell>
                           {moment(
                             editData.token
                               ? editData.token?.createdAt
                               : editData.subscription?.createdAt
                           ).format("DD/MM/YYYY hh:mm A")}
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     </TableBody>
                   </Table>

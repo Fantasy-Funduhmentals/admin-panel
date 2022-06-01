@@ -6,11 +6,11 @@ import {
   CardHeader,
   CircularProgress,
   Container,
-  Select,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -28,7 +28,6 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { uploadImage } from "../services/generalService";
 import { createNewUser } from "../services/userService";
-import { useAppSelector } from "../store/hooks";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
 
@@ -48,18 +47,17 @@ interface Props {
 }
 
 const AddUserModal = (props: Props) => {
-  
   const Item = [
     {
-      name:"CQR user"
+      name: "CQR user",
     },
     {
-      name:"IRA user"
+      name: "IRA user",
     },
     {
-      name:"SDIRA user"
-    }
-  ]
+      name: "SDIRA user",
+    },
+  ];
 
   const { open, onClose, editData } = props;
 
@@ -72,7 +70,6 @@ const AddUserModal = (props: Props) => {
   const [editSymbolImage, setEditSymbolImage] = useState(null);
   const [selectItems, setSelectItems] = useState("");
 
-  
   const handleDurationChange = (event) => {
     setSelectItems(event.target.value);
   };
@@ -82,7 +79,7 @@ const AddUserModal = (props: Props) => {
       setEditSymbolImage(editData.displaySymbol);
     }
   }, []);
-  
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -137,7 +134,7 @@ const AddUserModal = (props: Props) => {
       let params = {
         ...values,
         // sdira: true,
-        type:selectItems
+        type: selectItems,
       };
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
@@ -309,7 +306,7 @@ const AddUserModal = (props: Props) => {
                         <Grid item md={6} xs={12}>
                           <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">
-                            Select Items
+                              Select Items
                             </InputLabel>
                             <Select
                               labelId="demo-simple-select-label"
@@ -318,8 +315,10 @@ const AddUserModal = (props: Props) => {
                               label="Select Items"
                               onChange={handleDurationChange}
                             >
-                              {Item.map((item,index) => (
-                                <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+                              {Item.map((item, index) => (
+                                <MenuItem key={index} value={item.name}>
+                                  {item.name}
+                                </MenuItem>
                               ))}
                             </Select>
                           </FormControl>

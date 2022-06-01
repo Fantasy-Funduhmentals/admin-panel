@@ -27,7 +27,6 @@ interface Props extends CardProps {
 
 export const TokenListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log(data, ">>>>>>>>>>>>>>>>");
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -174,7 +173,7 @@ export const TokenListResults = (props: Props) => {
                       <TableCell>
                         $
                         {Number(
-                          (customer.price * customer.multiplier).toFixed(3)
+                          (customer.price * customer.multiplier).toFixed(2)
                         ).toLocaleString()}{" "}
                       </TableCell>
 

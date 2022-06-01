@@ -102,9 +102,14 @@ const items = [
   {
     href: "/direct-wire",
     icon: <DirectWire fontSize="small" />,
-    title: "Direct Wire",
+    title: "Pending Direct Wire",
   },
- 
+  {
+    href: "/completed-direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Completed Direct Wire",
+  },
+
   {
     href: "/loan-request-completed",
     icon: <RequestCompleted fontSize="small" />,
@@ -120,7 +125,6 @@ const items = [
     icon: <SupportIcon fontSize="small" />,
     title: "Support",
   },
- 
 
   {
     href: "/distribute-nfts",

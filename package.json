@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" &&  next build",
     "start": "next start -p 80",
     "type-check": "tsc"
   },
@@ -30,7 +30,7 @@
     "formik": "^2.1.5",
     "history": "^5.0.0",
     "moment": "^2.29.1",
-    "next": "latest",
+    "next": "^12.1.7-canary.16",
     "nprogress": "^0.2.0",
     "probe-image-size": "^7.2.3",
     "prop-types": "^15.7.2",
