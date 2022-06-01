@@ -61,13 +61,6 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  // function numberWithCommas(n) {
-  //   var parts = n ? n.toString().split(".") : "";
-  //   return (
-  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-  //     (parts[1] ? "." + parts[1] : "")
-  //   );
-  // }
   function capitalizeFirstLetter(str:string) {
     return str[0].toUpperCase() + str.slice(1);
   }
