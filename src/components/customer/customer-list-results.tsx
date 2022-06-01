@@ -12,6 +12,9 @@ import {
   TableRow,
   Typography,
   Button,
+  Modal,
+  TextareaAutosize,
+  CircularProgress,
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -20,19 +23,28 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import { SeverityPill } from "../severity-pill";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { handleBlock } from "../../services/userService";
+import { getNormalizedError } from "../../utils/helpers";
+import StatusModal from "../../components/StatusModal";
 
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
+  handleRefresh: () => any;
 }
 
 export const UserListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, handleRefresh } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [sdira, setSdira] = useState(false);
+  const [rejectShow, setrejectShow] = useState(false);
+  const [signleUser, setsignleUser] = useState(null);
+  const [reason, setReason] = useState(null);
+  const [statusData, setStatusData] = useState(null);
+  const [loading, setloading] = useState(false);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -60,12 +72,56 @@ export const UserListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery, sdira]);
-  console.log("dataToDisplay", dataToDisplay);
 
   const handleSdira = () => {
     setSdira(!sdira);
   };
 
+  const handleBlockUser = (data) => {
+    setsignleUser(data);
+    setrejectShow(true);
+  };
+
+  const handleClose = () => {
+    setrejectShow(false);
+  };
+
+  const handleTextAreaChange = (e) => {
+    setReason(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    if (!reason) {
+      setStatusData({
+        type: "error",
+        message: "please enter reason first",
+      });
+      return;
+    }
+    let params = {
+      userId: signleUser?._id,
+      isblocked: !signleUser?.isBlocked,
+      reasonToBlock: reason,
+    };
+    try {
+      setloading(true);
+      const response = await handleBlock(params);
+      handleRefresh();
+      setStatusData({
+        type: "success",
+        message: response.data.message,
+      });
+      setloading(false);
+      handleClose();
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setloading(false);
+    }
+  };
   return (
     <Card {...props}>
       <Box
@@ -101,6 +157,9 @@ export const UserListResults = (props: Props) => {
                   </TableCell>
                   <TableCell style={{ color: "#fff" }}>
                     Customer Status
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    User block Status
                   </TableCell>
                   <TableCell style={{ color: "#fff" }}>User type</TableCell>
                   <TableCell style={{ color: "#fff" }}>Created At</TableCell>
@@ -148,6 +207,14 @@ export const UserListResults = (props: Props) => {
                         {customer.isCustomer ? "Verified" : "Not Verified"}
                       </SeverityPill>
                     </TableCell>
+                    <TableCell onClick={() => handleBlockUser(customer)}>
+                      <SeverityPill
+                        sx={{ cursor: "pointer" }}
+                        color={(customer.isBlocked && "error") || "success"}
+                      >
+                        {customer.isBlocked ? "Blocked" : "Unblock"}
+                      </SeverityPill>
+                    </TableCell>
                     <TableCell>{customer.type}</TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
@@ -167,6 +234,64 @@ export const UserListResults = (props: Props) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
+      />
+      <Modal
+        open={rejectShow}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 364,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            display: "flex",
+            flexDirection: "column",
+            rowGap: 5,
+            boxShadow: 60,
+            pt: 2,
+            px: 4,
+            pb: 3,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Please Describe Block reason
+          </Typography>
+          <TextareaAutosize
+            aria-label="minimum height"
+            minRows={3}
+            // placeholder="Minimum 3 rows"
+            style={{ width: 300, resize: "none", height: "200px" }}
+            onChange={(e) => handleTextAreaChange(e)}
+          />
+          <Box sx={{ width: "90%", textAlign: "center" }}>
+            {loading ? (
+              <Box>
+                <CircularProgress color="inherit" />
+              </Box>
+            ) : (
+              <Button
+                style={{ width: 300 }}
+                color="primary"
+                variant="contained"
+                type="submit"
+                fullWidth
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Modal>
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
       />
     </Card>
   );

@@ -78,7 +78,12 @@ const Users = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <UserListResults data={users} searchQuery={searchText} style={{width:"100%"}}/>
+              <UserListResults
+                data={users}
+                searchQuery={searchText}
+                handleRefresh={getUserListing}
+                style={{ width: "100%" }}
+              />
             )}
           </Box>
         </Container>

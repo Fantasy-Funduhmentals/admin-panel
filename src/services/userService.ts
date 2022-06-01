@@ -26,4 +26,8 @@ const createNewUser = async (params: any) => {
   return await HTTP_CLIENT.post("/auth/admin-create-user", params);
 };
 
-export { handleUserLogin, getAllUsers, changePassword, createNewUser, swapFee, getSwapRate,directWireAccountDetails };
+const handleBlock = async (params: any) => {
+  return await HTTP_CLIENT.post("/user/block-user", params);
+};
+
+export { handleUserLogin, getAllUsers, changePassword, createNewUser,handleBlock, swapFee, getSwapRate,directWireAccountDetails };
