@@ -264,7 +264,7 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  Price PerShare
+                                  Price Per Unit 
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.pricePerShare}

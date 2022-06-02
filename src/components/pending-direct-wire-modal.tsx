@@ -224,23 +224,24 @@ const PendingDirectWireModal = (props: Props) => {
                           </Typography>
                         </Box>
                       </Box>
+                     
+                      <Box sx={{ display: "flex",flexDirection:"column", justifyContent: "center",alignItems:"center" }}>
                       <Typography
                         sx={{
+                          mt: 2,
                           fontWeight: "bold",
-                          fontSize: 25,
-                          width: "50%",
+                          fontSize: 20,
+                          width: "80%",
                           alignItems: "center",
                           display: "flex",
-                          justifyContent: "flex-end",
-                          // mt: 5,
+                          justifyContent: "flex-start",
                         }}
                       >
                         Order Detail
                       </Typography>
-                      <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Box
                           sx={{
-                            mt: 4,
+                            mt: 2,
                             width: "80%",
                             // height: "50%",
                             display: "flex",
