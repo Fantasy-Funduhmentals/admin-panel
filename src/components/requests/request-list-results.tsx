@@ -275,7 +275,6 @@ export const RequestListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
-  console.log(dataToDisplay, "<<<<<<<<<<<<<<<<<<");
 
   return (
     <Card {...props}>
@@ -288,30 +287,36 @@ export const RequestListResults = (props: Props) => {
         >
           <Box>
             <TableContainer component={Paper}>
-             { dataToDisplay.length == 0 ? 
-              
-             <NoDataFound/> :
-             <Table aria-label="collapsible table">
-                <TableHead sx={{ background: "#5a82d7" }}>
-                  <TableRow>
-                    <TableCell style={{ color: "#fff" }}>User</TableCell>
-                    <TableCell style={{ color: "#fff" }}>
-                      Request Type
-                    </TableCell>
-                    <TableCell style={{ color: "#fff" }}>Created At</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
-                    />
-                  ))}
-                </TableBody>
-              </Table>}
+              {dataToDisplay.length == 0 ? (
+                <NoDataFound />
+              ) : (
+                <Table aria-label="collapsible table">
+                  <TableHead sx={{ background: "#5a82d7" }}>
+                    <TableRow>
+                      <TableCell style={{ color: "#fff" }}>User</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Request Type
+                      </TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Created At
+                      </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dataToDisplay.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </TableContainer>
           </Box>
         </Paper>
