@@ -252,11 +252,11 @@ export const UserListResults = (props: Props) => {
             borderRadius: 2,
             display: "flex",
             flexDirection: "column",
-            rowGap: 5,
+            rowGap: 4,
             boxShadow: 60,
-            pt: 2,
-            px: 4,
-            pb: 3,
+            p:2,
+            justifyContent:"center",
+            alignItems:"center"
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -266,7 +266,7 @@ export const UserListResults = (props: Props) => {
             aria-label="minimum height"
             minRows={3}
             // placeholder="Minimum 3 rows"
-            style={{ width: 300, resize: "none", height: "200px" }}
+            style={{ width: 300, resize: "none", height: "200px",border:"1px solid black" }}
             onChange={(e) => handleTextAreaChange(e)}
           />
           <Box sx={{ width: "90%", textAlign: "center" }}>
