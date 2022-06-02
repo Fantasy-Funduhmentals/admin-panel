@@ -78,8 +78,14 @@ export const UserListResults = (props: Props) => {
   };
 
   const handleBlockUser = (data) => {
-    setsignleUser(data);
-    setrejectShow(true);
+    console.log("signleUser::::", data.isBlocked);
+    if (data.isBlocked) {
+      setsignleUser(data);
+      handleSubmit(data);
+    } else {
+      setsignleUser(data);
+      setrejectShow(true);
+    }
   };
 
   const handleClose = () => {
@@ -90,19 +96,28 @@ export const UserListResults = (props: Props) => {
     setReason(e.target.value);
   };
 
-  const handleSubmit = async () => {
-    if (!reason) {
-      setStatusData({
-        type: "error",
-        message: "please enter reason first",
-      });
-      return;
+  const handleSubmit = async (data) => {
+    let params;
+    if (data?.isBlocked) {
+      params = {
+        userId: data?._id,
+        isblocked: !data?.isBlocked,
+      };
+    } else {
+      if (!reason) {
+        setStatusData({
+          type: "error",
+          message: "please enter reason first",
+        });
+        return;
+      }
+      params = {
+        userId: signleUser?._id,
+        isblocked: !signleUser?.isBlocked,
+        reasonToBlock: reason,
+      };
     }
-    let params = {
-      userId: signleUser?._id,
-      isblocked: !signleUser?.isBlocked,
-      reasonToBlock: reason,
-    };
+
     try {
       setloading(true);
       const response = await handleBlock(params);
@@ -254,9 +269,9 @@ export const UserListResults = (props: Props) => {
             flexDirection: "column",
             rowGap: 4,
             boxShadow: 60,
-            p:2,
-            justifyContent:"center",
-            alignItems:"center"
+            p: 2,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -266,7 +281,12 @@ export const UserListResults = (props: Props) => {
             aria-label="minimum height"
             minRows={3}
             // placeholder="Minimum 3 rows"
-            style={{ width: 300, resize: "none", height: "200px",border:"1px solid black" }}
+            style={{
+              width: 300,
+              resize: "none",
+              height: "200px",
+              border: "1px solid black",
+            }}
             onChange={(e) => handleTextAreaChange(e)}
           />
           <Box sx={{ width: "90%", textAlign: "center" }}>
