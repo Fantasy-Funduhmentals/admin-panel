@@ -15,6 +15,11 @@ import {
   Modal,
   TextareaAutosize,
   CircularProgress,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -35,17 +40,22 @@ interface Props extends CardProps {
 
 export const UserListResults = (props: Props) => {
   const { data, searchQuery, handleRefresh } = props;
+  console.log(data, "userData");
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [sdira, setSdira] = useState(false);
+  // const [sdira, setSdira] = useState(false);
   const [rejectShow, setrejectShow] = useState(false);
   const [signleUser, setsignleUser] = useState(null);
   const [reason, setReason] = useState(null);
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
-
+  const [selected, setSelected] = useState("");
+  const handleChange = (e) => {
+    console.log(e.target.value, "changes");
+    setSelected(e.target.value);
+  };
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -66,16 +76,12 @@ export const UserListResults = (props: Props) => {
             user.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
-    } else if (sdira) {
-      return data.filter((user) => user.sdira);
+    } else if (selected) {
+      return data.filter((user) => user.type == selected).slice(begin, end);
     } else {
       return data?.slice(begin, end);
     }
-  }, [page, limit, data, searchQuery, sdira]);
-
-  const handleSdira = () => {
-    setSdira(!sdira);
-  };
+  }, [page, limit, data, searchQuery, selected]);
 
   const handleBlockUser = (data) => {
     console.log("signleUser::::", data.isBlocked);
@@ -141,15 +147,34 @@ export const UserListResults = (props: Props) => {
     <Card {...props}>
       <Box
         style={{
-          marginTop: "2rem",
+          marginTop: "1.3rem",
+          marginBottom: "1.3rem",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ ml: 3 }}>
-          <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
-            Search Sdira
-          </Button>
+        <Box sx={{ ml: 3.5 }}>
+          <Grid
+            sx={{ minWidth: 250, display: "flex", columnGap: "1rem" }}
+            item
+            xs={12}
+            md={4}
+          >
+            <FormControl fullWidth>
+              <InputLabel id="simple-select-label">Select Users</InputLabel>
+              <Select
+                labelId="select-label"
+                id="simple-select"
+                value={selected}
+                label="Select History"
+                onChange={handleChange}
+              >
+                <MenuItem value={"IRA user"}>IRA users</MenuItem>
+                <MenuItem value={"cqr user"}>CQR users</MenuItem>
+                <MenuItem value={"sdira"}>Sdira users</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Box>
       </Box>
 
