@@ -53,7 +53,7 @@ const PendingDirectWireModal = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [rejectShow, setRejectShow] = useState(false);
-  const [wireDetail, setWireDetail] = useState("");
+  const [wireDetail, setWireDetail] = useState<any>("");
   const [textArea, settextArea] = useState("");
 
   const handleClose = () => {
