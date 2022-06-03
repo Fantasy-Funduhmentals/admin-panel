@@ -28,8 +28,6 @@ const WireAccountDetails = (props) => {
     setBankDetails(response?.data?.directWireAccount);
   };
 
-  console.log("bankDetails", bankDetails);
-
   const formik = useFormik({
     initialValues: {
       fullname: bankDetails?.name ? bankDetails.name : "",
@@ -76,7 +74,6 @@ const WireAccountDetails = (props) => {
     enableReinitialize: true,
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
-      console.log(values, "values");
     },
   });
 
@@ -119,8 +116,6 @@ const WireAccountDetails = (props) => {
   useEffect(() => {
     getSettings();
   }, []);
-
-  console.log(formik.values);
 
   return (
     <>

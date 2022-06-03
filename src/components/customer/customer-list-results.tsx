@@ -78,7 +78,6 @@ export const UserListResults = (props: Props) => {
   };
 
   const handleBlockUser = (data) => {
-    console.log("signleUser::::", data.isBlocked);
     if (data.isBlocked) {
       setsignleUser(data);
       handleSubmit(data);

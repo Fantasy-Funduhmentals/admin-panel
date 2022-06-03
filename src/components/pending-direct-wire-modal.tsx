@@ -47,7 +47,6 @@ interface Props {
 
 const PendingDirectWireModal = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(editData.status == "expired", "<<<<<<<edit data>>>>");
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -59,8 +58,6 @@ const PendingDirectWireModal = (props: Props) => {
   const handleClose = () => {
     setRejectShow(false);
   };
-
-  console.log("wireDetail", wireDetail);
 
   const handleRejectOpen = (data) => {
     setRejectShow(true);
