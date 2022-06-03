@@ -28,10 +28,6 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log(
-    " ~ file: direct-wire-result.tsx ~ line 31 ~ NftListResults ~ data",
-    data
-  );
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -62,8 +58,6 @@ export const NftListResults = (props: Props) => {
       return filterData?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
-
-  console.log("dataToDisplay", dataToDisplay);
 
   function capitalizeFirstLetter(str: string) {
     return str[0].toUpperCase() + str.slice(1);

@@ -28,10 +28,6 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log(
-    "🚀 ~ file: direct-wire-result.tsx ~ line 31 ~ NftListResults ~ data",
-    data
-  );
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);

@@ -81,7 +81,6 @@ export const SettingsReport = (props) => {
       url = "/nft-wallet/export-all-nft-wallets";
       name = "NFTBalance.xlsx";
     }
-    console.log("name", name);
     try {
       const response = await HTTP_CLIENT.get(url, {
         responseType: "blob",
