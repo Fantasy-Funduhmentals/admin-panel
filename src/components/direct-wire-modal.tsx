@@ -64,7 +64,7 @@ const FullScreenNFTDialog = (props: Props) => {
 
       setTimeout(() => {
         onClose();
-      }, 1000);
+      },);
     } catch (err) {
       setLoading(false);
       const error = getNormalizedError(err);
@@ -422,6 +422,7 @@ const FullScreenNFTDialog = (props: Props) => {
                         variant="contained"
                         type="submit"
                         fullWidth
+                        disabled={loading ? true : false}
                         onClick={() => handlePost(editData)}
                       >
                         {loading ? (

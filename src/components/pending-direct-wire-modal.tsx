@@ -87,7 +87,7 @@ const PendingDirectWireModal = (props: Props) => {
 
       setTimeout(() => {
         onClose();
-      }, 1000);
+      },);
     } catch (err) {
       setLoading(false);
       const error = getNormalizedError(err);
@@ -476,6 +476,7 @@ const PendingDirectWireModal = (props: Props) => {
                         variant="contained"
                         type="submit"
                         fullWidth
+                        disabled={loading ? true : false}
                         onClick={() => handlePost(editData, "accept")}
                       >
                         {loading ? (

@@ -3,11 +3,13 @@ import { styled } from '@mui/material/styles';
 
 const SeverityPillRoot = styled('span')(({ theme, ownerState }:any) => {
   const backgroundColor = theme.palette[ownerState.color].main;
+  const border = theme.palette[ownerState.color].main;
   const color = theme.palette[ownerState.color].contrastText;
 
   return {
     alignItems: 'center',
     backgroundColor,
+    border,
     borderRadius: 12,
     color,
     cursor: 'default',

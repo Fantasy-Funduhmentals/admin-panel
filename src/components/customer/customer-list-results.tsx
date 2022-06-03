@@ -168,7 +168,7 @@ export const UserListResults = (props: Props) => {
                 label="Select History"
                 onChange={handleChange}
               >
-                <MenuItem value={"IRA user"}>IRA users</MenuItem>
+                <MenuItem value={"ira"}>IRA users</MenuItem>
                 <MenuItem value={"cqr user"}>CQR users</MenuItem>
                 <MenuItem value={"sdira"}>Sdira users</MenuItem>
               </Select>
@@ -197,9 +197,7 @@ export const UserListResults = (props: Props) => {
                   <TableCell style={{ color: "#fff" }}>
                     Customer Status
                   </TableCell>
-                  <TableCell style={{ color: "#fff" }}>
-                    User block Status
-                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>Status</TableCell>
                   <TableCell style={{ color: "#fff" }}>User type</TableCell>
                   <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                 </TableRow>
@@ -247,12 +245,18 @@ export const UserListResults = (props: Props) => {
                       </SeverityPill>
                     </TableCell>
                     <TableCell onClick={() => handleBlockUser(customer)}>
-                      <SeverityPill
-                        sx={{ cursor: "pointer" }}
-                        color={(customer.isBlocked && "error") || "success"}
+                      <Button
+                        sx={{
+                          cursor: "pointer",
+                          border: `${
+                            customer.isBlocked
+                              ? "1px solid green"
+                              : "1px solid red"
+                          }`,color:`${customer.isBlocked ? "green":"red"}`,width:`${customer.isBlocked ? "auto" : "100%"}`
+                        }}
                       >
-                        {customer.isBlocked ? "Blocked" : "Unblock"}
-                      </SeverityPill>
+                        {customer.isBlocked ? "UnBlock" : "Block"}
+                      </Button>
                     </TableCell>
                     <TableCell>{customer.type}</TableCell>
                     <TableCell>
