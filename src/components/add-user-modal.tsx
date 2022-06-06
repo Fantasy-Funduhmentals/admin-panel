@@ -30,7 +30,7 @@ import { uploadImage } from "../services/generalService";
 import { createNewUser } from "../services/userService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
-import ToggleButton from "../components/toggleButton/toggle"
+import ToggleButton from "../components/toggleButton/toggle";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -60,7 +60,7 @@ const AddUserModal = (props: Props) => {
   ];
 
   const { open, onClose, editData } = props;
-console.log(editData,"editDataUser");
+  console.log(editData, "editDataUser");
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);
@@ -93,7 +93,9 @@ console.log(editData,"editDataUser");
       name: Yup.string().required("Enter Your Name").min(2).max(50).trim(),
       email: Yup.string()
         .email("Please Enter a Valid Email")
+        .trim()
         .required("Enter Your Email"),
+
       password: Yup.string()
         .required()
         .min(8)
@@ -121,9 +123,8 @@ console.log(editData,"editDataUser");
   };
 
   const recieveData = (data) => {
-    setrecievestatus(data)
-
-  }
+    setrecievestatus(data);
+  };
 
   const handleSubmit = async (values, actions) => {
     try {
@@ -142,7 +143,7 @@ console.log(editData,"editDataUser");
         ...values,
         // sdira: true,
         type: selectItems,
-        isWalletActivated:recievestatus
+        isWalletActivated: recievestatus,
       };
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
@@ -333,7 +334,7 @@ console.log(editData,"editDataUser");
                           <Grid />
                         </Grid>
                       </Grid>
-                      <Card sx={{mt:3}}>
+                      <Card sx={{ mt: 3 }}>
                         <ToggleButton recieveData={recieveData} />
                       </Card>
                     </CardContent>

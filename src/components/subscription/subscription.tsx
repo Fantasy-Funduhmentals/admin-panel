@@ -157,11 +157,11 @@ export const SubscriptionListListResults = (props: Props) => {
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
                       <TableCell>{item.orderIndex}</TableCell>
-                      <TableCell onClick={() => onPressEdit(item)}>
+                      <TableCell onClick={() => onPressEdit(item)} sx={{cursor:"pointer"}}>
                         <ModeEditIcon  color="secondary" />
                     
                       </TableCell>
-                      <TableCell>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
+                      <TableCell sx={{cursor:"pointer"}}>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
 
                     </TableRow>
                   );

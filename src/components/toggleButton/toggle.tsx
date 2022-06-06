@@ -82,9 +82,10 @@ const toggle = ({recieveData}) => {
             onChange={handleChange}
           >
             <ToggleButton value="blocked" >
-              Wallet Deactivated
+             
+              Wallet Activated
             </ToggleButton>
-            <ToggleButton value="notBlocked">Wallet Activated</ToggleButton>
+            <ToggleButton value="notBlocked"> Wallet Deactivated</ToggleButton>
           </ToggleButtonGroup>
         </>
       )}
