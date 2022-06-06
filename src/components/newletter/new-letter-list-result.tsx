@@ -158,7 +158,7 @@ export const NftListResults = (props: Props) => {
         }}
       >
         <Button sx={{ mb: 4 }} variant="contained" onClick={handleOpen}>
-          send Newsletter
+          Send Newsletter
         </Button>
       </Box>
       <PerfectScrollbar>

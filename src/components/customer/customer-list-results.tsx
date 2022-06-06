@@ -143,6 +143,9 @@ export const UserListResults = (props: Props) => {
       setloading(false);
     }
   };
+  function capitalizeFirstLetter(str: string) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
   return (
     <Card {...props}>
       <Box
@@ -252,14 +255,14 @@ export const UserListResults = (props: Props) => {
                           border: `${
                             customer.isBlocked
                               ? "1px solid green"
-                              : "1px solid red"
-                          }`,color:`${customer.isBlocked ? "green":"red"}`,width:`${customer.isBlocked ? "auto" : "100%"}`
+                              : "1px solid rgb(209, 67, 67)"
+                          }`,color:`${customer.isBlocked ? "green":"rgb(209, 67, 67)"}`,width:`${customer.isBlocked ? "auto" : "100%"}`
                         }}
                       >
                         {customer.isBlocked ? "UnBlock" : "Block"}
                       </Button>
                     </TableCell>
-                    <TableCell>{customer.type}</TableCell>
+                    <TableCell>{capitalizeFirstLetter(customer.type)}</TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
