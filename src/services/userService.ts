@@ -21,6 +21,9 @@ const directWireAccountDetails = async (params: any) => {
 const swapFee = async (params: any) => {
   return await HTTP_CLIENT.post("/settings/admin/update-swap-rate", params);
 };
+const getMaintenanceMode = async () => {
+  return await HTTP_CLIENT.get("/settings/maintenance");
+};
 
 const createNewUser = async (params: any) => {
   return await HTTP_CLIENT.post("/auth/admin-create-user", params);
@@ -30,4 +33,14 @@ const handleBlock = async (params: any) => {
   return await HTTP_CLIENT.post("/user/block-user", params);
 };
 
-export { handleUserLogin, getAllUsers, changePassword, createNewUser,handleBlock, swapFee, getSwapRate,directWireAccountDetails };
+export {
+  handleUserLogin,
+  getAllUsers,
+  changePassword,
+  createNewUser,
+  handleBlock,
+  swapFee,
+  getSwapRate,
+  directWireAccountDetails,
+  getMaintenanceMode,
+};

@@ -30,7 +30,7 @@ import { uploadImage } from "../services/generalService";
 import { createNewUser } from "../services/userService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
-
+import ToggleButton from "../components/toggleButton/toggle";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -49,17 +49,18 @@ interface Props {
 const AddUserModal = (props: Props) => {
   const Item = [
     {
-      name: "CQR user",
+      name: "cqr user",
     },
     {
-      name: "IRA user",
+      name: "sdira",
     },
     {
-      name: "SDIRA user",
+      name: "ira",
     },
   ];
 
   const { open, onClose, editData } = props;
+  console.log(editData, "editDataUser");
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);
@@ -69,6 +70,7 @@ const AddUserModal = (props: Props) => {
   const [editImage, setEditImage] = useState(null);
   const [editSymbolImage, setEditSymbolImage] = useState(null);
   const [selectItems, setSelectItems] = useState("");
+  const [recievestatus, setrecievestatus] = useState(true);
 
   const handleDurationChange = (event) => {
     setSelectItems(event.target.value);
@@ -91,7 +93,9 @@ const AddUserModal = (props: Props) => {
       name: Yup.string().required("Enter Your Name").min(2).max(50).trim(),
       email: Yup.string()
         .email("Please Enter a Valid Email")
+        .trim()
         .required("Enter Your Email"),
+
       password: Yup.string()
         .required()
         .min(8)
@@ -118,6 +122,10 @@ const AddUserModal = (props: Props) => {
     return uploadRes.data.url;
   };
 
+  const recieveData = (data) => {
+    setrecievestatus(data);
+  };
+
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
@@ -135,12 +143,12 @@ const AddUserModal = (props: Props) => {
         ...values,
         // sdira: true,
         type: selectItems,
+        isWalletActivated: recievestatus,
       };
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
       params.profilePicture = userProfileImage;
-
-      await createNewUser(params);
+      await createNewUser({...params, email: params.email.replaceAll(' ', '')});
 
       formik.resetForm();
       setImage(null);
@@ -325,6 +333,9 @@ const AddUserModal = (props: Props) => {
                           <Grid />
                         </Grid>
                       </Grid>
+                      <Card sx={{ mt: 3 }}>
+                        <ToggleButton recieveData={recieveData} />
+                      </Card>
                     </CardContent>
                     <Divider />
                     <Box

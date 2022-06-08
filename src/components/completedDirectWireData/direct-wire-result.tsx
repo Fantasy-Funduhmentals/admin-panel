@@ -129,8 +129,8 @@ export const NftListResults = (props: Props) => {
                           </Box>
                         </TableCell>
 
-                        <TableCell>{customer?.user?.type}</TableCell>
-                        <TableCell>{customer?.status}</TableCell>
+                        <TableCell>{capitalizeFirstLetter(customer?.user?.type)}</TableCell>
+                        <TableCell>{capitalizeFirstLetter(customer?.status)}</TableCell>
 
                         <TableCell>
                           ${Number(customer.amount).toLocaleString()}
