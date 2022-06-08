@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import { getNormalizedError } from "../../utils/helpers";
 import {
   getMaintenanceMode,
-  postMaintenanceMode,
 } from "../../services/userService";
 
 const toggle = () => {
