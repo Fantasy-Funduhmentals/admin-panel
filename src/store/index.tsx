@@ -20,6 +20,7 @@ import loanRequestSlice from "./reducers/loanSlice.ts";
 import newsLetterSlice from "./reducers//newsLetterSlice";
 import directWireSlice from "./reducers/directWire";
 import completeDirectWireSlice from "./reducers/completeDirectWire";
+import AdminSlice from "./reducers/adminSlice";
 declare var window: any;
 
 const persistConfig = {
@@ -29,6 +30,7 @@ const persistConfig = {
     "user",
     "coin",
     "token",
+    "adminUser",
     "request",
     "chat",
     "nft",
@@ -50,6 +52,7 @@ const reducers = combineReducers({
   request: requestSlice,
   chat: chatSlice,
   nft: nftSlice,
+  adminUser: AdminSlice,
   nftRequest: nftRequest,
   subscription: subscriptionSlice,
   loanRequest: loanRequestSlice,

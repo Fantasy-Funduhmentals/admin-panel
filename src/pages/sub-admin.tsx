@@ -6,15 +6,15 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { AdminsList } from "../components/sub-admin/sub-admin";
 import StatusModal from "../components/StatusModal";
-//import { getAdminUserData } from "../services/tokenService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-//import { saveAdminUser } from "../store/reducers/adminSlice";
+import { saveAdminUser } from "../store/reducers/adminSlice";
 import { getNormalizedError } from "../utils/helpers";
 import Button from "@mui/material/Button";
+import { getAdminUserData } from "../services/tokenService";
 
 const SubAdmin = () => {
-  //const { users } = useAppSelector((state: RootState) => state.adminUser);
+  const { users } = useAppSelector((state: RootState) => state.adminUser);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -49,7 +49,7 @@ const SubAdmin = () => {
   return (
     <>
       <Head>
-        <title>Admin</title>
+        <title>Sub - Admin</title>
       </Head>
       <Box
         component="main"

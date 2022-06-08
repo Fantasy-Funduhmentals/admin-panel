@@ -75,8 +75,8 @@ export default function AlertDialog({ data }) {
 
   const getAdminUsers = async () => {
     try {
-      const AdminUser = await getAdminUserData();
-      dispatch(saveAdminUser(AdminUser.data));
+      // const AdminUser = await getAdminUserData();
+      // dispatch(saveAdminUser(AdminUser.data));
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -135,7 +135,6 @@ export default function AlertDialog({ data }) {
 }
 export const AdminsList = (props: Props) => {
   const { data, searchQuery } = props;
-
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -171,48 +170,6 @@ export const AdminsList = (props: Props) => {
   console.log(dataToDisplay, "dataToDisplay");
   return (
     <Card {...props}>
-      <Box
-        style={{
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "left",
-            }
-          }
-        >
-          {/* <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
-              Search Sdira
-            </Button> */}
-        </Box>
-
-        <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "right",
-            }
-          }
-        >
-          {/* <Button
-              // sx={{ ml: 110, mb: 3 }}
-              variant="contained"
-              onClick={handleExport}
-            >
-              Export Users
-            </Button> */}
-        </Box>
-      </Box>
-
       <PerfectScrollbar>
         <Paper
           style={{
