@@ -22,11 +22,9 @@ const swapFee = async (params: any) => {
   return await HTTP_CLIENT.post("/settings/admin/update-swap-rate", params);
 };
 const getMaintenanceMode = async () => {
-  return await HTTP_CLIENT.get("account/admin/web-status");
+  return await HTTP_CLIENT.get("/settings/maintenance");
 };
-const postMaintenanceMode = async () => {
-  return await HTTP_CLIENT.post("account/admin/toggle-web-status");
-};
+
 const createNewUser = async (params: any) => {
   return await HTTP_CLIENT.post("/auth/admin-create-user", params);
 };
@@ -45,5 +43,4 @@ export {
   getSwapRate,
   directWireAccountDetails,
   getMaintenanceMode,
-  postMaintenanceMode,
 };
