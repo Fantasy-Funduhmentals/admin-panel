@@ -11,18 +11,18 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
+  // Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { getInitials } from "../../utils/get-initials";
-import ModeEditIcon, from "@mui/icons-material/ModeEdit";
+// import { getInitials } from "../../utils/get-initials";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { getNormalizedError } from "../../utils/helpers";
-import { HTTP_CLIENT } from "../../utils/axiosClient";
-import { getSubscriptionData } from "../../services/tokenService";
-import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
-import {deleteSubscription} from "../../services/tokenService.ts"
+// import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { deleteSubscription, getSubscriptionData } from "../../services/tokenService";
+// import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
+// import {deleteSubscription} from "../../services/tokenService.ts"
 
 
 interface Props extends CardProps {
