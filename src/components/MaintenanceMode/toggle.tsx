@@ -23,20 +23,22 @@ const toggle = () => {
   const [statusData, setStatusData] = useState(null);
   const getMaintenance = async () => {
     try {
+      setLoading(true)
       const usersRes = await getMaintenanceMode();
-      if (!usersRes?.data?.payload) {
+      if (!usersRes?.data?.maintenance) {
         setAlignment("OFF");
       } else {
         setAlignment("ON");
       }
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
     }
-    // 2;
   };
   const handleChange = async (e) => {
     if (e.target.value == "OFF") {
@@ -46,7 +48,7 @@ const toggle = () => {
         return;
       }
       setAlignment(e.target.value);
-      await postMaintenanceMode();
+      await getMaintenance()
       setLoading(false);
     } else if (e.target.value == "ON") {
       setAlignment(e.target.value);
@@ -67,7 +69,7 @@ const toggle = () => {
   const handleOk = async () => {
     setLoading(true);
     setOpen(false);
-    await postMaintenanceMode();
+   await getMaintenance()
     setLoading(false);
   };
 
@@ -84,8 +86,8 @@ const toggle = () => {
       }}
     >
       <CardHeader title="Maintenance Mode " />
-      {!loading ? (<>Coming Soon</>
-        //  <CircularProgress size={25} />
+      {loading ? (
+         <CircularProgress size={25} />
       ) : (
         <>
           <ToggleButtonGroup
