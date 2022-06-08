@@ -49,11 +49,12 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Requests Managment"
+            title="Requests Management"
             subTitle="Request"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getCoinsListing}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
             {loading ? <CircularProgress/> :<RequestListResults data={requests} searchQuery={searchText} />}

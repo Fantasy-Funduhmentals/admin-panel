@@ -14,14 +14,14 @@ import {
   Button,
 } from "@mui/material";
 import moment from "moment";
-import PropTypes from "prop-types";
+import PropTypes, { any } from "prop-types";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | [] | {};
   searchQuery?: string;
 }
 
@@ -44,8 +44,22 @@ export const NativeWalletListResults = (props: Props) => {
     const begin = page * limit;
     const end = begin + limit;
 
+    const rates = data.rates;
+    let wallets = data.wallets;
+
+    wallets = wallets?.map((wallet) => {
+      const rateIndex = rates.findIndex((rate) => {
+        return rate.coinSymbol === wallet.coinSymbol;
+      });
+      return {
+        ...wallet,
+        rate: rates[rateIndex],
+      };
+    });
+
+
     if (searchQuery.length > 0) {
-      return data
+      return wallets?
         .filter(
           (user) =>
             user.user?.name
@@ -55,47 +69,14 @@ export const NativeWalletListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return wallets?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
-
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/native-wallet/export-all-native-wallets",
-        {
-          responseType: "blob",
-        }
-      );
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "native-wallets.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
 
   return (
     <>
       <Card {...props}>
-        <Box
-          style={{
-            width: "100%",
-            marginTop: "2rem",
-            display: "flex",
-            justifyContent: "right",
-          }}
-        >
-          <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-            Export Native Wallets
-          </Button>
-        </Box>
+      
         <PerfectScrollbar>
           <Paper
             style={{
@@ -106,13 +87,14 @@ export const NativeWalletListResults = (props: Props) => {
           >
             <Box>
               <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>User</TableCell>
-                    <TableCell>Coin</TableCell>
-
-                    <TableCell>Balance</TableCell>
-                    <TableCell>Created At</TableCell>
+                <TableHead sx={{background:"#5a82d7"}}>
+                  <TableRow >
+                    <TableCell style={{color:"#fff"}}>User</TableCell>
+                    <TableCell style={{color:"#fff"}}>Coin</TableCell>
+                    <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                    <TableCell style={{color:"#fff"}}>USD Value</TableCell>
+                    <TableCell style={{color:"#fff"}}>Token value</TableCell>
+                    <TableCell style={{color:"#fff"}}>Created At</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -150,15 +132,21 @@ export const NativeWalletListResults = (props: Props) => {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        {customer.coinSymbol?.toUpperCase()}
+                        {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
 
                       {/* <TableCell>{customer?.address}</TableCell> */}
                       <TableCell>
                         {customer?.balance
-                          ? parseFloat(customer?.balance).toFixed(3)
+                          ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
                           : "0.00"}{" "}
-                        {customer.coinSymbol?.toUpperCase()}
+                        {customer.coin?.shortName.toUpperCase()}
+                      </TableCell>
+                      <TableCell>
+                        {Number((customer?.balance * customer?.rate?.price).toFixed(3)).toLocaleString() }
+                      </TableCell>
+                      <TableCell>
+                        {Number(customer?.rate?.price).toLocaleString() }
                       </TableCell>
                       <TableCell>
                         {moment(customer.createdAt).format(

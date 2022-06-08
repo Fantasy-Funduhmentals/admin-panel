@@ -12,6 +12,14 @@ import {
   TableRow,
   Typography,
   Button,
+  Modal,
+  TextareaAutosize,
+  CircularProgress,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -20,20 +28,34 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import { SeverityPill } from "../severity-pill";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { handleBlock } from "../../services/userService";
+import { getNormalizedError } from "../../utils/helpers";
+import StatusModal from "../../components/StatusModal";
 
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
+  handleRefresh: () => any;
 }
 
 export const UserListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, handleRefresh } = props;
+  console.log(data, "userData");
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [sdira, setSdira] = useState(false);
-
+  // const [sdira, setSdira] = useState(false);
+  const [rejectShow, setrejectShow] = useState(false);
+  const [signleUser, setsignleUser] = useState(null);
+  const [reason, setReason] = useState(null);
+  const [statusData, setStatusData] = useState(null);
+  const [loading, setloading] = useState(false);
+  const [selected, setSelected] = useState("");
+  const handleChange = (e) => {
+    console.log(e.target.value, "changes");
+    setSelected(e.target.value);
+  };
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -54,77 +76,107 @@ export const UserListResults = (props: Props) => {
             user.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
-    } else if (sdira) {
-      return data.filter((user) => user.sdira);
+    } else if (selected) {
+      return data.filter((user) => user.type == selected).slice(begin, end);
     } else {
       return data?.slice(begin, end);
     }
-  }, [page, limit, data, searchQuery, sdira]);
+  }, [page, limit, data, searchQuery, selected]);
 
-  const handleSdira = () => {
-    setSdira(!sdira);
+  const handleBlockUser = (data) => {
+    if (data.isBlocked) {
+      setsignleUser(data);
+      handleSubmit(data);
+    } else {
+      setsignleUser(data);
+      setrejectShow(true);
+    }
   };
 
-  const handleExport = async () => {
+  const handleClose = () => {
+    setrejectShow(false);
+  };
+
+  const handleTextAreaChange = (e) => {
+    setReason(e.target.value);
+  };
+
+  const handleSubmit = async (data) => {
+    let params;
+    if (data?.isBlocked) {
+      params = {
+        userId: data?._id,
+        isblocked: !data?.isBlocked,
+      };
+    } else {
+      if (!reason) {
+        setStatusData({
+          type: "error",
+          message: "please enter reason first",
+        });
+        return;
+      }
+      params = {
+        userId: signleUser?._id,
+        isblocked: !signleUser?.isBlocked,
+        reasonToBlock: reason,
+      };
+    }
+
     try {
-      const response = await HTTP_CLIENT.get("/user/export-all-users", {
-        responseType: "blob",
+      setloading(true);
+      const response = await handleBlock(params);
+      handleRefresh();
+      setStatusData({
+        type: "success",
+        message: response.data.message,
       });
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "Users.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
+      setloading(false);
+      handleClose();
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setloading(false);
+    }
   };
-
+  function capitalizeFirstLetter(str: string) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
   return (
     <Card {...props}>
       <Box
         style={{
-          marginTop: "2rem",
+          marginTop: "1.3rem",
+          marginBottom: "1.3rem",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
-        <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "left",
-            }
-          }
-        >
-          <Button sx={{ mb: 4 }} variant="contained" onClick={handleSdira}>
-            Search Sdira
-          </Button>
-        </Box>
-
-        <Box
-          style={
-            {
-              // width: "50%",
-              // marginTop: "2rem",
-              // display: "flex",
-              // justifyContent: "right",
-            }
-          }
-        >
-          <Button
-            // sx={{ ml: 110, mb: 3 }}
-            variant="contained"
-            onClick={handleExport}
+        <Box sx={{ ml: 3.5 }}>
+          <Grid
+            sx={{ minWidth: 250, display: "flex", columnGap: "1rem" }}
+            item
+            xs={12}
+            md={4}
           >
-            Export Users
-          </Button>
+            <FormControl fullWidth>
+              <InputLabel id="simple-select-label">Select Users</InputLabel>
+              <Select
+                labelId="select-label"
+                id="simple-select"
+                value={selected}
+                label="Select History"
+                onChange={handleChange}
+              >
+                <MenuItem value={"ira"}>IRA users</MenuItem>
+                <MenuItem value={"cqr user"}>CQR users</MenuItem>
+                <MenuItem value={"sdira"}>Sdira users</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Box>
       </Box>
 
@@ -138,14 +190,19 @@ export const UserListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Wallet Activation Status</TableCell>
-                  <TableCell>Customer Status</TableCell>
-                  <TableCell>User type</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Name</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Wallet Activation Status
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Customer Status
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>Status</TableCell>
+                  <TableCell style={{ color: "#fff" }}>User type</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -190,7 +247,21 @@ export const UserListResults = (props: Props) => {
                         {customer.isCustomer ? "Verified" : "Not Verified"}
                       </SeverityPill>
                     </TableCell>
-                    <TableCell>{customer.sdira ? "Sdira" : "IRA"}</TableCell>
+                    <TableCell onClick={() => handleBlockUser(customer)}>
+                      <Button
+                        sx={{
+                          cursor: "pointer",
+                          border: `${
+                            customer.isBlocked
+                              ? "1px solid green"
+                              : "1px solid rgb(209, 67, 67)"
+                          }`,color:`${customer.isBlocked ? "green":"rgb(209, 67, 67)"}`,width:`${customer.isBlocked ? "auto" : "100%"}`
+                        }}
+                      >
+                        {customer.isBlocked ? "UnBlock" : "Block"}
+                      </Button>
+                    </TableCell>
+                    <TableCell>{capitalizeFirstLetter(customer.type)}</TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
@@ -209,6 +280,69 @@ export const UserListResults = (props: Props) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
+      />
+      <Modal
+        open={rejectShow}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 364,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            display: "flex",
+            flexDirection: "column",
+            rowGap: 4,
+            boxShadow: 60,
+            p: 2,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Please Describe Block reason
+          </Typography>
+          <TextareaAutosize
+            aria-label="minimum height"
+            minRows={3}
+            // placeholder="Minimum 3 rows"
+            style={{
+              width: 300,
+              resize: "none",
+              height: "200px",
+              border: "1px solid black",
+            }}
+            onChange={(e) => handleTextAreaChange(e)}
+          />
+          <Box sx={{ width: "90%", textAlign: "center" }}>
+            {loading ? (
+              <Box>
+                <CircularProgress color="inherit" />
+              </Box>
+            ) : (
+              <Button
+                style={{ width: 300 }}
+                color="primary"
+                variant="contained"
+                type="submit"
+                fullWidth
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Modal>
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
       />
     </Card>
   );

@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { SettingsPassword } from "../components/settings/settings-password";
-
+import MaintenanceMode from "../components/MaintenanceMode/toggle";
 const Settings = () => (
   <>
     <Head>
@@ -15,15 +15,17 @@ const Settings = () => (
         py: 8,
       }}
     >
-      <Container maxWidth="lg">
+      <Box sx={{ ml: 5, mr: 5 }}>
         <Typography sx={{ mb: 3 }} variant="h4">
           Settings
         </Typography>
-
-        <Box sx={{ pt: 3}}>
+        <Box sx={{ pt: 3 }}>
+          <MaintenanceMode />
+        </Box>
+        <Box sx={{ pt: 3 }}>
           <SettingsPassword />
         </Box>
-      </Container>
+      </Box>
     </Box>
   </>
 );

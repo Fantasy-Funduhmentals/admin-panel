@@ -13,11 +13,12 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -30,6 +31,7 @@ export const TokenListResults = (props: Props) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [active, setActive] = useState(null);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -44,58 +46,30 @@ export const TokenListResults = (props: Props) => {
     const end = begin + limit;
 
     if (searchQuery.length > 0) {
-      return data
-        .filter(
-          (user) =>
-            user.displayName
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.displaySymbol
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-        .slice(begin, end);
+      // return data
+      //   .filter(
+      //     (user) =>
+      //       user.displayName
+      //         ?.toLowerCase()
+      //         .includes(searchQuery.toLowerCase()) ||
+      //       user.displaySymbol
+      //         ?.toLowerCase()
+      //         .includes(searchQuery.toLowerCase())
+      //   )
+      //   .slice(begin, end);
     } else {
-      return data?.slice(begin, end);
+      return data
+        ?.slice(begin, end)
+        .sort((a, b) => a.orderIndex - b.orderIndex);
     }
   }, [page, limit, data, searchQuery]);
 
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/native-token/export-all-native-tokens",
-        {
-          responseType: "blob",
-        }
-      );
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "Tokens.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
+  function premium(customer) {
+    return (customer?.strikePrice - customer?.price).toFixed(2);
+  }
 
   return (
     <Card {...props}>
-      <Box
-        style={{
-          width: "100%",
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-          Export Token
-        </Button>
-      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -106,7 +80,7 @@ export const TokenListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
                   {/* <TableCell padding="checkbox">
                   <Checkbox
@@ -119,16 +93,21 @@ export const TokenListResults = (props: Props) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                  <TableCell>Name</TableCell>
-                  <TableCell>Symbol</TableCell>
+                  <TableCell style={{ color: "white" }}>Name</TableCell>
+                  <TableCell style={{ color: "white" }}>ID</TableCell>
+                  <TableCell style={{ color: "white" }}>Symbol</TableCell>
 
-                  <TableCell>Price</TableCell>
-                  <TableCell>Order Index</TableCell>
+                  <TableCell style={{ color: "white" }}>minted</TableCell>
+                  <TableCell style={{ color: "white" }}>available</TableCell>
+                  <TableCell style={{ color: "white" }}>market(usd)</TableCell>
+                  <TableCell style={{ color: "white" }}>Premium(usd)</TableCell>
+                  <TableCell style={{ color: "white" }}>strike(usd)</TableCell>
+                  <TableCell style={{ color: "white" }}>Order Index</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataToDisplay?.map((customer) => {
+                {dataToDisplay?.map((customer, index) => {
                   return (
                     <TableRow
                       hover
@@ -147,9 +126,32 @@ export const TokenListResults = (props: Props) => {
                           <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
                             {getInitials(customer.displayName)}
                           </Avatar>
-                          <Typography color="textPrimary" variant="body1">
+                          <Typography
+                            color="textPrimary"
+                            variant="body1"
+                            sx={{ minWidth: "150px" }}
+                          >
                             {customer.displayName}
                           </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <CopyToClipboard text={customer?._id}>
+                          <button
+                            style={{
+                              border: "none",
+                              background: "transparent",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setActive(index)}
+                          >
+                            {customer?._id}
+                          </button>
+                        </CopyToClipboard>
+                        <Box>
+                          {active == index ? (
+                            <span style={{ color: "green" }}>Copied.</span>
+                          ) : null}
                         </Box>
                       </TableCell>
                       <TableCell>
@@ -158,8 +160,26 @@ export const TokenListResults = (props: Props) => {
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>${customer.price} </TableCell>
-                      <TableCell>{customer.orderIndex}</TableCell>
+                      <TableCell>
+                        {customer?.totalSupply.toLocaleString()}{" "}
+                      </TableCell>
+                      <TableCell>
+                        {Number(
+                          customer?.remainingSupply.toFixed(2)
+                        ).toLocaleString()}
+                      </TableCell>
+                      <TableCell>${customer?.price.toLocaleString()}</TableCell>
+                      <TableCell>${premium(customer)} </TableCell>
+                      <TableCell>
+                        $
+                        {Number(
+                          (customer.price * customer.multiplier).toFixed(2)
+                        ).toLocaleString()}{" "}
+                      </TableCell>
+
+                      <TableCell>
+                        {customer.orderIndex.toLocaleString()}
+                      </TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>

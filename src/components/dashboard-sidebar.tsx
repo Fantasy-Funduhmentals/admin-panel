@@ -7,10 +7,20 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
-import { Cog as CogIcon } from "../icons/cog";
+import { Newsletter } from "../icons/Newsletter";
 import { Crypto as CryptoIcon } from "../icons/crypto";
 import { CryptoWallets as CryptoWalletsIcon } from "../icons/cryptoWallets";
 import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
+import { Nftbalance } from "../icons/Nft balance";
+import { Nftpurchase } from "../icons/Nftpurchase";
+import { DirectWire } from "../icons/DirectWire";
+import { Cog } from "../icons/cog";
+import { Reports } from "../icons/reports";
+import { RequestCompleted } from "../icons/requestCompleted";
+import { Request } from "../icons/Request";
+import { ImportData } from "../icons/importData";
+import { Subscription } from "../icons/Subscription";
+import { Token } from "../icons/Token";
 import { SupportIcon } from "../icons/support";
 import { TokensIcon } from "../icons/tokensIcon";
 import { Users as UsersIcon } from "../icons/users";
@@ -35,12 +45,12 @@ const items = [
   },
   {
     href: "/tokens",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Token fontSize="small" />,
     title: "Tokens",
   },
   {
     href: "/sdiraRequests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Request fontSize="small" />,
     title: "Requests",
   },
   {
@@ -60,7 +70,7 @@ const items = [
   },
   {
     href: "/import-data",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <ImportData fontSize="small" />,
     title: "Import Data",
   },
   {
@@ -70,17 +80,17 @@ const items = [
   },
   {
     href: "/nft-purchase-requests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Nftpurchase fontSize="small" />,
     title: "NFT purchase requests",
   },
   {
     href: "/nft-balance",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <Nftbalance fontSize="small" />,
     title: "NFT balance",
   },
   {
     href: "/subscription",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Subscription fontSize="small" />,
     title: "Subscription",
   },
   // {
@@ -88,35 +98,53 @@ const items = [
   //   icon: <UserIcon fontSize="small" />,
   //   title: "Account",
   // },
+
   {
-    href: "/newsletter",
-    icon: <CogIcon fontSize="small" />,
-    title: "Newsletter",
+    href: "/direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Pending Direct Wire",
   },
   {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
+    href: "/completed-direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Completed Direct Wire",
   },
-  {
-    href: "/distribute-nfts",
-    icon: <BugReportIcon fontSize="small" />,
-    title: "Distribute NFTS",
-  },
+
   {
     href: "/loan-request-completed",
-    icon: <TokensIcon fontSize="small" />,
-    title: "Loan Request completed",
+    icon: <RequestCompleted fontSize="small" />,
+    title: "Leverage Request completed",
+  },
+  {
+    href: "/supply",
+    icon: <Inventory2Icon fontSize="small" />,
+    title: "Supply",
   },
   {
     href: "/chat",
     icon: <SupportIcon fontSize="small" />,
     title: "Support",
   },
+
   {
-    href: "/supply",
-    icon: <Inventory2Icon fontSize="small" />,
-    title: "Supply",
+    href: "/distribute-nfts",
+    icon: <BugReportIcon fontSize="small" />,
+    title: "Distribute NFTS",
+  },
+  {
+    href: "/report",
+    icon: <Reports fontSize="small" />,
+    title: "Reports",
+  },
+  {
+    href: "/newsletter",
+    icon: <Newsletter fontSize="small" />,
+    title: "Newsletter",
+  },
+  {
+    href: "/settings",
+    icon: <Cog fontSize="small" />,
+    title: "Settings",
   },
 ];
 

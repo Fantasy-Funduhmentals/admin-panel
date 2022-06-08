@@ -34,6 +34,7 @@ import {
 import { REQUEST_STATUS, REQUEST_TYPES } from "../../utils/enums/request.enum";
 import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
+import NoDataFound from "../NoDataFound/NoDataFound";
 import { SeverityPill } from "../severity-pill";
 import StatusModal from "../StatusModal";
 
@@ -211,7 +212,6 @@ export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
-
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -287,28 +287,36 @@ export const RequestListResults = (props: Props) => {
         >
           <Box>
             <TableContainer component={Paper}>
-              <Table aria-label="collapsible table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell>User</TableCell>
-                    <TableCell>Request Type</TableCell>
-                    <TableCell>Created At</TableCell>
-                    <TableCell />
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
+              {dataToDisplay.length == 0 ? (
+                <NoDataFound />
+              ) : (
+                <Table aria-label="collapsible table">
+                  <TableHead sx={{ background: "#5a82d7" }}>
+                    <TableRow>
+                      <TableCell style={{ color: "#fff" }}>User</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Request Type
+                      </TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Created At
+                      </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dataToDisplay.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </TableContainer>
           </Box>
         </Paper>

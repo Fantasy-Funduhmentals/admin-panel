@@ -64,7 +64,7 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Subscription Managment"
+            title="Subscription Management"
             subTitle="Package"
             onPressAdd={() => {
               setCustomerModalOpen(true);
@@ -72,6 +72,7 @@ const Tokens = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getTokensListing}
           />
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             {loading ? (

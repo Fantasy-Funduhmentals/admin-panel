@@ -58,43 +58,16 @@ export const NftBalanceListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
-
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get(
-        "/nft-wallet/export-all-nft-wallets",
-        {
-          responseType: "blob",
-        }
-      );
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "nft-balance.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
+  // function numberWithCommas(n) {
+  //   var parts = n ? n.toString().split(".") : "";
+  //   return (
+  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+  //     (parts[1] ? "." + parts[1] : "")
+  //   );
+  // }
 
   return (
     <Card {...props}>
-      <Box
-        style={{
-          width: "100%",
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-          Export NFT Balance
-        </Button>
-      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -105,13 +78,13 @@ export const NftBalanceListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>User</TableCell>
-                  <TableCell>Token</TableCell>
+                  <TableCell style={{color:"#fff"}}>User</TableCell>
+                  <TableCell style={{color:"#fff"}}>Token</TableCell>
 
-                  <TableCell>Balance</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -153,8 +126,8 @@ export const NftBalanceListResults = (props: Props) => {
                     {/* <TableCell>{customer?.name}</TableCell> */}
                     <TableCell>
                       {customer?.balance
-                        ? parseFloat(customer?.balance).toFixed(3)
-                        : "0.00"}{" "}
+                        ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
+                        : "0.00"}
                       {customer.coinSymbol?.toUpperCase()}
                     </TableCell>
                     <TableCell>

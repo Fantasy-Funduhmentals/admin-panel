@@ -56,10 +56,10 @@ export const DashboardNavbar = (props) => {
   };
 
 /* @ts-ignore */
-  useEffect(async() => {
+  useEffect(() => {
     try {
       setupAxios();
-      await HTTP_CLIENT.get(`/admin-auth/info`);
+      // await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
       handleLogout()
     }
@@ -189,9 +189,9 @@ export const DashboardNavbar = (props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <Avatar /> Profile
-        </MenuItem>
+        </MenuItem> */}
         {/* <MenuItem>
           <Avatar /> My account
         </MenuItem>

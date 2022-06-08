@@ -69,12 +69,17 @@ const ImportData = () => {
         <title>CQR Admin</title>
       </Head>
 
-      <Typography sx={{ m: 2 }} variant="h4" >
+      <Typography sx={{ m: 2 }} variant="h4">
         Import User Data
       </Typography>
 
-      <Card style={{    boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
-    borderRadius:" 10px"}} sx={{m:2}}>
+      <Card
+        style={{
+          boxShadow: "rgb(0 0 0 / 29%) 1px 1px 18px",
+          borderRadius: " 10px",
+        }}
+        sx={{ m: 2 }}
+      >
         <CardHeader
           subheader="Upload users csv data to import users and their balances in database. Note that this operation is irreversible."
           title="Upload Document"
@@ -91,7 +96,7 @@ const ImportData = () => {
             <TextField
               type="file"
               id="your_input_id"
-              inputProps={{ accept: ".xlsx" }}
+              inputProps={{ accept: ".csv" }}
               onChange={(ev) => {
                 handledocumentSelection(ev);
               }}

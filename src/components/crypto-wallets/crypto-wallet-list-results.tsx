@@ -63,39 +63,8 @@ export const CryptoWalletListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  const handleExport = async () => {
-    try {
-      const response = await HTTP_CLIENT.get("/wallet/export-all-wallets", {
-        responseType: "blob",
-      });
-
-      console.log("response>>", response);
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const fileLink = document.createElement("a");
-      fileLink.href = fileURL;
-      const fileName = "crypto-wallets.xlsx";
-      fileLink.setAttribute("download", fileName);
-      fileLink.setAttribute("target", "_blank");
-      document.body.appendChild(fileLink);
-      fileLink.click();
-      fileLink.remove();
-    } catch (error) {}
-  };
-
   return (
     <Card {...props}>
-      <Box
-        style={{
-          width: "100%",
-          marginTop: "2rem",
-          display: "flex",
-          justifyContent: "right",
-        }}
-      >
-        <Button sx={{ mb: 4 }} variant="contained" onClick={handleExport}>
-          Export Crypto Wallets
-        </Button>
-      </Box>
       <PerfectScrollbar>
         <Paper
           style={{
@@ -105,13 +74,13 @@ export const CryptoWalletListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>User</TableCell>
-                  <TableCell>Coin</TableCell>
-                  <TableCell>Address</TableCell>
-                  <TableCell>Balance</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>User</TableCell>
+                  <TableCell style={{color:"#fff"}}>Coin</TableCell>
+                  <TableCell style={{color:"#fff"}}>Address</TableCell>
+                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

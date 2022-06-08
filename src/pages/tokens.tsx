@@ -66,7 +66,7 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Token Managment"
+            title="Token Management"
             subTitle="Token"
             onPressAdd={() => {
               setCustomerModalOpen(true);
@@ -74,6 +74,7 @@ const Tokens = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getTokensListing}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
            {loading ? <CircularProgress/>: <TokenListResults
