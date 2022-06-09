@@ -17,7 +17,7 @@ interface Props extends BoxProps {
   subTitle: string;
   onPressAdd?: () => any;
   onChangeText?: (val: any) => any;
-  handleRefresh:()=> any;
+  handleRefresh?:()=> any;
 }
 
 export const ListToolbar = (props: Props) => {
