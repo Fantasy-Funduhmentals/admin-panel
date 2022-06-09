@@ -30,6 +30,7 @@ const SubAdmin = () => {
     try {
       setLoading(true);
       const AdminUser = await getAdminUserData();
+      
       dispatch(saveAdminUser(AdminUser.data));
       setLoading(false);
     } catch (err) {

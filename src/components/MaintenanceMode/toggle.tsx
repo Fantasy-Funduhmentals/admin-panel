@@ -20,7 +20,6 @@ import { saveSettings } from "../../store/reducers/settingsSlice";
 
 const toggle = () => {
   const { settings } = useAppSelector((state: any) => state.settings);
-console.log(settings,"settings________");
 
   const [alignment, setAlignment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,7 +31,6 @@ console.log(settings,"settings________");
     try {
       setLoading(true)
       const usersRes = await getMaintenanceMode();
-      console.log(usersRes,"usersRes________");
       dispatch(saveSettings(usersRes?.data));
       setLoading(false)
     } catch (err) {

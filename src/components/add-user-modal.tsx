@@ -60,7 +60,6 @@ const AddUserModal = (props: Props) => {
   ];
 
   const { open, onClose, editData } = props;
-  console.log(editData, "editDataUser");
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);

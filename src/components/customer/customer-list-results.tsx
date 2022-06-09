@@ -40,7 +40,6 @@ interface Props extends CardProps {
 
 export const UserListResults = (props: Props) => {
   const { data, searchQuery, handleRefresh } = props;
-  console.log(data, "userData");
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -53,7 +52,6 @@ export const UserListResults = (props: Props) => {
   const [loading, setloading] = useState(false);
   const [selected, setSelected] = useState("");
   const handleChange = (e) => {
-    console.log(e.target.value, "changes");
     setSelected(e.target.value);
   };
   const handleLimitChange = (event) => {
