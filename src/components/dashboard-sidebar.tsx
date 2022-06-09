@@ -93,11 +93,11 @@ const items = [
     icon: <Subscription fontSize="small" />,
     title: "Subscription",
   },
-  // {
-  //   href: "/account",
-  //   icon: <UserIcon fontSize="small" />,
-  //   title: "Account",
-  // },
+  {
+    href: "/sub-admin",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Sub Admin",
+  },
 
   {
     href: "/direct-wire",
