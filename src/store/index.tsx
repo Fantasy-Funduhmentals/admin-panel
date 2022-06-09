@@ -20,7 +20,11 @@ import loanRequestSlice from "./reducers/loanSlice.ts";
 import newsLetterSlice from "./reducers//newsLetterSlice";
 import directWireSlice from "./reducers/directWire";
 import completeDirectWireSlice from "./reducers/completeDirectWire";
+<<<<<<< HEAD
 import AdminSlice from "./reducers/adminSlice";
+=======
+import settingsSlice from "./reducers/settingsSlice";
+>>>>>>> 1c5a44a05a14e3b531ed05a714dd8c5b9edcfa2f
 declare var window: any;
 
 const persistConfig = {
@@ -30,7 +34,11 @@ const persistConfig = {
     "user",
     "coin",
     "token",
+<<<<<<< HEAD
     "adminUser",
+=======
+    "settings",
+>>>>>>> 1c5a44a05a14e3b531ed05a714dd8c5b9edcfa2f
     "request",
     "chat",
     "nft",
@@ -49,6 +57,7 @@ const reducers = combineReducers({
   user: userSlice,
   coin: coinSlice,
   token: tokenSlice,
+  settings: settingsSlice,
   request: requestSlice,
   chat: chatSlice,
   nft: nftSlice,
