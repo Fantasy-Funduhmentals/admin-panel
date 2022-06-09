@@ -17,14 +17,17 @@ import { RootState } from "../../store";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
 import { getSwapRate } from "../../services/userService";
+import { saveSettings } from "../../store/reducers/settingsSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 const WireAccountDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [bankDetails, setBankDetails] = useState(null);
-
+  const dispatch = useAppDispatch();
   const getSettings = async () => {
     const response = await getSwapRate();
+    dispatch(saveSettings(response?.data));
     setBankDetails(response?.data?.directWireAccount);
   };
 

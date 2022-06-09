@@ -15,20 +15,25 @@ import { getNormalizedError } from "../../utils/helpers";
 import {
   getMaintenanceMode,
 } from "../../services/userService";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { saveSettings } from "../../store/reducers/settingsSlice";
 
 const toggle = () => {
+  const { settings } = useAppSelector((state: any) => state.settings);
+console.log(settings,"settings________");
+
   const [alignment, setAlignment] = useState("");
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const dispatch = useAppDispatch();
+
   const getMaintenance = async () => {
+   
     try {
       setLoading(true)
       const usersRes = await getMaintenanceMode();
-      if (!usersRes?.data?.maintenance) {
-        setAlignment("OFF");
-      } else {
-        setAlignment("ON");
-      }
+      console.log(usersRes,"usersRes________");
+      dispatch(saveSettings(usersRes?.data));
       setLoading(false)
     } catch (err) {
       setLoading(false)
@@ -40,6 +45,7 @@ const toggle = () => {
     }
   };
   const handleChange = async (e) => {
+   
     if (e.target.value == "OFF") {
       setLoading(true);
       if (alignment == "OFF") {
@@ -73,7 +79,12 @@ const toggle = () => {
   };
 
   useEffect(() => {
-    getMaintenance();
+    // getMaintenance();
+    if (!settings.maintenance) {
+      setAlignment("OFF");
+    } else {
+      setAlignment("ON");
+    }
   }, []);
   return (
     <Card
