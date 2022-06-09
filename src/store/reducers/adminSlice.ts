@@ -1,30 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export type tokenState = {
-  tokens: any[];
-  users: any[];
+  subadmin: any[];
 };
 
 const initialState: tokenState = {
-  tokens: [],
-  users: [],
+  subadmin: [],
 };
 
 export const AdminSlice = createSlice({
   name: "User",
   initialState,
   reducers: {
-    resetTokenState: (state) => initialState,
-    saveTokens: (state, action) => {
-      state.tokens = action.payload;
-    },
+    resetAdminState: (state) => initialState,
     saveAdminUser: (state, action) => {
-      state.users = action.payload;
+      state.subadmin = action.payload;
     },
   },
 });
 
-export const { saveTokens, resetTokenState, saveAdminUser } =
-  AdminSlice.actions;
+export const { resetAdminState, saveAdminUser } = AdminSlice.actions;
 
 export default AdminSlice.reducer;

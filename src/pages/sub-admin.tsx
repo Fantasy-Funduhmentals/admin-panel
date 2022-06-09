@@ -1,7 +1,7 @@
 import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import AddUserModal from "../components/add-user-modal";
+import AddSubAdminModal from "../components/add-subadmin-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { AdminsList } from "../components/sub-admin/sub-admin";
@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import { getAdminUserData } from "../services/tokenService";
 
 const SubAdmin = () => {
-  const { users } = useAppSelector((state: RootState) => state.adminUser);
+  const { subadmin } = useAppSelector((state: RootState) => state.adminUser);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -68,11 +68,11 @@ const SubAdmin = () => {
             }}
           >
             <Button variant="contained" onClick={OpenAddUserModal}>
-              Add User
+              Add Sub Admin
             </Button>
             <ListToolbar
-              title="Admin Management"
-              subTitle="Admin User"
+              title="Sub Admin Management"
+              subTitle="Sub Admin User"
               onChangeText={(ev) => {
                 setSearchText(ev.target.value);
               }}
@@ -85,7 +85,7 @@ const SubAdmin = () => {
               <CircularProgress />
             ) : (
               <AdminsList
-                data={[0]}
+                data={subadmin}
                 searchQuery={searchText}
                 style={{ width: "100%" }}
               />
@@ -97,7 +97,7 @@ const SubAdmin = () => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-      <AddUserModal
+      <AddSubAdminModal
         open={userModelOpen}
         onClose={() => {
           setUserModalOpen(false);

@@ -29,6 +29,10 @@ const createNewUser = async (params: any) => {
   return await HTTP_CLIENT.post("/auth/admin-create-user", params);
 };
 
+const createSubAdminUser = async (params: any) => {
+  return await HTTP_CLIENT.post("/admin-auth/register-subAdmin", params);
+};
+
 const handleBlock = async (params: any) => {
   return await HTTP_CLIENT.post("/user/block-user", params);
 };
@@ -37,6 +41,7 @@ export {
   handleUserLogin,
   getAllUsers,
   changePassword,
+  createSubAdminUser,
   createNewUser,
   handleBlock,
   swapFee,

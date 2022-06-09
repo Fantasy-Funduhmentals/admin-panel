@@ -24,7 +24,7 @@ const getNewsLetter = async () => {
 };
 
 const getAdminUserData = async () => {
-  return await HTTP_CLIENT.get("");
+  return await HTTP_CLIENT.get("/admin-auth/getAllSubAdmins");
 };
 
 const getNativeWalletsData = async () => {
