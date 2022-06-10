@@ -55,7 +55,7 @@ const Users = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="User Managment"
+            title="User Management"
             subTitle="User"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -63,6 +63,7 @@ const Users = () => {
             onPressAdd={() => {
               setUserModalOpen(true);
             }}
+            handleRefresh={getUserListing}
           />
           <Box
             style={{
@@ -77,7 +78,12 @@ const Users = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <UserListResults data={users} searchQuery={searchText} style={{width:"100%"}}/>
+              <UserListResults
+                data={users}
+                searchQuery={searchText}
+                handleRefresh={getUserListing}
+                style={{ width: "100%" }}
+              />
             )}
           </Box>
         </Container>

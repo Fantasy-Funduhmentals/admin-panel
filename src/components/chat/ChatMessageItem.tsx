@@ -44,6 +44,7 @@ export default function ChatMessageItem({
   message,
   // onOpenLightbox,
   otherUser,
+  
 }) {
   const isImage = Boolean(message?.image);
 
@@ -60,9 +61,11 @@ export default function ChatMessageItem({
       <Box
                  
         sx={{
+          
           display: "flex",
           ...(isMe && {
             ml: "auto",
+           
           }),
         }}
       >
@@ -74,14 +77,14 @@ export default function ChatMessageItem({
           />
         )}
 
-        <Box sx={{ ml: 2 }}  style={{background:"#00000021",padding:"0.3rem 1rem 0rem 0.8rem",borderRadius:"20px 20px 20px 20px"}}>
+        <Box sx={{ ml: 2 }}  style={{...(isMe ? {background:"#0f6b77",borderRadius:"20px 0px 20px 20px"} : {background:"#00000021",borderRadius:"0px 20px 20px 20px"}),padding:"0.3rem 1rem 0rem 0.8rem"}}>
           <InfoStyle
           
           
             noWrap
             variant="caption"
           
-          sx={{ ...(isMe && { justifyContent: "flex-end" }) }}
+          sx={{ ...(isMe && { justifyContent: "flex-end",color:"black" }) }}
           >
             {!isMe && `${firstName},`}&nbsp;
             {formatDistanceToNowStrict(new Date(message.createdAt), {
@@ -90,11 +93,12 @@ export default function ChatMessageItem({
           </InfoStyle>
 
           <ContentStyle
+          
             sx={{
               padding:"0px 0px 3px 0px",
 
               ...(isMe && {
-                color: "grey.800",
+                color: "#fff",
                 bgcolor: "primary.lighter",
               }),
             }}

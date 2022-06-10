@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" &&  next build",
     "start": "next start -p 80",
     "type-check": "tsc"
   },
@@ -30,13 +30,14 @@
     "formik": "^2.1.5",
     "history": "^5.0.0",
     "moment": "^2.29.1",
-    "next": "latest",
+    "next": "^12.1.7-canary.16",
     "nprogress": "^0.2.0",
     "probe-image-size": "^7.2.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
     "react-chartjs-2": "^3.0.4",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.7",
     "react-elastic-carousel": "^0.11.5",
@@ -48,6 +49,7 @@
     "redux-persist": "^6.0.0",
     "simplebar-react": "^2.3.6",
     "socket.io-client": "^4.4.1",
+    "styled-components": "^5.3.5",
     "uuid": "^8.3.0",
     "web3": "^1.7.1",
     "yup": "^0.32.9"

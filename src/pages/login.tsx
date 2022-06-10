@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
 import { handleUserLogin } from "../services/userService";
 import { useAppDispatch } from "../store/hooks";
-import { saveAccessToken } from "../store/reducers/userSlice";
+import { saveAccessToken, saveUserRole } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const Login = () => {
@@ -27,6 +27,7 @@ const Login = () => {
     try {
       setLoading(true);
       const loginRes = await handleUserLogin(values);
+      dispatch(saveUserRole(loginRes.data.user.role));
       dispatch(saveAccessToken(loginRes.data.accessToken));
       setLoading(false);
       setStatusData({
@@ -113,7 +114,6 @@ const Login = () => {
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
-          
               <Button
                 color="primary"
                 // disabled={formik.isSubmitting}
@@ -124,7 +124,6 @@ const Login = () => {
               >
                 {loading ? <CircularProgress color="inherit" /> : "Sign In Now"}
               </Button>
-              
             </Box>
             {/* <Typography color="textSecondary" variant="body2">
               Don&apos;t have an account?{" "}

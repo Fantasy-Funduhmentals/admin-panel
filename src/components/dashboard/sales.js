@@ -7,6 +7,7 @@ import {
   CardHeader,
   Divider,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -19,13 +20,15 @@ import Slider from "../Slider/slider";
 export const Sales = (props) => {
   const [statusData, setStatusData] = useState(null);
   const [graphData, setGraphData] = useState();
-
+  const [loading , setLoading] = useState(false)
   const getNativeWallets = async () => {
     try {
+      setLoading(true)
       const walletRes = await getAllNativeWalletsData();
-      console.log(walletRes?.data, "asdasdasdas");
-      setGraphData(walletRes?.data, "asdasdasdas");
+      setGraphData(walletRes?.data);
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -132,57 +135,66 @@ export const Sales = (props) => {
       <CardContent>
         <Box
           sx={{
-            height: 360,
+            height: 430,
             position: "relative",
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center"
           }}
         >
-          {/* <Line data={DataFile} options={options} /> */}
-          <Slider team={3}>
-            {graphData?.map((item, key) => (
-              <Box
-                key={key}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <>
-                  <Box>
-                    <img
-                      src={item?.icon?.url}
-                      alt="Coins"
-                      style={{ height: "200px", width: "200px" }}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box sx={{ fontWeight: 500, fontSize: 22 }}>
-                      {item?.displayName}{" "}
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Slider team={3}>
+              {graphData?.map((item, key) => (
+                <Box
+                  key={key}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <>
+                    <Box>
                       <img
-                        src={item?.displaySymbol}
-                        alt=""
-                        style={{ height: "20px", width: "20px" }}
+                        src={item?.icon?.url}
+                        alt="Coins"
+                        style={{ height: "200px", width: "200px" }}
                       />
                     </Box>
-                    <Box sx={{ fontWeight: 500, fontSize: 22, color: "gray" }}>
-                      <p>{item?.price}</p>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box sx={{ fontWeight: 500, fontSize: 22 }}>
+                        {item?.displayName}{" "}
+                        <img
+                          src={item?.displaySymbol}
+                          alt=""
+                          style={{ height: "20px", width: "20px" }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{ fontWeight: 500, fontSize: 22, color: "gray" }}
+                      >
+                        <p>{item?.price}</p>
+                      </Box>
                     </Box>
-                  </Box>
-                </>
-              </Box>
-            ))}
-          </Slider>
+                  </>
+                </Box>
+              ))}
+            </Slider>
+          )}
+          {/* <Line data={DataFile} options={options} /> */}
         </Box>
       </CardContent>
-      <Divider />
+      {/* <Divider />
       <Box
         sx={{
           display: "flex",
@@ -197,7 +209,7 @@ export const Sales = (props) => {
         >
           Overview
         </Button>
-      </Box>
+      </Box> */}
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}

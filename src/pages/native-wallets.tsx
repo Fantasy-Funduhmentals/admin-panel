@@ -54,11 +54,12 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Native Wallets Managment"
+            title="Native Wallets Management"
             subTitle="Native Wallet"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getNativeWallets}
           />
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             {loading ? (

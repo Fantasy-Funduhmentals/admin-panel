@@ -11,9 +11,20 @@ const getSubscriptionData = async () => {
 const getNFTData = async () => {
   return await HTTP_CLIENT.get("/nft-token");
 };
+const directWireData = async () => {
+  return await HTTP_CLIENT.get("/direct-wires/all-pending-wires");
+};
+
+const completedDirectWireData = async () => {
+  return await HTTP_CLIENT.get("/direct-wires/all-wires");
+};
 
 const getNewsLetter = async () => {
   return await HTTP_CLIENT.get("/newsletter");
+};
+
+const getAdminUserData = async () => {
+  return await HTTP_CLIENT.get("/admin-auth/getAllSubAdmins");
 };
 
 const getNativeWalletsData = async () => {
@@ -25,6 +36,9 @@ const getAllNativeWalletsData = async () => {
 
 const getNFTBalanceData = async () => {
   return await HTTP_CLIENT.get("/nft-wallet/all-nft-wallets");
+};
+const directWiresPost = async (data) => {
+  return await HTTP_CLIENT.post("direct-wires/handle-wire", data);
 };
 
 const createNewToken = async (params: any) => {
@@ -55,6 +69,7 @@ export {
   createNewToken,
   updateToken,
   getNFTData,
+  getAdminUserData,
   getNewsLetter,
   updateNFT,
   getNFTBalanceData,
@@ -63,4 +78,7 @@ export {
   createSubscription,
   deleteSubscription,
   getAllNativeWalletsData,
+  directWireData,
+  directWiresPost,
+  completedDirectWireData,
 };

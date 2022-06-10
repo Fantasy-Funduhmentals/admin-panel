@@ -23,12 +23,18 @@ import { useEffect, useState } from "react";
 import { Bell as BellIcon } from "../icons/bell";
 import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { resetUserState } from "../store/reducers/userSlice";
 import Router from "next/router";
 import { useWeb3 } from "@3rdweb/hooks";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { setupAxios } from "../utils/axiosClient";
+import { resetAdminState } from "../store/reducers/adminSlice";
+import { resetCoinState } from "../store/reducers/coinSlice";
+import { resetCompleteDirectWireState } from "../store/reducers/completeDirectWire";
+import { resetRequestState } from "../store/reducers/requestSlice";
+import { resetSettingsState } from "../store/reducers/settingsSlice";
+import { RootState } from "../store";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -36,6 +42,7 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
 }));
 
 export const DashboardNavbar = (props) => {
+  const { role } = useAppSelector((state: RootState) => state.user);
   const { onSidebarOpen, ...other } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -52,16 +59,22 @@ export const DashboardNavbar = (props) => {
 
   const handleLogout = () => {
     dispatch(resetUserState());
+    dispatch(resetAdminState());
+    dispatch(resetCoinState());
+    dispatch(resetCompleteDirectWireState());
+    dispatch(resetRequestState());
+    dispatch(resetSettingsState());
+    dispatch(resetCompleteDirectWireState());
     Router.push("/login");
   };
 
-/* @ts-ignore */
-  useEffect(async() => {
+  /* @ts-ignore */
+  useEffect(() => {
     try {
       setupAxios();
-      await HTTP_CLIENT.get(`/admin-auth/info`);
+      // await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
-      handleLogout()
+      handleLogout();
     }
   }, []);
 
@@ -86,19 +99,23 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => {
-              connectWallet("injected");
-            }}
-          >
-            {address
-              ? `${address.substring(0, 6)}...${address.substring(
-                  address.length - 4
-                )}`
-              : " Connect Wallet"}
-            {/* {!address ? "Connect" : "Successfull"} */}
-          </Button>
+          {role == "admin" ? (
+            <Button
+              variant="contained"
+              onClick={() => {
+                connectWallet("injected");
+              }}
+            >
+              {address
+                ? `${address.substring(0, 6)}...${address.substring(
+                    address.length - 4
+                  )}`
+                : " Connect Wallet"}
+              {/* {!address ? "Connect" : "Successfull"} */}
+            </Button>
+          ) : (
+            ""
+          )}
           <IconButton
             onClick={onSidebarOpen}
             sx={{
@@ -189,9 +206,9 @@ export const DashboardNavbar = (props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <Avatar /> Profile
-        </MenuItem>
+        </MenuItem> */}
         {/* <MenuItem>
           <Avatar /> My account
         </MenuItem>

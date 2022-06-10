@@ -54,11 +54,12 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT Balance Management"
+            title="NFT Balance  Management"
             subTitle="NFT balance"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getNativeWallets}
           />
           <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
             {loading ? <CircularProgress/> : <NftBalanceListResults data={userNft} searchQuery={searchText} />}

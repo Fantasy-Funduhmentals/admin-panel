@@ -43,6 +43,7 @@ import StatusModal from "../StatusModal";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
+import NoDataFound from "../NoDataFound/NoDataFound";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
@@ -134,7 +135,13 @@ const Row = (props) => {
       setLoading(false);
     }
   };
-
+  // function numberWithCommas(n) {
+  //   var parts = n ? n.toString().split(".") : "";
+  //   return (
+  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+  //     (parts[1] ? "." + parts[1] : "")
+  //   );
+  // }
   return (
     <React.Fragment>
       {loading ? (
@@ -186,7 +193,7 @@ const Row = (props) => {
               {row.isLoan ? "Loan request" : "Normal request "}
             </SeverityPill>
             <TableCell align="center">
-              {row?.assetPool?.remainingSupply}
+              {row?.assetPool?.remainingSupply.toLocaleString()}
             </TableCell>
             <TableCell>
               <Button
@@ -257,7 +264,7 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  Price PerShare
+                                  Price Per Unit 
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.pricePerShare}
@@ -391,33 +398,40 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper} style={{ height: "100vh" }}>
-              <Table aria-label="collapsible table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell>User</TableCell>
-                    <TableCell>NFT name</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>index</TableCell>
-                    <TableCell>Loan Status</TableCell>
-
-                    <TableCell>remaining Supply</TableCell>
-                    <TableCell />
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {dataToDisplay.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      handleRequest={handleRequest}
-                      loading={loading}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
+            <TableContainer component={Paper} >
+              {dataToDisplay.length == 0 ? (
+              <NoDataFound/>
+              ) : (
+                <Table aria-label="collapsible table">
+                  <TableHead sx={{ background: "#5a82d7" }}>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell style={{ color: "#fff" }}>User</TableCell>
+                      <TableCell style={{ color: "#fff" }}>NFT name</TableCell>
+                      <TableCell style={{ color: "#fff" }}>Amount</TableCell>
+                      <TableCell style={{ color: "#fff" }}>index</TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        Loan Status
+                      </TableCell>
+                      <TableCell style={{ color: "#fff" }}>
+                        remaining Supply
+                      </TableCell>
+                      <TableCell />
+                      <TableCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dataToDisplay.map((row) => (
+                      <Row
+                        key={row.name}
+                        row={row}
+                        handleRequest={handleRequest}
+                        loading={loading}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </TableContainer>
           </Box>
         </Paper>

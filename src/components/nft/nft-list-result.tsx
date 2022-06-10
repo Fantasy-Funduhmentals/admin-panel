@@ -27,7 +27,6 @@ interface Props extends CardProps {
 
 export const NftListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-  console.log("data&&&", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -61,6 +60,8 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
+
+
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -73,7 +74,7 @@ export const NftListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
                   {/* <TableCell padding="checkbox">
                     <Checkbox
@@ -86,13 +87,13 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Owned by</TableCell>
-                  <TableCell>Image</TableCell>
+                  <TableCell style={{color:"#fff"}}>Owned by</TableCell>
+                  <TableCell style={{color:"#fff"}}>Image</TableCell>
 
-                  <TableCell>Index</TableCell>
-                  <TableCell>Price Per unit</TableCell>
-                  <TableCell>Remaining Supply</TableCell>
-                  <TableCell>Total Supply</TableCell>
+                  <TableCell style={{color:"#fff"}}>Index</TableCell>
+                  <TableCell style={{color:"#fff"}}>Price Per unit</TableCell>
+                  <TableCell style={{color:"#fff"}}>Remaining Supply</TableCell>
+                  <TableCell style={{color:"#fff"}}>Total Supply</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -129,8 +130,8 @@ export const NftListResults = (props: Props) => {
                       </TableCell>
                       <TableCell>{customer.index} </TableCell>
                       <TableCell>{customer.pricePerShare}</TableCell>
-                      <TableCell>{customer.remainingSupply}</TableCell>
-                      <TableCell>{customer.totalSupply}</TableCell>
+                      <TableCell>{customer.remainingSupply?.toLocaleString()}</TableCell>
+                      <TableCell>{customer.totalSupply?.toLocaleString()}</TableCell>
                       <TableCell onClick={() => onPressEdit(customer)}>
                         <ModeEditIcon color="secondary" />
                       </TableCell>

@@ -88,8 +88,6 @@ const FullScreenDialog = (props: Props) => {
     setPayment(event.target.value);
   };
 
-  // console.log("editData:::", editData);
-
   const formik = useFormik({
     initialValues: {
       //   metal: editData
@@ -101,6 +99,7 @@ const FullScreenDialog = (props: Props) => {
       // duration: editData ? editData?.duration : "",
       description: editData ? editData?.description : "",
       priceUSD: editData ? editData?.priceUSD : "",
+      orderIndex: editData ? editData.orderIndex : "",
       // apr: editData ? editData?.apr : "",
       //   icon: editData ? editData?.icon : "",
     },
@@ -123,6 +122,7 @@ const FullScreenDialog = (props: Props) => {
       //   .trim(),
       description: Yup.string().required("Description is required").trim(),
       priceUSD: Yup.string().required("Price is required").trim(),
+      orderIndex: Yup.string().required("orderIndex is required").trim(),
       // apr: Yup.string().required("apr is required").trim(),
     }),
     onSubmit: (values, actions) => {
@@ -162,6 +162,7 @@ const FullScreenDialog = (props: Props) => {
         duration: duration,
         apr: "12",
         paymentMethod: "test",
+        orderIndex: values.orderIndex,
       };
       if (image) {
         const tokenImageUrl = await handleImageUpload(image, "nativeTokens");
@@ -406,22 +407,23 @@ const FullScreenDialog = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-                        {/* <Grid item md={6} xs={12}>
+                        <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.apr && formik.errors.apr
+                              formik.touched.orderIndex &&
+                                formik.errors.orderIndex
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.apr}
+                            value={formik.values.orderIndex}
                             fullWidth
-                            label="Apr"
+                            label="Order Index"
                             type="number"
-                            name="apr"
-                            helperText={formik.errors.apr}
+                            name="orderIndex"
+                            helperText={formik.errors.orderIndex}
                             variant="outlined"
                           />
-                        </Grid> */}
+                        </Grid>
                       </Grid>
                     </CardContent>
                     <Divider />

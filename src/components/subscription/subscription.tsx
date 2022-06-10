@@ -11,18 +11,18 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
+  // Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { getInitials } from "../../utils/get-initials";
-import ModeEditIcon, from "@mui/icons-material/ModeEdit";
+// import { getInitials } from "../../utils/get-initials";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { getNormalizedError } from "../../utils/helpers";
-import { HTTP_CLIENT } from "../../utils/axiosClient";
-import { getSubscriptionData } from "../../services/tokenService";
-import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
-import {deleteSubscription} from "../../services/tokenService.ts"
+// import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { deleteSubscription, getSubscriptionData } from "../../services/tokenService";
+// import { saveSubscriptionData } from "../../store/reducers/subscriptionSlice";
+// import {deleteSubscription} from "../../services/tokenService.ts"
 
 
 interface Props extends CardProps {
@@ -54,7 +54,6 @@ export const SubscriptionListListResults = (props: Props) => {
     setLoading(true);
     try {
       const response = await deleteSubscription(item)
-      console.log("response", response);
 
         setStatusData({
           type: "success",
@@ -107,7 +106,7 @@ export const SubscriptionListListResults = (props: Props) => {
           <Box>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{background:"#5a82d7"}}>
                   {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.length === data.length}
@@ -119,12 +118,13 @@ export const SubscriptionListListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Image</TableCell>
-                  <TableCell>Title</TableCell>
-
+                  <TableCell style={{color:"#fff"}}>Image</TableCell>
+                  <TableCell style={{color:"#fff"}}>Title</TableCell>
                   {/* <TableCell>Payment method</TableCell> */}
-                  <TableCell>Duration</TableCell>
-                  <TableCell>Value in USD</TableCell>
+                  <TableCell style={{color:"#fff"}}>Duration</TableCell>
+                  <TableCell style={{color:"#fff"}}>Value in USD</TableCell>
+                  <TableCell style={{color:"#fff"}}>Order Index</TableCell>
+                  <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -156,11 +156,12 @@ export const SubscriptionListListResults = (props: Props) => {
                       {/* <TableCell>{item.paymentMethod}</TableCell> */}
                       <TableCell>{item.duration}</TableCell>
                       <TableCell>{item.priceUSD}</TableCell>
-                      <TableCell onClick={() => onPressEdit(item)}>
+                      <TableCell>{item.orderIndex}</TableCell>
+                      <TableCell onClick={() => onPressEdit(item)} sx={{cursor:"pointer"}}>
                         <ModeEditIcon  color="secondary" />
                     
                       </TableCell>
-                      <TableCell>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
+                      <TableCell sx={{cursor:"pointer"}}>   <DeleteOutlineIcon onClick={() => handleDelete(item)} /></TableCell>
 
                     </TableRow>
                   );

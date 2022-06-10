@@ -6,7 +6,11 @@ import {
   CardHeader,
   CircularProgress,
   Container,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -26,7 +30,7 @@ import { uploadImage } from "../services/generalService";
 import { createNewUser } from "../services/userService";
 import { getNormalizedError } from "../utils/helpers";
 import StatusModal from "./StatusModal";
-
+import ToggleButton from "../components/toggleButton/toggle";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -43,6 +47,18 @@ interface Props {
 }
 
 const AddUserModal = (props: Props) => {
+  const Item = [
+    {
+      name: "cqr user",
+    },
+    {
+      name: "sdira",
+    },
+    {
+      name: "ira",
+    },
+  ];
+
   const { open, onClose, editData } = props;
 
   const [image, setImage] = useState(null);
@@ -52,7 +68,12 @@ const AddUserModal = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [editSymbolImage, setEditSymbolImage] = useState(null);
+  const [selectItems, setSelectItems] = useState("");
+  const [recievestatus, setrecievestatus] = useState(true);
 
+  const handleDurationChange = (event) => {
+    setSelectItems(event.target.value);
+  };
   useEffect(() => {
     if (editData) {
       setEditImage(editData.icon.url);
@@ -71,7 +92,9 @@ const AddUserModal = (props: Props) => {
       name: Yup.string().required("Enter Your Name").min(2).max(50).trim(),
       email: Yup.string()
         .email("Please Enter a Valid Email")
+        .trim()
         .required("Enter Your Email"),
+
       password: Yup.string()
         .required()
         .min(8)
@@ -98,6 +121,10 @@ const AddUserModal = (props: Props) => {
     return uploadRes.data.url;
   };
 
+  const recieveData = (data) => {
+    setrecievestatus(data);
+  };
+
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
@@ -113,13 +140,17 @@ const AddUserModal = (props: Props) => {
 
       let params = {
         ...values,
-        sdira: true,
+        // sdira: true,
+        type: selectItems,
+        isWalletActivated: recievestatus,
       };
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
       params.profilePicture = userProfileImage;
-
-      await createNewUser(params);
+      await createNewUser({
+        ...params,
+        email: params.email.replaceAll(" ", ""),
+      });
 
       formik.resetForm();
       setImage(null);
@@ -148,7 +179,7 @@ const AddUserModal = (props: Props) => {
   };
 
   return (
-    <div>
+    <Box>
       <Dialog
         fullScreen
         open={open}
@@ -250,7 +281,6 @@ const AddUserModal = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
@@ -267,7 +297,6 @@ const AddUserModal = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
-
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
@@ -284,7 +313,31 @@ const AddUserModal = (props: Props) => {
                             variant="outlined"
                           />
                         </Grid>
+                        <Grid item md={6} xs={12}>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              Select Items
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={selectItems}
+                              label="Select Items"
+                              onChange={handleDurationChange}
+                            >
+                              {Item.map((item, index) => (
+                                <MenuItem key={index} value={item.name}>
+                                  {item.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <Grid />
+                        </Grid>
                       </Grid>
+                      <Card sx={{ mt: 3 }}>
+                        <ToggleButton recieveData={recieveData} />
+                      </Card>
                     </CardContent>
                     <Divider />
                     <Box
@@ -300,7 +353,11 @@ const AddUserModal = (props: Props) => {
                         type="submit"
                         fullWidth
                       >
-                        {loading ? <CircularProgress /> : "Save details"}
+                        {loading ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Save details"
+                        )}
                       </Button>
                     </Box>
                   </Card>
@@ -314,7 +371,7 @@ const AddUserModal = (props: Props) => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-    </div>
+    </Box>
   );
 };
 

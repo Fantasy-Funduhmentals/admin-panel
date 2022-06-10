@@ -66,7 +66,6 @@ const coins = [
 
 const FullScreenDialog = (props: Props) => {
   const { open, onClose, editData } = props;
-  // console.log("editData::::", editData);
 
   const [image, setImage] = useState(null);
   const [symbolImage, setSymbolImage] = useState(null);

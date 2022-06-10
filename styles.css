@@ -27,3 +27,37 @@
   max-width: 50% !important;
 }
 /***ImageViewer***/
+/***slider staging code*****/
+.kCa-dlP {
+  margin: 9px !important;
+  font-size: 0.8em !important;
+  height: 5px !important;
+  width: 5px !important;
+  box-shadow: 0 0 0px 2px rgb(0 0 0 / 50%) !important;
+
+}
+.jYxeHE {
+  -webkit-transition: all 200ms ease !important;
+  background-color: rgb(80 72 229) !important;
+  box-shadow: 0 0 1px 2px rgb(80 72 229) !important;
+}
+
+/***slider*****/
+/***slider local code*****/
+.jhmYzC {
+
+  margin: 9px !important;
+  background-color: gray !important;
+  font-size: 0.8em !important;
+  height: 5px !important;
+  width: 5px !important;
+  box-shadow: 0 0 0px 2px rgb(0 0 0 / 50%) !important;
+}
+.krmNah {
+  -webkit-transition: all 200ms ease !important;
+  background-color: rgb(80 72 229) !important;
+  box-shadow: 0 0 1px 2px rgb(80 72 229) !important;
+
+}
+/***slider*****/
+

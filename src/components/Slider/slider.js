@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
+import { Box } from "@mui/system";
 import Carousel, { consts } from "react-elastic-carousel";
-// import BackButton from "../../../Assets/icons/Back_White.svg";
-// import NextButton from "../../../Assets/icons/Next_White.svg";
 
 function Slider({ children, team }) {
   const breakpoints1 = [
@@ -27,36 +26,42 @@ function Slider({ children, team }) {
   const myArrow = ({ type, onClick, isEdge }) => {
     const pointer =
       type === consts.PREV ? (
-        <Button
-          variant="contained"
-          sx={{
-            background: "#5048E5",
-            color: "#fff",
-            cursor: "pointer",
-            borderRadius: "50px 0px 0px 50px",
-          }}
-        >
-          back
-        </Button>
+        // <Button
+        //   variant="contained"
+        //   sx={{
+        //     background: "#5048E5",
+        //     color: "#fff",
+        //     cursor: "pointer",
+        //     borderRadius: "50px 0px 0px 50px",
+        //   }}
+        // >
+        //   back
+        // </Button>
+        <Box>
+          <img src={"/back.svg"} alt="" style={{width:"44px",height:"44px"}}/>
+        </Box>
       ) : (
-        <Button
-          variant="contained"
-          sx={{
-            background: "#5048E5",
-            color: "#fff",
-            borderRadius: "0px 50px 50px 0px",
-          }}
-        >
-          next
-        </Button>
+        <Box>
+        <img src={"/next.svg"} alt="" style={{width:"44px",height:"44px"}}/>
+      </Box>
+        // <Button
+        //   variant="contained"
+        //   sx={{
+        //     background: "#5048E5",
+        //     color: "#fff",
+        //     borderRadius: "0px 50px 50px 0px",
+        //   }}
+        // >
+        //   next
+        // </Button>
       );
     return (
-      <button
+      <Button
         style={{ background: "transparent", border: "none" }}
         onClick={onClick}
       >
         {pointer}
-      </button>
+      </Button>
     );
   };
 
@@ -64,7 +69,6 @@ function Slider({ children, team }) {
     <>
       <Carousel
         breakPoints={brackpointsList[team]}
-        // className={Styles.innerWrapper}
         autoPlaySpeed={5000}
         enableAutoPlay
         renderArrow={myArrow}

@@ -58,6 +58,13 @@ export const NftBalanceListResults = (props: Props) => {
       return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
+  // function numberWithCommas(n) {
+  //   var parts = n ? n.toString().split(".") : "";
+  //   return (
+  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+  //     (parts[1] ? "." + parts[1] : "")
+  //   );
+  // }
 
   return (
     <Card {...props}>
@@ -71,13 +78,13 @@ export const NftBalanceListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead>
+              <TableHead sx={{background:"#5a82d7"}}>
                 <TableRow>
-                  <TableCell>User</TableCell>
-                  <TableCell>Token</TableCell>
+                  <TableCell style={{color:"#fff"}}>User</TableCell>
+                  <TableCell style={{color:"#fff"}}>Token</TableCell>
 
-                  <TableCell>Balance</TableCell>
-                  <TableCell>Created At</TableCell>
+                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
+                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -119,8 +126,8 @@ export const NftBalanceListResults = (props: Props) => {
                     {/* <TableCell>{customer?.name}</TableCell> */}
                     <TableCell>
                       {customer?.balance
-                        ? parseFloat(customer?.balance).toFixed(3)
-                        : "0.00"}{" "}
+                        ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
+                        : "0.00"}
                       {customer.coinSymbol?.toUpperCase()}
                     </TableCell>
                     <TableCell>

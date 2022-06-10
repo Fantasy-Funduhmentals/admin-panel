@@ -5,12 +5,22 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
-import { Cog as CogIcon } from "../icons/cog";
+import { Newsletter } from "../icons/Newsletter";
 import { Crypto as CryptoIcon } from "../icons/crypto";
 import { CryptoWallets as CryptoWalletsIcon } from "../icons/cryptoWallets";
 import { NativeWallets as NativeWalletsIcon } from "../icons/nativeWallets";
+import { Nftbalance } from "../icons/Nft balance";
+import { Nftpurchase } from "../icons/Nftpurchase";
+import { DirectWire } from "../icons/DirectWire";
+import { Cog } from "../icons/cog";
+import { Reports } from "../icons/reports";
+import { RequestCompleted } from "../icons/requestCompleted";
+import { Request } from "../icons/Request";
+import { ImportData } from "../icons/importData";
+import { Subscription } from "../icons/Subscription";
+import { Token } from "../icons/Token";
 import { SupportIcon } from "../icons/support";
 import { TokensIcon } from "../icons/tokensIcon";
 import { Users as UsersIcon } from "../icons/users";
@@ -18,10 +28,10 @@ import { resetUserState } from "../store/reducers/userSlice";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import BugReportIcon from "@mui/icons-material/BugReport";
-
+import { RootState } from "../store";
 const items = [
   {
     href: "/",
@@ -35,12 +45,12 @@ const items = [
   },
   {
     href: "/tokens",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Token fontSize="small" />,
     title: "Tokens",
   },
   {
     href: "/sdiraRequests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Request fontSize="small" />,
     title: "Requests",
   },
   {
@@ -60,7 +70,7 @@ const items = [
   },
   {
     href: "/import-data",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <ImportData fontSize="small" />,
     title: "Import Data",
   },
   {
@@ -70,63 +80,87 @@ const items = [
   },
   {
     href: "/nft-purchase-requests",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Nftpurchase fontSize="small" />,
     title: "NFT purchase requests",
   },
   {
     href: "/nft-balance",
-    icon: <NativeWalletsIcon fontSize="small" />,
+    icon: <Nftbalance fontSize="small" />,
     title: "NFT balance",
   },
   {
     href: "/subscription",
-    icon: <TokensIcon fontSize="small" />,
+    icon: <Subscription fontSize="small" />,
     title: "Subscription",
   },
-  // {
-  //   href: "/account",
-  //   icon: <UserIcon fontSize="small" />,
-  //   title: "Account",
-  // },
   {
-    href: "/newsletter",
-    icon: <CogIcon fontSize="small" />,
-    title: "Newsletter",
+    href: "/sub-admin",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Sub Admin",
+  },
+
+  {
+    href: "/direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Pending Direct Wire",
   },
   {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
+    href: "/completed-direct-wire",
+    icon: <DirectWire fontSize="small" />,
+    title: "Completed Direct Wire",
   },
-  {
-    href: "/distribute-nfts",
-    icon: <BugReportIcon fontSize="small" />,
-    title: "Distribute NFTS",
-  },
+
   {
     href: "/loan-request-completed",
-    icon: <TokensIcon fontSize="small" />,
-    title: "Loan Request completed",
-  },
-  {
-    href: "/chat",
-    icon: <SupportIcon fontSize="small" />,
-    title: "Support",
-  },
-  {
-    href: "/report",
-    icon: <CogIcon fontSize="small" />,
-    title: "Reports",
+    icon: <RequestCompleted fontSize="small" />,
+    title: "Leverage Request completed",
   },
   {
     href: "/supply",
     icon: <Inventory2Icon fontSize="small" />,
     title: "Supply",
   },
+  {
+    href: "/chat",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Support",
+  },
+
+  {
+    href: "/distribute-nfts",
+    icon: <BugReportIcon fontSize="small" />,
+    title: "Distribute NFTS",
+  },
+  {
+    href: "/report",
+    icon: <Reports fontSize="small" />,
+    title: "Reports",
+  },
+  {
+    href: "/newsletter",
+    icon: <Newsletter fontSize="small" />,
+    title: "Newsletter",
+  },
+  {
+    href: "/settings",
+    icon: <Cog fontSize="small" />,
+    title: "Settings",
+  },
+];
+
+const SubAdminRoute = [
+  {
+    href: "/chat",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Support",
+  },
 ];
 
 export const DashboardSidebar = (props) => {
+  const { role } = useAppSelector((state: RootState) => state.user);
   const { open, onClose } = props;
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"), {
@@ -138,7 +172,6 @@ export const DashboardSidebar = (props) => {
     if (!router.isReady) {
       return;
     }
-
     if (open) {
       onClose?.();
     }
@@ -218,14 +251,25 @@ export const DashboardSidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem
-              key={item.title}
-              icon={item.icon}
-              href={item.href}
-              title={item.title}
-            />
-          ))}
+          {role == "admin"
+            ? items.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))
+            : role == "sub admin"
+            ? SubAdminRoute.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))
+            : ""}
         </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
         <Box

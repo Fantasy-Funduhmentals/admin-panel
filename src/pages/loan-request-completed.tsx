@@ -15,7 +15,6 @@ const SdiraRequests = () => {
     (state: RootState) => state.loanRequest
   );
 
-  console.log("loanRequests:::", loanRequests);
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -54,11 +53,12 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Lavage in Loan Request Completed"
+            title="Leverage Request Completed"
             subTitle="Loan"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
+            handleRefresh={getCoinsListing}
           />
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             {loading ? (

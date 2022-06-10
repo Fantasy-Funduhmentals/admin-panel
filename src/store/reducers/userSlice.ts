@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export type userState = {
   accessToken: string | null;
   users: any[];
+  role: string | null;
   userId: string;
   masterBalances: {
     bnb: string;
@@ -14,6 +15,7 @@ export type userState = {
 const initialState: userState = {
   accessToken: null,
   users: [],
+  role: "",
   masterBalances: {
     bnb: "0",
     btc: "0",
@@ -30,6 +32,9 @@ export const userSlice = createSlice({
     saveAccessToken: (state, action) => {
       state.accessToken = action.payload;
     },
+    saveUserRole: (state, action) => {
+      state.role = action.payload;
+    },
     saveUsers: (state, action) => {
       state.users = action.payload;
     },
@@ -41,6 +46,7 @@ export const userSlice = createSlice({
 
 export const {
   saveAccessToken,
+  saveUserRole,
   resetUserState,
   saveUsers,
   saveMasterBalances,
