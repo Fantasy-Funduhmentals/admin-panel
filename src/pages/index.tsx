@@ -13,8 +13,9 @@ import { useAppSelector } from "../store/hooks";
 import { saveMasterBalances } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 import { setupAxios } from "../utils/axiosClient";
-
+import Router from "next/router";
 const Dashboard = () => {
+  const { role } = useAppSelector((state: RootState) => state.user);
   const { masterBalances, users } = useAppSelector(
     (state: RootState) => state.user
   );
@@ -43,6 +44,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     getCardsData();
+    if (role == "sub admin") {
+      Router.push("/chat");
+    }
   }, []);
 
   return (

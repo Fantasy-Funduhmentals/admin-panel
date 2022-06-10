@@ -167,7 +167,6 @@ export const AdminsList = (props: Props) => {
     }
   }, [page, limit, data, searchQuery, sdira]);
 
-  console.log(dataToDisplay, "dataToDisplay");
   return (
     <Card {...props}>
       <PerfectScrollbar>

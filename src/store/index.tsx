@@ -31,7 +31,6 @@ const persistConfig = {
     "user",
     "coin",
     "token",
-    "adminUser",
     "settings",
     "request",
     "chat",
