@@ -12,9 +12,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getNormalizedError } from "../../utils/helpers";
-import {
-  getMaintenanceMode,
-} from "../../services/userService";
+import { getMaintenanceMode } from "../../services/userService";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { saveSettings } from "../../store/reducers/settingsSlice";
 
@@ -27,14 +25,13 @@ const toggle = () => {
   const dispatch = useAppDispatch();
 
   const getMaintenance = async () => {
-   
     try {
-      setLoading(true)
+      setLoading(true);
       const usersRes = await getMaintenanceMode();
       dispatch(saveSettings(usersRes?.data));
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -43,7 +40,6 @@ const toggle = () => {
     }
   };
   const handleChange = async (e) => {
-   
     if (e.target.value == "OFF") {
       setLoading(true);
       if (alignment == "OFF") {
@@ -51,7 +47,7 @@ const toggle = () => {
         return;
       }
       setAlignment(e.target.value);
-      await getMaintenance()
+      await getMaintenance();
       setLoading(false);
     } else if (e.target.value == "ON") {
       setAlignment(e.target.value);
@@ -72,7 +68,7 @@ const toggle = () => {
   const handleOk = async () => {
     setLoading(true);
     setOpen(false);
-   await getMaintenance()
+    await getMaintenance();
     setLoading(false);
   };
 
@@ -95,7 +91,7 @@ const toggle = () => {
     >
       <CardHeader title="Maintenance Mode " />
       {loading ? (
-         <CircularProgress size={25} />
+        <CircularProgress size={25} />
       ) : (
         <>
           <ToggleButtonGroup

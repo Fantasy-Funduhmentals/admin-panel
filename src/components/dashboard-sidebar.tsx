@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Newsletter } from "../icons/Newsletter";
 import { Crypto as CryptoIcon } from "../icons/crypto";
@@ -28,10 +28,10 @@ import { resetUserState } from "../store/reducers/userSlice";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import BugReportIcon from "@mui/icons-material/BugReport";
-
+import { RootState } from "../store";
 const items = [
   {
     href: "/",
@@ -148,8 +148,19 @@ const items = [
   },
 ];
 
+const SubAdminRoute = [
+  {
+    href: "/chat",
+    icon: <SupportIcon fontSize="small" />,
+    title: "Support",
+  },
+];
+
 export const DashboardSidebar = (props) => {
+  const { role } = useAppSelector((state: RootState) => state.user);
   const { open, onClose } = props;
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"), {
@@ -161,7 +172,6 @@ export const DashboardSidebar = (props) => {
     if (!router.isReady) {
       return;
     }
-
     if (open) {
       onClose?.();
     }
@@ -241,14 +251,25 @@ export const DashboardSidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem
-              key={item.title}
-              icon={item.icon}
-              href={item.href}
-              title={item.title}
-            />
-          ))}
+          {role == "admin"
+            ? items.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))
+            : role == "sub admin"
+            ? SubAdminRoute.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))
+            : ""}
         </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
         <Box

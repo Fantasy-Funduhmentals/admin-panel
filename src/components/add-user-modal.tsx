@@ -147,7 +147,10 @@ const AddUserModal = (props: Props) => {
 
       const userProfileImage = await handleImageUpload(image, "profilePicture");
       params.profilePicture = userProfileImage;
-      await createNewUser({...params, email: params.email.replaceAll(' ', '')});
+      await createNewUser({
+        ...params,
+        email: params.email.replaceAll(" ", ""),
+      });
 
       formik.resetForm();
       setImage(null);

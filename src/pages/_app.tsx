@@ -9,12 +9,13 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { socket, SocketContext } from "../context/socket";
-import { store } from "../store";
+import { RootState, store } from "../store";
 import { theme } from "../theme";
 import { setupAxios } from "../utils/axiosClient";
 import { createEmotionCache } from "../utils/create-emotion-cache";
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import "regenerator-runtime/runtime";
+import { useAppSelector } from "../store/hooks";
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
@@ -33,8 +34,6 @@ const App = (props) => {
 
     if (!accessToken) {
       Router.push("/login");
-    } else {
-      Router.push("/");
     }
   }, []);
 
