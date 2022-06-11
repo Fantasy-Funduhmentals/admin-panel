@@ -437,14 +437,25 @@ const FullScreenDialog = (props: Props) => {
                           p: 2,
                         }}
                       >
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          type="submit"
-                          fullWidth
-                        >
-                          Save details
-                        </Button>
+                        {loading ? (
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            type="button"
+                            fullWidth
+                          >
+                            <CircularProgress color="inherit" />
+                          </Button>
+                        ) : (
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            type="submit"
+                            fullWidth
+                          >
+                            Save details
+                          </Button>
+                        )}
                       </Box>
                     )}
                   </Card>
