@@ -35,6 +35,8 @@ const App = (props) => {
 
     if (!accessToken) {
       Router.push("/login");
+    }else{
+      Router.push("/");
     }
   }, []);
   const [splash, setSplash] = useState(true);
