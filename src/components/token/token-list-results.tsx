@@ -27,7 +27,6 @@ interface Props extends CardProps {
 
 export const TokenListResults = (props: Props) => {
   const { data, searchQuery, onPressEdit } = props;
-console.log(data,"TokenData______")
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
