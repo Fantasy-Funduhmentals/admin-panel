@@ -49,14 +49,14 @@ interface Props {
 const AddUserModal = (props: Props) => {
   const Item = [
     {
-      name: "cqr user",
+      name: "standard user",
     },
     {
       name: "sdira",
     },
-    {
-      name: "ira",
-    },
+    // {
+    //   name: "ira",
+    // },
   ];
 
   const { open, onClose, editData } = props;
@@ -135,7 +135,7 @@ const AddUserModal = (props: Props) => {
         });
         return;
       }
-      if(selectItems == ""){
+      if (selectItems == "") {
         setStatusData({
           type: "error",
           message: "Please select an type to continue",

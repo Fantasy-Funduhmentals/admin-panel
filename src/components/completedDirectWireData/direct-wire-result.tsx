@@ -60,7 +60,7 @@ export const NftListResults = (props: Props) => {
   }, [page, limit, data, searchQuery]);
 
   function capitalizeFirstLetter(str: string) {
-    return str[0].toUpperCase() + str.slice(1);
+    return str[0]?.toUpperCase() + str?.slice(1);
   }
   return (
     <Card {...props}>
@@ -129,8 +129,12 @@ export const NftListResults = (props: Props) => {
                           </Box>
                         </TableCell>
 
-                        <TableCell>{capitalizeFirstLetter(customer?.user?.type)}</TableCell>
-                        <TableCell>{capitalizeFirstLetter(customer?.status)}</TableCell>
+                        <TableCell>
+                          {capitalizeFirstLetter(customer?.user?.type)}
+                        </TableCell>
+                        <TableCell>
+                          {capitalizeFirstLetter(customer?.status)}
+                        </TableCell>
 
                         <TableCell>
                           ${Number(customer.amount).toLocaleString()}
