@@ -87,7 +87,7 @@ const PendingDirectWireModal = (props: Props) => {
 
       setTimeout(() => {
         onClose();
-      },);
+      });
     } catch (err) {
       setLoading(false);
       const error = getNormalizedError(err);
@@ -136,7 +136,7 @@ const PendingDirectWireModal = (props: Props) => {
     }
   };
   function capitalizeFirstLetter(str: string) {
-    return str[0].toUpperCase() + str.slice(1);
+    return str[0]?.toUpperCase() + str?.slice(1);
   }
   return (
     <>
@@ -221,21 +221,28 @@ const PendingDirectWireModal = (props: Props) => {
                           </Typography>
                         </Box>
                       </Box>
-                     
-                      <Box sx={{ display: "flex",flexDirection:"column", justifyContent: "center",alignItems:"center" }}>
-                      <Typography
+
+                      <Box
                         sx={{
-                          mt: 2,
-                          fontWeight: "bold",
-                          fontSize: 20,
-                          width: "80%",
-                          alignItems: "center",
                           display: "flex",
-                          justifyContent: "flex-start",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
-                        Order Detail
-                      </Typography>
+                        <Typography
+                          sx={{
+                            mt: 2,
+                            fontWeight: "bold",
+                            fontSize: 20,
+                            width: "80%",
+                            alignItems: "center",
+                            display: "flex",
+                            justifyContent: "flex-start",
+                          }}
+                        >
+                          Order Detail
+                        </Typography>
                         <Box
                           sx={{
                             mt: 2,
@@ -523,7 +530,7 @@ const PendingDirectWireModal = (props: Props) => {
                             {editData.token ? "Coin" : "Payment Method"}
                           </TableCell>
                           <TableCell>
-                            {editData.token ? "Remaining Supply" : "Price USD"}
+                            {editData.token ? "Remaining Units" : "Price USD"}
                           </TableCell>
 
                           {/* <TableCell>Created At</TableCell> */}

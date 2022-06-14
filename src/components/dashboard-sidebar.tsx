@@ -81,7 +81,7 @@ const items = [
   {
     href: "/nft-purchase-requests",
     icon: <Nftpurchase fontSize="small" />,
-    title: "NFT purchase requests",
+    title: "NFT Requests",
   },
   {
     href: "/nft-balance",

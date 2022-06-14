@@ -141,7 +141,7 @@ export const UserListResults = (props: Props) => {
     }
   };
   function capitalizeFirstLetter(str: string) {
-    return str[0].toUpperCase() + str.slice(1);
+    return str[0]?.toUpperCase() + str?.slice(1);
   }
   return (
     <Card {...props}>
@@ -169,8 +169,8 @@ export const UserListResults = (props: Props) => {
                 label="Select History"
                 onChange={handleChange}
               >
-                <MenuItem value={"ira"}>IRA users</MenuItem>
-                <MenuItem value={"cqr user"}>CQR users</MenuItem>
+                {/* <MenuItem value={"ira"}>IRA users</MenuItem> */}
+                <MenuItem value={"cqr user"}>standard users</MenuItem>
                 <MenuItem value={"sdira"}>Sdira users</MenuItem>
               </Select>
             </FormControl>

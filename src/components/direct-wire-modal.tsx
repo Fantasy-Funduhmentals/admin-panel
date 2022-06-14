@@ -64,7 +64,7 @@ const FullScreenNFTDialog = (props: Props) => {
 
       setTimeout(() => {
         onClose();
-      },);
+      });
     } catch (err) {
       setLoading(false);
       const error = getNormalizedError(err);
@@ -75,7 +75,7 @@ const FullScreenNFTDialog = (props: Props) => {
     }
   };
   function capitalizeFirstLetter(str: string) {
-    return str[0].toUpperCase() + str.slice(1);
+    return str[0]?.toUpperCase() + str?.slice(1);
   }
   return (
     <div>
@@ -159,9 +159,16 @@ const FullScreenNFTDialog = (props: Props) => {
                         </Typography>
                       </Box>
                     </Box>
-                   
-                    <Box sx={{ display: "flex",flexDirection:"column" ,justifyContent: "center",alignItems:"center" }}>
-                    <Typography
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
                         sx={{
                           mt: 2,
                           fontWeight: "bold",
@@ -463,7 +470,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           {editData.token ? "Coin" : "Payment Method"}
                         </TableCell>
                         <TableCell>
-                          {editData.token ? "Remaining Supply" : "Price USD"}
+                          {editData.token ? "Remaining Units" : "Price USD"}
                         </TableCell>
 
                         {/* <TableCell>Created At</TableCell> */}
