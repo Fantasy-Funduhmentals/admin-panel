@@ -148,7 +148,7 @@ const AddUserModal = (props: Props) => {
       let params = {
         ...values,
         // sdira: true,
-        type: selectItems,
+        type: selectItems == "standard user" ? "cqr user" : "sdira",
         isWalletActivated: recievestatus,
       };
 
