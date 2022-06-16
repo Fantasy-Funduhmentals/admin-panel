@@ -72,7 +72,7 @@ const WireAccountDetails = (props) => {
         .min(1)
         .max(33)
         .label("accountnumber"),
-      bankrouting: Yup.string().required().min(1).max(33).label("bankrouting"),
+      bankrouting: Yup.string().required().min(1).max(100).label("bankrouting"),
     }),
     enableReinitialize: true,
     onSubmit: (values, actions) => {
@@ -259,7 +259,7 @@ const WireAccountDetails = (props) => {
               label="Bank Routing Number"
               margin="normal"
               name="bankrouting"
-              type="number"
+              type="text"
               variant="outlined"
             />
           </CardContent>
