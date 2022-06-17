@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -24,6 +24,9 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { HTTP_CLIENT } from "../../utils/axiosClient.tsx";
 import { getNormalizedError } from "../../utils/helpers";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
+import { saveNFT } from "../../store/reducers/nftSlice";
+import { getNFTData } from "../../services/tokenService";
+import { useDispatch } from "react-redux";
 
 export const DistributeNft = (props) => {
   const { nft } = useAppSelector((state) => state.nft);
@@ -34,6 +37,24 @@ export const DistributeNft = (props) => {
   const handleDurationChange = (event) => {
     setSelectNft(event.target.value);
   };
+
+  const getTokensListing = async () => {
+    try {
+       await getNFTData();
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!nft) {
+      getTokensListing();
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {

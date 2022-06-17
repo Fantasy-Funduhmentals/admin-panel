@@ -124,11 +124,11 @@ export const Sales = (props) => {
   return (
     <Card {...props}>
       <CardHeader
-        action={
-          <Button endIcon={<ArrowDropDownIcon fontSize="small" />} size="small">
-            Last 7 days
-          </Button>
-        }
+        // action={
+        //   <Button endIcon={<ArrowDropDownIcon fontSize="small" />} size="small">
+        //     Last 7 days
+        //   </Button>
+        // }
         title="Wallets Info"
       />
       <Divider />

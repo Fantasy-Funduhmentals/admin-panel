@@ -264,7 +264,7 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  Price Per Unit 
+                                  Price Per Unit
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.pricePerShare}
@@ -273,7 +273,7 @@ const Row = (props) => {
 
                               <TableRow>
                                 <TableCell align="left">
-                                  Remaining Supply
+                                  Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assetPool?.remainingSupply}
@@ -398,9 +398,9 @@ export const RequestListResults = (props: Props) => {
           }}
         >
           <Box>
-            <TableContainer component={Paper} >
+            <TableContainer component={Paper}>
               {dataToDisplay.length == 0 ? (
-              <NoDataFound/>
+                <NoDataFound />
               ) : (
                 <Table aria-label="collapsible table">
                   <TableHead sx={{ background: "#5a82d7" }}>
@@ -414,7 +414,7 @@ export const RequestListResults = (props: Props) => {
                         Loan Status
                       </TableCell>
                       <TableCell style={{ color: "#fff" }}>
-                        remaining Supply
+                        remaining Units
                       </TableCell>
                       <TableCell />
                       <TableCell />

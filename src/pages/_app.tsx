@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import "../../styles.css";
 import Head from "next/head";
 import Router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { socket, SocketContext } from "../context/socket";
 import { RootState, store } from "../store";
@@ -18,6 +18,7 @@ import "regenerator-runtime/runtime";
 import { useAppSelector } from "../store/hooks";
 import { getMasterAddressBalances } from "../services/generalService";
 import { getNormalizedError } from "../utils/helpers";
+import SplashScreen from "../components/SplashScreen/Splash";
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
@@ -37,9 +38,14 @@ const App = (props) => {
 
     if (!accessToken) {
       Router.push("/login");
+    } else {
+      Router.push("/");
     }
   }, []);
-
+  const [splash, setSplash] = useState(true);
+  if (splash) {
+    return <SplashScreen setSplash={setSplash} />;
+  }
   return (
     <ThirdwebWeb3Provider
       supportedChainIds={supportedChainIds}
