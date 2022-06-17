@@ -16,6 +16,8 @@ import { createEmotionCache } from "../utils/create-emotion-cache";
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import "regenerator-runtime/runtime";
 import { useAppSelector } from "../store/hooks";
+import { getMasterAddressBalances } from "../services/generalService";
+import { getNormalizedError } from "../utils/helpers";
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
@@ -28,6 +30,7 @@ const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
   const { accessToken } = store.getState().user;
+  let UserSatus;
 
   useEffect(() => {
     setupAxios();
