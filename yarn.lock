@@ -899,10 +899,10 @@
   "resolved" "https://registry.npmjs.org/@next/env/-/env-12.1.7-canary.16.tgz"
   "version" "12.1.7-canary.16"
 
-"@next/swc-darwin-x64@12.1.0":
-  "integrity" "sha512-ieAz0/J0PhmbZBB8+EA/JGdhRHBogF8BWaeqR7hwveb6SYEIJaDNQy0I+ZN8gF8hLj63bEDxJAs/cEhdnTq+ug=="
-  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-12.1.0.tgz"
-  "version" "12.1.0"
+"@next/swc-win32-x64-msvc@12.1.7-canary.16":
+  "integrity" "sha512-FnWqfBS1WE+rj+91uap2EzafSBXJsP0AYWBG7a9DfACJnnIQwbVZVL5qOV/y6ZICrWClhLPSU4dNEFPqAlPNUQ=="
+  "resolved" "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.1.7-canary.16.tgz"
+  "version" "12.1.7-canary.16"
 
 "@panva/asn1.js@^1.0.0":
   "integrity" "sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw=="
@@ -1418,7 +1418,7 @@
   "version" "1.1.1"
 
 "asap@~2.0.3":
-  "integrity" "sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY="
+  "integrity" "sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA=="
   "resolved" "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
   "version" "2.0.6"
 
@@ -1542,7 +1542,7 @@
     "picomatch" "^2.3.0"
 
 "babel-plugin-syntax-jsx@^6.18.0":
-  "integrity" "sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY="
+  "integrity" "sha512-qrPaCSo9c8RHNRHIotaufGbuOBN8rtdC4QrrFFc43vyWCCz7Kl7GL1PGaXtMGQZUXrkCjNEgxDfmAuAabr/rlw=="
   "resolved" "https://registry.npmjs.org/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz"
   "version" "6.18.0"
 
@@ -1863,7 +1863,7 @@
   "version" "5.3.1"
 
 "camelize@^1.0.0":
-  "integrity" "sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs="
+  "integrity" "sha512-W2lPwkBkMZwFlPCXhIlYgxu+7gC/NUlCtdK652DAJ1JdgV0sTrvuPFshNPrFa1TY2JOkLhgdeEBplB4ezEa+xg=="
   "resolved" "https://registry.npmjs.org/camelize/-/camelize-1.0.0.tgz"
   "version" "1.0.0"
 
@@ -2172,7 +2172,7 @@
     "randomfill" "^1.0.3"
 
 "css-color-keywords@^1.0.0":
-  "integrity" "sha1-/qJhbcZ2spYmhrOvjb2+GAskTgU="
+  "integrity" "sha512-FyyrDHZKEjXDpNJYvVsV960FiqQyXc/LlYmsxl2BcdMb2WPx0OGRVgTg55rPSyLSNMqP52R9r8geSp7apN3Ofg=="
   "resolved" "https://registry.npmjs.org/css-color-keywords/-/css-color-keywords-1.0.0.tgz"
   "version" "1.0.0"
 
@@ -2374,7 +2374,7 @@
     "no-case" "^3.0.4"
     "tslib" "^2.0.3"
 
-"draft-js@^0.10.x || ^0.11.x", "draft-js@^0.11.x":
+"draft-js@^0.10.x || ^0.11.x", "draft-js@^0.11.7", "draft-js@^0.11.x":
   "integrity" "sha512-ne7yFfN4sEL82QPQEn80xnADR8/Q6ALVworbC5UOSzOvjffmYfFsr3xSZtxbIirti14R7Y33EZC5rivpLgIbsg=="
   "resolved" "https://registry.npmjs.org/draft-js/-/draft-js-0.11.7.tgz"
   "version" "0.11.7"
@@ -3331,15 +3331,10 @@
   "resolved" "https://registry.npmjs.org/immer/-/immer-9.0.12.tgz"
   "version" "9.0.12"
 
-"immutable@~3.7.4":
-  "integrity" "sha1-E7TTyxK++hVIKib+Gy665kAHHks="
+"immutable@~3.7.4", "immutable@3.x.x || 4.x.x":
+  "integrity" "sha512-AizQPcaofEtO11RZhPPHBOJRdo/20MKQF9mBLnVkBoyHi1/zXK8fzVdnEpSV9gxqtnh6Qomfp3F0xT5qP/vThw=="
   "resolved" "https://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz"
   "version" "3.7.6"
-
-"immutable@3.x.x || 4.x.x":
-  "integrity" "sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw=="
-  "resolved" "https://registry.npmjs.org/immutable/-/immutable-4.0.0.tgz"
-  "version" "4.0.0"
 
 "import-fresh@^3.1.0":
   "integrity" "sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw=="
@@ -4118,9 +4113,9 @@
   "version" "0.2.1"
 
 "nanoid@^3.1.30":
-  "integrity" "sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw=="
-  "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.3.1.tgz"
-  "version" "3.3.1"
+  "integrity" "sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw=="
+  "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.3.4.tgz"
+  "version" "3.3.4"
 
 "needle@^2.5.2":
   "integrity" "sha512-6R9fqJ5Zcmf+uYaFgdIHmLwNldn5HbK8L5ybn7Uz+ylX/rnOsSp1AHcvQSrCaFN+qNM1wpymHqD7mVasEOlHGQ=="
@@ -5363,7 +5358,7 @@
   dependencies:
     "is-hex-prefixed" "1.0.0"
 
-"styled-components@^5.1.0", "styled-components@>= 2":
+"styled-components@^5.1.0", "styled-components@^5.3.5", "styled-components@>= 2":
   "integrity" "sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg=="
   "resolved" "https://registry.npmjs.org/styled-components/-/styled-components-5.3.5.tgz"
   "version" "5.3.5"
