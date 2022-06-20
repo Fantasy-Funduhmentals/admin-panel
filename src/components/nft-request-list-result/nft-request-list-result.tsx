@@ -84,7 +84,7 @@ const Row = (props) => {
       return;
     }
     setLoading(true);
-
+    /******** */
     try {
       if (row.isLoan) {
         let requestId = row._id;
