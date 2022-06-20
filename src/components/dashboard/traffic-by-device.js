@@ -26,12 +26,7 @@ export const TrafficByDevice = (props) => {
     try {
       setLoading(true);
       const res = await getGraphData();
-      console.log(res.data, "getGraphData");
       setResData(res?.data);
-      setStatusData({
-        type: "success",
-        message: "Request handled successfully",
-      });
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
