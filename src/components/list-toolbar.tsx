@@ -17,11 +17,11 @@ interface Props extends BoxProps {
   subTitle: string;
   onPressAdd?: () => any;
   onChangeText?: (val: any) => any;
-  handleRefresh:()=> any;
+  handleRefresh?: () => any;
 }
 
 export const ListToolbar = (props: Props) => {
-  const { title, subTitle, onPressAdd, onChangeText,handleRefresh } = props;
+  const { title, subTitle, onPressAdd, onChangeText, handleRefresh } = props;
 
   return (
     <Box {...props}>
@@ -34,21 +34,23 @@ export const ListToolbar = (props: Props) => {
           m: -1,
         }}
       >
-        <Typography sx={{ m: 1 }} variant="h4" >
+        <Typography sx={{ m: 1 }} variant="h4">
           {title}
         </Typography>
         {onPressAdd && (
           <Box sx={{ m: 1 }}>
-            <Button color="primary" variant="contained" onClick={onPressAdd} >
+            <Button color="primary" variant="contained" onClick={onPressAdd}>
               Add {subTitle}
             </Button>
           </Box>
         )}
       </Box>
-      <Box sx={{ mt: 3 }} >
-        <Card >
-          <CardContent sx={{display:"flex",justifyContent:"space-between"}}>
-            <Box sx={{ maxWidth: 500,minWidth:350}}>
+      <Box sx={{ mt: 3 }}>
+        <Card>
+          <CardContent
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Box sx={{ maxWidth: 500, minWidth: 350 }}>
               <TextField
                 fullWidth
                 onChange={onChangeText}
@@ -65,10 +67,13 @@ export const ListToolbar = (props: Props) => {
                 variant="outlined"
               />
             </Box>
-            <Box sx={{ maxWidth: 500}}>
-              <Refresh style={{width:"30px",height:"30px"}} headingStyle={{fontSize:"13px"}} onClick={()=>handleRefresh()}/>
+            <Box sx={{ maxWidth: 500 }}>
+              <Refresh
+                style={{ width: "30px", height: "30px" }}
+                headingStyle={{ fontSize: "13px" }}
+                onClick={() => handleRefresh()}
+              />
             </Box>
-         
           </CardContent>
         </Card>
       </Box>

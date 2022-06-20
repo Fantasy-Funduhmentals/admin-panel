@@ -11,19 +11,19 @@ interface Props {
 const Refresh = (props: Props) => {
   const { style, headingStyle, onClick } = props;
   const [active, setActive] = useState(false);
-  const handleClick =async () => {
-    setActive(true)
-    await onClick()
-    setActive(false)
-  }
+  const handleClick = async () => {
+    setActive(true);
+    await onClick();
+    setActive(false);
+  };
   return (
     <>
-      <Box sx={{ textAlign: "center", cursor: "pointer" }} >
+      <Box sx={{ textAlign: "center", cursor: "pointer" }}>
         <img
-          src={"/Refresh.svg" }
+          src={"/Refresh.svg"}
           alt=""
           style={style}
-          onClick={()=>handleClick()}
+          onClick={() => handleClick()}
           className={
             active
               ? styles.rotateRefrechComponent

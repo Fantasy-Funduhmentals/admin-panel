@@ -17,6 +17,9 @@ const changePassword = async (params: any) => {
 const directWireAccountDetails = async (params: any) => {
   return await HTTP_CLIENT.post("settings/admin/update-bank-details", params);
 };
+const getGraphData = async (params: any) => {
+  return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
+};
 
 const swapFee = async (params: any) => {
   return await HTTP_CLIENT.post("/settings/admin/update-swap-rate", params);
@@ -37,8 +40,13 @@ const handleBlock = async (params: any) => {
   return await HTTP_CLIENT.post("/user/block-user", params);
 };
 
+const handleBlockSubAdmin = async (params: any) => {
+  return await HTTP_CLIENT.post("/admin-auth/block-subAdmin", params);
+};
+
 export {
   handleUserLogin,
+  handleBlockSubAdmin,
   getAllUsers,
   changePassword,
   createSubAdminUser,
@@ -48,4 +56,5 @@ export {
   getSwapRate,
   directWireAccountDetails,
   getMaintenanceMode,
+  getGraphData,
 };

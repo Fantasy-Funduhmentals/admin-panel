@@ -28,7 +28,6 @@ const toggle = () => {
     try {
       setLoading(true);
       const usersRes = await getMaintenanceMode();
-
       dispatch(saveSettings(usersRes?.data));
       setLoading(false);
     } catch (err) {

@@ -49,14 +49,14 @@ interface Props {
 const AddUserModal = (props: Props) => {
   const Item = [
     {
-      name: "cqr user",
+      name: "standard user",
     },
     {
       name: "sdira",
     },
-    {
-      name: "ira",
-    },
+    // {
+    //   name: "ira",
+    // },
   ];
 
   const { open, onClose, editData } = props;
@@ -135,13 +135,20 @@ const AddUserModal = (props: Props) => {
         });
         return;
       }
+      if (selectItems == "") {
+        setStatusData({
+          type: "error",
+          message: "Please select an type to continue",
+        });
+        return;
+      }
 
       setLoading(true);
 
       let params = {
         ...values,
         // sdira: true,
-        type: selectItems,
+        type: selectItems == "standard user" ? "cqr user" : "sdira",
         isWalletActivated: recievestatus,
       };
 
@@ -347,18 +354,25 @@ const AddUserModal = (props: Props) => {
                         p: 2,
                       }}
                     >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        fullWidth
-                      >
-                        {loading ? (
+                      {loading ? (
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          type="button"
+                          fullWidth
+                        >
                           <CircularProgress color="inherit" />
-                        ) : (
-                          "Save details"
-                        )}
-                      </Button>
+                        </Button>
+                      ) : (
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          type="submit"
+                          fullWidth
+                        >
+                          Save details
+                        </Button>
+                      )}
                     </Box>
                   </Card>
                 </form>

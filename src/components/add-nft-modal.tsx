@@ -463,18 +463,25 @@ const FullScreenNFTDialog = (props: Props) => {
                         p: 2,
                       }}
                     >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        fullWidth
-                      >
-                        {loading ? (
+                      {loading ? (
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          type="button"
+                          fullWidth
+                        >
                           <CircularProgress color="inherit" />
-                        ) : (
-                          "Save details"
-                        )}
-                      </Button>
+                        </Button>
+                      ) : (
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          type="submit"
+                          fullWidth
+                        >
+                          Save details
+                        </Button>
+                      )}
                     </Box>
                   </Card>
                 </form>

@@ -20,15 +20,13 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
-
-
-import dynamic from 'next/dynamic'
-import { EditorProps } from 'react-draft-wysiwyg'
+import dynamic from "next/dynamic";
+import { EditorProps } from "react-draft-wysiwyg";
 
 const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
-)
+);
 
 // import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -98,7 +96,7 @@ export const NftListResults = (props: Props) => {
   const hanldeSubmitNewletter = async () => {
     setloading(true);
     const convertedData = draftToHtml(
-      convertToRaw(editorState.getCurrentContent())
+      convertToRaw(editorState?.getCurrentContent())
     );
 
     let params = {
@@ -171,7 +169,7 @@ export const NftListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{background:"#5a82d7"}}>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
                   {/* <TableCell padding="checkbox">
                     <Checkbox
@@ -184,7 +182,7 @@ export const NftListResults = (props: Props) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell style={{color:"#fff"}}>Users</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Users</TableCell>
                   {/* <TableCell>Image</TableCell>
 
                   <TableCell>Index</TableCell>

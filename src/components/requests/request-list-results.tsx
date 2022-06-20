@@ -168,16 +168,16 @@ const Row = (props) => {
                             <TableBody>
                               <TableRow>
                                 <TableCell align="left">Amount</TableCell>
-                                <TableCell align="left">{row.amount}</TableCell>
+                                <TableCell align="left">{Number(row.amount).toLocaleString()}</TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">From</TableCell>
-                                <TableCell align="left">{row.from}</TableCell>
+                                <TableCell align="left">{row.fromName}</TableCell>
                               </TableRow>
 
                               <TableRow>
                                 <TableCell align="left">To</TableCell>
-                                <TableCell align="left">{row.to}</TableCell>
+                                <TableCell align="left">{row.toName}</TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>

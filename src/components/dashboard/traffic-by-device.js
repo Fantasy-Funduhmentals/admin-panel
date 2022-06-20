@@ -1,23 +1,60 @@
-import { Doughnut } from 'react-chartjs-2';
-import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } from '@mui/material';
-import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import PhoneIcon from '@mui/icons-material/Phone';
-import TabletIcon from '@mui/icons-material/Tablet';
+import { Doughnut } from "react-chartjs-2";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  CircularProgress,
+  Divider,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import TabletIcon from "@mui/icons-material/Tablet";
+import { getNormalizedError } from "../../utils/helpers";
+import { useEffect, useState } from "react";
+import { getGraphData } from "../../services/userService";
+import StatusModal from "../StatusModal";
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
+  const [statusData, setStatusData] = useState(null);
+  const [resData, setResData] = useState();
+  const handleRequest = async () => {
+    try {
+      setLoading(true);
+      const res = await getGraphData();
+      setResData(res?.data);
+      setLoading(false);
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    handleRequest();
+  }, []);
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
+        data: [resData?.cqrUsers, resData?.sdiraUsers],
+        backgroundColor: [
+          resData?.cqrUsers ? "#3F51B5" : null,
+          resData?.sdiraUsers ? "#e53935" : null,
+        ],
         borderWidth: 8,
-        borderColor: '#FFFFFF',
-        hoverBorderColor: '#FFFFFF'
-      }
+        borderColor: "#FFFFFF",
+        hoverBorderColor: "#FFFFFF",
+      },
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ["Standard Users", "Sdira Users"],
   };
 
   const options = {
@@ -25,7 +62,7 @@ export const TrafficByDevice = (props) => {
     cutoutPercentage: 80,
     layout: { padding: 0 },
     legend: {
-      display: false
+      display: false,
     },
     maintainAspectRatio: false,
     responsive: true,
@@ -37,86 +74,85 @@ export const TrafficByDevice = (props) => {
       enabled: true,
       footerFontColor: theme.palette.text.secondary,
       intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary
-    }
+      mode: "index",
+      titleFontColor: theme.palette.text.primary,
+    },
   };
-
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
-      color: '#3F51B5'
+      title: "Standard Users",
+      value: resData?.cqrUsers ?  resData?.cqrUsers : "-",
+      icon: AccountCircleIcon,
+      color: "#3F51B5",
     },
     {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: '#E53935'
+      title: "Sdira Users",
+      value: resData?.sdiraUsers ? resData?.sdiraUsers : "-",
+      icon: SupervisedUserCircleIcon,
+      color: "#E53935",
     },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: '#FB8C00'
-    }
   ];
 
   return (
-    <Card {...props}>
-      <CardHeader title="Traffic by Device" />
-      <Divider />
-      <CardContent>
-        <Box
-          sx={{
-            height: 300,
-            position: 'relative'
-          }}
-        >
-          <Doughnut
-            data={data}
-            options={options}
-          />
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 2
-          }}
-        >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
+    <>
+      <Card {...props}>
+        <CardHeader title="Users Statistics" />
+        <Divider />
+        <CardContent>
+          {loading ? (
             <Box
-              key={title}
               sx={{
-                p: 1,
-                textAlign: 'center'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 400,
               }}
             >
-              <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
-                {title}
-              </Typography>
-              <Typography
-                style={{ color }}
-                variant="h4"
-              >
-                {value}
-                %
-              </Typography>
+              <CircularProgress />
             </Box>
-          ))}
-        </Box>
-      </CardContent>
-    </Card>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  height: 300,
+                  position: "relative",
+                }}
+              >
+                <Doughnut data={data} options={options} />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  pt: 2,
+                }}
+              >
+                {devices.map(({ color, icon: Icon, title, value }) => (
+                  <Box
+                    key={title}
+                    sx={{
+                      p: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    <Icon color="action" />
+                    <Typography color="textPrimary" variant="body1">
+                      {title}
+                    </Typography>
+                    <Typography style={{ color }} variant="h4">
+                      {value}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <StatusModal
+        statusData={statusData}
+        onClose={() => setStatusData(null)}
+      />
+    </>
   );
 };
