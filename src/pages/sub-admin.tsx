@@ -78,6 +78,7 @@ const SubAdmin = () => {
                 setSearchText(ev.target.value);
               }}
               style={{ width: "100%" }}
+              handleRefresh={getAdminUsers}
             />
           </Box>
 
