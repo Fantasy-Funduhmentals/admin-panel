@@ -27,14 +27,24 @@ const Login = () => {
     try {
       setLoading(true);
       const loginRes = await handleUserLogin(values);
-      dispatch(saveUserRole(loginRes.data.user.role));
-      dispatch(saveAccessToken(loginRes.data.accessToken));
-      setLoading(false);
-      setStatusData({
-        type: "success",
-        message: "Authentication Successfull",
-      });
-      router.push("/");
+      console.log(loginRes?.data?.user?.isBlocked, "user STatue");
+      if (loginRes?.data?.user?.isBlocked == true) {
+        setStatusData({
+          type: "error",
+          message: "User Blocked",
+        });
+        setLoading(false);
+        return;
+      } else {
+        dispatch(saveUserRole(loginRes.data.user.role));
+        dispatch(saveAccessToken(loginRes.data.accessToken));
+        setLoading(false);
+        setStatusData({
+          type: "success",
+          message: "Authentication Successfull",
+        });
+        router.push("/");
+      }
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({

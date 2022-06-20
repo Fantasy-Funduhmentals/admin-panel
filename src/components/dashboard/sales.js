@@ -20,15 +20,15 @@ import Slider from "../Slider/slider";
 export const Sales = (props) => {
   const [statusData, setStatusData] = useState(null);
   const [graphData, setGraphData] = useState();
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const getNativeWallets = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const walletRes = await getAllNativeWalletsData();
       setGraphData(walletRes?.data);
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -137,9 +137,9 @@ export const Sales = (props) => {
           sx={{
             height: 430,
             position: "relative",
-            display:"flex",
-            justifyContent:"center",
-            alignItems:"center"
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           {loading ? (

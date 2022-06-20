@@ -40,8 +40,13 @@ const handleBlock = async (params: any) => {
   return await HTTP_CLIENT.post("/user/block-user", params);
 };
 
+const handleBlockSubAdmin = async (params: any) => {
+  return await HTTP_CLIENT.post("/admin-auth/block-subAdmin", params);
+};
+
 export {
   handleUserLogin,
+  handleBlockSubAdmin,
   getAllUsers,
   changePassword,
   createSubAdminUser,
@@ -51,5 +56,5 @@ export {
   getSwapRate,
   directWireAccountDetails,
   getMaintenanceMode,
-  getGraphData
+  getGraphData,
 };
