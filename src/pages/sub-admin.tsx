@@ -30,7 +30,7 @@ const SubAdmin = () => {
     try {
       setLoading(true);
       const AdminUser = await getAdminUserData();
-      
+
       dispatch(saveAdminUser(AdminUser.data));
       setLoading(false);
     } catch (err) {
@@ -78,6 +78,7 @@ const SubAdmin = () => {
                 setSearchText(ev.target.value);
               }}
               style={{ width: "100%" }}
+              handleRefresh={getAdminUsers}
             />
           </Box>
 
@@ -87,6 +88,7 @@ const SubAdmin = () => {
             ) : (
               <AdminsList
                 data={subadmin}
+                handleRefresh={getAdminUsers}
                 searchQuery={searchText}
                 style={{ width: "100%" }}
               />
