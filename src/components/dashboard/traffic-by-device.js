@@ -144,7 +144,7 @@ export const TrafficByDevice = (props) => {
                     </Typography>
                   </Box>
                 ))}
-              </Box>{" "}
+              </Box>
             </>
           )}
         </CardContent>
