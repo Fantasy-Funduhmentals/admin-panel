@@ -34,6 +34,7 @@ import {
   getNftRequests,
   handleRequestInteraction,
   handleRequestNftBalance,
+  handleCheckbalance,
 } from "../../services/requestService";
 import { REQUEST_STATUS, REQUEST_TYPES } from "../../utils/enums/request.enum";
 import { getInitials } from "../../utils/get-initials";
@@ -76,6 +77,18 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
+    const response = await handleCheckbalance(row.user._id);
+    if (
+      Number(response.data.balance) >
+      Number(row.amount * row.assetPool.pricePerShare)
+    ) {
+      setStatusData({
+        type: "error",
+        message: "Insufficient balance",
+      });
+      return;
+    }
+
     if (!address) {
       setStatusData({
         type: "error",
@@ -84,7 +97,7 @@ const Row = (props) => {
       return;
     }
     setLoading(true);
-
+    /******** */
     try {
       if (row.isLoan) {
         let requestId = row._id;

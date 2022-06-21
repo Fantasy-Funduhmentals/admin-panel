@@ -29,6 +29,10 @@ const handleRequestInteraction = async (params: any) => {
   const requestsRes = await HTTP_CLIENT.post("/request/handle-request", params);
 };
 
+const handleCheckbalance = async (params: any) => {
+  return await HTTP_CLIENT.get(`/native-wallet/user-q-wallet/${params}`);
+};
+
 const handleRequestNftBalance = async (params: any) => {
   const requestsRes = await HTTP_CLIENT.post(
     "/nft-purchase-request/handle-request",
@@ -42,4 +46,5 @@ export {
   getNftRequests,
   handleRequestNftBalance,
   getLoanRequests,
+  handleCheckbalance
 };

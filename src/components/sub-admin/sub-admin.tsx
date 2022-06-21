@@ -127,6 +127,7 @@ export const AdminsList = (props: Props) => {
         type: "success",
         message: response.data.message,
       });
+      handleRefresh();
       setloading(false);
       handleClose();
     } catch (err) {
