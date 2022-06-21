@@ -87,7 +87,6 @@ export const AdminsList = (props: Props) => {
   }, [page, limit, data, searchQuery, sdira]);
 
   const handleBlockUser = (data) => {
-    console.log(data, "dataaa");
     if (data.isBlocked) {
       setsignleUser(data);
       handleSubmit(data);
@@ -96,7 +95,6 @@ export const AdminsList = (props: Props) => {
       setrejectShow(true);
     }
   };
-
   const handleClose = () => {
     setrejectShow(false);
   };
@@ -191,7 +189,7 @@ export const AdminsList = (props: Props) => {
                           color: `${
                             customer.isBlocked ? "green" : "rgb(209, 67, 67)"
                           }`,
-                          width: `${customer.isBlocked ? "auto" : "100%"}`,
+                          width: `${customer.isBlocked ? "auto" : "50%"}`,
                         }}
                       >
                         {customer.isBlocked ? "UnBlock" : "Block"}
