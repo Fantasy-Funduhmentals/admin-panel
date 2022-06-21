@@ -60,26 +60,27 @@ const AddUserModal = (props: Props) => {
   ];
 
   const { open, onClose, editData } = props;
+console.log(editData,"_____editData______");
 
-  const [image, setImage] = useState(null);
-  const [symbolImage, setSymbolImage] = useState(null);
+  // const [image, setImage] = useState(null);
+  // const [symbolImage, setSymbolImage] = useState(null);
 
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [editImage, setEditImage] = useState(null);
-  const [editSymbolImage, setEditSymbolImage] = useState(null);
+  // const [editImage, setEditImage] = useState(null);
+  // const [editSymbolImage, setEditSymbolImage] = useState(null);
   const [selectItems, setSelectItems] = useState("");
   const [recievestatus, setrecievestatus] = useState(true);
 
   const handleDurationChange = (event) => {
     setSelectItems(event.target.value);
   };
-  useEffect(() => {
-    if (editData) {
-      setEditImage(editData.icon.url);
-      setEditSymbolImage(editData.displaySymbol);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (editData) {
+  //     setEditImage(editData.icon.url);
+  //     setEditSymbolImage(editData.displaySymbol);
+  //   }
+  // }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -111,15 +112,15 @@ const AddUserModal = (props: Props) => {
     },
   });
 
-  const handleImageUpload = async (file: any, type: string) => {
-    const formData = new FormData();
+  // const handleImageUpload = async (file: any, type: string) => {
+  //   const formData = new FormData();
 
-    formData.append("file", file);
-    formData.append("type", type);
+  //   formData.append("file", file);
+  //   formData.append("type", type);
 
-    const uploadRes = await uploadImage(formData);
-    return uploadRes.data.url;
-  };
+  //   const uploadRes = await uploadImage(formData);
+  //   return uploadRes.data.url;
+  // };
 
   const recieveData = (data) => {
     setrecievestatus(data);
@@ -128,13 +129,13 @@ const AddUserModal = (props: Props) => {
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
-      if (!image) {
-        setStatusData({
-          type: "error",
-          message: "Please select an image to continue",
-        });
-        return;
-      }
+      // if (!image) {
+      //   setStatusData({
+      //     type: "error",
+      //     message: "Please select an image to continue",
+      //   });
+      //   return;
+      // }
       if (selectItems == "") {
         setStatusData({
           type: "error",
@@ -148,20 +149,20 @@ const AddUserModal = (props: Props) => {
       let params = {
         ...values,
         // sdira: true,
-        type: selectItems == "standard user" ? "cqr user" : "sdira",
+        type: selectItems == "standard user" ? "standard" : "sdira",
         isWalletActivated: recievestatus,
       };
 
-      const userProfileImage = await handleImageUpload(image, "profilePicture");
-      params.profilePicture = userProfileImage;
+      // const userProfileImage = await handleImageUpload(image, "profilePicture");
+      // params.profilePicture = userProfileImage;
       await createNewUser({
         ...params,
         email: params.email.replaceAll(" ", ""),
       });
 
       formik.resetForm();
-      setImage(null);
-      setSymbolImage(null);
+      // setImage(null);
+      // setSymbolImage(null);
       onClose();
       setStatusData({
         type: "success",
@@ -178,12 +179,12 @@ const AddUserModal = (props: Props) => {
     }
   };
 
-  const handleImageSelection = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      setImage(img);
-    }
-  };
+  // const handleImageSelection = (event: any) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     let img = event.target.files[0];
+  //     setImage(img);
+  //   }
+  // };
 
   return (
     <Box>
@@ -212,13 +213,15 @@ const AddUserModal = (props: Props) => {
         <Box
           component="main"
           sx={{
-            flexGrow: 1,
+            // flexGrow: 1,
             py: 8,
+            display:"flex",
+            justifyContent:"center",alignItems:"center",width:"100%",alignSelf:"center"
           }}
         >
-          <Container maxWidth="lg">
-            <Grid container spacing={3}>
-              <Grid item lg={4} md={6} xs={12}>
+          <Container maxWidth="md">
+            <Grid>
+              {/* <Grid item lg={4} md={6} xs={12}>
                 <Card>
                   <CardHeader
                     subheader="This image will be used as primary profile image of the user across the system."
@@ -260,7 +263,7 @@ const AddUserModal = (props: Props) => {
                     />
                   </Box>
                 </Card>
-              </Grid>
+              </Grid> */}
 
               <Grid item lg={8} md={6} xs={12}>
                 <form onSubmit={formik.handleSubmit}>

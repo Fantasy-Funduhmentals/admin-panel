@@ -170,7 +170,7 @@ export const UserListResults = (props: Props) => {
                 onChange={handleChange}
               >
                 {/* <MenuItem value={"ira"}>IRA users</MenuItem> */}
-                <MenuItem value={"cqr user"}>standard users</MenuItem>
+                <MenuItem value={"standard"}>standard users</MenuItem>
                 <MenuItem value={"sdira"}>Sdira users</MenuItem>
               </Select>
             </FormControl>

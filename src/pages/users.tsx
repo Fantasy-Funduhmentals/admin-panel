@@ -26,6 +26,7 @@ const Users = () => {
       setLoading(true);
       const usersRes = await getAllUsers();
       dispatch(saveUsers(usersRes.data.reverse()));
+      console.log(usersRes.data,"______usersRes.data")
       setLoading(false);
     } catch (err) {
       setLoading(false);
