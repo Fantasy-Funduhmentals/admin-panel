@@ -79,8 +79,7 @@ const Row = (props) => {
   const handleTransaction = async (row: any) => {
     const response = await handleCheckbalance(row.user._id);
     if (
-      Number(response.data.balance) >
-      Number(row.amount * row.assetPool.pricePerShare)
+      !(Number(response.data.balance) > Number(row.amount * row.assetPool.pricePerShare))
     ) {
       setStatusData({
         type: "error",
