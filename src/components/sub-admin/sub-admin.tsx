@@ -129,7 +129,7 @@ export const AdminsList = (props: Props) => {
         type: "success",
         message: response.data.message,
       });
-      // handleRefresh();
+      handleRefresh();
       setloading(false);
       handleClose();
     } catch (err) {
