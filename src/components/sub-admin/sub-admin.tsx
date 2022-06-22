@@ -196,7 +196,10 @@ export const AdminsList = (props: Props) => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <AlertDialog id={customer?._id} />
+                      <AlertDialog
+                        id={customer?._id}
+                        handleRefresh={handleRefresh}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -285,7 +288,7 @@ AdminsList.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default function AlertDialog({ id }) {
+export default function AlertDialog({ id, handleRefresh }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -301,6 +304,7 @@ export default function AlertDialog({ id }) {
     try {
       await HTTP_CLIENT.delete(`/admin-auth/delete-subAdmin/${id}`);
       setLoading(false);
+      handleRefresh();
       handleClose();
     } catch (err) {
       const error = getNormalizedError(err);
