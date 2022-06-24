@@ -26,7 +26,6 @@ export const Sales = (props) => {
       setLoading(true);
       const walletRes = await getAllNativeWalletsData();
       setGraphData(walletRes?.data);
-      console.log(walletRes,"_____walletRes")
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -43,13 +42,10 @@ export const Sales = (props) => {
   }, []);
 
   const theme = useTheme();
-  
 
   return (
     <Card {...props}>
-      <CardHeader
-        title="Wallets Info"
-      />
+      <CardHeader title="Wallets Info" />
       <Divider />
       <CardContent>
         <Box
@@ -102,7 +98,11 @@ export const Sales = (props) => {
                       <Box
                         sx={{ fontWeight: 500, fontSize: 22, color: "gray" }}
                       >
-                        <p>{item?.coinSymbol == "Q" ? Number(item?.price?.toLocaleString()).toFixed(2) : Number(item?.price?.toLocaleString()).toFixed(3) }</p>
+                        <p>
+                          {item?.coinSymbol == "Q"
+                            ? Number(item?.price?.toLocaleString()).toFixed(2)
+                            : Number(item?.price?.toLocaleString()).toFixed(3)}
+                        </p>
                       </Box>
                     </Box>
                   </>

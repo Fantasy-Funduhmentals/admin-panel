@@ -19,16 +19,17 @@ import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import { DIRECT_WIRE } from "../../utils/enums/request.enum";
+import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | [];
   searchQuery?: string;
   onPressEdit?: any;
 }
 
 export const NftListResults = (props: Props) => {
-  const { data, searchQuery, onPressEdit } = props;
-
+  let { data, searchQuery, onPressEdit } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -59,9 +60,6 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  function capitalizeFirstLetter(str: string) {
-    return str[0]?.toUpperCase() + str?.slice(1);
-  }
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -92,6 +90,24 @@ export const NftListResults = (props: Props) => {
                 </TableHead>
                 <TableBody>
                   {dataToDisplay?.map((customer) => {
+                    let typeText = "";
+                    switch (customer.type) {
+                      case DIRECT_WIRE.NFT_PURCHASE:
+                        typeText = "Opportunity Token Acquire";
+                        break;
+                      case DIRECT_WIRE.TOKEN_PURCHASE:
+                        typeText = "Token Acquire";
+                        break;
+                      case DIRECT_WIRE.WALLET_ACTIVATION:
+                        typeText = "Wallet Activation";
+                        break;
+                      case DIRECT_WIRE.SUBSCRIPTION:
+                        typeText = "SUbscription";
+                        break;
+                      default:
+                        console.log();
+                    }
+
                     return (
                       <TableRow
                         sx={{ cursor: "pointer" }}
@@ -136,7 +152,9 @@ export const NftListResults = (props: Props) => {
                           ${Number(customer.amount).toLocaleString()}
                         </TableCell>
                         <TableCell>
-                          {capitalizeFirstLetter(customer.type)}
+                          {/* {capitalizeFirstLetter(customer.type)} */}
+                          {typeText}
+                          {/* Token Acquire  */}
                         </TableCell>
                       </TableRow>
                     );

@@ -9,3 +9,10 @@ export enum REQUEST_STATUS {
   REJECTED = "rejected",
   NO_RESPONSE = "noResponse",
 }
+
+export enum DIRECT_WIRE {
+  TOKEN_PURCHASE = "tokenPurchase",
+  NFT_PURCHASE = "nftAcquire",
+  WALLET_ACTIVATION = "walletActivation",
+  SUBSCRIPTION = "subscription",
+}
