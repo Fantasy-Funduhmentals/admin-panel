@@ -77,6 +77,7 @@ const FullScreenNFTDialog = (props: Props) => {
   function capitalizeFirstLetter(str: string) {
     return str[0]?.toUpperCase() + str?.slice(1);
   }
+
   return (
     <div>
       <Dialog
@@ -226,6 +227,7 @@ const FullScreenNFTDialog = (props: Props) => {
                                 </TableCell>
 
                                 <TableCell>
+                                  {/* Token Acquire  */}
                                   {capitalizeFirstLetter(editData?.type)}
                                 </TableCell>
                               </TableRow>
