@@ -27,7 +27,6 @@ const Login = () => {
     try {
       setLoading(true);
       const loginRes = await handleUserLogin(values);
-      console.log(loginRes?.data?.user?.isBlocked, "user STatue");
       if (loginRes?.data?.user?.isBlocked == true) {
         setStatusData({
           type: "error",
