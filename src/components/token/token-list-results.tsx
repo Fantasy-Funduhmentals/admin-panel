@@ -171,7 +171,12 @@ export const TokenListResults = (props: Props) => {
                               customer?.remainingSupply.toFixed(3)
                             ).toLocaleString()}
                       </TableCell>
-                      <TableCell>${customer?.price.toLocaleString()}</TableCell>
+                      <TableCell>
+                        $
+                        {customer.coinSymbol == "Q"
+                          ? Number((customer?.price).toLocaleString()).toFixed(2)
+                          : Number((customer?.price).toLocaleString()).toFixed(3)}
+                      </TableCell>
                       <TableCell>${premium(customer)} </TableCell>
                       <TableCell>
                         $
