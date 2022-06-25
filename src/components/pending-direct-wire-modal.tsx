@@ -74,7 +74,7 @@ const PendingDirectWireModal = (props: Props) => {
       let data;
 
       data = {
-        wireId: editData._id,
+        wireId: editData?._id,
       };
 
       setLoading(true);
@@ -136,9 +136,6 @@ const PendingDirectWireModal = (props: Props) => {
       });
     }
   };
-  function capitalizeFirstLetter(str: string) {
-    return str[0]?.toUpperCase() + str?.slice(1);
-  }
 
   let typeText = "";
 
@@ -539,7 +536,7 @@ const PendingDirectWireModal = (props: Props) => {
                   borderRadius: "10px",
                 }}
               >
-                {editData.token || editData.subscription ? (
+                {editData?.token || editData?.subscription ? (
                   <Card sx={{ width: "100%" }}>
                     <Table>
                       {/* sx={{ background: "#5a82d7" }} */}
@@ -611,14 +608,16 @@ const PendingDirectWireModal = (props: Props) => {
                           </TableCell>
                           <TableCell>
                             {editData.token
-                              ? editData.token?.coinSymbol
+                              ? editData.token?.shortName
                               : editData.subscription?.paymentMethod}
                           </TableCell>
 
                           <TableCell>
                             {" "}
                             {editData.token
-                              ? editData.token?.remainingSupply.toFixed(3)
+                              ? editData.token?.remainingSupply
+                                  // .toFixed(3)
+                                  .toLocaleString()
                               : editData.subscription?.priceUSD}
                           </TableCell>
 

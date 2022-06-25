@@ -156,7 +156,7 @@ const AddUserModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sub Admin Registration
+              Registration
             </Typography>
           </Toolbar>
         </AppBar>
@@ -166,16 +166,36 @@ const AddUserModal = (props: Props) => {
           sx={{
             flexGrow: 1,
             py: 8,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Container maxWidth="lg">
-            <Grid container spacing={3}>
-              <Grid item lg={8} md={6} xs={12}>
+          <Container maxWidth="xl">
+            <Grid
+              container
+              spacing={3}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Grid
+                item
+                lg={8}
+                md={6}
+                xs={12}
+                sx={{
+                  boxShadow: "#0000004a 1px 1px 18px",
+                  borderRadius: "10px",
+                }}
+              >
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
                     <CardHeader
-                      subheader="Please enter all the required information create new user."
-                      title="User Details"
+                      subheader="Please enter all the required information create sub-admin."
+                      title="Sub Admin Details"
                     />
                     <Divider />
                     <CardContent>
@@ -186,7 +206,7 @@ const AddUserModal = (props: Props) => {
                               formik.touched.name && formik.errors.name
                             )}
                             fullWidth
-                            helperText="Please enter the real name of the user.."
+                            helperText="Please enter the real name of the sub-admin.."
                             label="Name"
                             name="name"
                             onBlur={formik.handleBlur}
@@ -205,9 +225,9 @@ const AddUserModal = (props: Props) => {
                             onChange={formik.handleChange}
                             value={formik.values.email}
                             fullWidth
-                            label="User Email"
+                            label="Sub Admin Email"
                             name="email"
-                            helperText="Please enter user email address"
+                            helperText="Please enter sub-admin email address"
                             required
                             variant="outlined"
                           />
