@@ -19,6 +19,7 @@ import { getInitials } from "../../utils/get-initials";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import { DIRECT_WIRE } from "../../utils/enums/request.enum";
 
 interface Props extends CardProps {
   data: any[];
@@ -92,6 +93,25 @@ export const NftListResults = (props: Props) => {
                 </TableHead>
                 <TableBody>
                   {dataToDisplay?.map((customer) => {
+                    let typeText = "";
+
+                    switch (customer?.type) {
+                      case DIRECT_WIRE.NFT_PURCHASE:
+                        typeText = "Opportunity Token Acquire";
+                        break;
+                      case DIRECT_WIRE.TOKEN_PURCHASE:
+                        typeText = "Token Acquire";
+                        break;
+                      case DIRECT_WIRE.WALLET_ACTIVATION:
+                        typeText = "Wallet Activation";
+                        break;
+                      case DIRECT_WIRE.SUBSCRIPTION:
+                        typeText = "SUbscription";
+                        break;
+                      default:
+                        console.log();
+                    }
+
                     return (
                       <TableRow
                         sx={{ cursor: "pointer" }}
@@ -140,7 +160,8 @@ export const NftListResults = (props: Props) => {
                           ${Number(customer.amount).toLocaleString()}
                         </TableCell>
                         <TableCell>
-                          {capitalizeFirstLetter(customer.type)}
+                          {/* {capitalizeFirstLetter(customer.type)} */}
+                          {typeText}
                         </TableCell>
                       </TableRow>
                     );

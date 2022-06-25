@@ -69,7 +69,15 @@ const Row = (props) => {
   return (
     <React.Fragment>
       {loading ? (
-        <TableRow>
+        <TableRow
+          sx={{
+            minHeight: "200px",
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <CircularProgress color="secondary" />
         </TableRow>
       ) : (
@@ -168,11 +176,15 @@ const Row = (props) => {
                             <TableBody>
                               <TableRow>
                                 <TableCell align="left">Amount</TableCell>
-                                <TableCell align="left">{Number(row.amount).toLocaleString()}</TableCell>
+                                <TableCell align="left">
+                                  {Number(row.amount).toLocaleString()}
+                                </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">From</TableCell>
-                                <TableCell align="left">{row.fromName}</TableCell>
+                                <TableCell align="left">
+                                  {row.fromName}
+                                </TableCell>
                               </TableRow>
 
                               <TableRow>

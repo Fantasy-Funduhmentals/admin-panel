@@ -31,7 +31,6 @@ export const TokenListResults = (props: Props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [active, setActive] = useState(null);
-
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -174,10 +173,26 @@ export const TokenListResults = (props: Props) => {
                       <TableCell>
                         $
                         {customer.coinSymbol == "Q"
-                          ? Number((customer?.price).toLocaleString()).toFixed(2)
-                          : Number((customer?.price).toLocaleString()).toFixed(3)}
+                          ? Number((customer?.price).toLocaleString()).toFixed(
+                              2
+                            )
+                          : Number((customer?.price).toLocaleString()).toFixed(
+                              3
+                            )}
                       </TableCell>
-                      <TableCell>${premium(customer)} </TableCell>
+                      <TableCell>
+                        $
+                        {customer.coinSymbol == "Q"
+                          ? (
+                              customer.price * customer.multiplier -
+                              customer?.price
+                            ).toFixed(2)
+                          : (
+                              customer.price * customer.multiplier -
+                              customer?.price
+                            ).toFixed(3)}
+                        {/* {customer.price * customer.multiplier - customer?.price} */}
+                      </TableCell>
                       <TableCell>
                         $
                         {customer.coinSymbol == "Q"

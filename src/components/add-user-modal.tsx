@@ -214,8 +214,11 @@ const AddUserModal = (props: Props) => {
           sx={{
             // flexGrow: 1,
             py: 8,
-            display:"flex",
-            justifyContent:"center",alignItems:"center",width:"100%",alignSelf:"center"
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            alignSelf: "center",
           }}
         >
           <Container maxWidth="md">
