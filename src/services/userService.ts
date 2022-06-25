@@ -3,6 +3,9 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 const handleUserLogin = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/login", params);
 };
+const getWalletData = async () => {
+  return await HTTP_CLIENT.get("/admin-wallet");
+};
 
 const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
@@ -57,4 +60,5 @@ export {
   directWireAccountDetails,
   getMaintenanceMode,
   getGraphData,
+  getWalletData,
 };

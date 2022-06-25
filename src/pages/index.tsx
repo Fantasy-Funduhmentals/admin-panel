@@ -14,6 +14,8 @@ import { saveMasterBalances } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 import { setupAxios } from "../utils/axiosClient";
 import Router from "next/router";
+import { WalletListResults } from "../components/dashboard/wallet-table";
+import { getWalletData } from "../services/userService";
 const Dashboard = () => {
   const { role } = useAppSelector((state: RootState) => state.user);
   const { masterBalances, users } = useAppSelector(
@@ -21,8 +23,25 @@ const Dashboard = () => {
   );
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const [data, setData] = useState();
   const dispatch = useDispatch();
+  const walletData = async () => {
+    try {
+      setLoading(true);
+      const res = await getWalletData();
+      console.log(res.data, "_JJJJ");
+      setData(res.data);
+      setLoading(false);
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
 
+      setLoading(false);
+    }
+  };
   const getCardsData = async () => {
     try {
       setLoading(true);
@@ -44,6 +63,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getCardsData();
+    walletData();
     if (role == "sub admin") {
       Router.push("/chat");
     }
@@ -144,12 +164,9 @@ const Dashboard = () => {
                   <Grid item lg={4} md={6} xl={3} xs={12}>
                     <TrafficByDevice sx={{ height: "100%" }} />
                   </Grid>
-                  {/* <Grid item lg={4} md={6} xl={3} xs={12}>
-            <LatestProducts sx={{ height: "100%" }} />
-          </Grid> */}
-                  {/* <Grid item lg={8} md={12} xl={9} xs={12}>
-            <LatestOrders />
-          </Grid> */}
+                  <Grid item lg={12} md={12} xl={12} xs={12}>
+                    <WalletListResults data={data} />
+                  </Grid>
                 </Grid>
               )}
             </Container>
