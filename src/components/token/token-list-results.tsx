@@ -62,10 +62,6 @@ export const TokenListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  function premium(customer) {
-    return (customer?.strikePrice - customer?.price).toFixed(2);
-  }
-
   return (
     <Card {...props}>
       <PerfectScrollbar>
@@ -164,19 +160,19 @@ export const TokenListResults = (props: Props) => {
                       <TableCell>
                         {customer.coinSymbol == "Q"
                           ? Number(
-                              customer?.remainingSupply.toFixed(2)
+                              customer?.remainingSupply?.toFixed(2)
                             ).toLocaleString()
                           : Number(
-                              customer?.remainingSupply.toFixed(3)
+                              customer?.remainingSupply?.toFixed(3)
                             ).toLocaleString()}
                       </TableCell>
                       <TableCell>
                         $
                         {customer.coinSymbol == "Q"
-                          ? Number((customer?.price).toLocaleString()).toFixed(
+                          ? Number((customer?.price).toLocaleString())?.toFixed(
                               2
                             )
-                          : Number((customer?.price).toLocaleString()).toFixed(
+                          : Number((customer?.price).toLocaleString())?.toFixed(
                               3
                             )}
                       </TableCell>
@@ -186,21 +182,21 @@ export const TokenListResults = (props: Props) => {
                           ? (
                               customer.price * customer.multiplier -
                               customer?.price
-                            ).toFixed(2)
+                            )?.toFixed(2)
                           : (
                               customer.price * customer.multiplier -
                               customer?.price
-                            ).toFixed(3)}
+                            )?.toFixed(3)}
                         {/* {customer.price * customer.multiplier - customer?.price} */}
                       </TableCell>
                       <TableCell>
                         $
                         {customer.coinSymbol == "Q"
                           ? Number(
-                              (customer.price * customer.multiplier).toFixed(2)
+                              (customer.price * customer.multiplier)?.toFixed(2)
                             ).toLocaleString()
                           : Number(
-                              (customer.price * customer.multiplier).toFixed(3)
+                              (customer.price * customer.multiplier)?.toFixed(3)
                             ).toLocaleString()}
                       </TableCell>
 
