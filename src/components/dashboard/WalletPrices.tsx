@@ -12,54 +12,40 @@ import {
   Select,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import moment from "moment";
 interface Props {
   walletData: {} | any;
 }
 const WalletPrices = (props: Props) => {
   const { walletData } = props;
   const theme = useTheme();
-  const [select, setSelect] = useState(10);
-  const handleChange = (e) => {
-    setSelect(e.target.value);
-    console.log(e.target.value, "____select");
-  };
-  console.log(walletData, "____walletData");
-  var arr = [];
-  console.log(arr, "____balance");
-  walletData?.wallet?.map((element) => {
-    arr[element.balance] = element.token;
-  });
 
-  const data = {
-    datasets: [
-      {
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
+  const displayData = useMemo(() => {
+    return walletData.map((wallet) => {
+      console.log("--wallet---", wallet);
+
+      const token = wallet?.data[0]?.token[0];
+      return {
+        backgroundColor: token?.coinColor,
+        borderColor: token?.coinColor,
         barPercentage: 0.5,
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: arr,
-        label: "This year",
+        data: wallet.data?.map((wall) => wall.amount),
+        label: new Date(wallet.createdAt).getFullYear(),
         maxBarThickness: 10,
-        fill: true,
-      },
-    ],
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+        fill: false,
+      };
+    });
+  }, []);
+
+  console.log("---wallet data----", displayData);
+
+  const data = {
+    datasets: displayData,
+    labels: [2022, 2023, 2024, 2025, 2026],
   };
   const options = {
     animation: true,
@@ -113,45 +99,7 @@ const WalletPrices = (props: Props) => {
   return (
     <>
       <Card {...props}>
-        <Box sx={{ width: "100%" }}>
-          <Grid
-            container
-            spacing={3}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              // justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <Grid item lg={10} sm={6} xl={10} xs={12}>
-              <CardHeader title="All Time Price" />
-            </Grid>
-            <Grid
-              item
-              lg={2}
-              sm={6}
-              xl={2}
-              xs={12}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">User Data</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={select}
-                  label="Age"
-                  onChange={(e) => handleChange(e)}
-                >
-                  <MenuItem value={10}>10Days</MenuItem>
-                  <MenuItem value={20}>20Days</MenuItem>
-                  <MenuItem value={30}>30Days</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Box>
+        <CardHeader title="All Time Price" />
 
         <Divider style={{ marginBottom: "30px" }} />
         <CardContent>
