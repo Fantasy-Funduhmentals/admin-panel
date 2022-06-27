@@ -44,7 +44,7 @@ const LogsModal = (props: Props) => {
       setLoading(true);
       const res = await getWalletLogs();
       console.log(res.data, "_____data");
-      setWalletData(res.data);
+      setWalletData(res?.data);
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
