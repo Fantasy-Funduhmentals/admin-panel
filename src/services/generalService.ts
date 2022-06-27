@@ -11,5 +11,8 @@ const uploadUserCsv = async (params: any) => {
 const getMasterAddressBalances = async () => {
   return await HTTP_CLIENT.get("/wallet/get-master-wallet-balances");
 };
+const getWalletLogs = async () => {
+  return await HTTP_CLIENT.get("/admin-wallet/logs");
+};
 
-export { uploadImage, uploadUserCsv, getMasterAddressBalances };
+export { uploadImage, uploadUserCsv, getMasterAddressBalances, getWalletLogs };

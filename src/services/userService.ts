@@ -10,6 +10,7 @@ const getWalletData = async () => {
 const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
 };
+
 const getSwapRate = async () => {
   return await HTTP_CLIENT.get("/settings");
 };

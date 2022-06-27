@@ -1,4 +1,11 @@
-import { Box, CircularProgress, Container, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -16,6 +23,7 @@ import { setupAxios } from "../utils/axiosClient";
 import Router from "next/router";
 import { WalletListResults } from "../components/dashboard/wallet-table";
 import { getWalletData } from "../services/userService";
+import LogsModal from "../components/dashboard/logs-modal";
 const Dashboard = () => {
   const { role } = useAppSelector((state: RootState) => state.user);
   const { masterBalances, users } = useAppSelector(
@@ -25,6 +33,9 @@ const Dashboard = () => {
   const [statusData, setStatusData] = useState(null);
   const [data, setData] = useState();
   const dispatch = useDispatch();
+  const [userModelOpen, setUserModalOpen] = useState(false);
+  const [reload, setReload] = useState(false);
+
   const walletData = async () => {
     try {
       setLoading(true);
@@ -161,17 +172,46 @@ const Dashboard = () => {
                   <Grid item lg={8} md={12} xl={9} xs={12}>
                     <Sales />
                   </Grid>
-                  <Grid item lg={4} md={6} xl={3} xs={12}>
+                  <Grid item lg={4} md={12} xl={3} xs={12}>
                     <TrafficByDevice sx={{ height: "100%" }} />
                   </Grid>
                   <Grid item lg={12} md={12} xl={12} xs={12}>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        flexWrap: "wrap",
+                        m: 1,
+                      }}
+                    >
+                      <Typography sx={{ m: 1 }} variant="h4">
+                        Wallets
+                      </Typography>
+
+                      <Box sx={{ m: 1 }}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={() => setUserModalOpen(true)}
+                        >
+                          Wallet Logs
+                        </Button>
+                      </Box>
+                    </Box>
                     <WalletListResults data={data} />
                   </Grid>
                 </Grid>
               )}
             </Container>
           </Box>
-
+          <LogsModal
+            open={userModelOpen}
+            onClose={() => {
+              setUserModalOpen(false);
+              setReload(!reload);
+            }}
+          />
           <StatusModal
             statusData={statusData}
             onClose={() => setStatusData(null)}
