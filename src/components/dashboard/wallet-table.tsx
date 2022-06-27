@@ -45,9 +45,11 @@ export const WalletListResults = (props: Props) => {
                   <TableCell style={{ color: "white" }}>Coin Name</TableCell>
 
                   <TableCell style={{ color: "white" }}>Symbol</TableCell>
-                  <TableCell style={{ color: "white" }}>total Supply</TableCell>
+                  <TableCell style={{ color: "white" }}>
+                    remaining Supply
+                  </TableCell>
                   <TableCell style={{ color: "white" }}>balance</TableCell>
-                  <TableCell style={{ color: "white" }}>Date</TableCell>
+                  {/* <TableCell style={{ color: "white" }}>Date</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -79,20 +81,20 @@ export const WalletListResults = (props: Props) => {
                           style={{ height: 30, width: 30 }}
                         />
                       </TableCell>
-                      <TableCell>{customer.token.coinSymbol}</TableCell>
+                      <TableCell>{customer.token.shortName}</TableCell>
                       <TableCell>
                         {customer.token.coinSymbol == "Q"
                           ? Number(
-                              customer?.token.totalSupply?.toFixed(2)
+                              customer?.token.remainingSupply?.toFixed(2)
                             ).toLocaleString()
                           : Number(
-                              customer?.token.totalSupply?.toFixed(3)
+                              customer?.token.remainingSupply?.toFixed(3)
                             ).toLocaleString()}
                       </TableCell>
                       <TableCell>{customer?.balance}</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {moment(customer.createdAt).format("MMM Do YY")}
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   );
                 })}
