@@ -6,6 +6,6 @@ const mainnetConfig = {
   Base_URL: "https://api-icovest.cqrvault.org",
 };
 
-const defaultConfig = testnetConfig;
+const defaultConfig = mainnetConfig;
 
 export default defaultConfig;
