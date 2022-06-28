@@ -53,6 +53,7 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+
   const getCardsData = async () => {
     try {
       setLoading(true);
@@ -207,6 +208,7 @@ const Dashboard = () => {
           </Box>
           <LogsModal
             open={userModelOpen}
+            // walletData={data}
             onClose={() => {
               setUserModalOpen(false);
               setReload(!reload);

@@ -16,36 +16,96 @@ import { useMemo, useState } from "react";
 import moment from "moment";
 interface Props {
   walletData: {} | any;
+  wallet: any;
 }
 const WalletPrices = (props: Props) => {
-  const { walletData } = props;
+  const { walletData, wallet } = props;
   const theme = useTheme();
 
-  const displayData = useMemo(() => {
-    return walletData.map((wallet) => {
-      console.log("--wallet---", wallet);
+  console.log("---------walletData---------", wallet);
 
-      const token = wallet?.data[0]?.token[0];
-      return {
-        backgroundColor: token?.coinColor,
-        borderColor: token?.coinColor,
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: wallet.data?.map((wall) => wall.amount),
-        label: new Date(wallet.createdAt).getFullYear(),
-        maxBarThickness: 10,
-        fill: false,
-      };
-    });
+  const displayData = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+
+    let finalData = [];
+    for (let i = 1; i <= 12; i++) {
+      let obj = walletData.find((wallet) => wallet?._id?.month == i);
+
+      if (obj?._id?.year == currentYear) {
+        const token = obj?.data[i]?.token[0];
+        let wallet = obj;
+
+        for (let wall of wallet) {
+          const totalSum = wallet.data
+            ?.filter((wallet) => wallet?.token[0]?._id == wall.token?._id)
+            .reduce((a, b) => a + b);
+
+          finalData.push({
+            backgroundColor: token?.coinColor,
+            borderColor: token?.coinColor,
+            barPercentage: 0.5,
+            barThickness: 12,
+            borderRadius: 4,
+            categoryPercentage: 0.5,
+            data: [totalSum],
+            label: token.shortName,
+            // new Date(wallet.createdAt).getFullYear()
+            maxBarThickness: 10,
+            fill: false,
+          });
+        }
+      } else {
+      }
+    }
+
+    // const wallData= walletData?.map((wallet) => {
+    //   if (wallet?._id?.year == currentYear) {
+    //     const token = wallet?.data[0]?.token[0];
+    //     return {
+    //       backgroundColor: token?.coinColor,
+    //       borderColor: token?.coinColor,
+    //       barPercentage: 0.5,
+    //       barThickness: 12,
+    //       borderRadius: 4,
+    //       categoryPercentage: 0.5,
+    //       data: [
+    //         0,
+    //         wallet.data?.map((wall) => wall.amount).reduce((a, b) => a + b, 0),
+    //       ],
+    //       label: token.shortName,
+    //       // new Date(wallet.createdAt).getFullYear()
+    //       maxBarThickness: 10,
+    //       fill: false,
+    //     };
+    //   }
+    // });
+
+    // return wallData;
+
+    return finalData;
   }, []);
 
-  console.log("---wallet data----", displayData);
+  console.log("---display data-----", displayData);
+
+  var startDate = moment().subtract(1, "months").format("YYYY-MM-DD");
+  var endDate = moment().format("YYYY-MM-DD");
 
   const data = {
-    datasets: displayData,
-    labels: [2022, 2023, 2024, 2025, 2026],
+    // datasets: displayData,
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
   };
   const options = {
     animation: true,
@@ -56,12 +116,24 @@ const WalletPrices = (props: Props) => {
     responsive: true,
     xAxes: [
       {
+        // ticks: {
+        //   fontColor: theme.palette.text.secondary,
+        // },
         ticks: {
-          fontColor: theme.palette.text.secondary,
+          callback: function (labels) {
+            var month = labels.split(";")[0];
+            var year = labels.split(";")[1];
+            if (month === "February") {
+              return year;
+            } else {
+              return "";
+            }
+          },
         },
         gridLines: {
           display: false,
           drawBorder: false,
+          drawOnChartArea: false,
         },
       },
     ],
@@ -76,7 +148,7 @@ const WalletPrices = (props: Props) => {
           borderDash: [2],
           borderDashOffset: [2],
           color: theme.palette.divider,
-          drawBorder: false,
+          drawBorder: true,
           zeroLineBorderDash: [2],
           zeroLineBorderDashOffset: [2],
           zeroLineColor: theme.palette.divider,
@@ -109,7 +181,7 @@ const WalletPrices = (props: Props) => {
               position: "relative",
             }}
           >
-            <Line data={data} options={options} />
+            {/* <Line data={data} options={options} /> */}
           </Box>
         </CardContent>
       </Card>
