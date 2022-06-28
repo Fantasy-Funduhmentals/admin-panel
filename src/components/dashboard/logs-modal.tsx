@@ -22,6 +22,8 @@ import StatusModal from "../StatusModal";
 import { TransitionProps } from "@mui/material/transitions";
 import { getWalletLogs } from "../../services/generalService";
 import WalletPrices from "./WalletPrices";
+import WalletGraph from "./WalletGraph";
+import { WalletData } from "./walletData";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -33,6 +35,7 @@ const Transition = React.forwardRef(function Transition(
 interface Props {
   open: boolean;
   onClose: any;
+  // walletData: any;
 }
 const LogsModal = (props: Props) => {
   const { open, onClose } = props;
@@ -77,7 +80,7 @@ const LogsModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              User Registration
+              Wllets
             </Typography>
           </Toolbar>
         </AppBar>
@@ -98,7 +101,11 @@ const LogsModal = (props: Props) => {
               {loading ? (
                 <CircularProgress />
               ) : (
-                <WalletPrices walletData={walletData} />
+                // <WalletPrices
+                //   walletData={walletData}
+                //   wallet={props.walletData}
+                // />
+                <WalletData data={walletData} />
               )}
             </Grid>
           </Container>
