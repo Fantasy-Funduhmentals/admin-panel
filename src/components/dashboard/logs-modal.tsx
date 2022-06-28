@@ -80,7 +80,7 @@ const LogsModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              User Registration
+              Wllets
             </Typography>
           </Toolbar>
         </AppBar>
