@@ -20,6 +20,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CardHeader,
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -31,6 +32,7 @@ import { HTTP_CLIENT } from "../../utils/axiosClient";
 import { handleBlock } from "../../services/userService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
+import NoDataFound from "../NoDataFound/NoDataFound";
 
 interface Props extends CardProps {
   data?: any | {};
@@ -92,7 +94,7 @@ export const WalletData = (props: Props) => {
   const { data, searchQuery } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [statusData, setStatusData] = useState(null);
   const [selected, setSelected] = useState("");
@@ -103,38 +105,39 @@ export const WalletData = (props: Props) => {
 
   //   }
   // })
-  useEffect(() => {
-    let arr = [];
 
-    console.log(data, "filterDatappppppppppppppppppp");
-    const filterMonth = DropdownData.find(
-      (item) => item.id == new Date().getMonth() + 1
-    );
+  // console.log('--data--', data)
 
-    const filterData = data.find((hello) =>
-      hello._id.month == selected ? selected : filterMonth.id
-    );
-    console.log(filterData, "selectedppppppppppp");
+  // useEffect(() => {
+  //   let arr = [];
 
-    filterData.data.map((el) => {
-      el.token.map((item) => {
-        item.user;
-        arr.push({
-          cloneToken: item,
-          amount: el.amount,
-          createdAt: el.createdAt,
-          email: el.user[0].email,
-          username: el.user[0].name,
-        });
-        // console.log("item", item);
-      });
-    });
-    setarray(arr);
-  }, [selected]);
-  // let month = new Date().getMonth() + 1;
+  //   const filterMonth = DropdownData.find(
+  //     (item) => item.id == new Date().getMonth() + 1
+  //   );
+
+  //   const filterData = data.find((hello) =>
+  //     hello._id.month == selected ? selected : filterMonth.id
+  //   );
+  //   console.log(filterData, "selectedppppppppppp");
+
+  //   filterData.data.map((el) => {
+  //     el.token.map((item) => {
+  //       item.user;
+  //       arr.push({
+  //         cloneToken: item,
+  //         amount: el.amount,
+  //         createdAt: el.createdAt,
+  //         email: el.user[0].email,
+  //         username: el.user[0].name,
+  //       });
+  //       // console.log("item", item);
+  //     });
+  //   });
+  //   setarray(arr);
+  // }, [selected]);
+  // console.log('--selected--', selected)
 
   const handleChange = (event) => {
-    console.log(event.target.value, "e");
     setSelected(event.target.value);
   };
 
@@ -146,42 +149,71 @@ export const WalletData = (props: Props) => {
     setPage(newPage);
   };
 
-  useEffect(() => {
-    const filterMonth = DropdownData.find(
-      (item) => item.id == new Date().getMonth() + 1
-    );
-    setSelected(filterMonth.id);
-    // data.map(item => {
-    //   if(item._id === )
-    // })
-  }, []);
+
 
   const dataToDisplay = useMemo(() => {
+
+    let month: any = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
     const begin = page * limit;
     const end = begin + limit;
-    const date = new Date().getMonth() + 1;
-    console.log("current monthhhh", date);
+    if (selected) {
+      month = selected
+    } else {
+      setSelected(month + 1)
+    }
 
-    return array?.slice(begin, end);
-  }, [page, limit, array]);
-  console.log(dataToDisplay, "array");
+    const result = data.find((wallet) => wallet?._id?.month == month)
+    return result ? result?.data?.slice(begin, end) : [];
+
+  }, [page, limit, data, selected])
+
+
+
+
+
+
+  // useEffect(() => {
+  //   const filterMonth = DropdownData.find(
+  //     (item) => item.id == new Date().getMonth() + 1
+  //   );
+  //   setSelected(filterMonth.id);
+  //   // data.map(item => {
+  //   //   if(item._id === )
+  //   // })
+  // }, []);
+
+  // const dataToDisplay = useMemo(() => {
+  //   const begin = page * limit;
+  //   const end = begin + limit;
+  //   const date = new Date().getMonth() + 1;
+
+
+  //   return array?.slice(begin, end);
+  // }, [page, limit, array]);
+
 
   return (
     <Card {...props}>
-      <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="simple-select-label">Select Year</InputLabel>
-        <Select
-          labelId="select-label"
-          id="simple-select"
-          value={selected}
-          label="Select History"
-          onChange={handleChange}
-        >
-          {DropdownData.map((item) => (
-            <MenuItem value={item.id}>{item.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <CardHeader title="Wallet Data" />
+
+        <FormControl sx={{ width: "250px" }}>
+          <InputLabel id="simple-select-label">Select Month</InputLabel>
+          <Select
+            labelId="select-label"
+            id="simple-select"
+            value={selected}
+            label="Select History"
+            onChange={handleChange}
+          >
+            {DropdownData.map((item) => (
+              <MenuItem value={item.id}>{item.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
       <PerfectScrollbar>
         <Paper
           style={{
@@ -192,63 +224,65 @@ export const WalletData = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{ background: "#5a82d7" }}>
+              {dataToDisplay == 0 ? <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}> <NoDataFound /> </Box> : <><TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Token</TableCell>
                   <TableCell style={{ color: "#fff" }}>user name</TableCell>
                   <TableCell style={{ color: "#fff" }}>email</TableCell>
-                  <TableCell style={{ color: "#fff" }}>balance</TableCell>
-                  <TableCell style={{ color: "#fff" }}>created At</TableCell>
+                  <TableCell style={{ color: "#fff" }}>deposit</TableCell>
+                  <TableCell style={{ color: "#fff" }}>deposit on</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {dataToDisplay?.map((customer) => (
-                  <TableRow
-                    hover
-                    key={customer._id}
-                    selected={
-                      selectedCustomerIds.indexOf(customer.orderIndex) !== -1
-                    }
-                  >
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <Avatar
-                          src={customer.cloneToken.icon.url}
-                          sx={{ mr: 2 }}
+                <TableBody>
+                  {dataToDisplay?.map((customer) => (
+                    <TableRow
+                      hover
+                      key={customer._id}
+                      selected={
+                        selectedCustomerIds.indexOf(customer.orderIndex) !== -1
+                      }
+                    >
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                            display: "flex",
+                          }}
                         >
-                          {getInitials(customer.cloneToken.displayName)}
-                        </Avatar>
-                        <Typography
-                          color="textPrimary"
-                          variant="body1"
-                          sx={{ minWidth: "150px" }}
-                        >
-                          {customer.cloneToken.displayName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{customer.username}</TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                    <TableCell>{customer.amount}</TableCell>
+                          <Avatar
+                            src={customer.token[0]?.icon.url}
+                            sx={{ mr: 2 }}
+                          >
+                            {getInitials(customer.token[0]?.displayName)}
+                          </Avatar>
+                          <Typography
+                            color="textPrimary"
+                            variant="body1"
+                            sx={{ minWidth: "150px" }}
+                          >
+                            {customer.token[0]?.displayName}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>{customer.user[0].name}</TableCell>
+                      <TableCell>{customer.user[0].email}</TableCell>
+                      <TableCell>{customer.amount}</TableCell>
 
-                    <TableCell>
-                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+                      <TableCell>
+                        {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </>
+              }
             </Table>
           </Box>
         </Paper>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={dataToDisplay?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

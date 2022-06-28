@@ -58,29 +58,7 @@ const WalletPrices = (props: Props) => {
       }
     }
 
-    // const wallData= walletData?.map((wallet) => {
-    //   if (wallet?._id?.year == currentYear) {
-    //     const token = wallet?.data[0]?.token[0];
-    //     return {
-    //       backgroundColor: token?.coinColor,
-    //       borderColor: token?.coinColor,
-    //       barPercentage: 0.5,
-    //       barThickness: 12,
-    //       borderRadius: 4,
-    //       categoryPercentage: 0.5,
-    //       data: [
-    //         0,
-    //         wallet.data?.map((wall) => wall.amount).reduce((a, b) => a + b, 0),
-    //       ],
-    //       label: token.shortName,
-    //       // new Date(wallet.createdAt).getFullYear()
-    //       maxBarThickness: 10,
-    //       fill: false,
-    //     };
-    //   }
-    // });
 
-    // return wallData;
 
     return finalData;
   }, []);

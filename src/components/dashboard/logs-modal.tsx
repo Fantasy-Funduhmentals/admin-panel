@@ -14,7 +14,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/AcUnit";
+import CloseIcon from '@mui/icons-material/Close';
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { getNormalizedError } from "../../utils/helpers";
@@ -80,7 +80,7 @@ const LogsModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Wllets
+              Wallet Logs
             </Typography>
           </Toolbar>
         </AppBar>
@@ -99,7 +99,10 @@ const LogsModal = (props: Props) => {
           <Container maxWidth="xl">
             <Grid>
               {loading ? (
-                <CircularProgress />
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "550px" }}>
+                  <CircularProgress />
+
+                </Box>
               ) : (
                 // <WalletPrices
                 //   walletData={walletData}
