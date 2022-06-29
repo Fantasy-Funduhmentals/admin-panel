@@ -96,12 +96,13 @@ export const WalletData = (props: Props) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
   const [statusData, setStatusData] = useState(null);
   const [selected, setSelected] = useState("");
   const handleChange = (event) => {
     setSelected(event.target.value);
   };
-
+  let totalrow;
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -120,10 +121,10 @@ export const WalletData = (props: Props) => {
     } else {
       setSelected(month + 1);
     }
-
+    totalrow = data[0].data?.length;
     const result = data.find((wallet) => wallet?._id?.month == month);
     return result ? result?.data?.reverse().slice(begin, end) : [];
-  }, [page, limit, data, selected]);
+  }, [page, limit, data, totalrow, selected]);
 
   return (
     <Card {...props}>
@@ -238,7 +239,7 @@ export const WalletData = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={dataToDisplay?.length}
+        count={totalrow}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
