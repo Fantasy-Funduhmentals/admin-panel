@@ -14,7 +14,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { getNormalizedError } from "../../utils/helpers";
@@ -35,7 +35,6 @@ const Transition = React.forwardRef(function Transition(
 interface Props {
   open: boolean;
   onClose: any;
-  // walletData: any;
 }
 const LogsModal = (props: Props) => {
   const { open, onClose } = props;
@@ -46,7 +45,6 @@ const LogsModal = (props: Props) => {
     try {
       setLoading(true);
       const res = await getWalletLogs();
-      console.log(res.data, "_____data");
       setWalletData(res?.data);
       setLoading(false);
     } catch (err) {
@@ -99,15 +97,17 @@ const LogsModal = (props: Props) => {
           <Container maxWidth="xl">
             <Grid>
               {loading ? (
-                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "550px" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minHeight: "550px",
+                  }}
+                >
                   <CircularProgress />
-
                 </Box>
               ) : (
-                // <WalletPrices
-                //   walletData={walletData}
-                //   wallet={props.walletData}
-                // />
                 <WalletData data={walletData} />
               )}
             </Grid>
