@@ -40,7 +40,6 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await getWalletData();
-      console.log(res.data, "_JJJJ");
       setData(res.data);
       setLoading(false);
     } catch (err) {
