@@ -1,4 +1,4 @@
-import { Box, Container,CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -51,15 +51,19 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT purchase requests Management"
+            title="NFT Acquire requests Management"
             subTitle="Request"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
             handleRefresh={getCoinsListing}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-           {loading ? <CircularProgress/> : <RequestListResults data={nftRequests} searchQuery={searchText} />}
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <RequestListResults data={nftRequests} searchQuery={searchText} />
+            )}
           </Box>
         </Container>
       </Box>

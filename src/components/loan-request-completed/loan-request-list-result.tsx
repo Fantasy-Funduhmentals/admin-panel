@@ -136,7 +136,14 @@ const Row = (props) => {
   return (
     <React.Fragment>
       {loading ? (
-        <TableRow>
+        <TableRow
+          sx={{
+            minHeight: "100px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <CircularProgress color="secondary" />
         </TableRow>
       ) : (

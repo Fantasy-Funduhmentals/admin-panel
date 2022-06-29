@@ -91,7 +91,9 @@ export const WalletListResults = (props: Props) => {
                               customer?.token.remainingSupply?.toFixed(3)
                             ).toLocaleString()}
                       </TableCell>
-                      <TableCell>{customer?.balance}</TableCell>
+                      <TableCell>
+                        {customer?.balance.toLocaleString()}
+                      </TableCell>
                       {/* <TableCell>
                         {moment(customer.createdAt).format("MMM Do YY")}
                       </TableCell> */}

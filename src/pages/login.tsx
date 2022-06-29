@@ -30,7 +30,7 @@ const Login = () => {
       if (loginRes?.data?.user?.isBlocked == true) {
         setStatusData({
           type: "error",
-          message: "User Blocked",
+          message: "Sub Admin Blocked",
         });
         setLoading(false);
         return;

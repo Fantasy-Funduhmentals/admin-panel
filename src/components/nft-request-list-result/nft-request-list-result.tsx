@@ -79,7 +79,10 @@ const Row = (props) => {
   const handleTransaction = async (row: any) => {
     const response = await handleCheckbalance(row.user._id);
     if (
-      !(Number(response.data.balance) > Number(row.amount * row.assetPool.pricePerShare))
+      !(
+        Number(response.data.balance) >
+        Number(row.amount * row.assetPool.pricePerShare)
+      )
     ) {
       setStatusData({
         type: "error",
@@ -157,9 +160,16 @@ const Row = (props) => {
   return (
     <React.Fragment>
       {loading ? (
-        <TableRow>
+        <Box
+          sx={{
+            minHeight: "100px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <CircularProgress color="secondary" />
-        </TableRow>
+        </Box>
       ) : (
         <>
           <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>

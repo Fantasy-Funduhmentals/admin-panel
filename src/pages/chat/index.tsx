@@ -1,4 +1,4 @@
-import {Box, Card, Container } from "@mui/material";
+import { Box, Card, Container } from "@mui/material";
 import React, { useCallback, useContext, useEffect } from "react";
 import { Socket } from "socket.io-client";
 import { ChatSidebar, ChatWindow } from "../../components/chat";
@@ -6,7 +6,8 @@ import { DashboardLayout } from "../../components/dashboard-layout";
 import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
 import Page from "../../components/Page";
 import { SocketContext } from "../../context/socket";
-import { useAppDispatch } from "../../store/hooks";
+import { RootState } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { saveChats, updateChatRoom } from "../../store/reducers/chatSlice";
 import { CHAT_SOCKET_TYPES } from "../../utils/enums/socket.enum";
 
@@ -48,17 +49,17 @@ const Chat = () => {
   }, []);
 
   return (
-  <>
-      <Page title="Chat Support" >
-      <Container maxWidth={false}>
-        <HeaderBreadcrumbs heading="Chat Support" />
-        <Card sx={{ height: "72vh", display:"flex" }} >
-          <ChatSidebar />
-          <ChatWindow />
-        </Card>
-      </Container>
-    </Page>
-  </>
+    <>
+      <Page title="Chat Support">
+        <Container maxWidth={false}>
+          <HeaderBreadcrumbs heading="Chat Support" />
+          <Card sx={{ height: "72vh", display: "flex" }}>
+            <ChatSidebar />
+            <ChatWindow />
+          </Card>
+        </Container>
+      </Page>
+    </>
   );
 };
 

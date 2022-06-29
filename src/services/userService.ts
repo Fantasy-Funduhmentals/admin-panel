@@ -31,6 +31,9 @@ const swapFee = async (params: any) => {
 const getMaintenanceMode = async () => {
   return await HTTP_CLIENT.get("/settings/maintenance");
 };
+const getUserInfo = async () => {
+  return await HTTP_CLIENT.get("/admin-auth/info");
+};
 
 const createNewUser = async (params: any) => {
   return await HTTP_CLIENT.post("/auth/admin-create-user", params);
@@ -62,4 +65,5 @@ export {
   getMaintenanceMode,
   getGraphData,
   getWalletData,
+  getUserInfo,
 };
