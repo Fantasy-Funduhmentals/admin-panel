@@ -34,7 +34,6 @@ const Chat = () => {
     dispatch(resetEmailState());
     Router.push("/login");
   };
-  // // window.location.href
   const dispatch = useAppDispatch();
 
   const listeners = useCallback(async () => {
@@ -55,7 +54,7 @@ const Chat = () => {
       if (data.user.isBlocked == true) {
         setStatusData({
           type: "error",
-          message: "Your Blocked Blocked",
+          message: "Your Blocked",
         });
         handleLogout();
         return;

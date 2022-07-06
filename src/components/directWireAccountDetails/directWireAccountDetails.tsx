@@ -128,6 +128,32 @@ const WireAccountDetails = (props) => {
           <Divider />
           <CardContent>
             <TextField
+              error={Boolean(formik.touched.bankname && formik.errors.bankname)}
+              value={formik.values.bankname}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="Receiving Bank"
+              margin="normal"
+              name="bankname"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.bankaddress && formik.errors.bankaddress
+              )}
+              value={formik.values.bankaddress}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="Bank Address"
+              margin="normal"
+              name="bankaddress"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
               error={Boolean(formik.touched.fullname && formik.errors.fullname)}
               value={formik.values.fullname}
               onBlur={formik.handleBlur}
@@ -148,35 +174,51 @@ const WireAccountDetails = (props) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="Physical Address"
+              label="Account Holder
+              Mailing Address"
               margin="normal"
               name="physicaladdress"
               type="text"
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.bankname && formik.errors.bankname)}
-              value={formik.values.bankname}
+              error={Boolean(formik.touched.zellePay && formik.errors.zellePay)}
+              value={formik.values.zellePay}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="Bank Name"
+              label="Zelle Remittance"
               margin="normal"
-              name="bankname"
+              name="zellePay"
               type="text"
               variant="outlined"
             />
             <TextField
               error={Boolean(
-                formik.touched.bankaddress && formik.errors.bankaddress
+                formik.touched.accountnumber && formik.errors.accountnumber
               )}
-              value={formik.values.bankaddress}
+              value={formik.values.accountnumber}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="Bank Address"
+              label="Account Number "
               margin="normal"
-              name="bankaddress"
+              name="accountnumber"
+              type="string"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.bankrouting && formik.errors.bankrouting
+              )}
+              value={formik.values.bankrouting}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="ABA Routing No. 
+              Electronic"
+              margin="normal"
+              name="bankrouting"
               type="text"
               variant="outlined"
             />
@@ -208,32 +250,7 @@ const WireAccountDetails = (props) => {
               type="text"
               variant="outlined"
             />
-            <TextField
-              error={Boolean(formik.touched.zellePay && formik.errors.zellePay)}
-              value={formik.values.zellePay}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              fullWidth
-              label="ZellePay"
-              margin="normal"
-              name="zellePay"
-              type="text"
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(
-                formik.touched.accountnumber && formik.errors.accountnumber
-              )}
-              value={formik.values.accountnumber}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              fullWidth
-              label="Bank Account Number "
-              margin="normal"
-              name="accountnumber"
-              type="string"
-              variant="outlined"
-            />
+
             <TextField
               error={Boolean(
                 formik.touched.accounttype && formik.errors.accounttype
@@ -245,20 +262,6 @@ const WireAccountDetails = (props) => {
               label="Bank Account type (e.g., checking, savings, etc.)"
               margin="normal"
               name="accounttype"
-              type="text"
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(
-                formik.touched.bankrouting && formik.errors.bankrouting
-              )}
-              value={formik.values.bankrouting}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              fullWidth
-              label="Bank Routing Number"
-              margin="normal"
-              name="bankrouting"
               type="text"
               variant="outlined"
             />
