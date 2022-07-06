@@ -265,6 +265,65 @@ const WireAccountDetails = (props) => {
               type="text"
               variant="outlined"
             />
+            {/* <Box sx={{ fontWeight: "bold", pt: 3, pb: 3 }}>
+              Direct Wire Account Details
+            </Box>
+            <TextField
+              error={Boolean(
+                formik.touched.accounttype && formik.errors.accounttype
+              )}
+              value={formik.values.accounttype}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="SWIFT Code (for Automatic Payments and Direct Deposit)"
+              margin="normal"
+              name="accounttype"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.accounttype && formik.errors.accounttype
+              )}
+              value={formik.values.accounttype}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="SWIFT Address(for Wire Transfer)"
+              margin="normal"
+              name="accounttype"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.accounttype && formik.errors.accounttype
+              )}
+              value={formik.values.accounttype}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="SWIFT Code(U.S. Dollars or Unknown Currency)"
+              margin="normal"
+              name="accounttype"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(
+                formik.touched.accounttype && formik.errors.accounttype
+              )}
+              value={formik.values.accounttype}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="SWIFT Address(Foreign Currency)"
+              margin="normal"
+              name="accounttype"
+              type="text"
+              variant="outlined"
+            /> */}
           </CardContent>
           <Divider />
           <Box
