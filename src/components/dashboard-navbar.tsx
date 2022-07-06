@@ -35,6 +35,7 @@ import { resetCompleteDirectWireState } from "../store/reducers/completeDirectWi
 import { resetRequestState } from "../store/reducers/requestSlice";
 import { resetSettingsState } from "../store/reducers/settingsSlice";
 import { RootState } from "../store";
+import { resetEmailState } from "../store/reducers/emailSlice";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -65,6 +66,7 @@ export const DashboardNavbar = (props) => {
     dispatch(resetRequestState());
     dispatch(resetSettingsState());
     dispatch(resetCompleteDirectWireState());
+    dispatch(resetEmailState());
     Router.push("/login");
   };
 

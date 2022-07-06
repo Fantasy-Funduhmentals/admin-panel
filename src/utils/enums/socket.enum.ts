@@ -13,4 +13,5 @@ export enum CHAT_SOCKET_TYPES {
   ALL_ROOMS = "all-rooms",
   CHAT_ROOM_CHANGED = "chat-room-changed",
   CLEAR_RECENT_MESSAGE = "clear-recent-message",
+  USER_BLOCKED = "userBlocked",
 }

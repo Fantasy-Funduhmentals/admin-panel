@@ -22,6 +22,7 @@ import directWireSlice from "./reducers/directWire";
 import completeDirectWireSlice from "./reducers/completeDirectWire";
 import AdminSlice from "./reducers/adminSlice";
 import settingsSlice from "./reducers/settingsSlice";
+import EmailSlice from "./reducers/emailSlice";
 declare var window: any;
 
 const persistConfig = {
@@ -29,6 +30,7 @@ const persistConfig = {
   storage: storage,
   whitelist: [
     "user",
+    "email",
     "coin",
     "token",
     "settings",
@@ -48,6 +50,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   user: userSlice,
+  email: EmailSlice,
   coin: coinSlice,
   token: tokenSlice,
   settings: settingsSlice,
