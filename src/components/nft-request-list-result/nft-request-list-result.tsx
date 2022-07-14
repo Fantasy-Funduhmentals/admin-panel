@@ -77,9 +77,6 @@ const Row = (props) => {
   };
 
   const handleTransaction = async (row: any) => {
-    debugger;
-    console.log("row>>", row);
-
     if (!row.isLoan) {
       const response = await handleCheckbalance(row.user._id);
       if (

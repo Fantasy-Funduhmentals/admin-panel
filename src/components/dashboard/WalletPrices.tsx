@@ -21,9 +21,6 @@ interface Props {
 const WalletPrices = (props: Props) => {
   const { walletData, wallet } = props;
   const theme = useTheme();
-
-  console.log("---------walletData---------", wallet);
-
   const displayData = useMemo(() => {
     const currentYear = new Date().getFullYear();
 
@@ -58,13 +55,8 @@ const WalletPrices = (props: Props) => {
       }
     }
 
-
-
     return finalData;
   }, []);
-
-  console.log("---display data-----", displayData);
-
   var startDate = moment().subtract(1, "months").format("YYYY-MM-DD");
   var endDate = moment().format("YYYY-MM-DD");
 
