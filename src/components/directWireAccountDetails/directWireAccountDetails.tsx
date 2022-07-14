@@ -251,7 +251,7 @@ const WireAccountDetails = (props) => {
               variant="outlined"
             />
 
-            <TextField
+            {/* <TextField
               error={Boolean(
                 formik.touched.accounttype && formik.errors.accounttype
               )}
@@ -264,7 +264,7 @@ const WireAccountDetails = (props) => {
               name="accounttype"
               type="text"
               variant="outlined"
-            />
+            /> */}
             {/* <Box sx={{ fontWeight: "bold", pt: 3, pb: 3 }}>
               Direct Wire Account Details
             </Box>
