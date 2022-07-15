@@ -4,33 +4,6 @@ orbs:
   aws-cli: circleci/aws-cli@0.1.1
   aws-ecs: circleci/aws-ecs@1.2.0
 jobs:
-  configure_docker_main:
-     machine:
-      image: ubuntu-2004:202111-02
-    steps:
-      - checkout
-      - aws-ecr/build-and-push-image:
-          create-repo: false
-          repo: main-admin
-          tag: "latest"
-          path: .
-  deployment_ecs_main:
-    machine: true
-    steps:
-      - run:
-          name: Get last task definition
-          command: >
-            TASK_DEFINITION_ARN=$(aws ecs describe-task-definition \
-                --task-definition mainadmin \
-                --output text \
-                --query 'taskDefinition.taskDefinitionArn')
-            echo "export TASK_DEFINITION_ARN='${TASK_DEFINITION_ARN}'" >> $BASH_ENV
-      - aws-ecs/verify-revision-is-deployed:
-          family: 'mainadmin'
-          cluster-name: 'cqr-cluster'
-          service-name: 'admin-main'
-          task-definition-arn: '${TASK_DEFINITION_ARN}' 
-
   configure_docker_env:
     machine:
       image: ubuntu-2004:202111-02
@@ -60,19 +33,6 @@ jobs:
 workflows:
   ecs_deployment:
     jobs:
-     -  configure_docker_main:
-     - aws-ecs/deploy-service-update:
-          cluster-name: 'cqr-cluster'
-          container-image-name-updates: 'container=admin,tag=latest'
-          family: 'main-admin'
-          service-name: 'admin-main'
-          force-new-deployment: true
-          requires:
-          - configure_docker_env
-          filters:
-            branches:
-              only:
-              - main
      -  configure_docker_env
      - aws-ecs/deploy-service-update:
           cluster-name: 'cqr-cluster'
@@ -86,7 +46,6 @@ workflows:
             branches:
               only:
               - staging
-
      - deployment_ecs:
         requires:
          - aws-ecs/deploy-service-update
