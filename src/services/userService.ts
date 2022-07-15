@@ -3,10 +3,14 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 const handleUserLogin = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/login", params);
 };
+const getWalletData = async () => {
+  return await HTTP_CLIENT.get("/admin-wallet");
+};
 
 const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
 };
+
 const getSwapRate = async () => {
   return await HTTP_CLIENT.get("/settings");
 };
@@ -26,6 +30,9 @@ const swapFee = async (params: any) => {
 };
 const getMaintenanceMode = async () => {
   return await HTTP_CLIENT.get("/settings/maintenance");
+};
+const getUserInfo = async () => {
+  return await HTTP_CLIENT.get("/admin-auth/info");
 };
 
 const createNewUser = async (params: any) => {
@@ -57,4 +64,6 @@ export {
   directWireAccountDetails,
   getMaintenanceMode,
   getGraphData,
+  getWalletData,
+  getUserInfo,
 };

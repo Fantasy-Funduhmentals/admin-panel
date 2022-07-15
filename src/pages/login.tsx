@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
 import { handleUserLogin } from "../services/userService";
 import { useAppDispatch } from "../store/hooks";
+import { saveEmailUser } from "../store/reducers/emailSlice";
 import { saveAccessToken, saveUserRole } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
@@ -27,17 +28,17 @@ const Login = () => {
     try {
       setLoading(true);
       const loginRes = await handleUserLogin(values);
-      console.log(loginRes?.data?.user?.isBlocked, "user STatue");
       if (loginRes?.data?.user?.isBlocked == true) {
         setStatusData({
           type: "error",
-          message: "User Blocked",
+          message: "Sub Admin Blocked",
         });
         setLoading(false);
         return;
       } else {
         dispatch(saveUserRole(loginRes.data.user.role));
         dispatch(saveAccessToken(loginRes.data.accessToken));
+        dispatch(saveEmailUser(loginRes.data.user.email));
         setLoading(false);
         setStatusData({
           type: "success",

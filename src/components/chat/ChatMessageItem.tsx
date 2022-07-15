@@ -44,7 +44,6 @@ export default function ChatMessageItem({
   message,
   // onOpenLightbox,
   otherUser,
-  
 }) {
   const isImage = Boolean(message?.image);
 
@@ -55,17 +54,45 @@ export default function ChatMessageItem({
 
     return [isMe, senderDetails, firstName];
   }, []);
+  const URL_REGEX =
+    /((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
+  function TextOrLink(value) {
+    const words = value?.split(" ");
+    return (
+      <p>
+        {words?.map((word) => {
+          return word?.match(URL_REGEX) ? (
+            <>
+              <a
+                href={`http://${
+                  word?.split("/")[2] ? word?.split("/")[2] : word
+                }`}
+                target="_blank"
+                style={{
+                  ...(isMe
+                    ? { color: "#42c5f7" }
+                    : { color: "rgb(11 30 255)" }),
 
+                  textDecoration: "underLine",
+                }}
+              >
+                {word}
+              </a>{" "}
+            </>
+          ) : (
+            word + " "
+          );
+        })}
+      </p>
+    );
+  }
   return (
     <RootStyle>
       <Box
-                 
         sx={{
-          
           display: "flex",
           ...(isMe && {
             ml: "auto",
-           
           }),
         }}
       >
@@ -77,14 +104,22 @@ export default function ChatMessageItem({
           />
         )}
 
-        <Box sx={{ ml: 2 }}  style={{...(isMe ? {background:"#0f6b77",borderRadius:"20px 0px 20px 20px"} : {background:"#00000021",borderRadius:"0px 20px 20px 20px"}),padding:"0.3rem 1rem 0rem 0.8rem"}}>
+        <Box
+          sx={{ ml: 2 }}
+          style={{
+            ...(isMe
+              ? { background: "#0f6b77", borderRadius: "20px 0px 20px 20px" }
+              : {
+                  background: "#00000021",
+                  borderRadius: "0px 20px 20px 20px",
+                }),
+            padding: "0.3rem 1rem 0rem 0.8rem",
+          }}
+        >
           <InfoStyle
-          
-          
             noWrap
             variant="caption"
-          
-          sx={{ ...(isMe && { justifyContent: "flex-end",color:"black" }) }}
+            sx={{ ...(isMe && { justifyContent: "flex-end", color: "black" }) }}
           >
             {!isMe && `${firstName},`}&nbsp;
             {formatDistanceToNowStrict(new Date(message.createdAt), {
@@ -93,9 +128,8 @@ export default function ChatMessageItem({
           </InfoStyle>
 
           <ContentStyle
-          
             sx={{
-              padding:"0px 0px 3px 0px",
+              padding: "0px 0px 3px 0px",
 
               ...(isMe && {
                 color: "#fff",
@@ -110,7 +144,6 @@ export default function ChatMessageItem({
               //   onClick={() => onOpenLightbox(message.image)}
               // />
               <LightboxModal
-
                 style={{
                   width: "150px",
                   cursor: "pointer",
@@ -125,10 +158,10 @@ export default function ChatMessageItem({
                   maxWidth: "13rem",
                   width: "auto",
                   wordWrap: "break-word",
-                  padding:"0px 0px 3px 0px"
+                  padding: "0px 0px 3px 0px",
                 }}
               >
-                {message.text}
+                {TextOrLink(message.text)}
               </Typography>
             )}
           </ContentStyle>

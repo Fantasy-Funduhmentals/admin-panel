@@ -60,7 +60,6 @@ const AddUserModal = (props: Props) => {
   ];
 
   const { open, onClose, editData } = props;
-console.log(editData,"_____editData______");
 
   // const [image, setImage] = useState(null);
   // const [symbolImage, setSymbolImage] = useState(null);
@@ -215,8 +214,11 @@ console.log(editData,"_____editData______");
           sx={{
             // flexGrow: 1,
             py: 8,
-            display:"flex",
-            justifyContent:"center",alignItems:"center",width:"100%",alignSelf:"center"
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            alignSelf: "center",
           }}
         >
           <Container maxWidth="md">

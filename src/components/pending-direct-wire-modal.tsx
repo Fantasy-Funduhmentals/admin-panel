@@ -29,6 +29,7 @@ import { getInitials } from "../utils/get-initials";
 import StatusModal from "./StatusModal";
 import { directWiresPost } from "../services/tokenService";
 import { getNormalizedError } from "../utils/helpers";
+import { DIRECT_WIRE } from "../utils/enums/request.enum";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -73,7 +74,7 @@ const PendingDirectWireModal = (props: Props) => {
       let data;
 
       data = {
-        wireId: editData._id,
+        wireId: editData?._id,
       };
 
       setLoading(true);
@@ -135,9 +136,26 @@ const PendingDirectWireModal = (props: Props) => {
       });
     }
   };
-  function capitalizeFirstLetter(str: string) {
-    return str[0]?.toUpperCase() + str?.slice(1);
+
+  let typeText = "";
+
+  switch (editData?.type) {
+    case DIRECT_WIRE.NFT_PURCHASE:
+      typeText = "Opportunity Token Acquire";
+      break;
+    case DIRECT_WIRE.TOKEN_PURCHASE:
+      typeText = "Token Acquire";
+      break;
+    case DIRECT_WIRE.WALLET_ACTIVATION:
+      typeText = "Wallet Activation";
+      break;
+    case DIRECT_WIRE.SUBSCRIPTION:
+      typeText = "SUbscription";
+      break;
+    default:
+      console.log();
   }
+
   return (
     <>
       <div>
@@ -288,7 +306,8 @@ const PendingDirectWireModal = (props: Props) => {
                                   </TableCell>
 
                                   <TableCell>
-                                    {capitalizeFirstLetter(editData?.type)}
+                                    {/* {capitalizeFirstLetter(editData?.type)} */}
+                                    {typeText}
                                   </TableCell>
                                 </TableRow>
                               </TableBody>
@@ -517,7 +536,7 @@ const PendingDirectWireModal = (props: Props) => {
                   borderRadius: "10px",
                 }}
               >
-                {editData.token || editData.subscription ? (
+                {editData?.token || editData?.subscription ? (
                   <Card sx={{ width: "100%" }}>
                     <Table>
                       {/* sx={{ background: "#5a82d7" }} */}
@@ -589,14 +608,16 @@ const PendingDirectWireModal = (props: Props) => {
                           </TableCell>
                           <TableCell>
                             {editData.token
-                              ? editData.token?.coinSymbol
+                              ? editData.token?.shortName
                               : editData.subscription?.paymentMethod}
                           </TableCell>
 
                           <TableCell>
                             {" "}
                             {editData.token
-                              ? editData.token?.remainingSupply.toFixed(3)
+                              ? editData.token?.remainingSupply
+                                  // .toFixed(3)
+                                  .toLocaleString()
                               : editData.subscription?.priceUSD}
                           </TableCell>
 
