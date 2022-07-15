@@ -69,7 +69,10 @@ export default function ChatMessageItem({
                 }`}
                 target="_blank"
                 style={{
-                  color: "rgb(11 27 838)",
+                  ...(isMe
+                    ? { color: "#42c5f7" }
+                    : { color: "rgb(11 30 255)" }),
+
                   textDecoration: "underLine",
                 }}
               >
