@@ -45,6 +45,14 @@ const WireAccountDetails = (props) => {
         : "",
       endorsement: bankDetails?.endorsement ? bankDetails?.endorsement : "",
       zellePay: bankDetails?.zellePay ? bankDetails?.zellePay : "",
+      swiftCode: bankDetails?.swiftCode ? bankDetails?.swiftCode : "",
+      swiftAddress: bankDetails?.swiftAddress ? bankDetails?.swiftAddress : "",
+      internationalSwiftCode: bankDetails?.internationalSwiftCode
+        ? bankDetails?.internationalSwiftCode
+        : "",
+      internationalSwiftAddress: bankDetails?.internationalSwiftAddress
+        ? bankDetails?.internationalSwiftAddress
+        : "",
     },
     validationSchema: Yup.object({
       fullname: Yup.string().required().min(1).max(33).label("fullname"),
@@ -72,6 +80,22 @@ const WireAccountDetails = (props) => {
         .min(1)
         .max(33)
         .label("accountnumber"),
+      swiftCode: Yup.string().required().min(1).max(33).label("swiftCode"),
+      swiftAddress: Yup.string()
+        .required()
+        .min(1)
+        .max(33)
+        .label("swiftAddress"),
+      internationalSwiftCode: Yup.string()
+        .required()
+        .min(1)
+        .max(33)
+        .label("internationalSwiftCode"),
+      internationalSwiftAddress: Yup.string()
+        .required()
+        .min(1)
+        .max(33)
+        .label("internationalSwiftAddress"),
       bankrouting: Yup.string().required().min(1).max(100).label("bankrouting"),
     }),
     enableReinitialize: true,
@@ -96,6 +120,10 @@ const WireAccountDetails = (props) => {
         wireTransfers: values.wireTransfers,
         endorsement: values.endorsement,
         zellePay: values.zellePay,
+        swiftCode: String(values.swiftCode),
+        swiftAddress: String(values.swiftAddress),
+        internationalSwiftCode: String(values.internationalSwiftCode),
+        internationalSwiftAddress: String(values.internationalSwiftAddress),
       };
       await directWireAccountDetails(params);
       formik.resetForm();
@@ -265,65 +293,66 @@ const WireAccountDetails = (props) => {
               type="text"
               variant="outlined"
             /> */}
-            {/* <Box sx={{ fontWeight: "bold", pt: 3, pb: 3 }}>
-              Direct Wire Account Details
-            </Box>
+            <Box sx={{ fontWeight: "bold", pt: 3, pb: 3 }}>International</Box>
             <TextField
               error={Boolean(
-                formik.touched.accounttype && formik.errors.accounttype
+                formik.touched.swiftCode && formik.errors.swiftCode
               )}
-              value={formik.values.accounttype}
+              value={formik.values.swiftCode}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="SWIFT Code (for Automatic Payments and Direct Deposit)"
+              label="SWIFT Code"
               margin="normal"
-              name="accounttype"
+              name="swiftCode"
               type="text"
               variant="outlined"
             />
             <TextField
               error={Boolean(
-                formik.touched.accounttype && formik.errors.accounttype
+                formik.touched.swiftAddress && formik.errors.swiftAddress
               )}
-              value={formik.values.accounttype}
+              value={formik.values.swiftAddress}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="SWIFT Address(for Wire Transfer)"
+              label="SWIFT Address"
               margin="normal"
-              name="accounttype"
+              name="swiftAddress"
+              type="text"
+              variant="outlined"
+            />
+            <Box sx={{ fontWeight: "bold", pt: 3, pb: 3 }}>Local</Box>
+            <TextField
+              error={Boolean(
+                formik.touched.internationalSwiftCode &&
+                  formik.errors.internationalSwiftCode
+              )}
+              value={formik.values.internationalSwiftCode}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="SWIFT Code"
+              margin="normal"
+              name="internationalSwiftCode"
               type="text"
               variant="outlined"
             />
             <TextField
               error={Boolean(
-                formik.touched.accounttype && formik.errors.accounttype
+                formik.touched.internationalSwiftAddress &&
+                  formik.errors.internationalSwiftAddress
               )}
-              value={formik.values.accounttype}
+              value={formik.values.internationalSwiftAddress}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="SWIFT Code(U.S. Dollars or Unknown Currency)"
+              label="SWIFT Address"
               margin="normal"
-              name="accounttype"
+              name="internationalSwiftAddress"
               type="text"
               variant="outlined"
             />
-            <TextField
-              error={Boolean(
-                formik.touched.accounttype && formik.errors.accounttype
-              )}
-              value={formik.values.accounttype}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              fullWidth
-              label="SWIFT Address(Foreign Currency)"
-              margin="normal"
-              name="accounttype"
-              type="text"
-              variant="outlined"
-            /> */}
           </CardContent>
           <Divider />
           <Box
