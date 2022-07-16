@@ -40,7 +40,7 @@ export const DistributeNft = (props) => {
 
   const getTokensListing = async () => {
     try {
-       await getNFTData();
+      await getNFTData();
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -222,7 +222,7 @@ export const DistributeNft = (props) => {
           }}
         >
           <Button color="primary" variant="contained" type="submit">
-            {loading ? <CircularProgress color="inherit" /> : "Update"}
+            {loading ? <CircularProgress color="inherit" /> : "Send"}
           </Button>
         </Box>
       </Card>
