@@ -78,23 +78,23 @@ const WireAccountDetails = (props) => {
       accounttype: Yup.string()
         .required()
         .min(1)
-        .max(33)
+        .max(100)
         .label("accountnumber"),
       swiftCode: Yup.string().required().min(1).max(33).label("swiftCode"),
       swiftAddress: Yup.string()
         .required()
         .min(1)
-        .max(33)
+        .max(100)
         .label("swiftAddress"),
       internationalSwiftCode: Yup.string()
         .required()
         .min(1)
-        .max(33)
+        .max(100)
         .label("internationalSwiftCode"),
       internationalSwiftAddress: Yup.string()
         .required()
         .min(1)
-        .max(33)
+        .max(100)
         .label("internationalSwiftAddress"),
       bankrouting: Yup.string().required().min(1).max(100).label("bankrouting"),
     }),
