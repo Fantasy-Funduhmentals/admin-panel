@@ -80,7 +80,7 @@ const WireAccountDetails = (props) => {
         .min(1)
         .max(100)
         .label("accountnumber"),
-      swiftCode: Yup.string().required().min(1).max(33).label("swiftCode"),
+      swiftCode: Yup.string().required().min(1).max(100).label("swiftCode"),
       swiftAddress: Yup.string()
         .required()
         .min(1)
