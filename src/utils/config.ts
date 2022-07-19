@@ -1,14 +1,14 @@
 const testnetConfig = {
-  Base_URL: "https://fbbf-101-53-234-165.ngrok.io",
+  Base_URL: "https://staging-api.cqrvault.org/",
 };
 
 // const mainnetConfig = {
-//   Base_URL: "https://api-icovest.cqrvault.org",
+//   Base_URL: "https://api-icovest.cqrvault.org ",
 // };
 const mainnetConfig = {
   Base_URL: "https://api.cqrvault.org/",
 };
 
-const defaultConfig = mainnetConfig;
+const defaultConfig = testnetConfig;
 
 export default defaultConfig;
