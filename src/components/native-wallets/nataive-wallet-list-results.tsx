@@ -27,7 +27,6 @@ interface Props extends CardProps {
 
 export const NativeWalletListResults = (props: Props) => {
   const { data, searchQuery } = props;
-
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -57,9 +56,8 @@ export const NativeWalletListResults = (props: Props) => {
       };
     });
 
-
     if (searchQuery.length > 0) {
-      return wallets?
+      return wallets
         .filter(
           (user) =>
             user.user?.name
@@ -69,14 +67,13 @@ export const NativeWalletListResults = (props: Props) => {
         )
         .slice(begin, end);
     } else {
-      return wallets?.slice(begin, end);
+      return wallets?.reverse().slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
   return (
     <>
       <Card {...props}>
-      
         <PerfectScrollbar>
           <Paper
             style={{
@@ -87,14 +84,14 @@ export const NativeWalletListResults = (props: Props) => {
           >
             <Box>
               <Table>
-                <TableHead sx={{background:"#5a82d7"}}>
-                  <TableRow >
-                    <TableCell style={{color:"#fff"}}>User</TableCell>
-                    <TableCell style={{color:"#fff"}}>Coin</TableCell>
-                    <TableCell style={{color:"#fff"}}>Balance</TableCell>
-                    <TableCell style={{color:"#fff"}}>USD Value</TableCell>
-                    <TableCell style={{color:"#fff"}}>Token value</TableCell>
-                    <TableCell style={{color:"#fff"}}>Created At</TableCell>
+                <TableHead sx={{ background: "#5a82d7" }}>
+                  <TableRow>
+                    <TableCell style={{ color: "#fff" }}>User</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Coin</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Balance</TableCell>
+                    <TableCell style={{ color: "#fff" }}>USD Value</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Token value</TableCell>
+                    <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -138,15 +135,19 @@ export const NativeWalletListResults = (props: Props) => {
                       {/* <TableCell>{customer?.address}</TableCell> */}
                       <TableCell>
                         {customer?.balance
-                          ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
+                          ? Number(
+                              parseFloat(customer?.balance).toFixed(3)
+                            ).toLocaleString()
                           : "0.00"}{" "}
                         {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
                       <TableCell>
-                        {Number((customer?.balance * customer?.rate?.price).toFixed(3)).toLocaleString() }
+                        {Number(
+                          (customer?.balance * customer?.rate?.price).toFixed(3)
+                        ).toLocaleString()}
                       </TableCell>
                       <TableCell>
-                        {Number(customer?.rate?.price).toLocaleString() }
+                        {Number(customer?.rate?.price).toLocaleString()}
                       </TableCell>
                       <TableCell>
                         {moment(customer.createdAt).format(
@@ -162,7 +163,7 @@ export const NativeWalletListResults = (props: Props) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={data?.length}
+          count={data?.wallets?.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

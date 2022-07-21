@@ -1,4 +1,4 @@
-import { Box, Container,CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { CryptoWalletListResults } from "../components/crypto-wallets/crypto-wallet-list-results";
@@ -23,7 +23,7 @@ const CryptoWallets = () => {
       setLoading(true);
       const walletRes = await getWalletsData();
 
-      dispatch(saveCryptoWallets(walletRes.data));
+      dispatch(saveCryptoWallets(walletRes.data.reverse()));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -61,10 +61,15 @@ const CryptoWallets = () => {
             }}
             handleRefresh={getUserListing}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-          {
-            loading ? <CircularProgress/> :   <CryptoWalletListResults data={wallets} searchQuery={searchText} />
-          }
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <CryptoWalletListResults
+                data={wallets}
+                searchQuery={searchText}
+              />
+            )}
           </Box>
         </Container>
       </Box>

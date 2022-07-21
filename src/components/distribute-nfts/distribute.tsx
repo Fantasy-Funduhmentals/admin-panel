@@ -37,23 +37,27 @@ export const DistributeNft = (props) => {
   const handleDurationChange = (event) => {
     setSelectNft(event.target.value);
   };
-
+  const dispatch = useAppDispatch();
   const getTokensListing = async () => {
+    setLoading(true);
     try {
-      await getNFTData();
+      const coinsRes = await getNFTData();
+      dispatch(saveNFT(coinsRes.data));
+      setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!nft) {
-      getTokensListing();
-    }
+    // if (!nft) {
+    getTokensListing();
+    // }
   }, []);
 
   const formik = useFormik({

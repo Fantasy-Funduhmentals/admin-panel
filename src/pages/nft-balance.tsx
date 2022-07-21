@@ -1,4 +1,4 @@
-import { Box, Container,CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -23,8 +23,7 @@ const NativeWallets = () => {
     try {
       setLoading(true);
       const walletRes = await getNFTBalanceData();
-
-      dispatch(saveUserNft(walletRes.data));
+      dispatch(saveUserNft(walletRes.data.reverse()));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -61,8 +60,12 @@ const NativeWallets = () => {
             }}
             handleRefresh={getNativeWallets}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-            {loading ? <CircularProgress/> : <NftBalanceListResults data={userNft} searchQuery={searchText} />}
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <NftBalanceListResults data={userNft} searchQuery={searchText} />
+            )}
           </Box>
         </Container>
       </Box>
