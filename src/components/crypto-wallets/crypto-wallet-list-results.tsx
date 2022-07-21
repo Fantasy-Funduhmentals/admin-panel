@@ -29,7 +29,6 @@ interface Props extends CardProps {
 
 export const CryptoWalletListResults = (props: Props) => {
   const { data, searchQuery } = props;
-
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -74,13 +73,13 @@ export const CryptoWalletListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{background:"#5a82d7"}}>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
-                  <TableCell style={{color:"#fff"}}>User</TableCell>
-                  <TableCell style={{color:"#fff"}}>Coin</TableCell>
-                  <TableCell style={{color:"#fff"}}>Address</TableCell>
-                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
-                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
+                  <TableCell style={{ color: "#fff" }}>User</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Coin</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Address</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Balance</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

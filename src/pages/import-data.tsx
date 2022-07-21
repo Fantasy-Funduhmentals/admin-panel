@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import StatusModal from "../components/StatusModal";
 import { uploadUserCsv } from "../services/generalService";
@@ -25,7 +25,6 @@ const ImportData = () => {
   const handledocumentSelection = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-
       setDocument(img);
     }
   };
