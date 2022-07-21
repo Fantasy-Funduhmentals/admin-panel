@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import StatusModal from "../components/StatusModal";
 import { uploadUserCsv } from "../services/generalService";
@@ -21,10 +21,13 @@ const ImportData = () => {
   const [document, setDocument] = useState(null);
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [inputKey, setInputKey] = useState<any>(0);
+  let inputRef = useRef(null);
 
   const handledocumentSelection = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
+
       setDocument(img);
     }
   };
@@ -51,8 +54,10 @@ const ImportData = () => {
         message: "sheet has been imported successfully",
       });
       setDocument(null);
+      setInputKey(Math.random().toString(36));
       setLoading(false);
     } catch (err) {
+      console.log(err);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -94,6 +99,7 @@ const ImportData = () => {
           <Container maxWidth="lg">
             <TextField
               type="file"
+              key={inputKey}
               id="your_input_id"
               inputProps={{ accept: ".csv" }}
               onChange={(ev) => {
