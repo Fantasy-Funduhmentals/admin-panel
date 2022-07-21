@@ -89,7 +89,7 @@ export const DistributeNft = (props) => {
     if (!address) {
       setStatusData({
         type: "error",
-        message: "Please active your wallet first",
+        message: "Please connect your wallet first",
       });
 
       return;
