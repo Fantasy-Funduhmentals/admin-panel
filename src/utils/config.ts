@@ -15,6 +15,6 @@ const stagingConfig = {
 //   Base_URL: "https://api.cqrvault.org/",
 // };
 
-const defaultConfig = stagingConfig;
+const defaultConfig = mainnetConfig;
 
 export default defaultConfig;
