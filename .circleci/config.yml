@@ -26,37 +26,26 @@ jobs:
                 --query 'taskDefinition.taskDefinitionArn')
             echo "export TASK_DEFINITION_ARN='${TASK_DEFINITION_ARN}'" >> $BASH_ENV
       - aws-ecs/verify-revision-is-deployed:
-          family: 'main-v1'
-          cluster-name: 'cqr-cluster'
-          service-name: 'main-v1service'
-          task-definition-arn: '${TASK_DEFINITION_ARN}'
+          family: "main-v1"
+          cluster-name: "cqr-cluster"
+          service-name: "main-v1service"
+          task-definition-arn: "${TASK_DEFINITION_ARN}"
 workflows:
   ecs_deployment:
     jobs:
-     -  configure_docker_env
-     - aws-ecs/deploy-service-update:
-          cluster-name: 'cqr-cluster'
-          container-image-name-updates: 'container=main-v1container,tag=latest'
-          family: 'main-v1'
-          service-name: 'main-v1service'
+      - configure_docker_env
+      - aws-ecs/deploy-service-update:
+          cluster-name: "cqr-cluster"
+          container-image-name-updates: "container=main-v1container,tag=latest"
+          family: "main-v1"
+          service-name: "main-v1service"
           force-new-deployment: true
           requires:
-          - configure_docker_env
+            - configure_docker_env
           filters:
             branches:
               only:
-              - main
-     - deployment_ecs:
-        requires:
-         - aws-ecs/deploy-service-update
-         ###hello
-       
-
-
-
-
-
-
-
-       
-        
+                - main
+      - deployment_ecs:
+          requires:
+            - aws-ecs/deploy-service-update
