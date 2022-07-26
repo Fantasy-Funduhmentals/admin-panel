@@ -48,7 +48,7 @@ export const NativeWalletListResults = (props: Props) => {
 
     wallets = wallets?.map((wallet) => {
       const rateIndex = rates.findIndex((rate) => {
-        return rate.coinSymbol === wallet.coinSymbol;
+        return rate?.coinSymbol === wallet?.coinSymbol;
       });
       return {
         ...wallet,
@@ -63,7 +63,7 @@ export const NativeWalletListResults = (props: Props) => {
             user.user?.name
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase()) ||
-            user.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+            user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
         .slice(begin, end);
     } else {

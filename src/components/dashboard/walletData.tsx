@@ -92,7 +92,6 @@ const DropdownData = [
 
 export const WalletData = (props: Props) => {
   const { data, searchQuery } = props;
-
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -121,7 +120,7 @@ export const WalletData = (props: Props) => {
     } else {
       setSelected(month + 1);
     }
-    totalrow = data[0].data?.length;
+    totalrow = data[0]?.data?.length;
     const result = data.find((wallet) => wallet?._id?.month == month);
     return result ? result?.data?.reverse().slice(begin, end) : [];
   }, [page, limit, data, totalrow, selected]);

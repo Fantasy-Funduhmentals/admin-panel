@@ -81,7 +81,7 @@ export const TrafficByDevice = (props) => {
   const devices = [
     {
       title: "Standard Users",
-      value: resData?.cqrUsers ?  resData?.cqrUsers : "-",
+      value: resData?.cqrUsers ? resData?.cqrUsers : "-",
       icon: AccountCircleIcon,
       color: "#3F51B5",
     },
