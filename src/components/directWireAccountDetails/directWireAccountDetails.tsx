@@ -235,7 +235,7 @@ const WireAccountDetails = (props) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               fullWidth
-              label="Zelle Remittance"
+              label="ZellePay Address"
               margin="normal"
               name="zellePay"
               type="text"
