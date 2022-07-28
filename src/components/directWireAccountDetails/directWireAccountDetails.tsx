@@ -34,6 +34,7 @@ const WireAccountDetails = (props) => {
   const formik = useFormik({
     initialValues: {
       fullname: bankDetails?.name ? bankDetails.name : "",
+      email: bankDetails?.email ? bankDetails.email : "",
       physicaladdress: bankDetails?.address ? bankDetails?.address : "",
       bankname: bankDetails?.bankName ? bankDetails?.bankName : "",
       bankaddress: bankDetails?.bankAddress ? bankDetails?.bankAddress : "",
@@ -56,6 +57,12 @@ const WireAccountDetails = (props) => {
     },
     validationSchema: Yup.object({
       fullname: Yup.string().required().min(1).max(33).label("fullname"),
+      email: Yup.string()
+        .email("Field should contain a valid e-mail")
+        .required()
+        .min(1)
+        .max(33)
+        .label("email"),
       physicaladdress: Yup.string()
         .required()
         .min(1)
@@ -111,6 +118,7 @@ const WireAccountDetails = (props) => {
       setLoading(true);
       const params = {
         name: values.fullname,
+        email: values?.email,
         address: values.physicaladdress,
         bankName: values.bankname,
         bankAddress: values.bankaddress,
@@ -164,6 +172,18 @@ const WireAccountDetails = (props) => {
               label="Receiving Bank"
               margin="normal"
               name="bankname"
+              type="text"
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.email && formik.errors.email)}
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              label="Email"
+              margin="normal"
+              name="email"
               type="text"
               variant="outlined"
             />
