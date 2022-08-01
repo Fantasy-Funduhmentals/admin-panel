@@ -266,7 +266,7 @@ const FullScreenNFTDialog = (props: Props) => {
                   }}
                 >
                   <Typography variant="h4" sx={{ pb: 3, textAlign: "center" }}>
-                    Remittance Address
+                    Banking Details{" "}
                   </Typography>
                   <Card sx={{ display: "flex", width: "100%" }}>
                     <Box
