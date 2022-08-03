@@ -60,9 +60,10 @@ export const NftListResults = (props: Props) => {
     }
   }, [page, limit, data, searchQuery]);
 
-  function capitalizeFirstLetter(str: string) {
-    return str[0]?.toUpperCase() + str?.slice(1);
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
   }
+
   return (
     <Card {...props}>
       <PerfectScrollbar>

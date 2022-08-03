@@ -74,9 +74,7 @@ const FullScreenNFTDialog = (props: Props) => {
       });
     }
   };
-  function capitalizeFirstLetter(str: string) {
-    return str[0]?.toUpperCase() + str?.slice(1);
-  }
+
   let typeText = "";
 
   switch (editData?.type) {
