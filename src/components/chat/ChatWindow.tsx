@@ -72,6 +72,7 @@ export default function ChatWindow() {
     listeners();
 
     return () => {
+      setMessages([]);
       socket.removeListener(CHAT_SOCKET_TYPES.ALL_MESSAGES);
       socket.removeListener(CHAT_SOCKET_TYPES.NEW_MESSAGE);
     };
