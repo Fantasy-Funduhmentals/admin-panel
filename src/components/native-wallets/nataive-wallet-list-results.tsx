@@ -43,8 +43,8 @@ export const NativeWalletListResults = (props: Props) => {
     const begin = page * limit;
     const end = begin + limit;
 
-    const rates = data.rates;
-    let wallets = data.wallets;
+    const rates = data?.rates;
+    let wallets = data?.wallets;
 
     wallets = wallets?.map((wallet) => {
       const rateIndex = rates.findIndex((rate) => {
