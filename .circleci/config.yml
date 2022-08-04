@@ -11,7 +11,7 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           create-repo: false
-          repo: main-v1
+          repo: cqr-admin
           tag: "latest"
           path: .
   deployment_ecs:
@@ -21,14 +21,14 @@ jobs:
           name: Get last task definition
           command: >
             TASK_DEFINITION_ARN=$(aws ecs describe-task-definition \
-                --task-definition main-v1 \
+                --task-definition admin-td \
                 --output text \
                 --query 'taskDefinition.taskDefinitionArn')
             echo "export TASK_DEFINITION_ARN='${TASK_DEFINITION_ARN}'" >> $BASH_ENV
       - aws-ecs/verify-revision-is-deployed:
-          family: "main-v1"
+          family: "admin-td"
           cluster-name: "cqr-cluster"
-          service-name: "main-v1service"
+          service-name: "admin-service"
           task-definition-arn: "${TASK_DEFINITION_ARN}"
 workflows:
   ecs_deployment:
@@ -36,16 +36,16 @@ workflows:
       - configure_docker_env
       - aws-ecs/deploy-service-update:
           cluster-name: "cqr-cluster"
-          container-image-name-updates: "container=main-v1container,tag=latest"
-          family: "main-v1"
-          service-name: "main-v1service"
+          container-image-name-updates: "container=admin,tag=latest"
+          family: "admin-td"
+          service-name: "admin-service"
           force-new-deployment: true
           requires:
             - configure_docker_env
           filters:
             branches:
               only:
-                - main
+                - staging
       - deployment_ecs:
           requires:
             - aws-ecs/deploy-service-update

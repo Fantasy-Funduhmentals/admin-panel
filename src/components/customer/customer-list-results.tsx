@@ -194,9 +194,10 @@ export const UserListResults = (props: Props) => {
                   <TableCell style={{ color: "#fff" }}>
                     Wallet Activation Status
                   </TableCell>
-                  <TableCell style={{ color: "#fff" }}>
+                  {/* <TableCell style={{ color: "#fff" }}>
                     Customer Status
-                  </TableCell>
+                  </TableCell> */}
+                  <TableCell style={{ color: "#fff" }}>Email Status</TableCell>
                   <TableCell style={{ color: "#fff" }}>Status</TableCell>
                   <TableCell style={{ color: "#fff" }}>User type</TableCell>
                   <TableCell style={{ color: "#fff" }}>Created At</TableCell>
@@ -237,11 +238,22 @@ export const UserListResults = (props: Props) => {
                           : "Not Activated"}
                       </SeverityPill>
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <SeverityPill
                         color={(customer.isCustomer && "success") || "error"}
                       >
                         {customer.isCustomer ? "Verified" : "Not Verified"}
+                      </SeverityPill>
+                    </TableCell> */}
+                    <TableCell>
+                      <SeverityPill
+                        color={
+                          (customer?.isEmailVerified && "success") || "error"
+                        }
+                      >
+                        {customer?.isEmailVerified
+                          ? "Verified"
+                          : "Not Verified"}
                       </SeverityPill>
                     </TableCell>
                     <TableCell onClick={() => handleBlockUser(customer)}>

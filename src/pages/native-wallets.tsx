@@ -13,7 +13,6 @@ import { getNormalizedError } from "../utils/helpers";
 
 const NativeWallets = () => {
   const { wallets } = useAppSelector((state: RootState) => state.token);
-
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);

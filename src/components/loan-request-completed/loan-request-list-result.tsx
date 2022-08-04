@@ -181,18 +181,18 @@ const Row = (props) => {
                 </Box>
               </Box>
             </TableCell>
-            <TableCell>{row?.nftToken?.name}</TableCell>
-            <TableCell align="center">{row?.loanAmount}</TableCell>
-            <TableCell align="center">{row?.nftToken?.index}</TableCell>
+            <TableCell>{row?.token?.name}</TableCell>
+            <TableCell align="center">{row?.balance}</TableCell>
+            <TableCell align="center">{row?.token?.index}</TableCell>
             <SeverityPill
               style={{ marginTop: "27px" }}
-              color={(row.isLoan && "success") || "error"}
+              color={(row.loanStatus && "success") || "error"}
             >
-              {row.isLoan ? "completed" : "Incomplete"}
+              {row.loanStatus ? "completed" : "Incomplete"}
             </SeverityPill>
-            <TableCell align="center">
+            {/* <TableCell align="center">
               {row?.nftToken?.remainingSupply}
-            </TableCell>
+            </TableCell> */}
             <TableCell>
               <Button
                 variant="outlined"
@@ -264,10 +264,10 @@ const Row = (props) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">
-                                  Price PerShare
+                                  Price Per Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.nftToken?.pricePerShare}
+                                  {row?.token?.pricePerShare}
                                 </TableCell>
                               </TableRow>
 
@@ -276,13 +276,13 @@ const Row = (props) => {
                                   Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.nftToken?.remainingSupply}
+                                  {row?.token?.remainingSupply}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row?.nftToken?.totalSupply}
+                                  {row?.token?.totalSupply}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
@@ -320,7 +320,7 @@ const Row = (props) => {
 
 export const RequestListResults = (props: Props) => {
   const { data, searchQuery } = props;
-
+  console.log(data, ">>>>>>data");
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
@@ -416,9 +416,9 @@ export const RequestListResults = (props: Props) => {
                         Loan Status
                       </TableCell>
 
-                      <TableCell style={{ color: "#fff" }}>
+                      {/* <TableCell style={{ color: "#fff" }}>
                         remaining Units
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell />
                       <TableCell />
                     </TableRow>
