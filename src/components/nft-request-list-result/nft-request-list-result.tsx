@@ -300,13 +300,17 @@ const Row = (props) => {
                                   Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.assetPool?.remainingSupply}
+                                  {Number(
+                                    row?.assetPool?.remainingSupply
+                                  ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row?.assetPool?.totalSupply}
+                                  {Number(
+                                    row?.assetPool?.totalSupply
+                                  ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
                             </TableBody>

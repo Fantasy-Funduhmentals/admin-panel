@@ -188,7 +188,7 @@ const Row = (props) => {
               style={{ marginTop: "27px" }}
               color={(row.loanStatus && "success") || "error"}
             >
-              {row.loanStatus ? "completed" : "Incomplete"}
+              {row.loanStatus ? "Paid" : "UnPaid"}
             </SeverityPill>
             {/* <TableCell align="center">
               {row?.nftToken?.remainingSupply}
@@ -276,13 +276,17 @@ const Row = (props) => {
                                   Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.token?.remainingSupply}
+                                  {Number(
+                                    row?.token?.remainingSupply
+                                  ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row?.token?.totalSupply}
+                                  {Number(
+                                    row?.token?.totalSupply
+                                  ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
