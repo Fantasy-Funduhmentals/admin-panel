@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export type requestState = {
-  loanRequests: any[];
+  loanRequests: any | {};
 };
 
 const initialState: requestState = {
-  loanRequests: [],
+  loanRequests: {},
 };
-
 export const loanRequestSlice = createSlice({
   name: "loanrequest",
   initialState,

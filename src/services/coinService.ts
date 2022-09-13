@@ -21,8 +21,8 @@ const getCoins = async () => {
   return finalRates;
 };
 
-const getWalletsData = async () => {
-  return await HTTP_CLIENT.get("/wallet/get-all-wallets");
+const getWalletsData = async (page: number) => {
+  return await HTTP_CLIENT.get(`/wallet/get-all-wallets?page=${page ? page : 1}`);
 };
 
 export { getCoins, getWalletsData };

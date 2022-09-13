@@ -18,12 +18,12 @@ const NativeWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [page, setPage] = useState<number>(0);
   const getNativeWallets = async () => {
     try {
       setLoading(true);
-      const walletRes = await getNFTBalanceData();
-      dispatch(saveUserNft(walletRes.data.reverse()));
+      const walletRes = await getNFTBalanceData(page);
+      dispatch(saveUserNft(walletRes.data));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -37,7 +37,7 @@ const NativeWallets = () => {
 
   useEffect(() => {
     getNativeWallets();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -64,7 +64,7 @@ const NativeWallets = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <NftBalanceListResults data={userNft} searchQuery={searchText} />
+              <NftBalanceListResults data={userNft} searchQuery={searchText} setPage={setPage} page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

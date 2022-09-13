@@ -19,13 +19,14 @@ const SdiraRequests = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [page, setPage] = useState<number>(0);
 
   const getCoinsListing = async () => {
     try {
       setLoading(true);
       await getLoanRequests(() => {
         setLoading(false);
-      });
+      }, page);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -37,7 +38,7 @@ const SdiraRequests = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -67,7 +68,8 @@ const SdiraRequests = () => {
               <RequestListResults
                 data={loanRequests}
                 searchQuery={searchText}
-              />
+                setPage={setPage}
+                page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

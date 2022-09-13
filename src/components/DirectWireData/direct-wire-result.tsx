@@ -23,29 +23,26 @@ import { DIRECT_WIRE } from "../../utils/enums/request.enum";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 
 interface Props extends CardProps {
-  data: any | [];
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any
   onPressEdit?: any;
 }
 
 export const NftListResults = (props: Props) => {
-  let { data, searchQuery, onPressEdit } = props;
+  let { data, searchQuery, onPressEdit, page, setPage } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-    let filterData = data?.slice().sort((v1, v2) => v1.index - v2.index);
+
+    let filterData = data?.data?.sort((v1, v2) => v1.index - v2.index);
 
     if (searchQuery.length > 0) {
       return filterData
@@ -54,11 +51,11 @@ export const NftListResults = (props: Props) => {
             user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
-        .slice(begin, end);
+
     } else {
-      return filterData?.slice(begin, end);
+      return filterData;
     }
-  }, [page, limit, data, searchQuery]);
+  }, [data, searchQuery]);
 
   return (
     <Card {...props}>
@@ -71,7 +68,7 @@ export const NftListResults = (props: Props) => {
           }}
         >
           <Box>
-            {dataToDisplay.length == 0 ? (
+            {dataToDisplay?.length == 0 ? (
               <NoDataFound />
             ) : (
               <Table>
@@ -167,12 +164,11 @@ export const NftListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={data?.total}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPage={data?.data?.length}
+        rowsPerPageOptions={[]}
       />
     </Card>
   );
