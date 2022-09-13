@@ -21,31 +21,29 @@ import { getInitials } from "../../utils/get-initials";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any
 }
 
 export const NftBalanceListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, page, setPage } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
+
 
     if (searchQuery.length > 0) {
-      return data
+      return data?.data
         .filter(
           (user) =>
             user.user?.name
@@ -53,11 +51,11 @@ export const NftBalanceListResults = (props: Props) => {
               .includes(searchQuery.toLowerCase()) ||
             user.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
-        .slice(begin, end);
+
     } else {
-      return data?.slice(begin, end);
+      return data?.data;
     }
-  }, [page, limit, data, searchQuery]);
+  }, [data, searchQuery]);
   // function numberWithCommas(n) {
   //   var parts = n ? n.toString().split(".") : "";
   //   return (
@@ -78,13 +76,13 @@ export const NftBalanceListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{background:"#5a82d7"}}>
+              <TableHead sx={{ background: "#5a82d7" }}>
                 <TableRow>
-                  <TableCell style={{color:"#fff"}}>User</TableCell>
-                  <TableCell style={{color:"#fff"}}>Token</TableCell>
+                  <TableCell style={{ color: "#fff" }}>User</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Token</TableCell>
 
-                  <TableCell style={{color:"#fff"}}>Balance</TableCell>
-                  <TableCell style={{color:"#fff"}}>Created At</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Balance</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -142,12 +140,11 @@ export const NftBalanceListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={data?.total}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPage={data?.data?.length}
+        rowsPerPageOptions={[]}
       />
     </Card>
   );

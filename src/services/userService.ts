@@ -7,8 +7,8 @@ const getWalletData = async () => {
   return await HTTP_CLIENT.get("/admin-wallet");
 };
 
-const getAllUsers = async () => {
-  return await HTTP_CLIENT.get("/user/get-all-users");
+const getAllUsers = async (page: number) => {
+  return await HTTP_CLIENT.get(`/user/get-all-users?page=${page ? page : 1}`);
 };
 
 const getSwapRate = async () => {

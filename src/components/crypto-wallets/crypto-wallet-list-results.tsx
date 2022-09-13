@@ -23,30 +23,25 @@ import { SeverityPill } from "../severity-pill";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any;
 }
 
 export const CryptoWalletListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, setPage, page } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-
-    if (searchQuery.length > 0) {
-      return data
+    if (searchQuery?.length > 0) {
+      return data?.data
         .filter(
           (user) =>
             user.userId?.name
@@ -56,11 +51,11 @@ export const CryptoWalletListResults = (props: Props) => {
               ?.toLowerCase()
               .includes(searchQuery.toLowerCase())
         )
-        .slice(begin, end);
+
     } else {
-      return data?.slice(begin, end);
+      return data?.data;
     }
-  }, [page, limit, data, searchQuery]);
+  }, [data, searchQuery]);
 
   return (
     <Card {...props}>
@@ -135,12 +130,11 @@ export const CryptoWalletListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={data?.total}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPage={data?.data?.length}
+        rowsPerPageOptions={[]}
       />
     </Card>
   );

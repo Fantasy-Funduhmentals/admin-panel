@@ -17,13 +17,12 @@ const CryptoWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [page, setPage] = useState<number>(0);
   const getUserListing = async () => {
     try {
       setLoading(true);
-      const walletRes = await getWalletsData();
-
-      dispatch(saveCryptoWallets(walletRes.data.reverse()));
+      const walletRes = await getWalletsData(page);
+      dispatch(saveCryptoWallets(walletRes.data));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -38,7 +37,7 @@ const CryptoWallets = () => {
 
   useEffect(() => {
     getUserListing();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -68,7 +67,8 @@ const CryptoWallets = () => {
               <CryptoWalletListResults
                 data={wallets}
                 searchQuery={searchText}
-              />
+                setPage={setPage}
+                page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

@@ -17,13 +17,13 @@ const SdiraRequests = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [page, setPage] = useState<number>(0);
   const getCoinsListing = async () => {
     try {
       setLoading(true);
       await getNftRequests(() => {
         setLoading(false);
-      });
+      }, page);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -35,7 +35,7 @@ const SdiraRequests = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -62,7 +62,7 @@ const SdiraRequests = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <RequestListResults data={nftRequests} searchQuery={searchText} />
+              <RequestListResults data={nftRequests} searchQuery={searchText} setPage={setPage} page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

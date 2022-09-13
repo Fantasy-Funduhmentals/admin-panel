@@ -46,12 +46,16 @@ import BigNumber from "big-number";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 import NoDataFound from "../NoDataFound/NoDataFound";
 interface Props extends CardProps {
-  data: any[];
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any;
 }
 
 const Row = (props) => {
-  const { row, handleRequest } = props;
+  const { row, handleRequest, page } = props;
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const { address } = useWeb3();
@@ -121,7 +125,7 @@ const Row = (props) => {
         }
         getLoanRequests(() => {
           setLoading(false);
-        });
+        }, page);
         setLoading(false);
       }
     } catch (err) {
@@ -319,20 +323,17 @@ const Row = (props) => {
 };
 
 export const RequestListResults = (props: Props) => {
-  const { data, searchQuery } = props;
-  console.log(data, ">>>>>>data");
+  const { data, searchQuery, page, setPage } = props;
+
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    if (newPage >= 0) {
+      setPage(newPage);
+    }
   };
 
   const handleRequest = async (
@@ -348,7 +349,7 @@ export const RequestListResults = (props: Props) => {
       // });
       getLoanRequests(() => {
         setLoading(false);
-      });
+      }, page);
 
       callback();
       setStatusData({
@@ -368,25 +369,22 @@ export const RequestListResults = (props: Props) => {
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
+
 
     if (searchQuery.length > 0) {
-      return data
-        .filter(
-          (requests) =>
-            requests.user.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            requests.user.email
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-        .slice(begin, end);
+      return data?.data?.filter(
+        (requests) =>
+          requests.user.name
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          requests.user.email
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      )
     } else {
-      return data?.slice(begin, end);
+      return data?.data;
     }
-  }, [page, limit, data, searchQuery]);
+  }, [data, searchQuery]);
 
   return (
     <Card {...props}>
@@ -399,7 +397,7 @@ export const RequestListResults = (props: Props) => {
         >
           <Box>
             <TableContainer component={Paper}>
-              {dataToDisplay.length == 0 ? (
+              {dataToDisplay?.length == 0 ? (
                 <NoDataFound />
               ) : (
                 <Table aria-label="collapsible table">
@@ -446,12 +444,11 @@ export const RequestListResults = (props: Props) => {
       />
       <TablePagination
         component="div"
-        count={data?.length}
+        count={data?.total}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPage={data?.data?.length}
+        rowsPerPageOptions={[]}
       />
     </Card>
   );
