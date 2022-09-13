@@ -33,17 +33,18 @@ import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../../components/StatusModal";
 
 interface Props extends CardProps {
-  data: any[];
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any;
   handleRefresh: () => any;
 }
 
 export const UserListResults = (props: Props) => {
-  const { data, searchQuery, handleRefresh } = props;
+  const { data, searchQuery, handleRefresh, page, setPage } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  // const [sdira, setSdira] = useState(false);
   const [rejectShow, setrejectShow] = useState(false);
   const [signleUser, setsignleUser] = useState(null);
   const [reason, setReason] = useState(null);
@@ -53,32 +54,29 @@ export const UserListResults = (props: Props) => {
   const handleChange = (e) => {
     setSelected(e.target.value);
   };
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
+
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    if (newPage >= 0) {
+      setPage(newPage);
+    }
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-
     if (searchQuery.length > 0) {
-      return data
+      return data?.data
         .filter(
           (user) =>
             user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
-        .slice(begin, end);
+
     } else if (selected) {
-      return data.filter((user) => user.type == selected).slice(begin, end);
+      return data?.data?.filter((user) => user.type == selected);
     } else {
-      return data?.slice(begin, end);
+      return data?.data;
     }
-  }, [page, limit, data, searchQuery, selected]);
+  }, [data, searchQuery, selected]);
 
   const handleBlockUser = (data) => {
     if (data.isBlocked) {
@@ -260,14 +258,12 @@ export const UserListResults = (props: Props) => {
                       <Button
                         sx={{
                           cursor: "pointer",
-                          border: `${
-                            customer.isBlocked
-                              ? "1px solid green"
-                              : "1px solid rgb(209, 67, 67)"
-                          }`,
-                          color: `${
-                            customer.isBlocked ? "green" : "rgb(209, 67, 67)"
-                          }`,
+                          border: `${customer.isBlocked
+                            ? "1px solid green"
+                            : "1px solid rgb(209, 67, 67)"
+                            }`,
+                          color: `${customer.isBlocked ? "green" : "rgb(209, 67, 67)"
+                            }`,
                           width: `${customer.isBlocked ? "auto" : "100%"}`,
                         }}
                       >
@@ -289,12 +285,11 @@ export const UserListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={data?.total}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPage={data?.data?.length}
+        rowsPerPageOptions={[]}
       />
       <Modal
         open={rejectShow}

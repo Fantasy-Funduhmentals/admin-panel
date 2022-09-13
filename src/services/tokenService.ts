@@ -11,12 +11,12 @@ const getSubscriptionData = async () => {
 const getNFTData = async () => {
   return await HTTP_CLIENT.get("/nft-token");
 };
-const directWireData = async () => {
-  return await HTTP_CLIENT.get("/direct-wires/all-pending-wires");
+const directWireData = async (page: number) => {
+  return await HTTP_CLIENT.get(`/direct-wires/all-pending-wires?page=${page ? page : 1}`);
 };
 
-const completedDirectWireData = async () => {
-  return await HTTP_CLIENT.get("/direct-wires/all-wires");
+const completedDirectWireData = async (page: number) => {
+  return await HTTP_CLIENT.get(`/direct-wires/all-wires?page=${page ? page : 1}`);
 };
 
 const getNewsLetter = async () => {
@@ -27,15 +27,15 @@ const getAdminUserData = async () => {
   return await HTTP_CLIENT.get("/admin-auth/getAllSubAdmins");
 };
 
-const getNativeWalletsData = async () => {
-  return await HTTP_CLIENT.get("/native-wallet/all-native-wallets");
+const getNativeWalletsData = async (page: number) => {
+  return await HTTP_CLIENT.get(`/native-wallet/all-native-wallets?page=${page ? page : 1}`);
 };
 const getAllNativeWalletsData = async () => {
   return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
 };
 
-const getNFTBalanceData = async () => {
-  return await HTTP_CLIENT.get("/nft-wallet/all-nft-wallets");
+const getNFTBalanceData = async (page: number) => {
+  return await HTTP_CLIENT.get(`/nft-wallet/all-nft-wallets?page=${page ? page : 1}`);
 };
 const directWiresPost = async (data) => {
   return await HTTP_CLIENT.post("direct-wires/handle-wire", data);

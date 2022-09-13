@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export type userState = {
   accessToken: string | null;
-  users: any[];
+  users: any | {};
   role: string | null;
   userId: string;
   masterBalances: {
@@ -14,7 +14,7 @@ export type userState = {
 
 const initialState: userState = {
   accessToken: null,
-  users: [],
+  users: {},
   role: "",
   masterBalances: {
     bnb: "0",

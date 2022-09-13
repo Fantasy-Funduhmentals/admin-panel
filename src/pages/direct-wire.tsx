@@ -23,12 +23,12 @@ const Tokens = () => {
   const [searchText, setSearchText] = useState("");
   const [reload, setReload] = useState(false);
   const [wireData, setWireData] = useState(null);
+  const [page, setPage] = useState<number>(0);
 
   const getTokensListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await directWireData();
-
+      const coinsRes = await directWireData(page);
       dispatch(saveDirectWire(coinsRes.data));
       setLoading(false);
     } catch (err) {
@@ -48,7 +48,7 @@ const Tokens = () => {
 
   useEffect(() => {
     getTokensListing();
-  }, [reload]);
+  }, [reload, page]);
 
   return (
     <>
@@ -82,7 +82,8 @@ const Tokens = () => {
                 data={directWire}
                 searchQuery={searchText}
                 onPressEdit={onPressEdit}
-              />
+                setPage={setPage}
+                page={page} status={undefined} total={0} />
             )}
           </Box>
         </Container>

@@ -20,13 +20,13 @@ const Users = () => {
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
+  const [page, setPage] = useState<number>(0);
 
   const getUserListing = async () => {
     try {
       setLoading(true);
-      const usersRes = await getAllUsers();
-
-      dispatch(saveUsers(usersRes.data.reverse()));
+      const usersRes = await getAllUsers(page);
+      dispatch(saveUsers(usersRes.data));
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -40,8 +40,9 @@ const Users = () => {
 
   useEffect(() => {
     getUserListing();
-  }, [reload]);
+  }, [reload, page]);
 
+  console.log(users, "users")
   return (
     <>
       <Head>
@@ -84,7 +85,8 @@ const Users = () => {
                 searchQuery={searchText}
                 handleRefresh={getUserListing}
                 style={{ width: "100%" }}
-              />
+                setPage={setPage}
+                page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

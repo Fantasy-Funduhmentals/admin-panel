@@ -17,12 +17,11 @@ const NativeWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [page, setPage] = useState<number>(0);
   const getNativeWallets = async () => {
     try {
       setLoading(true);
-      const walletRes = await getNativeWalletsData();
-
+      const walletRes = await getNativeWalletsData(page);
       dispatch(saveNativeWallets(walletRes.data));
       setLoading(false);
     } catch (err) {
@@ -37,7 +36,7 @@ const NativeWallets = () => {
 
   useEffect(() => {
     getNativeWallets();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -67,7 +66,8 @@ const NativeWallets = () => {
               <NativeWalletListResults
                 data={wallets}
                 searchQuery={searchText}
-              />
+                setPage={setPage}
+                page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

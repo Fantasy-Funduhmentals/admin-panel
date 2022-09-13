@@ -21,30 +21,27 @@ import { getInitials } from "../../utils/get-initials";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
-  data: any | [] | {};
+  data: any | {};
   searchQuery?: string;
+  status: any;
+  page: number;
+  total: number;
+  setPage: any;
 }
 
 export const NativeWalletListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const { data, searchQuery, setPage, page } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    if (newPage >= 0) {
+      setPage(newPage);
+    }
   };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-
-    const rates = data?.rates;
-    let wallets = data?.wallets;
+    const rates = data?.data?.rates;
+    let wallets = data?.data?.wallets;
 
     wallets = wallets?.map((wallet) => {
       const rateIndex = rates.findIndex((rate) => {
@@ -65,11 +62,11 @@ export const NativeWalletListResults = (props: Props) => {
               .includes(searchQuery.toLowerCase()) ||
             user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
         )
-        .slice(begin, end);
+
     } else {
-      return wallets?.reverse().slice(begin, end);
+      return wallets;
     }
-  }, [page, limit, data, searchQuery]);
+  }, [data, searchQuery]);
 
   return (
     <>
@@ -136,8 +133,8 @@ export const NativeWalletListResults = (props: Props) => {
                       <TableCell>
                         {customer?.balance
                           ? Number(
-                              parseFloat(customer?.balance).toFixed(3)
-                            ).toLocaleString()
+                            parseFloat(customer?.balance).toFixed(3)
+                          ).toLocaleString()
                           : "0.00"}{" "}
                         {customer.coin?.shortName.toUpperCase()}
                       </TableCell>
@@ -163,12 +160,11 @@ export const NativeWalletListResults = (props: Props) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={data?.wallets?.length}
+          count={data?.total}
           onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
           page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPage={data?.data?.wallets?.length}
+          rowsPerPageOptions={[]}
         />
       </Card>
     </>
