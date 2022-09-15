@@ -73,7 +73,7 @@ export const NftListResults = (props: Props) => {
           }}
         >
           <Box>
-            {dataToDisplay.length == 0 ? (
+            {dataToDisplay?.length == 0 ? (
               <NoDataFound />
             ) : (
               <Table>
