@@ -18,7 +18,7 @@ export default function ChatWindow() {
   const socket: Socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
   const [statusData, setStatusData] = useState(null);
-
+  const [loading, setloading] = useState(false);
   const { query } = useRouter();
 
   const { chats, currentChatRoom } = useSelector(
@@ -88,11 +88,12 @@ export default function ChatWindow() {
   };
 
   const handleImageSend = async (event: any) => {
+    setloading(true)
     if (
       !(
-        event.target.files[0].type == "image/jpeg" ||
-        event.target.files[0].type == "image/jpg" ||
-        event.target.files[0].type == "image/png"
+        event.target.files[0]?.type == "image/jpeg" ||
+        event.target.files[0]?.type == "image/jpg" ||
+        event.target.files[0]?.type == "image/png"
       )
     ) {
       setStatusData({
@@ -119,6 +120,7 @@ export default function ChatWindow() {
         chatRoom: conversationKey,
       });
     }
+    setloading(false)
   };
 
   return (
@@ -154,6 +156,7 @@ export default function ChatWindow() {
               conversationId={currentChatRoom?.chatRoomId}
               onSend={handleSendMessage}
               onImageReceived={handleImageSend}
+              loading={loading}
             />
           )}
         </Box>

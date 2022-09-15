@@ -42,18 +42,16 @@ export const NftListResults = (props: Props) => {
 
   const dataToDisplay = useMemo(() => {
 
-    let filterData = data?.data?.sort((v1, v2) => v1.index - v2.index);
 
     if (searchQuery.length > 0) {
-      return filterData
-        .filter(
-          (user) =>
-            user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+      return data?.data?.filter(
+        (user) =>
+          user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
 
     } else {
-      return filterData;
+      return data?.data;
     }
   }, [data, searchQuery]);
 

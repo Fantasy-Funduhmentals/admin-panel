@@ -421,7 +421,7 @@ export const RequestListResults = (props: Props) => {
         >
           <Box>
             <TableContainer component={Paper}>
-              {dataToDisplay.length == 0 ? (
+              {dataToDisplay?.length == 0 ? (
                 <NoDataFound />
               ) : (
                 <Table aria-label="collapsible table">

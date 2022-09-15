@@ -1,4 +1,4 @@
-import { Box, Container,CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -15,13 +15,13 @@ const SdiraRequests = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  const [page, setPage] = useState<number>(0);
   const getCoinsListing = async () => {
     try {
       setLoading(true);
       await getRequests(() => {
         setLoading(false);
-      });
+      }, page);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -33,7 +33,7 @@ const SdiraRequests = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -56,8 +56,8 @@ const SdiraRequests = () => {
             }}
             handleRefresh={getCoinsListing}
           />
-          <Box sx={{ mt: 3 }} style={{textAlign:"center"}}>
-            {loading ? <CircularProgress/> :<RequestListResults data={requests} searchQuery={searchText} />}
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+            {loading ? <CircularProgress /> : <RequestListResults setPage={setPage} page={page} data={requests} searchQuery={searchText} total={0} status={undefined} />}
           </Box>
         </Container>
       </Box>
