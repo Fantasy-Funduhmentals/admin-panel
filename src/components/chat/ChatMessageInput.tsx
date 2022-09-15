@@ -1,4 +1,4 @@
-import { Divider, IconButton, Input, Stack } from "@mui/material";
+import { CircularProgress, Divider, IconButton, Input, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
@@ -23,6 +23,7 @@ export default function ChatMessageInput({
   conversationId,
   onSend,
   onImageReceived,
+  loading
 }) {
   const fileInputRef = useRef(null);
 
@@ -51,7 +52,7 @@ export default function ChatMessageInput({
   return (
     <RootStyle>
       <Input
-        disabled={disabled}
+        disabled={loading ? true : disabled}
         fullWidth
         value={message}
         disableUnderline
@@ -60,14 +61,18 @@ export default function ChatMessageInput({
         placeholder="Type a message"
         endAdornment={
           <Stack direction="row" spacing={1} sx={{ flexShrink: 0, mr: 1.5 }}>
-            <IconButton disabled={disabled} size="small" onClick={handleAttach}>
-              <Iconify
-                icon="ic:round-add-photo-alternate"
-                width={22}
-                height={22}
-                sx={{}}
-              />
-            </IconButton>
+            {loading ? (
+              <CircularProgress size={25} />
+            ) : (
+              <IconButton disabled={disabled} size="small" onClick={handleAttach}>
+                <Iconify
+                  icon="ic:round-add-photo-alternate"
+                  width={22}
+                  height={22}
+                  sx={{}}
+                />
+              </IconButton>
+            )}
           </Stack>
         }
       />
@@ -85,6 +90,7 @@ export default function ChatMessageInput({
 
       <input
         type="file"
+        disabled={loading ? true : false}
         multiple
         accept="image/png, image/gif, image/jpeg"
         ref={fileInputRef}
