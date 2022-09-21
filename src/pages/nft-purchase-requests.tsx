@@ -9,6 +9,7 @@ import { getNftRequests } from "../services/requestService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const SdiraRequests = () => {
   const { nftRequests } = useAppSelector(
@@ -17,13 +18,15 @@ const SdiraRequests = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
+
   const getCoinsListing = async () => {
     try {
       setLoading(true);
       await getNftRequests(() => {
         setLoading(false);
-      }, page);
+      }, page, searchText);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -35,7 +38,7 @@ const SdiraRequests = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, [page]);
+  }, [page, debouncedValue]);
 
   return (
     <>
@@ -51,7 +54,7 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="CQR Vest FNFT Acquisition Management"
+            title="by name or email"
             subTitle="Request"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -62,7 +65,7 @@ const SdiraRequests = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <RequestListResults data={nftRequests} searchQuery={searchText} setPage={setPage} page={page} total={0} status={undefined} />
+              <RequestListResults data={nftRequests} searchText={searchText} setPage={setPage} page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

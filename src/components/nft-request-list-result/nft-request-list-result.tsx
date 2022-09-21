@@ -47,8 +47,8 @@ import BigNumber from "big-number";
 import NoDataFound from "../NoDataFound/NoDataFound";
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
+  searchText?: string | number;
   page: number;
   total: number;
   setPage: any;
@@ -347,13 +347,13 @@ const Row = (props) => {
 };
 
 export const RequestListResults = (props: Props) => {
-  const { data, searchQuery, page, setPage } = props;
+  const { data, page, searchText, setPage } = props;
 
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleRequest = async (
@@ -369,7 +369,7 @@ export const RequestListResults = (props: Props) => {
       });
       getNftRequests(() => {
         setLoading(false);
-      }, page);
+      }, page, searchText);
 
       callback();
       setStatusData({
@@ -389,22 +389,8 @@ export const RequestListResults = (props: Props) => {
   };
 
   const dataToDisplay = useMemo(() => {
-    if (searchQuery.length > 0) {
-      return data.data
-        .filter(
-          (requests) =>
-            requests.user.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            requests.user.email
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>
@@ -464,8 +450,8 @@ export const RequestListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>

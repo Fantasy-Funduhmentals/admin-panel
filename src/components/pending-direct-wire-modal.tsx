@@ -573,11 +573,10 @@ const PendingDirectWireModal = (props: Props) => {
                                 }}
                               >
                                 <img
-                                  src={`${
-                                    editData.token
+                                  src={`${editData.token
                                       ? editData.token?.displaySymbol
                                       : editData.subscription?.logo
-                                  }`}
+                                    }`}
                                   alt=""
                                   style={{ width: "30px", height: "30px" }}
                                 />
@@ -615,9 +614,9 @@ const PendingDirectWireModal = (props: Props) => {
                           <TableCell>
                             {" "}
                             {editData.token
-                              ? editData.token?.remainingSupply
-                                  // .toFixed(3)
-                                  .toLocaleString()
+                              ? editData.token?.remainingSupply?.toLocaleString()
+                              // .toFixed(3)
+
                               : editData.subscription?.priceUSD}
                           </TableCell>
 

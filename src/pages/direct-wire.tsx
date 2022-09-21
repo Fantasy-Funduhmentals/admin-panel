@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveDirectWire } from "../store/reducers/directWire";
 import { getNormalizedError } from "../utils/helpers";
 import PendingDirectWireModal from "../components/pending-direct-wire-modal";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const Tokens = () => {
   const { directWire } = useAppSelector((state: RootState) => state.directWire);
@@ -23,12 +24,13 @@ const Tokens = () => {
   const [searchText, setSearchText] = useState("");
   const [reload, setReload] = useState(false);
   const [wireData, setWireData] = useState(null);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getTokensListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await directWireData(page);
+      const coinsRes = await directWireData(page, searchText);
       dispatch(saveDirectWire(coinsRes.data));
       setLoading(false);
     } catch (err) {
@@ -48,7 +50,7 @@ const Tokens = () => {
 
   useEffect(() => {
     getTokensListing();
-  }, [reload, page]);
+  }, [reload, page, debouncedValue]);
 
   return (
     <>
@@ -64,7 +66,7 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Pending Direct Wire"
+            title="by name or email"
             subTitle="Pending Direct-Wire"
             // onPressAdd={() => {
             //   setCustomerModalOpen(true);
@@ -80,7 +82,7 @@ const Tokens = () => {
             ) : (
               <NftListResults
                 data={directWire}
-                searchQuery={searchText}
+
                 onPressEdit={onPressEdit}
                 setPage={setPage}
                 page={page} status={undefined} total={0} />

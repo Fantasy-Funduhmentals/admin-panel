@@ -11,6 +11,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCompleteDirectWire } from "../store/reducers/completeDirectWire";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const Tokens = () => {
   const { completeDirectWire } = useAppSelector(
@@ -24,11 +25,12 @@ const Tokens = () => {
   const [searchText, setSearchText] = useState("");
   const [reload, setReload] = useState(false);
   const [wireData, setWireData] = useState(null);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
   const getTokensListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await completedDirectWireData(page);
+      const coinsRes = await completedDirectWireData(page, searchText);
 
       dispatch(saveCompleteDirectWire(coinsRes.data));
       setLoading(false);
@@ -49,7 +51,7 @@ const Tokens = () => {
 
   useEffect(() => {
     getTokensListing();
-  }, [reload, page]);
+  }, [reload, page, debouncedValue]);
 
   return (
     <>
@@ -65,7 +67,7 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Completed Direct Wire"
+            title="by name or email"
             subTitle="Completed Direct-Wire"
             // onPressAdd={() => {
             //   setCustomerModalOpen(true);
@@ -81,7 +83,7 @@ const Tokens = () => {
             ) : (
               <NftListResults
                 data={completeDirectWire}
-                searchQuery={searchText}
+
                 onPressEdit={onPressEdit}
                 setPage={setPage}
                 page={page} status={undefined} total={0} />

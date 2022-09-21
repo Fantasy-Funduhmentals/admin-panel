@@ -18,7 +18,7 @@ const NativeWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
   const getNativeWallets = async () => {
     try {
@@ -54,7 +54,7 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Native Wallets Management"
+            title="by name or email"
             subTitle="Native Wallet"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -67,7 +67,6 @@ const NativeWallets = () => {
             ) : (
               <NativeWalletListResults
                 data={wallets}
-
                 setPage={setPage}
                 page={page} total={0} status={undefined} />
             )}

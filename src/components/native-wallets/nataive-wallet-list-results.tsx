@@ -33,9 +33,7 @@ export const NativeWalletListResults = (props: Props) => {
 
 
   const handlePageChange = (event, newPage) => {
-    if (newPage >= 0) {
-      setPage(newPage);
-    }
+    setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
@@ -146,8 +144,8 @@ export const NativeWalletListResults = (props: Props) => {
           component="div"
           count={data?.total}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={data?.data?.wallets?.length}
+          page={page - 1}
+          rowsPerPage={10}
           rowsPerPageOptions={[]}
         />
       </Card>

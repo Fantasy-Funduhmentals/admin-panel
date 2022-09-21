@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveUserNft } from "../store/reducers/nftSlice";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const NativeWallets = () => {
   const { userNft } = useAppSelector((state: RootState) => state.nft);
@@ -18,11 +19,12 @@ const NativeWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
   const getNativeWallets = async () => {
     try {
       setLoading(true);
-      const walletRes = await getNFTBalanceData(page);
+      const walletRes = await getNFTBalanceData(page, debouncedValue);
       dispatch(saveUserNft(walletRes.data));
       setLoading(false);
     } catch (err) {
@@ -37,7 +39,7 @@ const NativeWallets = () => {
 
   useEffect(() => {
     getNativeWallets();
-  }, [page]);
+  }, [page, debouncedValue]);
 
   return (
     <>
@@ -53,7 +55,7 @@ const NativeWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="NFT Balance  Management"
+            title="by name or email"
             subTitle="NFT balance"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -64,7 +66,7 @@ const NativeWallets = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <NftBalanceListResults data={userNft} searchQuery={searchText} setPage={setPage} page={page} total={0} status={undefined} />
+              <NftBalanceListResults data={userNft} setPage={setPage} page={page} total={0} status={undefined} />
             )}
           </Box>
         </Container>

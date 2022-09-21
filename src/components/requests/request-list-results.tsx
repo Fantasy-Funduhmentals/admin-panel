@@ -230,7 +230,7 @@ export const RequestListResults = (props: Props) => {
 
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleRequest = async (
@@ -323,8 +323,8 @@ export const RequestListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>
