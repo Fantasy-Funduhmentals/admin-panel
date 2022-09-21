@@ -4,8 +4,8 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 import { saveNftRequests } from "../store/reducers/nftRequestSlice";
 import { saveLoanRequests } from "../store/reducers/loanSlice";
 
-const getRequests = async (callback: any, page: number) => {
-  const requestsRes = await HTTP_CLIENT.get(`/request/get-all-requests?page=${page ? page : 1}`);
+const getRequests = async (callback: any, page: number, searchText: string | number) => {
+  const requestsRes = await HTTP_CLIENT.get(`/request/get-all-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
   store.dispatch(saveRequests(requestsRes.data));
   callback();
 };

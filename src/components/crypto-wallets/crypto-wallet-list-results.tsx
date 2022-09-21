@@ -2,29 +2,23 @@ import {
   Avatar,
   Box,
   Card,
-  CardProps,
-  Checkbox,
-  Paper,
+  CardProps, Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
-  Button,
+  Typography
 } from "@mui/material";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { getInitials } from "../../utils/get-initials";
-import { SeverityPill } from "../severity-pill";
-import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
   page: number;
   total: number;
@@ -32,30 +26,16 @@ interface Props extends CardProps {
 }
 
 export const CryptoWalletListResults = (props: Props) => {
-  const { data, searchQuery, setPage, page } = props;
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const { data, setPage, page } = props;
+
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
 
   const dataToDisplay = useMemo(() => {
-    if (searchQuery?.length > 0) {
-      return data?.data
-        .filter(
-          (user) =>
-            user.userId?.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.userId?.email
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>
@@ -82,7 +62,6 @@ export const CryptoWalletListResults = (props: Props) => {
                   <TableRow
                     hover
                     key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -92,10 +71,10 @@ export const CryptoWalletListResults = (props: Props) => {
                         }}
                       >
                         <Avatar
-                          src={customer.userId?.profilePicture}
+                          src={customer.user?.profilePicture}
                           sx={{ mr: 2 }}
                         >
-                          {getInitials(customer.userId?.name)}
+                          {getInitials(customer.user?.name)}
                         </Avatar>
                         <Box
                           sx={{
@@ -103,9 +82,9 @@ export const CryptoWalletListResults = (props: Props) => {
                           }}
                         >
                           <Typography color="textPrimary" variant="body1">
-                            {customer.userId?.name}
+                            {customer.user?.name}
                           </Typography>
-                          {customer?.userId?.email}
+                          {customer?.user?.email}
                         </Box>
                       </Box>
                     </TableCell>

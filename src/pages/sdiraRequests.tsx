@@ -9,6 +9,7 @@ import { getRequests } from "../services/requestService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const SdiraRequests = () => {
   const { requests } = useAppSelector((state: RootState) => state.request);
@@ -16,12 +17,15 @@ const SdiraRequests = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState<number>(0);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
+
+
   const getCoinsListing = async () => {
     try {
       setLoading(true);
       await getRequests(() => {
         setLoading(false);
-      }, page);
+      }, page, searchText);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -33,7 +37,7 @@ const SdiraRequests = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, [page]);
+  }, [page, debouncedValue]);
 
   return (
     <>
@@ -57,7 +61,7 @@ const SdiraRequests = () => {
             handleRefresh={getCoinsListing}
           />
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
-            {loading ? <CircularProgress /> : <RequestListResults setPage={setPage} page={page} data={requests} searchQuery={searchText} total={0} status={undefined} />}
+            {loading ? <CircularProgress /> : <RequestListResults searchText={searchText} setPage={setPage} page={page} data={requests} total={0} status={undefined} />}
           </Box>
         </Container>
       </Box>

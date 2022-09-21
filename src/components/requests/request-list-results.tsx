@@ -15,7 +15,6 @@ import {
   TableRow,
   Typography,
   Button,
-  CardHeader,
   CardContent,
   Divider,
   CircularProgress,
@@ -40,8 +39,8 @@ import StatusModal from "../StatusModal";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
+  searchText: string | number;
   page: number;
   total: number;
   setPage: any;
@@ -104,8 +103,8 @@ const Row = (props) => {
                   display: "flex",
                 }}
               >
-                <Avatar src={row.user?.profilePicture} sx={{ mr: 2 }}>
-                  {getInitials(row.user?.name)}
+                <Avatar src={row.userData?.profilePicture} sx={{ mr: 2 }}>
+                  {getInitials(row.userData?.name)}
                 </Avatar>
                 <Box
                   sx={{
@@ -113,9 +112,9 @@ const Row = (props) => {
                   }}
                 >
                   <Typography color="textPrimary" variant="body1">
-                    {row.user?.name}
+                    {row.userData?.name}
                   </Typography>
-                  {row?.user?.email}
+                  {row?.userData?.email}
                 </Box>
               </Box>
             </TableCell>
@@ -225,7 +224,7 @@ const Row = (props) => {
 };
 
 export const RequestListResults = (props: Props) => {
-  const { data, searchQuery, setPage, page } = props;
+  const { data, searchText, setPage, page } = props;
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
@@ -247,7 +246,7 @@ export const RequestListResults = (props: Props) => {
       });
       getRequests(() => {
         setLoading(false);
-      }, page);
+      }, page, searchText);
 
       callback();
       setStatusData({
@@ -267,20 +266,8 @@ export const RequestListResults = (props: Props) => {
   };
 
   const dataToDisplay = useMemo(() => {
-    if (searchQuery.length > 0) {
-      return data?.data?.filter(
-        (requests) =>
-          requests.user.name
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          requests.user.email
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase())
-      )
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>

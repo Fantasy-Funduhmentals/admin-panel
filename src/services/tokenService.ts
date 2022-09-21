@@ -27,8 +27,8 @@ const getAdminUserData = async () => {
   return await HTTP_CLIENT.get("/admin-auth/getAllSubAdmins");
 };
 
-const getNativeWalletsData = async (page: number) => {
-  return await HTTP_CLIENT.get(`/native-wallet/all-native-wallets?page=${page ? page : 1}`);
+const getNativeWalletsData = async (page: number, searchText?: string | number) => {
+  return await HTTP_CLIENT.get(`/native-wallet/all-native-wallets?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
 };
 const getAllNativeWalletsData = async () => {
   return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");

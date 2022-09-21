@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveNativeWallets } from "../store/reducers/tokenSlice";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const NativeWallets = () => {
   const { wallets } = useAppSelector((state: RootState) => state.token);
@@ -18,10 +19,11 @@ const NativeWallets = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState<number>(0);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
   const getNativeWallets = async () => {
     try {
       setLoading(true);
-      const walletRes = await getNativeWalletsData(page);
+      const walletRes = await getNativeWalletsData(page, searchText);
       dispatch(saveNativeWallets(walletRes.data));
       setLoading(false);
     } catch (err) {
@@ -36,7 +38,7 @@ const NativeWallets = () => {
 
   useEffect(() => {
     getNativeWallets();
-  }, [page]);
+  }, [page, debouncedValue]);
 
   return (
     <>
@@ -65,7 +67,7 @@ const NativeWallets = () => {
             ) : (
               <NativeWalletListResults
                 data={wallets}
-                searchQuery={searchText}
+
                 setPage={setPage}
                 page={page} total={0} status={undefined} />
             )}
