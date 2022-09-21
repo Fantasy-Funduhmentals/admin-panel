@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCryptoWallets } from "../store/reducers/coinSlice";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const CryptoWallets = () => {
   const { wallets } = useAppSelector((state: RootState) => state.coin);
@@ -18,10 +19,11 @@ const CryptoWallets = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState<number>(0);
+  const debouncedValue = useDebounce<string>(searchText, 3000)
   const getUserListing = async () => {
     try {
       setLoading(true);
-      const walletRes = await getWalletsData(page);
+      const walletRes = await getWalletsData(page, searchText);
       dispatch(saveCryptoWallets(walletRes.data));
       setLoading(false);
     } catch (err) {
@@ -37,7 +39,7 @@ const CryptoWallets = () => {
 
   useEffect(() => {
     getUserListing();
-  }, [page]);
+  }, [page, debouncedValue]);
 
   return (
     <>
@@ -66,7 +68,7 @@ const CryptoWallets = () => {
             ) : (
               <CryptoWalletListResults
                 data={wallets}
-                searchQuery={searchText}
+
                 setPage={setPage}
                 page={page} total={0} status={undefined} />
             )}
