@@ -15,6 +15,10 @@ const directWireData = async (page: number, searchText?: string | number) => {
   return await HTTP_CLIENT.get(`/direct-wires/all-pending-wires?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
 };
 
+const singleDirectWire = async (id: number | string) => {
+  return await HTTP_CLIENT.get(`/direct-wires?id=${id}`)
+}
+
 const completedDirectWireData = async (page: number, searchText?: string | number) => {
   return await HTTP_CLIENT.get(`/direct-wires/all-wires?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
 };
@@ -81,4 +85,5 @@ export {
   directWireData,
   directWiresPost,
   completedDirectWireData,
+  singleDirectWire
 };

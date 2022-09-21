@@ -1,5 +1,5 @@
 const testnetConfig = {
-  Base_URL: "https://15d0-101-53-234-165.ngrok.io/",
+  Base_URL: "http://192.168.50.93:8080/",
 };
 const mainnetConfig = {
   Base_URL: "https://api.cqrvault.org/",

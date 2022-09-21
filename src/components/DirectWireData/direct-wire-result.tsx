@@ -29,6 +29,7 @@ interface Props extends CardProps {
   total: number;
   setPage: any
   onPressEdit?: any;
+
 }
 
 export const NftListResults = (props: Props) => {

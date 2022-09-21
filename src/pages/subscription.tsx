@@ -1,6 +1,7 @@
 import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import FullScreenDialog from "../components/add-subscription-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
@@ -74,11 +75,18 @@ const Tokens = () => {
             }}
             handleRefresh={getTokensListing}
           />
-          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <SubscriptionListListResults
+                style={{ width: "100%" }}
                 data={subscriptionList}
                 searchQuery={searchText}
                 onPressEdit={onPressEdit}

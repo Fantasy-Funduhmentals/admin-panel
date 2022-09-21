@@ -12,6 +12,7 @@ import { saveAdminUser } from "../store/reducers/adminSlice";
 import { getNormalizedError } from "../utils/helpers";
 import Button from "@mui/material/Button";
 import { getAdminUserData } from "../services/tokenService";
+import { RotatingLines } from "react-loader-spinner";
 
 const SubAdmin = () => {
   const { subadmin } = useAppSelector((state: RootState) => state.adminUser);
@@ -82,9 +83,15 @@ const SubAdmin = () => {
             />
           </Box>
 
-          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <AdminsList
                 data={subadmin}
