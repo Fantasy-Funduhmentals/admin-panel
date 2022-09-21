@@ -18,7 +18,7 @@ const CryptoWallets = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
   const getUserListing = async () => {
     try {
@@ -55,7 +55,7 @@ const CryptoWallets = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Wallets Management"
+            title="by email or address"
             subTitle="Wallet"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -68,7 +68,6 @@ const CryptoWallets = () => {
             ) : (
               <CryptoWalletListResults
                 data={wallets}
-
                 setPage={setPage}
                 page={page} total={0} status={undefined} />
             )}

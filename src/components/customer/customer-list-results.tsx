@@ -34,7 +34,8 @@ import StatusModal from "../../components/StatusModal";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
+  selected: any;
+  setSelected: any;
   status: any;
   page: number;
   total: number;
@@ -43,40 +44,26 @@ interface Props extends CardProps {
 }
 
 export const UserListResults = (props: Props) => {
-  const { data, searchQuery, handleRefresh, page, setPage } = props;
+  const { data, selected, setSelected, handleRefresh, page, setPage } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [rejectShow, setrejectShow] = useState(false);
   const [signleUser, setsignleUser] = useState(null);
   const [reason, setReason] = useState(null);
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
-  const [selected, setSelected] = useState("");
+
   const handleChange = (e) => {
     setSelected(e.target.value);
   };
 
 
   const handlePageChange = (event, newPage) => {
-    if (newPage >= 0) {
-      setPage(newPage);
-    }
+    setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
-    if (searchQuery.length > 0) {
-      return data?.data
-        .filter(
-          (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-
-    } else if (selected) {
-      return data?.data?.filter((user) => user.type == selected);
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery, selected]);
+    return data?.data;
+  }, [data?.data]);
 
   const handleBlockUser = (data) => {
     if (data.isBlocked) {
@@ -137,9 +124,10 @@ export const UserListResults = (props: Props) => {
       setloading(false);
     }
   };
-  function capitalizeFirstLetter(str: string) {
+  function capitalizeFirstLetter(str?: string) {
     return str[0]?.toUpperCase() + str?.slice(1);
   }
+
   return (
     <Card {...props}>
       <Box
@@ -166,7 +154,7 @@ export const UserListResults = (props: Props) => {
                 label="Select History"
                 onChange={handleChange}
               >
-                {/* <MenuItem value={"ira"}>IRA users</MenuItem> */}
+                <MenuItem value={"ira"}>IRA users</MenuItem>
                 <MenuItem value={"standard"}>standard users</MenuItem>
                 <MenuItem value={"sdira"}>Sdira users</MenuItem>
               </Select>
@@ -271,7 +259,7 @@ export const UserListResults = (props: Props) => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      {capitalizeFirstLetter(customer.type)}
+                      {/* {capitalizeFirstLetter(customer?.type)} */}
                     </TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
@@ -287,8 +275,8 @@ export const UserListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
       <Modal

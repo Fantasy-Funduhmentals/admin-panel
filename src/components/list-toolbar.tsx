@@ -35,7 +35,7 @@ export const ListToolbar = (props: Props) => {
         }}
       >
         <Typography sx={{ m: 1 }} variant="h4">
-          {title}
+          {subTitle}
         </Typography>
         {onPressAdd && (
           <Box sx={{ m: 1 }}>

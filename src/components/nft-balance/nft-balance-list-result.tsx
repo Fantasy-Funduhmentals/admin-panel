@@ -22,7 +22,6 @@ import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
   page: number;
   total: number;
@@ -30,32 +29,18 @@ interface Props extends CardProps {
 }
 
 export const NftBalanceListResults = (props: Props) => {
-  const { data, searchQuery, page, setPage } = props;
+  const { data, page, setPage } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
-
-
-    if (searchQuery.length > 0) {
-      return data?.data
-        .filter(
-          (user) =>
-            user.user?.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
   // function numberWithCommas(n) {
   //   var parts = n ? n.toString().split(".") : "";
   //   return (
@@ -126,10 +111,10 @@ export const NftBalanceListResults = (props: Props) => {
                       {customer?.balance
                         ? Number(parseFloat(customer?.balance).toFixed(3)).toLocaleString()
                         : "0.00"}
-                      {customer.coinSymbol?.toUpperCase()}
+                      {customer?.coinSymbol?.toUpperCase()}
                     </TableCell>
                     <TableCell>
-                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      {moment(customer?.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -142,8 +127,8 @@ export const NftBalanceListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>

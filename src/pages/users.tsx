@@ -11,6 +11,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveUsers } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const Users = () => {
   const { users } = useAppSelector((state: RootState) => state.user);
@@ -20,12 +21,14 @@ const Users = () => {
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [selected, setSelected] = useState("");
+  const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getUserListing = async () => {
     try {
       setLoading(true);
-      const usersRes = await getAllUsers(page);
+      const usersRes = await getAllUsers(page, searchText, selected);
       dispatch(saveUsers(usersRes.data));
       setLoading(false);
     } catch (err) {
@@ -40,9 +43,9 @@ const Users = () => {
 
   useEffect(() => {
     getUserListing();
-  }, [reload, page]);
+  }, [reload, page, selected, debouncedValue]);
 
-  console.log(users, "users")
+
   return (
     <>
       <Head>
@@ -57,7 +60,7 @@ const Users = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="User Management"
+            title="by name or email"
             subTitle="User"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -82,7 +85,8 @@ const Users = () => {
             ) : (
               <UserListResults
                 data={users}
-                searchQuery={searchText}
+                selected={selected}
+                setSelected={setSelected}
                 handleRefresh={getUserListing}
                 style={{ width: "100%" }}
                 setPage={setPage}

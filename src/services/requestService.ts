@@ -10,17 +10,17 @@ const getRequests = async (callback: any, page: number, searchText: string | num
   callback();
 };
 
-const getNftRequests = async (callback: any, page: number) => {
+const getNftRequests = async (callback: any, page: number, searchText?: string | number) => {
   const requestsRes = await HTTP_CLIENT.get(
-    `/nft-purchase-request/get-unhandled-requests?page=${page ? page : 1}`
+    `/nft-purchase-request/get-unhandled-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`
   );
   store.dispatch(saveNftRequests(requestsRes.data));
   callback();
 };
 
-const getLoanRequests = async (callback: any, page: number) => {
+const getLoanRequests = async (callback: any, page: number, searchText?: string | number) => {
   const requestsRes = await HTTP_CLIENT.get(
-    `/nft-wallet/completed-loan-requests?page=${page ? page : 1}`
+    `/nft-wallet/completed-loan-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`
   );
   store.dispatch(saveLoanRequests(requestsRes.data));
   callback();

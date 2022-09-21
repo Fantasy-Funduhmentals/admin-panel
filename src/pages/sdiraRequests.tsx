@@ -16,7 +16,7 @@ const SdiraRequests = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
 
@@ -34,6 +34,9 @@ const SdiraRequests = () => {
       });
     }
   };
+
+
+
 
   useEffect(() => {
     getCoinsListing();
@@ -53,8 +56,8 @@ const SdiraRequests = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Requests Management"
-            subTitle="Request"
+            title="by name or email"
+            subTitle="Request Management"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
