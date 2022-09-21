@@ -154,7 +154,7 @@ export const UserListResults = (props: Props) => {
                 label="Select History"
                 onChange={handleChange}
               >
-                <MenuItem value={"ira"}>IRA users</MenuItem>
+                {/* <MenuItem value={"ira"}>IRA users</MenuItem> */}
                 <MenuItem value={"standard"}>standard users</MenuItem>
                 <MenuItem value={"sdira"}>Sdira users</MenuItem>
               </Select>
@@ -258,8 +258,8 @@ export const UserListResults = (props: Props) => {
                         {customer.isBlocked ? "UnBlock" : "Block"}
                       </Button>
                     </TableCell>
-                    <TableCell>
-                      {/* {capitalizeFirstLetter(customer?.type)} */}
+                    <TableCell sx={{ textTransform: "capitalize" }}>
+                      {customer?.type}
                     </TableCell>
                     <TableCell>
                       {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}

@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCompleteDirectWire } from "../store/reducers/completeDirectWire";
 import { getNormalizedError } from "../utils/helpers";
 import useDebounce from "../utils/hooks/useDebounce";
+import { RotatingLines } from "react-loader-spinner";
 
 const Tokens = () => {
   const { completeDirectWire } = useAppSelector(
@@ -77,13 +78,19 @@ const Tokens = () => {
             }}
             handleRefresh={getTokensListing}
           />
-          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <NftListResults
                 data={completeDirectWire}
-
+                style={{ width: "100%" }}
                 onPressEdit={onPressEdit}
                 setPage={setPage}
                 page={page} status={undefined} total={0} />

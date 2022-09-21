@@ -1,6 +1,7 @@
 import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import AddUserModal from "../components/add-user-modal";
 import { UserListResults } from "../components/customer/customer-list-results";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -75,13 +76,21 @@ const Users = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+
             }}
             sx={{
               mt: 3,
+              minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center"
             }}
           >
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <UserListResults
                 data={users}

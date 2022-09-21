@@ -6,13 +6,14 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
 import { NftListResults } from "../components/DirectWireData/direct-wire-result";
-import { directWireData } from "../services/tokenService";
+import { directWireData, singleDirectWire } from "../services/tokenService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveDirectWire } from "../store/reducers/directWire";
 import { getNormalizedError } from "../utils/helpers";
 import PendingDirectWireModal from "../components/pending-direct-wire-modal";
 import useDebounce from "../utils/hooks/useDebounce";
+import { RotatingLines } from "react-loader-spinner";
 
 const Tokens = () => {
   const { directWire } = useAppSelector((state: RootState) => state.directWire);
@@ -20,10 +21,10 @@ const Tokens = () => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [customerModelOpen, setCustomerModalOpen] = useState(false);
+  const [wireDeta, setWireDeta] = useState<any>("");
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [reload, setReload] = useState(false);
-  const [wireData, setWireData] = useState(null);
   const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
@@ -43,8 +44,10 @@ const Tokens = () => {
     }
   };
 
-  const onPressEdit = (data: any) => {
-    setWireData(data);
+
+
+  const onPressEdit = async (data: any) => {
+    setWireDeta(data)
     setCustomerModalOpen(true);
   };
 
@@ -76,13 +79,19 @@ const Tokens = () => {
             }}
             handleRefresh={getTokensListing}
           />
-          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <NftListResults
+                style={{ width: "100%" }}
                 data={directWire}
-
                 onPressEdit={onPressEdit}
                 setPage={setPage}
                 page={page} status={undefined} total={0} />
@@ -96,10 +105,11 @@ const Tokens = () => {
           open={customerModelOpen}
           onClose={() => {
             setCustomerModalOpen(false);
-            setWireData(null);
+            setWireDeta(null);
             setReload(!reload);
           }}
-          editData={wireData}
+          editData={wireDeta}
+
         />
       )}
 
