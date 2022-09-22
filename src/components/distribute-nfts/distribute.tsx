@@ -73,6 +73,8 @@ export const DistributeNft = (props) => {
       amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal").max(33),
     }),
     onSubmit: (values, actions) => {
+      console.log(values.amount, "amount")
+      return;
       handleSubmit(values, actions);
     },
   });
