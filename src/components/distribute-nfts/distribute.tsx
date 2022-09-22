@@ -94,6 +94,14 @@ export const DistributeNft = (props) => {
 
       return;
     }
+    if (formik.values.amount < 1) {
+      setStatusData({
+        type: "error",
+        message: "Amount will be greater then or equal to 1",
+      });
+
+      return;
+    }
     try {
       setStatusData(null);
 
@@ -146,6 +154,7 @@ export const DistributeNft = (props) => {
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
+      console.log(err, "innerError")
       setStatusData({
         type: "error",
         message: error,

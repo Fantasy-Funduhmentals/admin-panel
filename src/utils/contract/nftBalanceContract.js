@@ -6,6 +6,7 @@ function GetProvider() {
   // const { account } = useActiveWeb3React();
   const web3 = new Web3();
   web3.setProvider(window.web3.currentProvider);
+
   return web3;
 }
 
@@ -21,5 +22,5 @@ export const GetNftBalanceContract = async () => {
       );
       return MyContract;
     } else return null;
-  } catch (error) {}
+  } catch (error) { }
 };

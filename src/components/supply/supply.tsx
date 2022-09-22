@@ -95,6 +95,13 @@ export const DistributeNft = (props) => {
       });
       return
     }
+    if (formik.values.amount < 1) {
+      setStatusData({
+        type: "error",
+        message: "Amount will be greate than or eqaul to 1",
+      });
+      return
+    }
     setLoading(true)
     let amount = values.amount;
     let from = address;
