@@ -109,11 +109,9 @@ export const DistributeNft = (props) => {
     let id = selectNft.index
     let data = []
     const nftDistribution = await GetNftBalanceContract();
-    const res = await nftDistribution.methods.mint(to, id, amount, data).send({ from: address });;
+    const res = await nftDistribution?.methods?.mint(to, id, amount, data)?.send({ from: address });;
     fetchBalance()
     setLoading(false)
-
-
   }
 
   const formik = useFormik({
@@ -126,12 +124,13 @@ export const DistributeNft = (props) => {
       // .email("Email is invalid")
       // .required("Email is required")
       // .trim(),
-      amount: Yup.string().required("Amount is required").max(33).trim(),
+      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal").max(33),
     }),
     onSubmit: (values, actions) => {
 
 
       handleSubmit(values);
+      actions.resetForm()
       // mintBalance()
     },
   });

@@ -70,7 +70,7 @@ export const DistributeNft = (props) => {
         .email("Email is invalid")
         .required("Email is required")
         .trim(),
-      amount: Yup.string().required("Amount is required").max(33).trim(),
+      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal").max(33),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -94,14 +94,7 @@ export const DistributeNft = (props) => {
 
       return;
     }
-    if (formik.values.amount < 1) {
-      setStatusData({
-        type: "error",
-        message: "Amount will be greater then or equal to 1",
-      });
 
-      return;
-    }
     try {
       setStatusData(null);
 
