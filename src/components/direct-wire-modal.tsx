@@ -51,7 +51,7 @@ const FullScreenNFTDialog = (props: Props) => {
   const handlePost = async (editData) => {
     try {
       const data = {
-        wireId: editData._id,
+        wireId: editData?._id,
       };
       setLoading(true);
       const res = await directWiresPost(data);
@@ -274,7 +274,7 @@ const FullScreenNFTDialog = (props: Props) => {
                         width: "100%",
                         justifyContent: "space-around",
                       }}
-                      key={editData._id}
+                      key={editData?._id}
                     >
                       <Box
                         sx={{
@@ -349,7 +349,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           City
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData.remittanceAddress?.city}
+                          {editData?.remittanceAddress?.city}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -364,7 +364,7 @@ const FullScreenNFTDialog = (props: Props) => {
                           Street Address
                         </TableCell>
                         <TableCell sx={{ width: "70%" }}>
-                          {editData.remittanceAddress?.streetAddress}
+                          {editData?.remittanceAddress?.streetAddress}
                         </TableCell>
                       </Box>
                       <Divider />
@@ -416,7 +416,7 @@ const FullScreenNFTDialog = (props: Props) => {
                       {/* <TableCell></TableCell> */}
                     </Box>
                   </Card>
-                  {editData.status == "expired" ? (
+                  {editData?.status == "expired" ? (
                     <Typography
                       sx={{ color: "red", textAlign: "center", mt: 3 }}
                     >
@@ -472,20 +472,20 @@ const FullScreenNFTDialog = (props: Props) => {
                 borderRadius: "10px",
               }}
             >
-              {editData.token || editData.subscription ? (
+              {editData?.token || editData?.subscription ? (
                 <Card sx={{ width: "100%" }}>
                   <Table>
                     {/* sx={{ background: "#5a82d7" }} */}
                     <TableHead>
                       <TableRow>
                         <TableCell>
-                          {editData.token ? "token" : "Subscription"}
+                          {editData?.token ? "token" : "Subscription"}
                         </TableCell>
                         <TableCell>
-                          {editData.token ? "Coin" : "Payment Method"}
+                          {editData?.token ? "Coin" : "Payment Method"}
                         </TableCell>
                         <TableCell>
-                          {editData.token ? "Remaining Units" : "Price USD"}
+                          {editData?.token ? "Remaining Units" : "Price USD"}
                         </TableCell>
 
                         {/* <TableCell>Created At</TableCell> */}
@@ -509,11 +509,10 @@ const FullScreenNFTDialog = (props: Props) => {
                               }}
                             >
                               <img
-                                src={`${
-                                  editData.token
-                                    ? editData.token?.displaySymbol
-                                    : editData.subscription?.logo
-                                }`}
+                                src={`${editData?.token
+                                  ? editData?.token?.displaySymbol
+                                  : editData?.subscription?.logo
+                                  }`}
                                 alt=""
                                 style={{ width: "30px", height: "30px" }}
                               />
@@ -524,9 +523,9 @@ const FullScreenNFTDialog = (props: Props) => {
                               }}
                             >
                               <Typography color="textPrimary" variant="h6">
-                                {editData.token
-                                  ? editData.token?.shortName
-                                  : editData.subscription?.title}
+                                {editData?.token
+                                  ? editData?.token?.shortName
+                                  : editData?.subscription?.title}
                               </Typography>
                               {/* <Typography
                                 sx={{
@@ -543,16 +542,16 @@ const FullScreenNFTDialog = (props: Props) => {
                           </Box>
                         </TableCell>
                         <TableCell>
-                          {editData.token
-                            ? editData.token?.shortName
-                            : editData.subscription?.paymentMethod}
+                          {editData?.token
+                            ? editData?.token?.shortName
+                            : editData?.subscription?.paymentMethod}
                         </TableCell>
 
                         <TableCell>
                           {" "}
-                          {editData.token
-                            ? editData.token?.remainingSupply.toLocaleString()
-                            : editData.subscription?.priceUSD}
+                          {editData?.token
+                            ? editData?.token?.remainingSupply?.toLocaleString()
+                            : editData?.subscription?.priceUSD}
                         </TableCell>
 
                         {/* <TableCell>
