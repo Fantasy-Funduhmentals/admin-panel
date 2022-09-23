@@ -70,11 +70,10 @@ export const DistributeNft = (props) => {
         .email("Email is invalid")
         .required("Email is required")
         .trim(),
-      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal").max(33),
+      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal"),
     }),
     onSubmit: (values, actions) => {
-      console.log(values.amount, "amount")
-      return;
+
       handleSubmit(values, actions);
     },
   });
@@ -93,13 +92,10 @@ export const DistributeNft = (props) => {
         type: "error",
         message: "Please connect your wallet first",
       });
-
       return;
     }
-
     try {
       setStatusData(null);
-
       setLoading(true);
       const params = {
         balance: String(values.amount),
@@ -148,13 +144,13 @@ export const DistributeNft = (props) => {
       });
       setLoading(false);
     } catch (err) {
+      setLoading(false);
       const error = getNormalizedError(err);
-      console.log(err, "innerError")
       setStatusData({
         type: "error",
         message: error,
       });
-      setLoading(false);
+
     }
   };
 

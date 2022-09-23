@@ -88,30 +88,40 @@ export const DistributeNft = (props) => {
   };
 
   const handleSubmit = async (values) => {
-    if (!selectNft) {
+    try {
+      if (!selectNft) {
+        setStatusData({
+          type: "error",
+          message: "Please select NFT first",
+        });
+        return
+      }
+      if (formik.values.amount < 1) {
+        setStatusData({
+          type: "error",
+          message: "Amount will be greate than or eqaul to 1",
+        });
+        return
+      }
+      setLoading(true)
+      let amount = values.amount;
+      let from = address;
+      let to = address;
+      let id = selectNft.index
+      let data = []
+      const nftDistribution = await GetNftBalanceContract();
+      const res = await nftDistribution?.methods?.mint(to, id, amount, data)?.send({ from: address });;
+      fetchBalance()
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      const err = getNormalizedError(error);
       setStatusData({
         type: "error",
-        message: "Please select NFT first",
+        message: err,
       });
-      return
     }
-    if (formik.values.amount < 1) {
-      setStatusData({
-        type: "error",
-        message: "Amount will be greate than or eqaul to 1",
-      });
-      return
-    }
-    setLoading(true)
-    let amount = values.amount;
-    let from = address;
-    let to = address;
-    let id = selectNft.index
-    let data = []
-    const nftDistribution = await GetNftBalanceContract();
-    const res = await nftDistribution?.methods?.mint(to, id, amount, data)?.send({ from: address });;
-    fetchBalance()
-    setLoading(false)
+
   }
 
   const formik = useFormik({
@@ -124,7 +134,7 @@ export const DistributeNft = (props) => {
       // .email("Email is invalid")
       // .required("Email is required")
       // .trim(),
-      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal").max(33),
+      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal"),
     }),
     onSubmit: (values, actions) => {
 

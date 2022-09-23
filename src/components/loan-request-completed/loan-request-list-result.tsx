@@ -280,13 +280,13 @@ const Row = (props) => {
                                   Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.token?.remainingSupply.toLocaleString()}
+                                  {row?.token?.remainingSupply?.toLocaleString()}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {row?.token?.totalSupply.toLocaleString()}
+                                  {row?.token?.totalSupply?.toLocaleString()}
                                 </TableCell>
                               </TableRow>
                             </TableBody>

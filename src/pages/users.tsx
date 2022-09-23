@@ -26,6 +26,7 @@ const Users = () => {
   const [selected, setSelected] = useState("");
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
+
   const getUserListing = async () => {
     let trimText = searchText.trim();
     try {
@@ -46,6 +47,7 @@ const Users = () => {
   useEffect(() => {
     getUserListing();
   }, [reload, page, selected, debouncedValue]);
+
 
 
   return (

@@ -73,7 +73,7 @@ const SdiraRequests = () => {
                 visible={true}
               />
             ) : (
-              <RequestListResults data={nftRequests} searchText={searchText} setPage={setPage} page={page} total={0} status={undefined} />
+              <RequestListResults data={nftRequests} searchText={searchText} setPage={setPage} page={page} total={0} status={undefined} style={{ width: "100%" }} />
             )}
           </Box>
         </Container>
