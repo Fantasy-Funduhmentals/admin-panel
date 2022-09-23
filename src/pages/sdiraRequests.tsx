@@ -22,11 +22,12 @@ const SdiraRequests = () => {
 
 
   const getCoinsListing = async () => {
+    let trimText = searchText.trim();
     try {
       setLoading(true);
       await getRequests(() => {
         setLoading(false);
-      }, page, searchText);
+      }, page, trimText);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({

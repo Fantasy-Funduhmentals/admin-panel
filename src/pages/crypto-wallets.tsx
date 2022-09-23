@@ -22,9 +22,10 @@ const CryptoWallets = () => {
   const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
   const getUserListing = async () => {
+    let trimText = searchText.trim();
     try {
       setLoading(true);
-      const walletRes = await getWalletsData(page, searchText);
+      const walletRes = await getWalletsData(page, trimText);
       dispatch(saveCryptoWallets(walletRes.data));
       setLoading(false);
     } catch (err) {

@@ -27,9 +27,10 @@ const Users = () => {
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getUserListing = async () => {
+    let trimText = searchText.trim();
     try {
       setLoading(true);
-      const usersRes = await getAllUsers(page, searchText, selected);
+      const usersRes = await getAllUsers(page, trimText, selected);
       dispatch(saveUsers(usersRes.data));
       setLoading(false);
     } catch (err) {

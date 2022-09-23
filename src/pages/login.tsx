@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
 import { handleUserLogin } from "../services/userService";
@@ -39,12 +40,12 @@ const Login = () => {
         dispatch(saveUserRole(loginRes.data.user.role));
         dispatch(saveAccessToken(loginRes.data.accessToken));
         dispatch(saveEmailUser(loginRes.data.user.email));
-        setLoading(false);
         setStatusData({
           type: "success",
           message: "Authentication Successfull",
         });
         router.push("/");
+        setLoading(false);
       }
     } catch (err) {
       const error = getNormalizedError(err);
@@ -133,7 +134,13 @@ const Login = () => {
                 type="submit"
                 variant="contained"
               >
-                {loading ? <CircularProgress color="inherit" /> : "Sign In Now"}
+                {loading ? <RotatingLines
+                  strokeColor="#fff"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="28"
+                  visible={true}
+                /> : "Sign In Now"}
               </Button>
             </Box>
             {/* <Typography color="textSecondary" variant="body2">

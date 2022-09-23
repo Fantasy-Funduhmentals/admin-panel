@@ -23,11 +23,12 @@ const SdiraRequests = () => {
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getCoinsListing = async () => {
+    let trimText = searchText.trim();
     try {
       setLoading(true);
       await getNftRequests(() => {
         setLoading(false);
-      }, page, searchText);
+      }, page, trimText);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({

@@ -23,9 +23,10 @@ const NativeWallets = () => {
   const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
   const getNativeWallets = async () => {
+    let trimText = searchText.trim();
     try {
       setLoading(true);
-      const walletRes = await getNFTBalanceData(page, debouncedValue);
+      const walletRes = await getNFTBalanceData(page, trimText);
       dispatch(saveUserNft(walletRes.data));
       setLoading(false);
     } catch (err) {
