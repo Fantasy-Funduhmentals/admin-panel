@@ -44,6 +44,7 @@
     "react-elastic-carousel": "^0.11.5",
     "react-image-lightbox": "^5.1.4",
     "react-lazy-load-image-component": "^1.5.1",
+    "react-loader-spinner": "^5.3.4",
     "react-perfect-scrollbar": "^1.5.8",
     "react-redux": "^7.2.6",
     "react-simple-image-viewer": "^1.2.1",

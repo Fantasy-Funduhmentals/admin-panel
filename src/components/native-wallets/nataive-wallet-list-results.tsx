@@ -22,7 +22,6 @@ import { HTTP_CLIENT } from "../../utils/axiosClient";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
   page: number;
   total: number;
@@ -30,13 +29,11 @@ interface Props extends CardProps {
 }
 
 export const NativeWalletListResults = (props: Props) => {
-  const { data, searchQuery, setPage, page } = props;
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const { data, setPage, page } = props;
+
 
   const handlePageChange = (event, newPage) => {
-    if (newPage >= 0) {
-      setPage(newPage);
-    }
+    setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
@@ -52,21 +49,8 @@ export const NativeWalletListResults = (props: Props) => {
         rate: rates[rateIndex],
       };
     });
-
-    if (searchQuery.length > 0) {
-      return wallets
-        .filter(
-          (user) =>
-            user.user?.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-
-    } else {
-      return wallets;
-    }
-  }, [data, searchQuery]);
+    return wallets;
+  }, [data]);
 
   return (
     <>
@@ -95,10 +79,8 @@ export const NativeWalletListResults = (props: Props) => {
                   {dataToDisplay?.map((customer) => (
                     <TableRow
                       hover
-                      key={customer._id}
-                      selected={
-                        selectedCustomerIds.indexOf(customer._id) !== -1
-                      }
+                      key={customer?._id}
+
                     >
                       <TableCell>
                         <Box
@@ -126,7 +108,7 @@ export const NativeWalletListResults = (props: Props) => {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        {customer.coin?.shortName.toUpperCase()}
+                        {customer?.coin?.shortName?.toUpperCase()}
                       </TableCell>
 
                       {/* <TableCell>{customer?.address}</TableCell> */}
@@ -136,7 +118,7 @@ export const NativeWalletListResults = (props: Props) => {
                             parseFloat(customer?.balance).toFixed(3)
                           ).toLocaleString()
                           : "0.00"}{" "}
-                        {customer.coin?.shortName.toUpperCase()}
+                        {customer?.coin?.shortName?.toUpperCase()}
                       </TableCell>
                       <TableCell>
                         {Number(
@@ -162,8 +144,8 @@ export const NativeWalletListResults = (props: Props) => {
           component="div"
           count={data?.total}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={data?.data?.wallets?.length}
+          page={page - 1}
+          rowsPerPage={10}
           rowsPerPageOptions={[]}
         />
       </Card>

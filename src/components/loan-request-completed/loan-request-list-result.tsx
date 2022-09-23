@@ -45,10 +45,12 @@ import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import { saveLoanRequests } from "../../store/reducers/loanSlice";
+import { useDispatch } from "react-redux";
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
+  searchText?: string | number;
   page: number;
   total: number;
   setPage: any;
@@ -59,6 +61,7 @@ const Row = (props) => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const { address } = useWeb3();
+  const dispatch = useDispatch()
   const [statusData, setStatusData] = useState(null);
   // const authToken = store.getState();
 
@@ -123,9 +126,8 @@ const Row = (props) => {
             message: "Transacion successfully",
           });
         }
-        getLoanRequests(() => {
-          setLoading(false);
-        }, page);
+        const coinsRes = await getLoanRequests(page);
+        dispatch(saveLoanRequests(coinsRes.data));
         setLoading(false);
       }
     } catch (err) {
@@ -327,17 +329,17 @@ const Row = (props) => {
 };
 
 export const RequestListResults = (props: Props) => {
-  const { data, searchQuery, page, setPage } = props;
-
+  const { data, page, searchText, setPage } = props;
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
 
 
   const handlePageChange = (event, newPage) => {
-    if (newPage >= 0) {
-      setPage(newPage);
-    }
+
+    setPage(newPage + 1);
+
   };
 
   const handleRequest = async (
@@ -351,10 +353,10 @@ export const RequestListResults = (props: Props) => {
       //   requestId,
       //   status,
       // });
-      getLoanRequests(() => {
-        setLoading(false);
-      }, page);
-
+      const coinsRes = await getLoanRequests(page, searchText);
+      dispatch(saveLoanRequests(coinsRes.data));
+      if (coinsRes?.data?.data?.length == 0) { setPage(1) }
+      setLoading(false);
       callback();
       setStatusData({
         type: "success",
@@ -373,22 +375,8 @@ export const RequestListResults = (props: Props) => {
   };
 
   const dataToDisplay = useMemo(() => {
-
-
-    if (searchQuery.length > 0) {
-      return data?.data?.filter(
-        (requests) =>
-          requests.user.name
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          requests.user.email
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase())
-      )
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>
@@ -450,8 +438,8 @@ export const RequestListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>

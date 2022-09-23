@@ -24,6 +24,7 @@ import Router from "next/router";
 import { WalletListResults } from "../components/dashboard/wallet-table";
 import { getWalletData } from "../services/userService";
 import LogsModal from "../components/dashboard/logs-modal";
+import { RotatingLines } from "react-loader-spinner";
 const Dashboard = () => {
   const { role } = useAppSelector((state: RootState) => state.user);
   const { masterBalances, users } = useAppSelector(
@@ -92,7 +93,13 @@ const Dashboard = () => {
             alignItems: "center",
           }}
         >
-          <CircularProgress />
+          <RotatingLines
+            strokeColor="#5048e5"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="66"
+            visible={true}
+          />
         </div>
       ) : (
         <>
@@ -118,7 +125,13 @@ const Dashboard = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <CircularProgress />
+                  <RotatingLines
+                    strokeColor="#5048e5"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="66"
+                    visible={true}
+                  />
                 </Box>
               ) : (
                 <Grid

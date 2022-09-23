@@ -24,36 +24,25 @@ import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
   page: number;
   total: number;
   setPage: any
   onPressEdit?: any;
+
 }
 
 export const NftListResults = (props: Props) => {
-  let { data, searchQuery, onPressEdit, page, setPage } = props;
+  let { data, onPressEdit, page, setPage } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
-
-
-    if (searchQuery.length > 0) {
-      return data?.data?.filter(
-        (user) =>
-          user.type?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          user?.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>
@@ -164,8 +153,8 @@ export const NftListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>

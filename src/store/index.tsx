@@ -24,7 +24,6 @@ import AdminSlice from "./reducers/adminSlice";
 import settingsSlice from "./reducers/settingsSlice";
 import EmailSlice from "./reducers/emailSlice";
 declare var window: any;
-
 const persistConfig = {
   key: "root",
   storage: storage,

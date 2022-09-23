@@ -45,10 +45,12 @@ import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
 import { useWeb3 } from "@3rdweb/hooks";
 import BigNumber from "big-number";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import { saveNftRequests } from "../../store/reducers/nftRequestSlice";
+import { useDispatch } from "react-redux";
 interface Props extends CardProps {
   data: any | {};
-  searchQuery?: string;
   status: any;
+  searchText?: string | number;
   page: number;
   total: number;
   setPage: any;
@@ -58,6 +60,7 @@ const Row = (props) => {
   const { row, handleRequest, page } = props;
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
   const { address } = useWeb3();
   const [statusData, setStatusData] = useState(null);
   // const authToken = store.getState();
@@ -115,9 +118,8 @@ const Row = (props) => {
           type: "success",
           message: "FNFT transfer successfully",
         });
-        getNftRequests(() => {
-          setLoading(false);
-        }, page);
+        const walletRes = await getNftRequests(page);
+        dispatch(saveNftRequests(walletRes.data));
       } else {
         let amount = row.amount;
         // let amount = web3.utils.toWei(row.amount, "ether");
@@ -142,10 +144,8 @@ const Row = (props) => {
           const response = await handleRequestNftBalance({ requestId, status });
         }
 
-        getNftRequests(() => {
-          setLoading(false);
-        }, page);
-        // }
+        const walletRes = await getNftRequests(page);
+        dispatch(saveNftRequests(walletRes.data));
         setLoading(false);
       }
     } catch (err) {
@@ -304,29 +304,25 @@ const Row = (props) => {
                                   Remaining Units
                                 </TableCell>
                                 <TableCell align="left">
-                                  {Number(
-                                    row?.assetPool?.remainingSupply
-                                  ).toLocaleString()}
-                                </TableCell>
-                              </TableRow>
+                                  {row?.assetPool?.remainingSupply?.toLocaleString()}
+                                </TableCell >
+                              </TableRow >
                               <TableRow>
                                 <TableCell align="left">Total Supply</TableCell>
                                 <TableCell align="left">
-                                  {Number(
-                                    row?.assetPool?.totalSupply
-                                  ).toLocaleString()}
-                                </TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
+                                  {row?.assetPool?.totalSupply?.toLocaleString()}
+                                </TableCell >
+                              </TableRow >
+                            </TableBody >
+                          </Table >
 
                           {/* <Typography sx={{ textAlign: "left" }}>Amount</Typography>
                       <Typography sx={{ textAlign: "right" }}>
                         Amount
                       </Typography> */}
-                        </Box>
-                      </Box>
-                    </CardContent>
+                        </Box >
+                      </Box >
+                    </CardContent >
                     <Divider />
                     <Box
                       sx={{
@@ -335,29 +331,29 @@ const Row = (props) => {
                         flexDirection: "column",
                       }}
                     ></Box>
-                  </Card>
-                </Box>
-              </Collapse>
-            </TableCell>
-          </TableRow>
+                  </Card >
+                </Box >
+              </Collapse >
+            </TableCell >
+          </TableRow >
         </>
       )}
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 
 export const RequestListResults = (props: Props) => {
-  const { data, searchQuery, page, setPage } = props;
-
+  const { data, page, searchText, setPage } = props;
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleRequest = async (
@@ -371,15 +367,14 @@ export const RequestListResults = (props: Props) => {
         requestId,
         status,
       });
-      getNftRequests(() => {
-        setLoading(false);
-      }, page);
-
+      const walletRes = await getNftRequests(page, searchText);
+      dispatch(saveNftRequests(walletRes.data));
       callback();
       setStatusData({
         type: "success",
         message: "Request handled successfully",
       });
+      setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -393,22 +388,8 @@ export const RequestListResults = (props: Props) => {
   };
 
   const dataToDisplay = useMemo(() => {
-    if (searchQuery.length > 0) {
-      return data.data
-        .filter(
-          (requests) =>
-            requests.user.name
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            requests.user.email
-              ?.toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-
-    } else {
-      return data?.data;
-    }
-  }, [data, searchQuery]);
+    return data?.data;
+  }, [data?.data]);
 
   return (
     <Card {...props}>
@@ -468,8 +449,8 @@ export const RequestListResults = (props: Props) => {
         component="div"
         count={data?.total}
         onPageChange={handlePageChange}
-        page={page}
-        rowsPerPage={data?.data?.length}
+        page={page - 1}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
       />
     </Card>

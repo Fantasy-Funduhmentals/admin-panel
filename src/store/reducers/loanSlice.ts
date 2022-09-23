@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export type requestState = {
-  loanRequests: any | {};
+  loanRequests: any;
 };
 
 const initialState: requestState = {

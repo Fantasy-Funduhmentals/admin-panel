@@ -1,6 +1,7 @@
 import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import AddUserModal from "../components/add-user-modal";
 import { UserListResults } from "../components/customer/customer-list-results";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -11,6 +12,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveUsers } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
+import useDebounce from "../utils/hooks/useDebounce";
 
 const Users = () => {
   const { users } = useAppSelector((state: RootState) => state.user);
@@ -20,13 +22,18 @@ const Users = () => {
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [selected, setSelected] = useState("");
+  const debouncedValue = useDebounce<string>(searchText, 3000)
+
 
   const getUserListing = async () => {
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
-      const usersRes = await getAllUsers(page);
+      const usersRes = await getAllUsers(page, trimText, selected);
       dispatch(saveUsers(usersRes.data));
+      if (usersRes?.data?.data?.length == 0) { setPage(1) }
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -39,10 +46,12 @@ const Users = () => {
   };
 
   useEffect(() => {
-    getUserListing();
-  }, [reload, page]);
 
-  console.log(users, "users")
+    getUserListing();
+  }, [reload, page, selected, debouncedValue]);
+
+
+
   return (
     <>
       <Head>
@@ -57,7 +66,7 @@ const Users = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="User Management"
+            title="by name or email"
             subTitle="User"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
@@ -72,17 +81,26 @@ const Users = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+
             }}
             sx={{
               mt: 3,
+              minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center"
             }}
           >
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <UserListResults
                 data={users}
-                searchQuery={searchText}
+                selected={selected}
+                setSelected={setSelected}
                 handleRefresh={getUserListing}
                 style={{ width: "100%" }}
                 setPage={setPage}

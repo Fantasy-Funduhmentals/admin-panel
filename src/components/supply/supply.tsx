@@ -24,8 +24,9 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { HTTP_CLIENT } from "../../utils/axiosClient.tsx";
 import { getNormalizedError } from "../../utils/helpers";
 import { GetNftBalanceContract } from "../../utils/contract/nftBalanceContract";
-import {getNFTData} from "../../services/tokenService.ts"
+import { getNFTData } from "../../services/tokenService.ts"
 import { saveNFT } from "../../store/reducers/nftSlice";
+import { RotatingLines } from "react-loader-spinner";
 // import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 
@@ -51,7 +52,7 @@ export const DistributeNft = (props) => {
       const coinsRes = await getNFTData();
       dispatch(saveNFT(coinsRes.data));
       setLoading(false);
-    } 
+    }
     catch (err) {
       const error = getNormalizedError(err);
       setStatusData({
@@ -64,47 +65,62 @@ export const DistributeNft = (props) => {
 
 
   useEffect(() => {
-    if(address && selectNft){
+    if (address && selectNft) {
       fetchBalance();
     }
-   
-  }, [selectNft,address]);
+
+  }, [selectNft, address]);
 
   useEffect(() => {
     getTokensListing();
 
-  },[])
+  }, [])
 
-  const fetchBalance = async () => {  
-    if(nft){
+  const fetchBalance = async () => {
+    if (nft) {
       const nftDistribution = await GetNftBalanceContract();
-      const res = await nftDistribution?.methods?
-        .balanceOf(address, selectNft?.index)?
+      const res = await nftDistribution?.methods ?
+        .balanceOf(address, selectNft?.index) ?
         .call();
       setSupply(res);
     }
-    
+
   };
 
   const handleSubmit = async (values) => {
-    if(!selectNft){
+    try {
+      if (!selectNft) {
+        setStatusData({
+          type: "error",
+          message: "Please select NFT first",
+        });
+        return
+      }
+      if (formik.values.amount < 1) {
+        setStatusData({
+          type: "error",
+          message: "Amount will be greate than or eqaul to 1",
+        });
+        return
+      }
+      setLoading(true)
+      let amount = values.amount;
+      let from = address;
+      let to = address;
+      let id = selectNft.index
+      let data = []
+      const nftDistribution = await GetNftBalanceContract();
+      const res = await nftDistribution?.methods?.mint(to, id, amount, data)?.send({ from: address });;
+      fetchBalance()
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      const err = getNormalizedError(error);
       setStatusData({
         type: "error",
-        message: "Please select NFT first",
+        message: err,
       });
-      return
     }
-    setLoading(true)
-    let amount = values.amount;
-    let from = address;
-    let to = address;
-    let id = selectNft.index
-    let data = []
-    const nftDistribution = await GetNftBalanceContract();
-    const res = await nftDistribution.methods.mint(to,id,amount, data).send({ from: address });;
-    fetchBalance()
-    setLoading(false)
-
 
   }
 
@@ -115,15 +131,16 @@ export const DistributeNft = (props) => {
     },
     validationSchema: Yup.object({
       // email: Yup.string()
-        // .email("Email is invalid")
-        // .required("Email is required")
-        // .trim(),
-      amount: Yup.string().required("Amount is required").max(33).trim(),
+      // .email("Email is invalid")
+      // .required("Email is required")
+      // .trim(),
+      amount: Yup.number().required("Amount is required").positive("Amount will be greater than or equal to 1").integer("Please enter value without decimal"),
     }),
     onSubmit: (values, actions) => {
 
-      
+
       handleSubmit(values);
+      actions.resetForm()
       // mintBalance()
     },
   });
@@ -134,8 +151,14 @@ export const DistributeNft = (props) => {
     <>
       <form {...props} onSubmit={formik.handleSubmit}>
         <Card>
-          {loading ? <CircularProgress/>  : <CardHeader title="Total Supply :" subheader= {supply}  /> }
-          
+          {loading ? <RotatingLines
+            strokeColor="#5048e5"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="36"
+            visible={true}
+          /> : <CardHeader title="Total Supply :" subheader={supply} />}
+
           <Divider />
           <CardContent>
             <Box

@@ -11,6 +11,7 @@ import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveNewsletter } from "../store/reducers/newsLetterSlice";
 import { getNormalizedError } from "../utils/helpers";
+import { RotatingLines } from "react-loader-spinner";
 
 const Tokens = () => {
   const { newsletterList } = useAppSelector(
@@ -76,11 +77,18 @@ const Tokens = () => {
             handleRefresh={getNewsLetterList}
           />
 
-          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {loading ? (
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="66"
+                visible={true}
+              />
             ) : (
               <NftListResults
+                style={{ width: "100%" }}
                 data={newsletterList}
                 searchQuery={searchText}
                 onPressEdit={onPressEdit}

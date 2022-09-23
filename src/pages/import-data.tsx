@@ -57,7 +57,6 @@ const ImportData = () => {
       setInputKey(Math.random().toString(36));
       setLoading(false);
     } catch (err) {
-      console.log(err);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
