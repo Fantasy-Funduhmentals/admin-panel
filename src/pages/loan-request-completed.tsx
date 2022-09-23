@@ -2,6 +2,7 @@ import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { RequestListResults } from "../components/loan-request-completed/loan-request-list-result";
@@ -9,6 +10,7 @@ import StatusModal from "../components/StatusModal";
 import { getLoanRequests } from "../services/requestService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
+import { saveLoanRequests } from "../store/reducers/loanSlice";
 import { getNormalizedError } from "../utils/helpers";
 import useDebounce from "../utils/hooks/useDebounce";
 
@@ -22,15 +24,19 @@ const SdiraRequests = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState<number>(1);
+  const dispatch = useDispatch()
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getCoinsListing = async () => {
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
-      await getLoanRequests(() => {
-        setLoading(false);
-      }, page, searchText);
+      const coinsRes = await getLoanRequests(page, trimText);
+      dispatch(saveLoanRequests(coinsRes.data));
+      if (coinsRes?.data?.data?.length == 0) { setPage(1) }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",

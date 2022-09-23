@@ -28,20 +28,23 @@ const Tokens = () => {
   const [wireData, setWireData] = useState(null);
   const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
-  const getTokensListing = async () => {
-    setLoading(true);
-    try {
-      const coinsRes = await completedDirectWireData(page, searchText);
 
+  const getTokensListing = async () => {
+    let trimText = searchText?.trim();
+    try {
+      setLoading(true);
+      const coinsRes = await completedDirectWireData(page, trimText);
       dispatch(saveCompleteDirectWire(coinsRes.data));
+      if (coinsRes?.data?.data?.length == 0) { setPage(1) }
       setLoading(false);
     } catch (err) {
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
-      setLoading(false);
+
     }
   };
 

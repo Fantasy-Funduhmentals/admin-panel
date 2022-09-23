@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { getNormalizedError } from "../../utils/helpers";
 import { getAllNativeWalletsData } from "../../services/tokenService";
 import Slider from "../Slider/slider";
+import { RotatingLines } from "react-loader-spinner";
 
 export const Sales = (props) => {
   const [statusData, setStatusData] = useState(null);
@@ -58,7 +59,13 @@ export const Sales = (props) => {
           }}
         >
           {loading ? (
-            <CircularProgress />
+            <RotatingLines
+              strokeColor="#5048e5"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="46"
+              visible={true}
+            />
           ) : (
             <Slider team={3}>
               {graphData?.map((item, key) => (

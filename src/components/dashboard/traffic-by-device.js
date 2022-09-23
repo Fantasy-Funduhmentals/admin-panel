@@ -16,6 +16,7 @@ import { getNormalizedError } from "../../utils/helpers";
 import { useEffect, useState } from "react";
 import { getGraphData } from "../../services/userService";
 import StatusModal from "../StatusModal";
+import { RotatingLines } from "react-loader-spinner";
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
@@ -108,7 +109,13 @@ export const TrafficByDevice = (props) => {
                 height: 400,
               }}
             >
-              <CircularProgress />
+              <RotatingLines
+                strokeColor="#5048e5"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="46"
+                visible={true}
+              />
             </Box>
           ) : (
             <>
