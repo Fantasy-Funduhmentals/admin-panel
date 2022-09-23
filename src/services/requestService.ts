@@ -1,29 +1,20 @@
 import { store } from "../store";
-import { saveRequests } from "../store/reducers/requestSlice";
-import { HTTP_CLIENT } from "../utils/axiosClient";
-import { saveNftRequests } from "../store/reducers/nftRequestSlice";
 import { saveLoanRequests } from "../store/reducers/loanSlice";
+import { HTTP_CLIENT } from "../utils/axiosClient";
 
-const getRequests = async (callback: any, page: number, searchText: string | number) => {
-
-  const requestsRes = await HTTP_CLIENT.get(`/request/get-all-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
-  store.dispatch(saveRequests(requestsRes.data));
-  callback();
+const getRequests = async (page: number, searchText: string | number) => {
+  return await HTTP_CLIENT.get(`/request/get-all-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
 };
-const getNftRequests = async (callback: any, page: number, searchText?: string | number) => {
-  const requestsRes = await HTTP_CLIENT.get(
+const getNftRequests = async (page: number, searchText?: string | number) => {
+  return await HTTP_CLIENT.get(
     `/nft-purchase-request/get-unhandled-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`
   );
-  store.dispatch(saveNftRequests(requestsRes.data));
-  callback();
 };
 
-const getLoanRequests = async (callback: any, page: number, searchText?: string | number) => {
-  const requestsRes = await HTTP_CLIENT.get(
+const getLoanRequests = async (page: number, searchText?: string | number) => {
+  return await HTTP_CLIENT.get(
     `/nft-wallet/completed-loan-requests?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`
   );
-  store.dispatch(saveLoanRequests(requestsRes.data));
-  callback();
 };
 const handleRequestInteraction = async (params: any) => {
   const requestsRes = await HTTP_CLIENT.post("/request/handle-request", params);

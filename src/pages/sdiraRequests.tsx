@@ -2,6 +2,7 @@ import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { RequestListResults } from "../components/requests/request-list-results";
@@ -9,10 +10,12 @@ import StatusModal from "../components/StatusModal";
 import { getRequests } from "../services/requestService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
+import { saveRequests } from "../store/reducers/requestSlice";
 import { getNormalizedError } from "../utils/helpers";
 import useDebounce from "../utils/hooks/useDebounce";
 
 const SdiraRequests = () => {
+  const dispatch = useDispatch()
   const { requests } = useAppSelector((state: RootState) => state.request);
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
@@ -22,12 +25,15 @@ const SdiraRequests = () => {
 
 
   const getCoinsListing = async () => {
-    let trimText = searchText.trim();
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
-      await getRequests(() => {
-        setLoading(false);
-      }, page, trimText);
+      const requestsRes = await getRequests(page, trimText);
+      dispatch(saveRequests(requestsRes.data));
+      if (requestsRes?.data?.data?.length == 0) {
+        setPage(1)
+      }
+      setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
       setStatusData({

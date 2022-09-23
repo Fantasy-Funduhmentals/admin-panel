@@ -29,11 +29,12 @@ const Tokens = () => {
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getTokensListing = async () => {
-    let trimText = searchText.trim();
+    let trimText = searchText?.trim();
     setLoading(true);
     try {
       const coinsRes = await directWireData(page, trimText);
       dispatch(saveDirectWire(coinsRes.data));
+      if (coinsRes?.data?.data?.length == 0) { setPage(1) }
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);

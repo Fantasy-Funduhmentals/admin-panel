@@ -22,11 +22,14 @@ const NativeWallets = () => {
   const [page, setPage] = useState<number>(1);
   const debouncedValue = useDebounce<string>(searchText, 3000)
   const getNativeWallets = async () => {
-    let trimText = searchText.trim();
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
       const walletRes = await getNativeWalletsData(page, trimText);
       dispatch(saveNativeWallets(walletRes.data));
+      if (walletRes?.data?.data?.length == 0) {
+        setPage(1)
+      }
       setLoading(false);
     } catch (err) {
       setLoading(false);

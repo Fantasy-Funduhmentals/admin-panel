@@ -2,6 +2,7 @@ import { Box, Container, CircularProgress } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { RequestListResults } from "../components/nft-request-list-result/nft-request-list-result";
@@ -9,10 +10,12 @@ import StatusModal from "../components/StatusModal";
 import { getNftRequests } from "../services/requestService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
+import { saveNftRequests } from "../store/reducers/nftRequestSlice";
 import { getNormalizedError } from "../utils/helpers";
 import useDebounce from "../utils/hooks/useDebounce";
 
 const SdiraRequests = () => {
+  const dispatch = useDispatch()
   const { nftRequests } = useAppSelector(
     (state: RootState) => state.nftRequest
   );
@@ -23,13 +26,17 @@ const SdiraRequests = () => {
   const debouncedValue = useDebounce<string>(searchText, 3000)
 
   const getCoinsListing = async () => {
-    let trimText = searchText.trim();
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
-      await getNftRequests(() => {
-        setLoading(false);
-      }, page, trimText);
+      const walletRes = await getNftRequests(page, trimText);
+      dispatch(saveNftRequests(walletRes.data));
+      if (walletRes?.data?.data?.length == 0) {
+        setPage(1)
+      }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",

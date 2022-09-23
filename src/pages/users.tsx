@@ -28,11 +28,12 @@ const Users = () => {
 
 
   const getUserListing = async () => {
-    let trimText = searchText.trim();
+    let trimText = searchText?.trim();
     try {
       setLoading(true);
       const usersRes = await getAllUsers(page, trimText, selected);
       dispatch(saveUsers(usersRes.data));
+      if (usersRes?.data?.data?.length == 0) { setPage(1) }
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -45,6 +46,7 @@ const Users = () => {
   };
 
   useEffect(() => {
+
     getUserListing();
   }, [reload, page, selected, debouncedValue]);
 
