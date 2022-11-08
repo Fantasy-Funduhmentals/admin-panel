@@ -1,0 +1,115 @@
+body {
+  background-color: #111112;
+}
+/*scrollBar*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(206, 203, 203);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d80f29;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d80f29;
+}
+/*scrollBar*/
+/***ImageViewer***/
+.styles-module_wrapper__1I_qj {
+  z-index: 100 !important;
+}
+.styles-module_image__2hdkJ {
+  max-height: 50% !important;
+  max-width: 50% !important;
+}
+/***ImageViewer***/
+/***slider staging code*****/
+.kCa-dlP {
+  margin: 9px !important;
+  font-size: 0.8em !important;
+  height: 5px !important;
+  width: 5px !important;
+  box-shadow: 0 0 0px 2px rgb(0 0 0 / 50%) !important;
+}
+.jYxeHE {
+  -webkit-transition: all 200ms ease !important;
+  background-color: #d80f29 !important;
+  box-shadow: 0 0 1px 2px #d80f29 !important;
+}
+
+/***slider*****/
+/***slider local code*****/
+.jhmYzC {
+  margin: 9px !important;
+  background-color: gray !important;
+  font-size: 0.8em !important;
+  height: 5px !important;
+  width: 5px !important;
+  box-shadow: 0 0 0px 2px rgb(0 0 0 / 50%) !important;
+}
+.krmNah {
+  -webkit-transition: all 200ms ease !important;
+  background-color: #d80f29 !important;
+  box-shadow: 0 0 1px 2px #d80f29 !important;
+}
+/***slider*****/
+
+#nprogress {
+  pointer-events: "none";
+}
+#nprogress .bar {
+  top: 0;
+  left: 0;
+  height: 2.5;
+  width: 100%;
+  position: fixed;
+  z-index: 7;
+  background-color: #d80f29 !important;
+  box-shadow: 0 0 2px #d80f29 !important;
+}
+#nprogress .peg {
+  right: 0;
+  opacity: 1;
+  width: 100;
+  height: 100%;
+  display: block;
+  position: absolute;
+  transform: rotate(3deg) translate(0px, -4px);
+  box-shadow: 0 0 10px #d80f29, 0 0 5px #d80f29 !important;
+}
+#nprogress .spinner-icon {
+  border: solid 2px transparent;
+  animation: nprogress-spinner 400ms linear infinite;
+  -webkit-animation: nprogress-spinner 400ms linear infinite;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border-top-color: #d80f29 !important;
+  border-left-color: #d80f29 !important;
+  border-radius: 50%;
+}
+
+@-webkit-keyframes nprogress-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/**nProgress**/
