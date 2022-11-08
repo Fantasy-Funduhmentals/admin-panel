@@ -14,51 +14,31 @@ import DashboardCard from "../components/dashboard/dashboardCard";
 import { Sales } from "../components/dashboard/sales";
 import { TrafficByDevice } from "../components/dashboard/traffic-by-device";
 import StatusModal from "../components/StatusModal";
-import { getMasterAddressBalances } from "../services/generalService";
 import { RootState } from "../store";
 import { useAppSelector } from "../store/hooks";
 import { saveMasterBalances } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 import { setupAxios } from "../utils/axiosClient";
 import Router from "next/router";
-import { WalletListResults } from "../components/dashboard/wallet-table";
-import { getWalletData } from "../services/userService";
 import LogsModal from "../components/dashboard/logs-modal";
+import { getAdminStats } from "../services/coinService";
 const Dashboard = () => {
   const { role } = useAppSelector((state: RootState) => state.user);
   const { masterBalances, users } = useAppSelector(
-    (state: RootState) => state.user
+    (state: RootState) => state?.user
   );
+
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
-  const [data, setData] = useState();
   const dispatch = useDispatch();
   const [userModelOpen, setUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
-
-  const walletData = async () => {
-    try {
-      setLoading(true);
-      const res = await getWalletData();
-      setData(res.data);
-      setLoading(false);
-    } catch (err) {
-      const error = getNormalizedError(err);
-      setStatusData({
-        type: "error",
-        message: error,
-      });
-
-      setLoading(false);
-    }
-  };
 
   const getCardsData = async () => {
     try {
       setLoading(true);
       setupAxios();
-      const cardsData = await getMasterAddressBalances();
-
+      const cardsData = await getAdminStats();
       dispatch(saveMasterBalances(cardsData.data));
       setLoading(false);
     } catch (err) {
@@ -74,10 +54,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     getCardsData();
-    walletData();
-    if (role == "sub admin") {
-      Router.push("/chat");
-    }
   }, []);
 
   return (
@@ -97,7 +73,7 @@ const Dashboard = () => {
       ) : (
         <>
           <Head>
-            <title>Dashboard | CQR Admin</title>
+            <title>Dashboard | TokenNow</title>
           </Head>
 
           <Box
@@ -130,41 +106,33 @@ const Dashboard = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Grid item lg={3} sm={6} xl={3} xs={12}>
+                  <Grid item lg={6} sm={6} xl={3} xs={12}>
                     {/* <Budget /> */}
                     <DashboardCard
-                      title="BTC Wallet"
-                      value={`${parseFloat(masterBalances?.btc).toFixed(
-                        2
-                      )} BTC`}
-                      image="/btc.png"
+                      title="Total No. of Projects"
+                      value={masterBalances?.totalProjects}
+                      image="/Projects.png"
                     />
                   </Grid>
-                  <Grid item xl={3} lg={3} sm={6} xs={12}>
+                  <Grid item xl={3} lg={6} sm={6} xs={12}>
                     {/* <TotalCustomers /> */}
                     <DashboardCard
-                      title="ETH Wallet"
-                      value={`${parseFloat(masterBalances?.eth).toFixed(
-                        2
-                      )} ETH`}
-                      image="/eth.png"
+                      title="Total TokenNow Profit"
+                      value={masterBalances?.profit}
+                      image="/Profit.png"
                     />
                   </Grid>
-                  <Grid item xl={3} lg={3} sm={6} xs={12}>
-                    {/* <TasksProgress />
-                     */}
-
+                  <Grid item xl={3} lg={6} sm={6} xs={12}>
                     <DashboardCard
-                      title="BNB Wallet"
-                      value={`${parseFloat(masterBalances?.bnb).toFixed(
-                        2
-                      )} BNB`}
-                      image="/bnb.png"
+                      title="Total Investment"
+                      value={masterBalances?.investment}
+                      image="/Investment.png"
                     />
                   </Grid>
-                  <Grid item xl={3} lg={3} sm={6} xs={12}>
+                  <Grid item xl={3} lg={6} sm={6} xs={12}>
                     <DashboardCard
-                      title="Total Users"
+                      title="Total Users
+                      "
                       value={masterBalances?.users}
                     />
                   </Grid>
@@ -174,32 +142,6 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item lg={4} md={12} xl={3} xs={12}>
                     <TrafficByDevice sx={{ height: "100%" }} />
-                  </Grid>
-                  <Grid item lg={12} md={12} xl={12} xs={12}>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        flexWrap: "wrap",
-                        m: 1,
-                      }}
-                    >
-                      <Typography sx={{ m: 1 }} variant="h4">
-                        Wallets
-                      </Typography>
-
-                      <Box sx={{ m: 1 }}>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          onClick={() => setUserModalOpen(true)}
-                        >
-                          Wallet Logs
-                        </Button>
-                      </Box>
-                    </Box>
-                    <WalletListResults data={data} />
                   </Grid>
                 </Grid>
               )}

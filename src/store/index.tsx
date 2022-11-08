@@ -12,11 +12,9 @@ import userSlice from "./reducers/userSlice";
 import coinSlice from "./reducers/coinSlice";
 import tokenSlice from "./reducers/tokenSlice";
 import requestSlice from "./reducers/requestSlice";
-import chatSlice from "./reducers/chatSlice";
 import nftSlice from "./reducers/nftSlice";
 import nftRequest from "./reducers/nftRequestSlice";
 import subscriptionSlice from "./reducers/subscriptionSlice";
-import loanRequestSlice from "./reducers/loanSlice.ts";
 import newsLetterSlice from "./reducers//newsLetterSlice";
 import directWireSlice from "./reducers/directWire";
 import completeDirectWireSlice from "./reducers/completeDirectWire";
@@ -35,11 +33,9 @@ const persistConfig = {
     "token",
     "settings",
     "request",
-    "chat",
     "nft",
     "nftRequest",
     "subscription",
-    "loanrequest",
     "newsletter",
     "directWire",
     "completeDirectWire",
@@ -55,12 +51,10 @@ const reducers = combineReducers({
   token: tokenSlice,
   settings: settingsSlice,
   request: requestSlice,
-  chat: chatSlice,
   nft: nftSlice,
   adminUser: AdminSlice,
   nftRequest: nftRequest,
   subscription: subscriptionSlice,
-  loanRequest: loanRequestSlice,
   newsletter: newsLetterSlice,
   directWire: directWireSlice,
   completeDirectWire: completeDirectWireSlice,

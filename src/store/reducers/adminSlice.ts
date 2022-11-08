@@ -9,7 +9,7 @@ const initialState: tokenState = {
 };
 
 export const AdminSlice = createSlice({
-  name: "User",
+  name: "adminUser",
   initialState,
   reducers: {
     resetAdminState: (state) => initialState,

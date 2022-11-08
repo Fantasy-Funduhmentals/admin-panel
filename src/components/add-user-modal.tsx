@@ -194,7 +194,13 @@ const AddUserModal = (props: Props) => {
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar
+            sx={{
+              background: "#232325",
+              boxShadow:
+                "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
+            }}
+          >
             <IconButton
               edge="start"
               color="inherit"
@@ -212,16 +218,15 @@ const AddUserModal = (props: Props) => {
         <Box
           component="main"
           sx={{
-            // flexGrow: 1,
+            flexGrow: 1,
             py: 8,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
-            alignSelf: "center",
+            background: "#111112",
           }}
         >
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             <Grid>
               {/* <Grid item lg={4} md={6} xs={12}>
                 <Card>

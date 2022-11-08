@@ -6,7 +6,7 @@ import MaintenanceMode from "../components/MaintenanceMode/toggle";
 const Settings = () => (
   <>
     <Head>
-      <title>Settings | CQR Admin</title>
+      <title>Settings</title>
     </Head>
     <Box
       component="main"

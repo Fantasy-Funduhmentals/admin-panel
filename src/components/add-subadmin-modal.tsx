@@ -146,7 +146,13 @@ const AddUserModal = (props: Props) => {
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar
+            sx={{
+              background: "#232325",
+              boxShadow:
+                "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
+            }}
+          >
             <IconButton
               edge="start"
               color="inherit"
@@ -169,6 +175,7 @@ const AddUserModal = (props: Props) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            background: "#111112",
           }}
         >
           <Container maxWidth="xl">
@@ -187,8 +194,9 @@ const AddUserModal = (props: Props) => {
                 md={6}
                 xs={12}
                 sx={{
-                  boxShadow: "#0000004a 1px 1px 18px",
+                  // boxShadow: "#0000004a 1px 1px 18px",
                   borderRadius: "10px",
+                  // background: "transparent",
                 }}
               >
                 <form onSubmit={formik.handleSubmit}>

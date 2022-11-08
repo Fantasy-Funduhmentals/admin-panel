@@ -1,13 +1,13 @@
 const testnetConfig = {
-  Base_URL: "https://staging-api.cqrvault.org/",
+  Base_URL: "http://159.223.80.12:5001/",
 };
 const mainnetConfig = {
-  Base_URL: "https://api.cqrvault.org",
+  Base_URL: "https://api.tokennow.io",
 };
 const stagingConfig = {
-  Base_URL: "https://staging-api.cqrvault.org/",
+  Base_URL: "http://159.223.80.12:5001/",
 };
 
-const defaultConfig = stagingConfig;
+const defaultConfig = mainnetConfig;
 
 export default defaultConfig;

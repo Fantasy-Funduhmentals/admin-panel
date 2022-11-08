@@ -101,7 +101,7 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
-          {role == "admin" ? (
+          {/* {role == "admin" ? (
             <Button
               variant="contained"
               onClick={() => {
@@ -113,11 +113,10 @@ export const DashboardNavbar = (props) => {
                     address.length - 4
                   )}`
                 : " Connect Wallet"}
-              {/* {!address ? "Connect" : "Successfull"} */}
             </Button>
           ) : (
             ""
-          )}
+          )} */}
           <IconButton
             onClick={onSidebarOpen}
             sx={{
@@ -129,24 +128,9 @@ export const DashboardNavbar = (props) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
-          {/* <Tooltip title="Search">
-            <IconButton sx={{ ml: 1 }}>
-              <SearchIcon fontSize="small" />
-            </IconButton>
-          </Tooltip> */}
+
           <Box sx={{ flexGrow: 1 }} />
-          {/* <Tooltip title="Contacts">
-            <IconButton sx={{ ml: 1 }}>
-              <UsersIcon fontSize="small" />
-            </IconButton>
-          </Tooltip> */}
-          {/* <Tooltip title="Notifications">
-            <IconButton sx={{ ml: 1 }}>
-              <Badge badgeContent={4} color="primary" variant="dot">
-                <BellIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-          </Tooltip> */}
+
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -208,25 +192,6 @@ export const DashboardNavbar = (props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {/* <MenuItem>
-          <Avatar /> Profile
-        </MenuItem> */}
-        {/* <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem> */}
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />

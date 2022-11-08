@@ -21,9 +21,9 @@ import { getNormalizedError } from "../utils/helpers";
 const Login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
-
   const handleSubmit = async (values: any, actions: any) => {
     try {
       setLoading(true);
@@ -31,20 +31,25 @@ const Login = () => {
       if (loginRes?.data?.user?.isBlocked == true) {
         setStatusData({
           type: "error",
-          message: "Sub Admin Blocked",
+          message: `Sub Admin Blocked ${loginRes?.data?.user?.blockReason}`,
         });
         setLoading(false);
         return;
       } else {
-        dispatch(saveUserRole(loginRes.data.user.role));
-        dispatch(saveAccessToken(loginRes.data.accessToken));
-        dispatch(saveEmailUser(loginRes.data.user.email));
+        dispatch(saveUserRole(loginRes?.data?.user));
+        dispatch(saveAccessToken(loginRes?.data?.accessToken));
+        dispatch(saveEmailUser(loginRes?.data?.user?.email));
         setLoading(false);
         setStatusData({
           type: "success",
           message: "Authentication Successfull",
         });
-        router.push("/");
+
+        if (loginRes?.data?.user?.role == "admin") {
+          router.push("/");
+        } else if (loginRes?.data?.user?.role == "sub admin") {
+          router.push(`/${loginRes?.data?.user?.adminPermissions[0]?.name}`);
+        }
       }
     } catch (err) {
       const error = getNormalizedError(err);
@@ -77,7 +82,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login | CQR Admin</title>
+        <title>Login </title>
       </Head>
       <Box
         component="main"
@@ -110,6 +115,7 @@ const Login = () => {
               type="email"
               value={formik.values.email}
               variant="outlined"
+              color="success"
             />
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
@@ -123,6 +129,7 @@ const Login = () => {
               type="password"
               value={formik.values.password}
               variant="outlined"
+              color="success"
             />
             <Box sx={{ py: 2 }}>
               <Button

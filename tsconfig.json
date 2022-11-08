@@ -15,6 +15,12 @@
     "jsx": "preserve"
   },
 
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/icons/crypto.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/icons/crypto.js",
+    "src/utils/create-emotion-cache.js"
+  ],
   "exclude": ["node_modules"]
 }

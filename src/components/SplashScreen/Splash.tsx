@@ -12,15 +12,7 @@ export default function Splash({ setSplash }) {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <div className={styles.logo}>
-            {/* <Logo
-              logoStyle={{ width: 140, height: 140, borderRadius: "100px" }}
-              sx={{
-                objectFit: "contain",
-                height: 52,
-                width: 52,
-              }}
-            /> */}
-            <img src="./CQR.png" alt="" />
+            <img src="/logo.svg" alt="" />
           </div>
           {/* <div className="pulse"></div> */}
           <div className={styles.CQRloader}>

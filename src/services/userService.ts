@@ -11,10 +11,6 @@ const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
 };
 
-const getSwapRate = async () => {
-  return await HTTP_CLIENT.get("/settings");
-};
-
 const changePassword = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/change-password", params);
 };
@@ -25,9 +21,6 @@ const getGraphData = async (params: any) => {
   return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
 };
 
-const swapFee = async (params: any) => {
-  return await HTTP_CLIENT.post("/settings/admin/update-swap-rate", params);
-};
 const getMaintenanceMode = async () => {
   return await HTTP_CLIENT.get("/settings/maintenance");
 };
@@ -59,8 +52,6 @@ export {
   createSubAdminUser,
   createNewUser,
   handleBlock,
-  swapFee,
-  getSwapRate,
   directWireAccountDetails,
   getMaintenanceMode,
   getGraphData,

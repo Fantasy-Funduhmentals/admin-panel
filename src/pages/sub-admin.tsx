@@ -1,56 +1,38 @@
-import { Box, Container, CircularProgress } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import Button from "@mui/material/Button";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddSubAdminModal from "../components/add-subadmin-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
-import { AdminsList } from "../components/sub-admin/sub-admin";
 import StatusModal from "../components/StatusModal";
-import { RootState } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveAdminUser } from "../store/reducers/adminSlice";
-import { getNormalizedError } from "../utils/helpers";
-import Button from "@mui/material/Button";
-import { getAdminUserData } from "../services/tokenService";
+import { AdminsList } from "../components/sub-admin/sub-admin";
+import UpdateSubAdminModal from "../components/sub-admin/updateSubAdmin/update-subadmin-modal";
 
 const SubAdmin = () => {
-  const { subadmin } = useAppSelector((state: RootState) => state.adminUser);
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
+  const [updateuserModelOpen, setUpdateUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
+  const [editToken, setEditToken] = useState(null);
 
-  const OpenAddUserModal = () => {
+  const OpenAddUserModal = (userData: any) => {
     setUserModalOpen(!userModelOpen);
   };
-
-  const getAdminUsers = async () => {
-    try {
-      setLoading(true);
-      const AdminUser = await getAdminUserData();
-
-      dispatch(saveAdminUser(AdminUser.data));
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      const error = getNormalizedError(err);
-      setStatusData({
-        type: "error",
-        message: error,
-      });
-    }
+  const OpenUpdateUserModal = (userData: any) => {
+    setUpdateUserModalOpen(!updateuserModelOpen);
+    setEditToken(userData);
   };
-
-  useEffect(() => {
-    getAdminUsers();
-  }, []);
+  const getAdminUsersData = async () => {
+    await setRefreshData(!refreshData);
+  };
 
   return (
     <>
       <Head>
-        <title>Sub - Admin</title>
+        <title>Sub Admin </title>
       </Head>
       <Box
         component="main"
@@ -78,21 +60,19 @@ const SubAdmin = () => {
                 setSearchText(ev.target.value);
               }}
               style={{ width: "100%" }}
-              handleRefresh={getAdminUsers}
+              handleRefresh={getAdminUsersData}
             />
           </Box>
 
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
-            {loading ? (
-              <CircularProgress />
-            ) : (
-              <AdminsList
-                data={subadmin}
-                handleRefresh={getAdminUsers}
-                searchQuery={searchText}
-                style={{ width: "100%" }}
-              />
-            )}
+            <AdminsList
+              refresh={refreshData}
+              RefreshAdminUsersData={getAdminUsersData}
+              searchQuery={searchText}
+              onPressEdit={OpenAddUserModal}
+              onPressUpdate={OpenUpdateUserModal}
+              style={{ width: "100%" }}
+            />
           </Box>
         </Container>
       </Box>
@@ -106,6 +86,15 @@ const SubAdmin = () => {
           setUserModalOpen(false);
           setReload(!reload);
         }}
+      />
+      <UpdateSubAdminModal
+        open={updateuserModelOpen}
+        onClose={() => {
+          setUpdateUserModalOpen(false);
+          setEditToken(null);
+          setReload(!reload);
+        }}
+        editData={editToken}
       />
     </>
   );

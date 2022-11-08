@@ -1,19 +1,17 @@
 import { styled } from "@mui/material/styles";
 
 export const Logo = styled((props) => {
-  const { variant, ...other } = props;
-
-  const color = variant === "light" ? "#C1C4D6" : "#5048E5";
+  const { ...other } = props;
 
   return (
     <img
       //  src={"mainLogo.svg"}
-      src={"/mainLogo.svg"}
+      src={"/logo.svg"}
       alt="CQR"
       loading="lazy"
       style={{
-        height: 40,
-        width: 70,
+        height: 60,
+        width: 90,
       }}
     />
   );

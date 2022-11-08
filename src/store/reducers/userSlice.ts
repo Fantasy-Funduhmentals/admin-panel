@@ -3,12 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 export type userState = {
   accessToken: string | null;
   users: any[];
-  role: string | null;
+  role: string | any;
   userId: string;
   masterBalances: {
-    bnb: string;
-    btc: string;
-    eth: string;
+    graph: any;
+    futureProjects: any;
+    residentialProjects: any;
+    completedProjects: any;
+    totalBuyers: any;
+    totalSellers: any;
+    reservedProjects: any;
+    commercialProjects: any;
+    totalProjects: any;
+    profit: any;
+    investment: any;
+    users: any;
   };
 };
 
@@ -17,9 +26,18 @@ const initialState: userState = {
   users: [],
   role: "",
   masterBalances: {
-    bnb: "0",
-    btc: "0",
-    eth: "0",
+    graph: null,
+    futureProjects: "0",
+    residentialProjects: "0",
+    completedProjects: "0",
+    totalBuyers: "0",
+    totalSellers: "0",
+    reservedProjects: "0",
+    commercialProjects: "0",
+    totalProjects: "0",
+    profit: "0",
+    investment: "0",
+    users: "0",
   },
   userId: "ADMIN",
 };
