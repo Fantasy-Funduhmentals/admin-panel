@@ -1,5 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -25,6 +26,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import StatusModal from "../StatusModal";
@@ -32,27 +34,33 @@ import usePlayerData from "./usePlayerData";
 interface Props extends CardProps {
   searchQuery?: string;
   loadingApi?: boolean;
-
+  handleLimitChange?: (prop?: any) => any;
+  handlePageChange?: (event?: any, page?: any) => void;
+  page?: number;
+  limit?: number;
+  count?: number;
   RefreshAdminUsersData?: () => any;
   onPressUpdate?: any;
+  data?: any[];
 }
 
 export const PlayerList = (props: Props) => {
   const {
     searchQuery,
-
     RefreshAdminUsersData,
-    onPressUpdate,
     loadingApi,
+    handleLimitChange,
+    handlePageChange,
+    page,
+    limit,
+    count,
+    data,
   } = props;
   const {
     dataToDisplay,
     selectedCustomerIds,
     handleBlockUser,
-    handlePageChange,
-    handleLimitChange,
-    page,
-    limit,
+
     rejectShow,
     handleClose,
     loading,
@@ -61,7 +69,10 @@ export const PlayerList = (props: Props) => {
     statusData,
     setStatusData,
     subadmin,
-  } = usePlayerData(searchQuery, RefreshAdminUsersData);
+  } = usePlayerData(searchQuery, RefreshAdminUsersData, data, page, limit);
+
+  console.log(page, "page");
+
   return (
     <>
       {loadingApi ? (
@@ -84,15 +95,18 @@ export const PlayerList = (props: Props) => {
                     <TableHead>
                       <TableRow style={{ background: "black" }}>
                         <TableCell style={{ color: "#fff" }}>Name</TableCell>
-                        <TableCell style={{ color: "#fff" }}>Email</TableCell>
-                        <TableCell style={{ color: "#fff" }}>roles</TableCell>
                         <TableCell style={{ color: "#fff" }}>
-                          Permissions
+                          player id
+                        </TableCell>
+                        <TableCell style={{ color: "#fff" }}>Height</TableCell>
+                        <TableCell style={{ color: "#fff" }}>Weight</TableCell>
+                        <TableCell style={{ color: "#fff" }}>Age</TableCell>
+                        <TableCell style={{ color: "#fff" }}>
+                          Current Team
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>
-                          Block/Unblock
+                          Experience
                         </TableCell>
-                        <TableCell style={{ color: "#fff" }}>Action</TableCell>
                         {/* <TableCell style={{ color: "#fff" }}>Edit</TableCell> */}
                       </TableRow>
                     </TableHead>
@@ -106,95 +120,40 @@ export const PlayerList = (props: Props) => {
                               selectedCustomerIds.indexOf(customer._id) !== -1
                             }
                           >
-                            <TableCell>{customer?.name}</TableCell>
-                            <TableCell>{customer?.email}</TableCell>
-
-                            <TableCell>{customer?.role}</TableCell>
-
-                            {/* <TableCell>
-                              <Button onClick={handleClickOpen}>
-                                See Permissions
-                              </Button>
-                              <Dialog
-                                disableEscapeKeyDown
-                                open={openPer}
-                                onClose={handleClosePermissions}
-                              >
-                                <Box
-                                  sx={{
-                                    width: "100%",
-                                    maxHeight: "250px",
-                                    padding: "10px 10px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    flexDirection: "column",
-                                    overflow: "auto",
-                                    border: "1px solid #cbcbcb",
-                                    borderRadius: "8px",
-                                  }}
-                                >
-                                  {customer?.adminPermissions?.map(
-                                    (item, index) => (
-                                      <>
-                                        <Box
-                                          sx={{
-                                            display: "flex",
-                                            width: "100%",
-                                          }}
-                                        >
-                                          <ListItem
-                                            sx={{
-                                              fontWeight: "bold",
-                                              cursor: "default",
-                                              width: "100%",
-                                              color: "rebeccapurple",
-                                              borderBottom: "1px solid #cbcbcb",
-                                            }}
-                                            key={index}
-                                          >
-                                            {item?.name}
-                                          </ListItem>
-                                        </Box>
-                                      </>
-                                    )
-                                  )}
-                                </Box>
-                              </Dialog>
-                            </TableCell> */}
                             <TableCell>
-                              <FormControl fullWidth>
-                                {/* <InputLabel id="demo-simple-select-label">
-                                  See Permissions
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  label="See Permissions"
+                              <Box
+                                sx={{
+                                  alignItems: "center",
+                                  display: "flex",
+                                }}
+                              >
+                                <Avatar
+                                  src={customer?.detail?.PhotoUrl}
+                                  sx={{ mr: 2 }}
                                 >
-                                  {customer?.adminPermissions?.map(
-                                    (item, index) => (
-                                      <MenuItem key={index}>
-                                        {item.name}
-                                      </MenuItem>
-                                    )
-                                  )}
-                                </Select> */}
-                                {/* {customer?.adminPermissions.join(", ")} */}
-
-                                {customer?.adminPermissions?.map(
-                                  (name, i, v) =>
-                                    ` ${name}${
-                                      (i > 0 || i + 1 <= v.length) &&
-                                      i + 1 < v.length
-                                        ? ","
-                                        : ""
-                                    }`
-                                )}
-                              </FormControl>
+                                  {getInitials(customer?.detail?.Name)}
+                                </Avatar>
+                                <Typography color="textPrimary" variant="body1">
+                                  {customer?.detail?.Name}
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                            <TableCell>{customer?.detail?.PlayerID}</TableCell>
+                            <TableCell>
+                              {customer?.detail?.HeightFeet}F
+                            </TableCell>
+                            <TableCell>{customer?.detail?.Weight} lb</TableCell>
+                            <TableCell>{customer?.detail?.Age} </TableCell>
+                            <TableCell>
+                              {customer?.detail?.CurrentTeam
+                                ? customer?.detail?.CurrentTeam
+                                : "-"}{" "}
+                            </TableCell>
+                            <TableCell>
+                              {customer?.detail?.Experience} Y
                             </TableCell>
 
-                            <TableCell
+                            {/* <TableCell
                               onClick={() => handleBlockUser(customer)}
                             >
                               <Button
@@ -223,9 +182,6 @@ export const PlayerList = (props: Props) => {
                                 id={customer?._id}
                                 handleRefresh={RefreshAdminUsersData}
                               />
-                            </TableCell>
-                            {/* <TableCell onClick={() => onPressUpdate(customer)}>
-                              <ModeEditIcon color="secondary" />
                             </TableCell> */}
                           </TableRow>
                         </>
@@ -238,11 +194,11 @@ export const PlayerList = (props: Props) => {
           </PerfectScrollbar>
           <TablePagination
             component="div"
-            count={subadmin?.length}
+            count={count}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
-            rowsPerPage={limit}
+            rowsPerPage={10}
             rowsPerPageOptions={[5, 10, 25]}
           />
           <Modal

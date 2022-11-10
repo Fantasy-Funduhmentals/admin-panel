@@ -65,6 +65,7 @@ export const ListToolbar = (props: Props) => {
                 }}
                 placeholder={`Search ${title}`}
                 variant="outlined"
+                color="success"
               />
             </Box>
             <Box sx={{ maxWidth: 500 }}>

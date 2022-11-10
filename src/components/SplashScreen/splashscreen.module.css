@@ -4,22 +4,20 @@
 }
 .wrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: 97vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: center;
-
 }
 .logo {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
-.logo img{
+.logo img {
   width: 160px;
 }
 /* Loading Bar */
@@ -35,7 +33,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #7e8184;
+  background: #fff;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .CQRloader div:nth-child(1) {

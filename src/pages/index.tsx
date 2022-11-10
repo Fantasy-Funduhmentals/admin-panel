@@ -19,7 +19,6 @@ import { useAppSelector } from "../store/hooks";
 import { saveMasterBalances } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 import { setupAxios } from "../utils/axiosClient";
-import Router from "next/router";
 import LogsModal from "../components/dashboard/logs-modal";
 import { getAdminStats } from "../services/coinService";
 const Dashboard = () => {
@@ -31,7 +30,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const dispatch = useDispatch();
-  const [userModelOpen, setUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
 
   const getCardsData = async () => {
@@ -39,6 +37,10 @@ const Dashboard = () => {
       setLoading(true);
       setupAxios();
       const cardsData = await getAdminStats();
+      console.log(
+        "🚀 ~ file: index.tsx ~ line 42 ~ getCardsData ~ cardsData",
+        cardsData
+      );
       dispatch(saveMasterBalances(cardsData.data));
       setLoading(false);
     } catch (err) {
@@ -109,23 +111,31 @@ const Dashboard = () => {
                   <Grid item lg={6} sm={6} xl={3} xs={12}>
                     {/* <Budget /> */}
                     <DashboardCard
-                      title="Total No. of Projects"
-                      value={masterBalances?.totalProjects}
+                      title="Total No. of Players"
+                      value={masterBalances?.playersCount}
                       image="/Projects.png"
                     />
                   </Grid>
                   <Grid item xl={3} lg={6} sm={6} xs={12}>
                     {/* <TotalCustomers /> */}
                     <DashboardCard
-                      title="Total TokenNow Profit"
-                      value={masterBalances?.profit}
+                      title="Fantasy fundumentals Gear Shop"
+                      value={
+                        masterBalances?.shopsCount
+                          ? masterBalances?.shopsCount
+                          : "-"
+                      }
                       image="/Profit.png"
                     />
                   </Grid>
                   <Grid item xl={3} lg={6} sm={6} xs={12}>
                     <DashboardCard
                       title="Total Investment"
-                      value={masterBalances?.investment}
+                      value={
+                        masterBalances?.investment
+                          ? masterBalances?.investment
+                          : "-"
+                      }
                       image="/Investment.png"
                     />
                   </Grid>
@@ -133,7 +143,11 @@ const Dashboard = () => {
                     <DashboardCard
                       title="Total Users
                       "
-                      value={masterBalances?.users}
+                      value={
+                        masterBalances?.usersCount
+                          ? masterBalances?.usersCount
+                          : "-"
+                      }
                     />
                   </Grid>
 
@@ -147,14 +161,7 @@ const Dashboard = () => {
               )}
             </Container>
           </Box>
-          <LogsModal
-            open={userModelOpen}
-            // walletData={data}
-            onClose={() => {
-              setUserModalOpen(false);
-              setReload(!reload);
-            }}
-          />
+
           <StatusModal
             statusData={statusData}
             onClose={() => setStatusData(null)}

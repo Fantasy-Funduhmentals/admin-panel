@@ -33,6 +33,7 @@ import { resetCoinState } from "../store/reducers/coinSlice";
 import { resetSettingsState } from "../store/reducers/settingsSlice";
 import { RootState } from "../store";
 import { resetEmailState } from "../store/reducers/emailSlice";
+import { handleUserJwt } from "../services/userService";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -64,6 +65,15 @@ export const DashboardNavbar = (props) => {
     Router.push("/login");
   };
 
+  const getUserJwtData = async () => {
+    try {
+      await handleUserJwt();
+      console.log("first");
+    } catch (error) {
+      handleLogout();
+    }
+  };
+
   /* @ts-ignore */
   useEffect(() => {
     try {
@@ -71,6 +81,7 @@ export const DashboardNavbar = (props) => {
     } catch (error) {
       handleLogout();
     }
+    getUserJwtData();
   }, []);
 
   return (

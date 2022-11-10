@@ -14,13 +14,33 @@ import { useAppSelector } from "../../store/hooks";
 export const TrafficByDevice = (props) => {
   const { masterBalances, users } = useAppSelector((state: any) => state?.user);
   let data = [
-    { name: "Residential Projects", value: masterBalances?.reservedProjects },
-    { name: "Commercial Projects", value: masterBalances?.commercialProjects },
-    { name: "Total No. of Sellers", value: masterBalances?.totalSellers },
-    { name: "Total No. of Buyers", value: masterBalances?.totalBuyers },
-    { name: "Completed Projects", value: masterBalances?.completedProjects },
-    { name: "Future Projects", value: masterBalances?.futureProjects },
-    { name: "Reserved Projects", value: masterBalances?.residentialProjects },
+    {
+      name: "Total Projects",
+      value: masterBalances?.reservedProjects
+        ? masterBalances?.reservedProjects
+        : "-",
+    },
+
+    {
+      name: "Total No. of Sellers",
+      value: masterBalances?.totalSellers ? masterBalances?.totalSellers : "-",
+    },
+    {
+      name: "Total No. of Buyers",
+      value: masterBalances?.totalBuyers ? masterBalances?.totalBuyers : "-",
+    },
+    {
+      name: "Completed Projects",
+      value: masterBalances?.completedProjects
+        ? masterBalances?.completedProjects
+        : "-",
+    },
+    {
+      name: "Future Projects",
+      value: masterBalances?.futureProjects
+        ? masterBalances?.futureProjects
+        : "-",
+    },
   ];
   return (
     <Card sx={{ paddingBottom: "20px" }}>

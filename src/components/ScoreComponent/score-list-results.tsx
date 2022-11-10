@@ -20,37 +20,38 @@ import { getInitials } from "../../utils/get-initials";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
+  handleLimitChange?: (prop?: any) => void;
+  handlePageChange?: (event: any, prop?: any) => void;
+  limit?: number;
+  page?: number;
+  count?: number;
 }
 
 export const ScoreListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const {
+    data,
+    searchQuery,
+    limit,
+    page,
+    handleLimitChange,
+    handlePageChange,
+    count,
+  } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
 
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
     const end = begin + limit;
 
     if (searchQuery.length > 0) {
-      return data
-        .filter(
-          (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.coinSymbol?.toLowerCase().includes(searchQuery.toLowerCase())
+      return data.filter((user) =>
+        user?.detail?.StadiumDetails?.Name?.toLowerCase().includes(
+          searchQuery.toLowerCase()
         )
-        .slice(begin, end);
+      );
     } else {
-      return data?.slice(begin, end);
+      return data;
     }
   }, [page, limit, data, searchQuery]);
 
@@ -76,21 +77,24 @@ export const ScoreListResults = (props: Props) => {
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Name</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Blockchain</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Price</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Change 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>High 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Low 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Market Cap</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Total Volume</TableCell>
+                  <TableCell style={{ color: "#fff" }}>City</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Country</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Playing Surface
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>State</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Score ID</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Home Team</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Season</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {dataToDisplay?.map((customer) => (
                   <TableRow
                     hover
-                    key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                    key={customer?._id}
+                    selected={selectedCustomerIds.indexOf(customer?._id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -99,37 +103,33 @@ export const ScoreListResults = (props: Props) => {
                           display: "flex",
                         }}
                       >
-                        <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
-                          {getInitials(customer.name)}
+                        <Avatar
+                          src={customer?.detail?.icon?.url}
+                          sx={{ mr: 2 }}
+                        >
+                          {getInitials(customer?.detail?.StadiumDetails?.Name)}
                         </Avatar>
                         <Typography color="textPrimary" variant="body1">
-                          {customer.name}
+                          {customer?.detail?.StadiumDetails?.Name}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.blockchain}</TableCell>
-                    <TableCell>{customer.rate.toLocaleString()} $</TableCell>
-                    <TableCell
-                      style={{
-                        color:
-                          Number(customer.changePercentage24h) < 0
-                            ? "red"
-                            : "green",
-                      }}
-                    >
-                      {parseFloat(customer.changePercentage24h).toFixed(2)} %
-                    </TableCell>
-                    <TableCell style={{ color: "green" }}>
-                      {customer.high24h.toLocaleString()}
-                    </TableCell>
-                    <TableCell style={{ color: "red" }}>
-                      {customer.low24h.toLocaleString()}{" "}
-                    </TableCell>
-
-                    <TableCell>{customer.marketCap.toLocaleString()}</TableCell>
                     <TableCell>
-                      {customer.totalVolume.toLocaleString()}
+                      {customer?.detail?.StadiumDetails?.City}
                     </TableCell>
+                    <TableCell>
+                      {customer?.detail?.StadiumDetails?.Country}
+                    </TableCell>
+                    <TableCell>
+                      {customer?.detail?.StadiumDetails?.PlayingSurface}
+                    </TableCell>
+                    <TableCell>
+                      {customer?.detail?.StadiumDetails?.State}
+                    </TableCell>
+                    <TableCell>{customer?.detail?.ScoreID}</TableCell>
+                    <TableCell>{customer?.detail?.HomeTeam}</TableCell>
+                    <TableCell>{customer?.detail?.Season}</TableCell>
+                    <TableCell>{customer?.detail?.Status}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -139,7 +139,7 @@ export const ScoreListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={count}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

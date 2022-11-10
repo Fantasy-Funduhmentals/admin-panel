@@ -14,5 +14,20 @@ const getMasterAddressBalances = async () => {
 const getWalletLogs = async () => {
   return await HTTP_CLIENT.get("/admin-wallet/logs");
 };
+const getScoreData = async (
+  dropDownValue: any,
+  limit: number,
+  page: number
+) => {
+  return await HTTP_CLIENT.get(
+    `/scores?upcoming=${dropDownValue}&page=${page}&limit=${limit}`
+  );
+};
 
-export { uploadImage, uploadUserCsv, getMasterAddressBalances, getWalletLogs };
+export {
+  uploadImage,
+  uploadUserCsv,
+  getMasterAddressBalances,
+  getWalletLogs,
+  getScoreData,
+};

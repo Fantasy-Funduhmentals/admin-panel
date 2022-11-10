@@ -1,5 +1,6 @@
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import { CacheProvider } from "@emotion/react";
+import { Route } from "@mui/icons-material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { CssBaseline } from "@mui/material";
@@ -17,7 +18,6 @@ import { store } from "../store";
 import { theme } from "../theme";
 import { setupAxios } from "../utils/axiosClient";
 import { createEmotionCache } from "../utils/create-emotion-cache";
-import Login from "./login";
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
@@ -29,12 +29,18 @@ const App = (props) => {
 
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
-  const { accessToken } = store.getState().user;
-  let UserSatus;
+  const { accessToken, role } = store.getState().user;
 
   useEffect(() => {
-    if (accessToken && Router.asPath != "/login") {
+    if (accessToken) {
       <Component {...pageProps} />;
+      if (accessToken && Router.asPath === "/login") {
+        if (role?.role == "sub admin") {
+          Router.push(`/${role?.adminPermissions[0]}`);
+        } else {
+          Router.push("/");
+        }
+      }
     } else {
       Router.push("/login");
     }

@@ -4,25 +4,21 @@ import { RootState } from "../../store";
 import { useAppSelector } from "../../store/hooks";
 import { getNormalizedError } from "../../utils/helpers";
 
-const usePlayerData = (searchQuery, RefreshAdminUsersData) => {
+const usePlayerData = (
+  searchQuery,
+  RefreshAdminUsersData,
+  data,
+  page,
+  limit
+) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const { subadmin } = useAppSelector((state: RootState) => state?.adminUser);
 
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
   const [rejectShow, setrejectShow] = useState(false);
   const [signleUser, setsignleUser] = useState(null);
   const [reason, setReason] = useState(null);
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
 
   const handleTextAreaChange = (e) => {
     setReason(e.target.value);
@@ -31,19 +27,14 @@ const usePlayerData = (searchQuery, RefreshAdminUsersData) => {
   const dataToDisplay = useMemo(() => {
     const begin = page * limit;
     const end = begin + limit;
-
     if (searchQuery.length > 0) {
-      return subadmin
-        .filter(
-          (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        .slice(begin, end);
+      return data.filter((user) =>
+        user.detail?.Name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     } else {
-      return subadmin?.slice(begin, end);
+      return data;
     }
-  }, [page, limit, subadmin, searchQuery]);
+  }, [data, searchQuery]);
 
   const handleBlockUser = (data) => {
     if (data.isBlocked) {
@@ -105,10 +96,7 @@ const usePlayerData = (searchQuery, RefreshAdminUsersData) => {
     dataToDisplay,
     selectedCustomerIds,
     handleBlockUser,
-    handlePageChange,
-    handleLimitChange,
-    page,
-    limit,
+
     rejectShow,
     handleClose,
     loading,

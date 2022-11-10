@@ -6,6 +6,9 @@ export type userState = {
   role: string | any;
   userId: string;
   masterBalances: {
+    shopsCount: string;
+    usersCount: string;
+    playersCount: string;
     graph: any;
     futureProjects: any;
     residentialProjects: any;
@@ -14,7 +17,6 @@ export type userState = {
     totalSellers: any;
     reservedProjects: any;
     commercialProjects: any;
-    totalProjects: any;
     profit: any;
     investment: any;
     users: any;
@@ -27,6 +29,9 @@ const initialState: userState = {
   role: "",
   masterBalances: {
     graph: null,
+    usersCount: "0",
+    playersCount: "0",
+    shopsCount: "0",
     futureProjects: "0",
     residentialProjects: "0",
     completedProjects: "0",
@@ -34,7 +39,6 @@ const initialState: userState = {
     totalSellers: "0",
     reservedProjects: "0",
     commercialProjects: "0",
-    totalProjects: "0",
     profit: "0",
     investment: "0",
     users: "0",
