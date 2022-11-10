@@ -30,6 +30,7 @@ const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
   const { accessToken, role } = store.getState().user;
+  console.log("🚀 ~ file: _app.tsx ~ line 33 ~ App ~ accessToken", accessToken);
 
   useEffect(() => {
     if (accessToken) {
