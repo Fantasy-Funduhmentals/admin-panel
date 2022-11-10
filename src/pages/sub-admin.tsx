@@ -1,33 +1,50 @@
 import { Box, Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import Head from "next/head";
-import { useState } from "react";
-import AddSubAdminModal from "../components/add-subadmin-modal";
+import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
 import { AdminsList } from "../components/sub-admin/sub-admin";
 import UpdateSubAdminModal from "../components/sub-admin/updateSubAdmin/update-subadmin-modal";
+import { getAdminUserData } from "../services/tokenService";
+import { useAppDispatch } from "../store/hooks";
+import { saveAdminUser } from "../store/reducers/adminSlice";
+import { getNormalizedError } from "../utils/helpers";
 
 const SubAdmin = () => {
+  const dispatch = useAppDispatch();
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
-  const [updateuserModelOpen, setUpdateUserModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
-  const [refreshData, setRefreshData] = useState(false);
-  const [editToken, setEditToken] = useState(null);
+  const [editSubAdmin, setEditSubAdmin] = useState(null);
+  const [loadingApi, setLoadingApi] = useState(false);
 
   const OpenAddUserModal = (userData: any) => {
     setUserModalOpen(!userModelOpen);
+    setEditSubAdmin(userData);
   };
-  const OpenUpdateUserModal = (userData: any) => {
-    setUpdateUserModalOpen(!updateuserModelOpen);
-    setEditToken(userData);
+
+  const getAdminUsers = async () => {
+    try {
+      setLoadingApi(true);
+      const AdminUser = await getAdminUserData();
+      dispatch(saveAdminUser(AdminUser?.data));
+      setLoadingApi(false);
+    } catch (err) {
+      setLoadingApi(false);
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+    }
   };
-  const getAdminUsersData = async () => {
-    await setRefreshData(!refreshData);
-  };
+
+  useEffect(() => {
+    getAdminUsers();
+  }, []);
 
   return (
     <>
@@ -50,7 +67,7 @@ const SubAdmin = () => {
               alignItems: "flex-end",
             }}
           >
-            <Button variant="contained" onClick={OpenAddUserModal}>
+            <Button variant="contained" onClick={() => setUserModalOpen(true)}>
               Add Sub Admin
             </Button>
             <ListToolbar
@@ -60,17 +77,16 @@ const SubAdmin = () => {
                 setSearchText(ev.target.value);
               }}
               style={{ width: "100%" }}
-              handleRefresh={getAdminUsersData}
+              handleRefresh={getAdminUsers}
             />
           </Box>
 
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             <AdminsList
-              refresh={refreshData}
-              RefreshAdminUsersData={getAdminUsersData}
+              loadingApi={loadingApi}
+              RefreshAdminUsersData={getAdminUsers}
               searchQuery={searchText}
-              onPressEdit={OpenAddUserModal}
-              onPressUpdate={OpenUpdateUserModal}
+              onPressUpdate={OpenAddUserModal}
               style={{ width: "100%" }}
             />
           </Box>
@@ -80,21 +96,15 @@ const SubAdmin = () => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-      <AddSubAdminModal
+
+      <UpdateSubAdminModal
         open={userModelOpen}
+        editData={editSubAdmin}
         onClose={() => {
           setUserModalOpen(false);
+          setEditSubAdmin(null);
           setReload(!reload);
         }}
-      />
-      <UpdateSubAdminModal
-        open={updateuserModelOpen}
-        onClose={() => {
-          setUpdateUserModalOpen(false);
-          setEditToken(null);
-          setReload(!reload);
-        }}
-        editData={editToken}
       />
     </>
   );

@@ -1,6 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  Avatar,
   Card,
   CardContent,
   CardHeader,
@@ -9,12 +8,13 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  ListItemText,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
-import Multiselect from "multiselect-react-dropdown";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
@@ -24,10 +24,10 @@ import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
-import useUpdateModal from "./useUpdateModal";
-import PageItem from "../pagesData";
+import React from "react";
 import StatusModal from "../../StatusModal";
+import PageItem from "../pagesData";
+import useUpdatePlayerModal from "./useUpdateModal";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -46,21 +46,17 @@ interface Props {
 
 const UpdatePlayerModal = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(
-    "🚀 ~ file: add-subadmin-modal.tsx ~ line 50 ~ AddUserModal ~ editData",
-    editData
-  );
 
   const {
-    onRemove,
-    onSelect,
     loading,
     formik,
     statusData,
     setStatusData,
     handleDurationChange,
     selectItems,
-  } = useUpdateModal(open, onClose, editData);
+    selectedPermission,
+    handleChange,
+  } = useUpdatePlayerModal(open, onClose, editData);
   const Item = [
     {
       name: "sub admin",
@@ -151,6 +147,7 @@ const UpdatePlayerModal = (props: Props) => {
                             required
                             value={formik.values.name}
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -167,6 +164,7 @@ const UpdatePlayerModal = (props: Props) => {
                             helperText="Please enter sub-admin email address"
                             required
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -184,44 +182,46 @@ const UpdatePlayerModal = (props: Props) => {
                             required
                             type="password"
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
-                          <FormControl fullWidth>
-                            <Multiselect
-                              showArrow={true}
-                              keepSearchTerm={true}
-                              avoidHighlightFirstOption={true}
-                              hidePlaceholder={true}
-                              style={{
-                                chips: {
-                                  background: "#5048E5",
-                                },
-                                searchBox: {
-                                  border: "1px solid rgb(230 232 240)",
-                                  fontSize: "10px",
-                                  minHeight: "55px",
-                                },
-                                inputField: {
-                                  color: "black",
-                                },
-                              }}
-                              placeholder="Please select permission"
-                              showCheckbox={true}
-                              options={PageItem}
-                              onSelect={onSelect}
-                              onRemove={onRemove}
-                              displayValue="name"
-                            />
+                          <FormControl sx={{ width: "100%" }} fullWidth>
+                            <InputLabel
+                              id="demo-multiple-checkbox-label"
+                              color="success"
+                            >
+                              Please select permission
+                            </InputLabel>
+                            <Select
+                              labelId="demo-multiple-checkbox-label"
+                              id="demo-multiple-checkbox"
+                              multiple
+                              value={selectedPermission}
+                              onChange={handleChange}
+                              input={<OutlinedInput label="Select" />}
+                              renderValue={(selected) => selected.join(", ")}
+                              color="success"
+                            >
+                              {PageItem.map((item, index) => (
+                                <MenuItem key={item.id} value={item.name}>
+                                  <ListItemText primary={item.name} />
+                                </MenuItem>
+                              ))}
+                            </Select>
                           </FormControl>
                           <Grid />
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
+                            <InputLabel
+                              id="demo-simple-select-label"
+                              color="success"
+                            >
                               Select Role
                             </InputLabel>
                             <Select
+                              color="success"
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
                               value={selectItems}

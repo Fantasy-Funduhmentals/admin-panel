@@ -104,7 +104,9 @@ const toggle = () => {
             <ToggleButton value="ON" onClick={(e) => handleClickOpen(e)}>
               ON
             </ToggleButton>
-            <ToggleButton value="OFF">OFF</ToggleButton>
+            <ToggleButton value="OFF" color="success">
+              OFF
+            </ToggleButton>
           </ToggleButtonGroup>
         </>
       )}

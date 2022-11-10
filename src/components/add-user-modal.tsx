@@ -47,18 +47,6 @@ interface Props {
 }
 
 const AddUserModal = (props: Props) => {
-  const Item = [
-    {
-      name: "standard user",
-    },
-    {
-      name: "sdira",
-    },
-    // {
-    //   name: "ira",
-    // },
-  ];
-
   const { open, onClose, editData } = props;
 
   // const [image, setImage] = useState(null);
@@ -148,8 +136,8 @@ const AddUserModal = (props: Props) => {
       let params = {
         ...values,
         // sdira: true,
-        type: selectItems == "standard user" ? "standard" : "sdira",
-        isWalletActivated: recievestatus,
+        // type: selectItems == "standard user" ? "standard" : "sdira",
+        // isWalletActivated: recievestatus,
       };
 
       // const userProfileImage = await handleImageUpload(image, "profilePicture");
@@ -296,6 +284,7 @@ const AddUserModal = (props: Props) => {
                             required
                             value={formik.values.name}
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -312,6 +301,7 @@ const AddUserModal = (props: Props) => {
                             helperText="Please enter user email address"
                             required
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -328,33 +318,10 @@ const AddUserModal = (props: Props) => {
                             helperText="Please enter the password for this email."
                             required
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              Select Items
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={selectItems}
-                              label="Select Items"
-                              onChange={handleDurationChange}
-                            >
-                              {Item.map((item, index) => (
-                                <MenuItem key={index} value={item.name}>
-                                  {item.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                          <Grid />
-                        </Grid>
                       </Grid>
-                      <Card sx={{ mt: 3 }}>
-                        <ToggleButton recieveData={recieveData} />
-                      </Card>
                     </CardContent>
                     <Divider />
                     <Box

@@ -2,12 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export type coinState = {
   coins: any[];
-  wallets: any[];
 };
 
 const initialState: coinState = {
   coins: [],
-  wallets: [],
 };
 
 export const coinSlice = createSlice({
@@ -18,13 +16,9 @@ export const coinSlice = createSlice({
     saveCoins: (state, action) => {
       state.coins = action.payload;
     },
-    saveCryptoWallets: (state, action) => {
-      state.wallets = action.payload;
-    },
   },
 });
 
-export const { saveCoins, resetCoinState, saveCryptoWallets } =
-  coinSlice.actions;
+export const { saveCoins, resetCoinState } = coinSlice.actions;
 
 export default coinSlice.reducer;

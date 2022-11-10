@@ -33,10 +33,10 @@ const App = (props) => {
   let UserSatus;
 
   useEffect(() => {
-    if (!accessToken) {
-      Router.push("/login");
+    if (accessToken && Router.asPath != "/login") {
+      <Component {...pageProps} />;
     } else {
-      Router.push("/");
+      Router.push("/login");
     }
     setupAxios();
   }, []);

@@ -4,12 +4,15 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   CircularProgress,
   Container,
   FormControl,
   Grid,
   InputLabel,
+  ListItemText,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
 } from "@mui/material";
@@ -46,20 +49,16 @@ interface Props {
 
 const UpdateSubAdminModal = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(
-    "🚀 ~ file: add-subadmin-modal.tsx ~ line 50 ~ AddUserModal ~ editData",
-    editData
-  );
 
   const {
-    onRemove,
-    onSelect,
     loading,
     formik,
     statusData,
     setStatusData,
     handleDurationChange,
     selectItems,
+    selectedPermission,
+    handleChange,
   } = useUpdateModal(open, onClose, editData);
   const Item = [
     {
@@ -76,7 +75,13 @@ const UpdateSubAdminModal = (props: Props) => {
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar
+            sx={{
+              background: "#232325",
+              boxShadow:
+                "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
+            }}
+          >
             <IconButton
               edge="start"
               color="inherit"
@@ -99,6 +104,7 @@ const UpdateSubAdminModal = (props: Props) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            background: "#111112",
           }}
         >
           <Container maxWidth="xl">
@@ -117,7 +123,7 @@ const UpdateSubAdminModal = (props: Props) => {
                 md={6}
                 xs={12}
                 sx={{
-                  boxShadow: "#0000004a 1px 1px 18px",
+                  // boxShadow: "#0000004a 1px 1px 18px",
                   borderRadius: "10px",
                 }}
               >
@@ -144,6 +150,7 @@ const UpdateSubAdminModal = (props: Props) => {
                             required
                             value={formik.values.name}
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -160,6 +167,7 @@ const UpdateSubAdminModal = (props: Props) => {
                             helperText="Please enter sub-admin email address"
                             required
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -177,44 +185,46 @@ const UpdateSubAdminModal = (props: Props) => {
                             required
                             type="password"
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
-                          <FormControl fullWidth>
-                            <Multiselect
-                              showArrow={true}
-                              keepSearchTerm={true}
-                              avoidHighlightFirstOption={true}
-                              hidePlaceholder={true}
-                              style={{
-                                chips: {
-                                  background: "#5048E5",
-                                },
-                                searchBox: {
-                                  border: "1px solid rgb(230 232 240)",
-                                  fontSize: "10px",
-                                  minHeight: "55px",
-                                },
-                                inputField: {
-                                  color: "black",
-                                },
-                              }}
-                              placeholder="Please select permission"
-                              showCheckbox={true}
-                              options={PageItem}
-                              onSelect={onSelect}
-                              onRemove={onRemove}
-                              displayValue="name"
-                            />
+                          <FormControl sx={{ width: "100%" }} fullWidth>
+                            <InputLabel
+                              id="demo-multiple-checkbox-label"
+                              color="success"
+                            >
+                              Please select permission
+                            </InputLabel>
+                            <Select
+                              labelId="demo-multiple-checkbox-label"
+                              id="demo-multiple-checkbox"
+                              multiple
+                              value={selectedPermission}
+                              onChange={handleChange}
+                              input={<OutlinedInput label="Select" />}
+                              renderValue={(selected) => selected.join(", ")}
+                              color="success"
+                            >
+                              {PageItem.map((item, index) => (
+                                <MenuItem key={item.id} value={item.name}>
+                                  <ListItemText primary={item.name} />
+                                </MenuItem>
+                              ))}
+                            </Select>
                           </FormControl>
                           <Grid />
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
+                            <InputLabel
+                              id="demo-simple-select-label"
+                              color="success"
+                            >
                               Select Role
                             </InputLabel>
                             <Select
+                              color="success"
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
                               value={selectItems}

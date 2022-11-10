@@ -73,7 +73,7 @@ const Dashboard = () => {
       ) : (
         <>
           <Head>
-            <title>Dashboard | TokenNow</title>
+            <title>Dashboard </title>
           </Head>
 
           <Box

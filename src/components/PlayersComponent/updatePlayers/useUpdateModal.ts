@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getAdminUserData } from "../../services/tokenService";
-import { createSubAdminUser } from "../../services/userService";
-import { saveAdminUser } from "../../store/reducers/adminSlice";
-import { getNormalizedError } from "../../utils/helpers";
-import * as Yup from "yup";
-import ToggleButton from "../toggleButton/toggle";
-import { useFormik } from "formik";
-import { useAppDispatch } from "../../store/hooks";
 
-const useSubadminModal = (open, onClose) => {
+import * as Yup from "yup";
+
+import { useFormik } from "formik";
+import { useAppDispatch } from "../../../store/hooks";
+import { createSubAdminUser } from "../../../services/userService";
+import { getNormalizedError } from "../../../utils/helpers";
+import { getAdminUserData } from "../../../services/tokenService";
+import { saveAdminUser } from "../../../store/reducers/adminSlice";
+
+const useUpdatePlayerModal = (open, onClose, editData) => {
   const dispatch = useAppDispatch();
   const [statusData, setStatusData] = useState(null);
-  const [selectedPermission, setSelectedPermission] = useState([]);
+  const [selectedPermission, setSelectedPermission]: any[] = useState([]);
   const [toggleCheck, settoggleCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [Data, setData] = useState(false);
@@ -21,18 +22,8 @@ const useSubadminModal = (open, onClose) => {
     setSelectItems(event.target.value);
   };
 
-  const onSelect = (selectedList) => {
-    console.log(
-      "🚀 ~ file: useSubadminModal.ts ~ line 29 ~ onSelect ~ selectedList",
-      selectedList
-    );
-    setSelectedPermission(selectedList);
-    settoggleCheck(!toggleCheck);
-  };
-
-  const onRemove = (selectedList, selectedItem) => {
-    setSelectedPermission(selectedList);
-    settoggleCheck(!toggleCheck);
+  const handleChange = (value) => {
+    setSelectedPermission(value.target.value);
   };
 
   useEffect(() => {
@@ -41,8 +32,8 @@ const useSubadminModal = (open, onClose) => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
+      name: editData?.name ? editData?.name : "",
+      email: editData?.email ? editData?.email : "",
       password: "",
     },
     enableReinitialize: true,
@@ -70,13 +61,6 @@ const useSubadminModal = (open, onClose) => {
   });
 
   const handleSubmit = async (values, actions) => {
-    if (selectItems === "") {
-      setStatusData({
-        type: "error",
-        message: "Please select admin roll first",
-      });
-      return;
-    }
     if (selectedPermission?.length === 0) {
       setStatusData({
         type: "error",
@@ -89,14 +73,25 @@ const useSubadminModal = (open, onClose) => {
       setStatusData(null);
       setLoading(true);
 
+      // if (editData) {
+      //   let params = {
+      //     _id: editData?._id,
+      //     name: values.name,
+      //     email: values.email,
+      //     password: values.password,
+      //     adminPermissions: selectedPermission,
+      //   };
+      // await UpdateSubAdminData(params);
+      // } else {
       let params = {
         name: values.name,
         email: values.email,
         password: values.password,
-        role: selectItems,
         adminPermissions: selectedPermission,
+        role: selectItems,
       };
       await createSubAdminUser(params);
+      // }
       setData(!Data);
       formik.resetForm();
       onClose();
@@ -132,15 +127,15 @@ const useSubadminModal = (open, onClose) => {
   };
 
   return {
-    onRemove,
-    onSelect,
     loading,
     formik,
     statusData,
     setStatusData,
     handleDurationChange,
     selectItems,
+    selectedPermission,
+    handleChange,
   };
 };
 
-export default useSubadminModal;
+export default useUpdatePlayerModal;

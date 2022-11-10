@@ -3,10 +3,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
-import { ScoreListResults } from "../components/ScoreComponent/score-list-results";
 import StatusModal from "../components/StatusModal";
 import { TeamListResults } from "../components/teamComponent/team-list-results";
-import { getCoins } from "../services/coinService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCoins } from "../store/reducers/coinSlice";
@@ -22,8 +20,8 @@ const Team = () => {
   const getCoinsListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await getCoins();
-
+      // const coinsRes = await getCoins();
+      let coinsRes;
       dispatch(saveCoins(coinsRes));
       setLoading(false);
     } catch (err) {

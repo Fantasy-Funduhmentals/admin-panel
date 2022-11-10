@@ -20,7 +20,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { Bell as BellIcon } from "../icons/bell";
 import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -31,8 +30,6 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 import { setupAxios } from "../utils/axiosClient";
 import { resetAdminState } from "../store/reducers/adminSlice";
 import { resetCoinState } from "../store/reducers/coinSlice";
-import { resetCompleteDirectWireState } from "../store/reducers/completeDirectWire";
-import { resetRequestState } from "../store/reducers/requestSlice";
 import { resetSettingsState } from "../store/reducers/settingsSlice";
 import { RootState } from "../store";
 import { resetEmailState } from "../store/reducers/emailSlice";
@@ -62,10 +59,7 @@ export const DashboardNavbar = (props) => {
     dispatch(resetUserState());
     dispatch(resetAdminState());
     dispatch(resetCoinState());
-    dispatch(resetCompleteDirectWireState());
-    dispatch(resetRequestState());
     dispatch(resetSettingsState());
-    dispatch(resetCompleteDirectWireState());
     dispatch(resetEmailState());
     Router.push("/login");
   };
@@ -74,7 +68,6 @@ export const DashboardNavbar = (props) => {
   useEffect(() => {
     try {
       setupAxios();
-      // await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
       handleLogout();
     }

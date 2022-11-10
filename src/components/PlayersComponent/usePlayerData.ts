@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { getAdminUserData } from "../../services/tokenService";
+import { useMemo, useState } from "react";
 import { handleBlockSubAdmin } from "../../services/userService";
 import { RootState } from "../../store";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { saveAdminUser } from "../../store/reducers/adminSlice";
+import { useAppSelector } from "../../store/hooks";
 import { getNormalizedError } from "../../utils/helpers";
 
-const usePlayerHook = (searchQuery, refresh, RefreshAdminUsersData) => {
+const usePlayerData = (searchQuery, RefreshAdminUsersData) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const { subadmin } = useAppSelector((state: RootState) => state?.adminUser);
-  const dispatch = useAppDispatch();
+
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [rejectShow, setrejectShow] = useState(false);
@@ -17,23 +15,6 @@ const usePlayerHook = (searchQuery, refresh, RefreshAdminUsersData) => {
   const [reason, setReason] = useState(null);
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
-  const [loadingApi, setLoadingApi] = useState(false);
-
-  const getAdminUsers = async () => {
-    try {
-      setLoadingApi(true);
-      const AdminUser = await getAdminUserData();
-      dispatch(saveAdminUser(AdminUser?.data));
-      setLoadingApi(false);
-    } catch (err) {
-      setLoadingApi(false);
-      const error = getNormalizedError(err);
-      setStatusData({
-        type: "error",
-        message: error,
-      });
-    }
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -119,9 +100,6 @@ const usePlayerHook = (searchQuery, refresh, RefreshAdminUsersData) => {
       setloading(false);
     }
   };
-  useEffect(() => {
-    getAdminUsers();
-  }, [refresh]);
 
   return {
     dataToDisplay,
@@ -139,9 +117,7 @@ const usePlayerHook = (searchQuery, refresh, RefreshAdminUsersData) => {
     statusData,
     setStatusData,
     subadmin,
-    loadingApi,
-    getAdminUsers,
   };
 };
 
-export default usePlayerHook;
+export default usePlayerData;

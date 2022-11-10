@@ -1,8 +1,12 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  Avatar,
   Box,
+  Button,
   Card,
   CardProps,
+  CircularProgress,
+  FormControl,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -10,43 +14,25 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
-  Button,
-  Modal,
   TextareaAutosize,
-  CircularProgress,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  ListItem,
-  Divider,
-  List,
+  Typography,
 } from "@mui/material";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import PropTypes from "prop-types";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useMemo, useState } from "react";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import { SeverityPill } from "../severity-pill";
-import { HTTP_CLIENT } from "../../utils/axiosClient";
-import { useAppDispatch } from "../../store/hooks";
-import { getNormalizedError } from "../../utils/helpers";
-import StatusModal from "../StatusModal";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { saveAdminUser } from "../../store/reducers/adminSlice";
-import { getAdminUserData } from "../../services/tokenService";
-import { handleBlockSubAdmin } from "../../services/userService";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import StatusModal from "../StatusModal";
 import useSubadmin from "./useSubadmin";
 interface Props extends CardProps {
   searchQuery?: string;
-  refresh?: boolean;
-  onPressEdit?: any;
+  loadingApi?: boolean;
+
   RefreshAdminUsersData?: () => any;
   onPressUpdate?: any;
 }
@@ -54,10 +40,10 @@ interface Props extends CardProps {
 export const AdminsList = (props: Props) => {
   const {
     searchQuery,
-    refresh,
-    onPressEdit,
+
     RefreshAdminUsersData,
     onPressUpdate,
+    loadingApi,
   } = props;
   const {
     dataToDisplay,
@@ -75,8 +61,7 @@ export const AdminsList = (props: Props) => {
     statusData,
     setStatusData,
     subadmin,
-    loadingApi,
-  } = useSubadmin(searchQuery, refresh, RefreshAdminUsersData);
+  } = useSubadmin(searchQuery, RefreshAdminUsersData);
   return (
     <>
       {loadingApi ? (
@@ -108,7 +93,7 @@ export const AdminsList = (props: Props) => {
                           Block/Unblock
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>Action</TableCell>
-                        <TableCell style={{ color: "#fff" }}>Edit</TableCell>
+                        {/* <TableCell style={{ color: "#fff" }}>Edit</TableCell> */}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -198,7 +183,7 @@ export const AdminsList = (props: Props) => {
                                 {/* {customer?.adminPermissions.join(", ")} */}
 
                                 {customer?.adminPermissions?.map(
-                                  ({ name }, i, v) =>
+                                  (name, i, v) =>
                                     ` ${name}${
                                       (i > 0 || i + 1 <= v.length) &&
                                       i + 1 < v.length
@@ -239,9 +224,9 @@ export const AdminsList = (props: Props) => {
                                 handleRefresh={RefreshAdminUsersData}
                               />
                             </TableCell>
-                            <TableCell onClick={() => onPressUpdate(customer)}>
+                            {/* <TableCell onClick={() => onPressUpdate(customer)}>
                               <ModeEditIcon color="secondary" />
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         </>
                       ))}

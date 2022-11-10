@@ -117,6 +117,7 @@ export const SettingsPassword = (props) => {
               margin="normal"
               name="oldPassword"
               type="password"
+              color="success"
               variant="outlined"
             />
 
@@ -130,6 +131,7 @@ export const SettingsPassword = (props) => {
               margin="normal"
               name="password"
               type="password"
+              color="success"
               variant="outlined"
             />
             <TextField
@@ -142,6 +144,7 @@ export const SettingsPassword = (props) => {
               margin="normal"
               name="confirm"
               type="password"
+              color="success"
               variant="outlined"
             />
           </CardContent>

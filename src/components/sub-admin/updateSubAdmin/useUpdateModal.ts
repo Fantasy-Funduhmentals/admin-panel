@@ -4,19 +4,15 @@ import * as Yup from "yup";
 
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../../store/hooks";
-import { UpdateSubAdminData } from "../../../services/userService";
+import { createSubAdminUser } from "../../../services/userService";
 import { getNormalizedError } from "../../../utils/helpers";
 import { getAdminUserData } from "../../../services/tokenService";
 import { saveAdminUser } from "../../../store/reducers/adminSlice";
 
 const useUpdateModal = (open, onClose, editData) => {
-  console.log(
-    "🚀 ~ file: useSubadminModal.ts ~ line 13 ~ useSubadminModal ~ editData",
-    editData
-  );
   const dispatch = useAppDispatch();
   const [statusData, setStatusData] = useState(null);
-  const [selectedPermission, setSelectedPermission] = useState([]);
+  const [selectedPermission, setSelectedPermission]: any[] = useState([]);
   const [toggleCheck, settoggleCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [Data, setData] = useState(false);
@@ -26,18 +22,8 @@ const useUpdateModal = (open, onClose, editData) => {
     setSelectItems(event.target.value);
   };
 
-  const onSelect = (selectedList) => {
-    console.log(
-      "🚀 ~ file: useSubadminModal.ts ~ line 29 ~ onSelect ~ selectedList",
-      selectedList
-    );
-    setSelectedPermission(selectedList);
-    settoggleCheck(!toggleCheck);
-  };
-
-  const onRemove = (selectedList, selectedItem) => {
-    setSelectedPermission(selectedList);
-    settoggleCheck(!toggleCheck);
+  const handleChange = (value) => {
+    setSelectedPermission(value.target.value);
   };
 
   useEffect(() => {
@@ -75,13 +61,6 @@ const useUpdateModal = (open, onClose, editData) => {
   });
 
   const handleSubmit = async (values, actions) => {
-    if (selectItems === "") {
-      setStatusData({
-        type: "error",
-        message: "Please select admin roll first",
-      });
-      return;
-    }
     if (selectedPermission?.length === 0) {
       setStatusData({
         type: "error",
@@ -94,15 +73,25 @@ const useUpdateModal = (open, onClose, editData) => {
       setStatusData(null);
       setLoading(true);
 
+      // if (editData) {
+      //   let params = {
+      //     _id: editData?._id,
+      //     name: values.name,
+      //     email: values.email,
+      //     password: values.password,
+      //     adminPermissions: selectedPermission,
+      //   };
+      // await UpdateSubAdminData(params);
+      // } else {
       let params = {
-        _id: editData?._id,
         name: values.name,
         email: values.email,
         password: values.password,
-        role: selectItems,
         adminPermissions: selectedPermission,
+        role: selectItems,
       };
-      await UpdateSubAdminData(params);
+      await createSubAdminUser(params);
+      // }
       setData(!Data);
       formik.resetForm();
       onClose();
@@ -138,14 +127,14 @@ const useUpdateModal = (open, onClose, editData) => {
   };
 
   return {
-    onRemove,
-    onSelect,
     loading,
     formik,
     statusData,
     setStatusData,
     handleDurationChange,
     selectItems,
+    selectedPermission,
+    handleChange,
   };
 };
 

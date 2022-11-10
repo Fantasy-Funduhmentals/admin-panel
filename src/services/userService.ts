@@ -14,9 +14,7 @@ const getAllUsers = async () => {
 const changePassword = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/change-password", params);
 };
-const directWireAccountDetails = async (params: any) => {
-  return await HTTP_CLIENT.post("settings/admin/update-bank-details", params);
-};
+
 const getGraphData = async (params: any) => {
   return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
 };
@@ -52,7 +50,6 @@ export {
   createSubAdminUser,
   createNewUser,
   handleBlock,
-  directWireAccountDetails,
   getMaintenanceMode,
   getGraphData,
   getWalletData,

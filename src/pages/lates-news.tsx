@@ -5,7 +5,6 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { NewsListResults } from "../components/news/news-list-results";
 import StatusModal from "../components/StatusModal";
-import { getCoins } from "../services/coinService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCoins } from "../store/reducers/coinSlice";
@@ -21,8 +20,8 @@ const Coins = () => {
   const getCoinsListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await getCoins();
-
+      // const coinsRes = await getCoins();
+      let coinsRes;
       dispatch(saveCoins(coinsRes));
       setLoading(false);
     } catch (err) {
