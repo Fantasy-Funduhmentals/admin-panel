@@ -5,8 +5,10 @@ import AddUserModal from "../components/add-user-modal";
 import { UserListResults } from "../components/customer/customer-list-results";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
+import AddShopModal from "../components/shop/add-shop-modal";
 import { ShopListResults } from "../components/shop/shop-list-results";
 import StatusModal from "../components/StatusModal";
+import { getShopData } from "../services/shopService";
 import { getAllUsers } from "../services/userService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -14,20 +16,30 @@ import { saveUsers } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const Users = () => {
-  const { users } = useAppSelector((state: RootState) => state.user);
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [userModelOpen, setUserModalOpen] = useState(false);
+  const [shopModelOpen, setShopModalOpen] = useState(false);
+  const [editShop, setEditShop] = useState(null);
   const [reload, setReload] = useState(false);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(null);
+  const [data, setData]: any[] = useState();
 
-  const getUserListing = async () => {
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const getShopListing = async () => {
     try {
       setLoading(true);
-      const usersRes = await getAllUsers();
-
-      dispatch(saveUsers(usersRes.data.reverse()));
+      const usersRes = await getShopData(page, limit);
+      setCount(usersRes?.data?.total);
+      setData(usersRes?.data?.data);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -39,9 +51,14 @@ const Users = () => {
     }
   };
 
+  const OpenAddUserModal = (shopData: any) => {
+    setShopModalOpen(!shopModelOpen);
+    setEditShop(shopData);
+  };
+
   useEffect(() => {
-    getUserListing();
-  }, [reload]);
+    getShopListing();
+  }, [page, limit]);
 
   return (
     <>
@@ -63,9 +80,9 @@ const Users = () => {
               setSearchText(ev.target.value);
             }}
             onPressAdd={() => {
-              setUserModalOpen(true);
+              setShopModalOpen(true);
             }}
-            handleRefresh={getUserListing}
+            handleRefresh={getShopListing}
           />
           <Box
             style={{
@@ -81,10 +98,16 @@ const Users = () => {
               <CircularProgress />
             ) : (
               <ShopListResults
-                data={users}
+                data={data}
                 searchQuery={searchText}
-                handleRefresh={getUserListing}
+                handleRefresh={getShopListing}
                 style={{ width: "100%" }}
+                handlePageChange={handlePageChange}
+                handleLimitChange={handleLimitChange}
+                page={page}
+                limit={limit}
+                count={count}
+                onPressUpdate={OpenAddUserModal}
               />
             )}
           </Box>
@@ -94,11 +117,14 @@ const Users = () => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-      <AddUserModal
-        open={userModelOpen}
+      <AddShopModal
+        open={shopModelOpen}
+        editData={editShop}
+        getShopListing={getShopListing}
         onClose={() => {
-          setUserModalOpen(false);
+          setShopModalOpen(false);
           setReload(!reload);
+          setEditShop(null);
         }}
       />
     </>

@@ -19,7 +19,7 @@ import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 const items = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: <ChartBarIcon fontSize="small" />,
     title: "Dashboard",
   },
@@ -42,6 +42,11 @@ const items = [
     href: "/players",
     icon: <UserCircle fontSize="small" />,
     title: "Players",
+  },
+  {
+    href: "/shop",
+    icon: <UserCircle fontSize="small" />,
+    title: "Shop",
   },
   {
     href: "/lates-news",

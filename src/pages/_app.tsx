@@ -35,15 +35,15 @@ const App = (props) => {
   useEffect(() => {
     if (accessToken) {
       <Component {...pageProps} />;
-      if (accessToken && Router.asPath === "/login") {
+      if (accessToken && Router.asPath === "/") {
         if (role?.role == "sub admin") {
           Router.push(`/${role?.adminPermissions[0]}`);
         } else {
-          Router.push("/");
+          Router.push("/dashboard");
         }
       }
     } else {
-      Router.push("/login");
+      Router.push("/");
     }
     setupAxios();
   }, []);
