@@ -5,6 +5,7 @@ import {
   Card,
   CardProps,
   CircularProgress,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -53,6 +54,7 @@ export const ShopListResults = (props: Props) => {
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
   const [delLoading, setDelLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   const dataToDisplay = useMemo(() => {
     if (searchQuery.length > 0) {
@@ -84,10 +86,19 @@ export const ShopListResults = (props: Props) => {
     }
   };
 
-  const handleDelete = async (data) => {
+  const handleClose = () => {
+    setrejectShow(false);
+  };
+
+  const handleOpenModal = (data) => {
+    setrejectShow(true);
+    setDeleteId(data._id);
+  };
+
+  const handleDelete = async () => {
     try {
       setDelLoading(true);
-      const response = await deleteShopData(data._id);
+      const response = await deleteShopData(deleteId);
       handleRefresh();
       setStatusData({
         type: "success",
@@ -172,14 +183,14 @@ export const ShopListResults = (props: Props) => {
                         {item?.active ? "true" : "false"}
                       </Button>
                     </TableCell>
-                    <TableCell onClick={() => handleDelete(item)}>
+                    <TableCell onClick={() => handleOpenModal(item)}>
                       <Button
                         sx={{
                           cursor: "pointer",
                           border: "1px solid rgb(209, 67, 67)",
                         }}
                       >
-                        Delete Shop
+                        Delete
                       </Button>
                     </TableCell>
 
@@ -202,7 +213,66 @@ export const ShopListResults = (props: Props) => {
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
+      <Modal
+        open={rejectShow}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 364,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "2rem",
+            boxShadow: 60,
+            padding: "1.5rem",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to delete?
+          </Typography>
 
+          <Box
+            sx={{
+              width: "100%",
+              textAlign: "center",
+              display: "flex",
+              columnGap: "1rem",
+              rowGap: "1rem",
+            }}
+          >
+            <Button
+              style={{ width: "100%" }}
+              color="success"
+              variant="contained"
+              type="submit"
+              fullWidth
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{ width: "100%" }}
+              color="primary"
+              variant="contained"
+              type="submit"
+              fullWidth
+              onClick={!delLoading && handleDelete}
+            >
+              {delLoading ? "loading..." : "Delete"}
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}
