@@ -20,46 +20,36 @@ import { getInitials } from "../../utils/get-initials";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
+
+  count?: number;
+  handlePageChange?: (e?: any, p?: any) => void;
+  handleLimitChange?: (e?: any, p?: any) => void;
+  page?: number;
+  limit?: number;
 }
 
 export const TeamListResults = (props: Props) => {
-  const { data, searchQuery } = props;
+  const {
+    data,
+    searchQuery,
+    count,
+    handlePageChange,
+    handleLimitChange,
+    page,
+    limit,
+  } = props;
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
 
   const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-
     if (searchQuery.length > 0) {
-      return data
-        .filter(
-          (user) =>
-            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.coinSymbol?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        .slice(begin, end);
+      return data.filter((user) =>
+        user.detail?.Name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     } else {
-      return data?.slice(begin, end);
+      return data;
     }
-  }, [page, limit, data, searchQuery]);
-
-  // function numberWithCommas(n) {
-  //   var parts = n ? n.toString().split(".") : "";
-  //   return (
-  //     parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-  //     (parts[1] ? "." + parts[1] : "")
-  //   );}
+  }, [data, searchQuery]);
 
   return (
     <Card {...props}>
@@ -75,22 +65,29 @@ export const TeamListResults = (props: Props) => {
             <Table>
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
-                  <TableCell style={{ color: "#fff" }}>Name</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Blockchain</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Price</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Change 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>High 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Low 24H</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Market Cap</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Total Volume</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Team Name</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Global Team ID
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>City</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Head Coach</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Special Teams Coach
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Defensive Scheme
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Average Draft Position
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {dataToDisplay?.map((customer) => (
                   <TableRow
                     hover
-                    key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                    key={customer?._id}
+                    selected={selectedCustomerIds.indexOf(customer?._id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -99,36 +96,24 @@ export const TeamListResults = (props: Props) => {
                           display: "flex",
                         }}
                       >
-                        <Avatar src={customer.icon.url} sx={{ mr: 2 }}>
-                          {getInitials(customer.name)}
+                        <Avatar
+                          src={customer?.detail.WikipediaLogoUrl}
+                          sx={{ mr: 2 }}
+                        >
+                          {getInitials(customer?.detail?.Conference)}
                         </Avatar>
                         <Typography color="textPrimary" variant="body1">
-                          {customer.name}
+                          {customer?.detail?.Conference}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.blockchain}</TableCell>
-                    <TableCell>{customer.rate.toLocaleString()} $</TableCell>
-                    <TableCell
-                      style={{
-                        color:
-                          Number(customer.changePercentage24h) < 0
-                            ? "red"
-                            : "green",
-                      }}
-                    >
-                      {parseFloat(customer.changePercentage24h).toFixed(2)} %
-                    </TableCell>
-                    <TableCell style={{ color: "green" }}>
-                      {customer.high24h.toLocaleString()}
-                    </TableCell>
-                    <TableCell style={{ color: "red" }}>
-                      {customer.low24h.toLocaleString()}{" "}
-                    </TableCell>
-
-                    <TableCell>{customer.marketCap.toLocaleString()}</TableCell>
+                    <TableCell>{customer?.detail?.GlobalTeamID}</TableCell>
+                    <TableCell>{customer?.detail?.City}</TableCell>
+                    <TableCell>{customer?.detail?.HeadCoach}</TableCell>
+                    <TableCell>{customer?.detail?.SpecialTeamsCoach}</TableCell>
+                    <TableCell>{customer?.detail?.DefensiveScheme}</TableCell>
                     <TableCell>
-                      {customer.totalVolume.toLocaleString()}
+                      {customer?.detail?.AverageDraftPosition}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -139,7 +124,7 @@ export const TeamListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={data?.length}
+        count={count}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

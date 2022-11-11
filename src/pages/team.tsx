@@ -5,6 +5,7 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
 import { TeamListResults } from "../components/teamComponent/team-list-results";
+import { handleTeamsData } from "../services/teamService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { saveCoins } from "../store/reducers/coinSlice";
@@ -16,13 +17,25 @@ const Team = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState();
+  const [count, setCount] = useState(null);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
 
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
   const getCoinsListing = async () => {
     setLoading(true);
     try {
-      // const coinsRes = await getCoins();
-      let coinsRes;
-      dispatch(saveCoins(coinsRes));
+      const res = await handleTeamsData(page, limit);
+      setData(res?.data?.data);
+      setCount(res?.data?.total);
+
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
@@ -36,7 +49,7 @@ const Team = () => {
 
   useEffect(() => {
     getCoinsListing();
-  }, []);
+  }, [page, limit]);
 
   return (
     <>
@@ -63,7 +76,15 @@ const Team = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <TeamListResults data={coins} searchQuery={searchText} />
+              <TeamListResults
+                data={data}
+                searchQuery={searchText}
+                count={count}
+                handlePageChange={handlePageChange}
+                handleLimitChange={handleLimitChange}
+                page={page}
+                limit={limit}
+              />
             )}
           </Box>
         </Container>
