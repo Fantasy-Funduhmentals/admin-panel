@@ -5,9 +5,8 @@ export const Logo = styled((props) => {
 
   return (
     <img
-      //  src={"mainLogo.svg"}
       src={"/logo.svg"}
-      alt="CQR"
+      alt=""
       loading="lazy"
       style={{
         height: 60,

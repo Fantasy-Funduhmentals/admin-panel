@@ -6,29 +6,36 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useFormik } from "formik";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
+import OTP from "../components/twoFa/otp";
 import { handleUserLogin } from "../services/userService";
-import { useAppDispatch } from "../store/hooks";
-import { saveEmailUser } from "../store/reducers/emailSlice";
-import { saveAccessToken, saveUserRole } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const Login = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
+  const [twoFa, setTwoFa] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const [authToken, setyAuthToken] = useState<any>(null);
+
   const handleSubmit = async (values: any, actions: any) => {
     try {
       setLoading(true);
-      const loginRes = await handleUserLogin(values);
-      if (loginRes?.data?.user?.isBlocked == true) {
+      const loginRes: any = await handleUserLogin(values);
+      setyAuthToken(loginRes?.data?.accessToken);
+      var config: any = {
+        method: "post",
+        url: "http://159.223.80.12:5001/2fa/generate",
+        headers: {
+          Authorization: `Bearer ${loginRes?.data?.accessToken}`,
+        },
+      };
+
+      if (loginRes?.data?.isBlocked == true) {
         setStatusData({
           type: "error",
           message: `Sub Admin Blocked ${loginRes?.data?.user?.blockReason}`,
@@ -36,28 +43,21 @@ const Login = () => {
         setLoading(false);
         return;
       } else {
-        dispatch(saveUserRole(loginRes?.data?.user));
-        dispatch(saveAccessToken(loginRes?.data?.accessToken));
-        dispatch(saveEmailUser(loginRes?.data?.user?.email));
         setLoading(false);
+        setTwoFa(true);
+        const response = await axios(config);
         setStatusData({
           type: "success",
-          message: "Authentication Successfull",
+          message: response?.data?.message,
         });
-
-        if (loginRes?.data?.user?.role == "admin") {
-          router.push("/dashboard");
-        } else if (loginRes?.data?.user?.role == "sub admin") {
-          router.push(`/${loginRes?.data?.user?.adminPermissions[0]}`);
-        }
       }
     } catch (err) {
+      setTwoFa(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
         message: error,
       });
-
       setLoading(false);
     }
   };
@@ -94,71 +94,66 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Sign in
-              </Typography>
-              <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
-              </Typography>
-            </Box>
-            <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email}
-              variant="outlined"
-              color="success"
-            />
-            <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-              color="success"
-            />
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                // disabled={formik.isSubmitting}
+          {twoFa ? (
+            <OTP authToken={authToken} />
+          ) : (
+            <form onSubmit={formik.handleSubmit}>
+              <Box sx={{ my: 3 }}>
+                <Typography color="textPrimary" variant="h4">
+                  Sign in
+                </Typography>
+                <Typography color="textSecondary" gutterBottom variant="body2">
+                  Sign in on the internal platform
+                </Typography>
+              </Box>
+              <TextField
+                error={Boolean(formik.touched.email && formik.errors.email)}
                 fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                {loading ? <CircularProgress color="inherit" /> : "Sign In Now"}
-              </Button>
-            </Box>
-            {/* <Typography color="textSecondary" variant="body2">
-              Don&apos;t have an account?{" "}
-              <NextLink href="/register">
-                <Link
-                  to="/register"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: "pointer",
-                  }}
+                helperText={formik.touched.email && formik.errors.email}
+                label="Email Address"
+                margin="normal"
+                name="email"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="email"
+                value={formik.values.email}
+                variant="outlined"
+                color="success"
+              />
+              <TextField
+                error={Boolean(
+                  formik.touched.password && formik.errors.password
+                )}
+                fullWidth
+                helperText={formik.touched.password && formik.errors.password}
+                label="Password"
+                margin="normal"
+                name="password"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="password"
+                value={formik.values.password}
+                variant="outlined"
+                color="success"
+              />
+              <Box sx={{ py: 2 }}>
+                <Button
+                  color="primary"
+                  // disabled={formik.isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
                 >
-                  Sign Up
-                </Link>
-              </NextLink>
-            </Typography> */}
-          </form>
+                  {loading ? (
+                    <CircularProgress color="inherit" />
+                  ) : (
+                    "Generate 2fa"
+                  )}
+                </Button>
+              </Box>
+            </form>
+          )}
         </Container>
       </Box>
       <StatusModal

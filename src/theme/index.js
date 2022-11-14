@@ -158,7 +158,7 @@ export const theme = createTheme({
       focus: "#b3010d",
       hover: "rgb(216 15 42 / 28%)",
       selected: "rgba(55, 65, 81, 0.08)",
-      disabledBackground: "rgba(55, 65, 81, 0.12)",
+      disabledBackground: "rgb(55 65 81 / 69%)",
       disabled: "rgba(55, 65, 81, 0.26)",
     },
     background: {
