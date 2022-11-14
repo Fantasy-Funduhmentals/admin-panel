@@ -13,7 +13,7 @@ import "regenerator-runtime/runtime";
 import "../../styles.css";
 import ProgressBar from "../components/ProgressBar";
 import Splash from "../components/SplashScreen/Splash";
-import { socket, SocketContext } from "../context/socket";
+// import { socket, SocketContext } from "../context/socket";
 import { store } from "../store";
 import { theme } from "../theme";
 import { setupAxios } from "../utils/axiosClient";
@@ -30,7 +30,6 @@ const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
   const { accessToken, role } = store.getState().user;
-  console.log("🚀 ~ file: _app.tsx ~ line 33 ~ App ~ accessToken", accessToken);
 
   useEffect(() => {
     if (accessToken) {
@@ -59,24 +58,24 @@ const App = (props) => {
       connectors={connectors}
     >
       <Provider store={store}>
-        <SocketContext.Provider value={socket}>
-          <CacheProvider value={emotionCache}>
-            <Head>
-              <title>Fantasy Fundamental</title>
-              <meta
-                name="viewport"
-                content="initial-scale=1, width=device-width"
-              />
-            </Head>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <ProgressBar />
-                {getLayout(<Component {...pageProps} />)}
-              </ThemeProvider>
-            </LocalizationProvider>
-          </CacheProvider>
-        </SocketContext.Provider>
+        {/* <SocketContext.Provider value={socket}> */}
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <title>Fantasy Fundamental</title>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+          </Head>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <ProgressBar />
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+          </LocalizationProvider>
+        </CacheProvider>
+        {/* </SocketContext.Provider> */}
       </Provider>
     </ThirdwebWeb3Provider>
   );

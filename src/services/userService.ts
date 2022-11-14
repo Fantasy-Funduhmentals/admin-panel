@@ -14,6 +14,12 @@ const getAllUsers = async () => {
 const changePassword = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/change-password", params);
 };
+const twoFaAuth = async (params: any) => {
+  return await HTTP_CLIENT.post("/2fa/authenticate", params);
+};
+const generateTwoFa = async () => {
+  return await HTTP_CLIENT.post("/2fa/generate");
+};
 
 const getGraphData = async (params: any) => {
   return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
@@ -58,4 +64,6 @@ export {
   getWalletData,
   getUserInfo,
   handleUserJwt,
+  generateTwoFa,
+  twoFaAuth,
 };

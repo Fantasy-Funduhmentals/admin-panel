@@ -62,13 +62,12 @@ export const DashboardNavbar = (props) => {
     dispatch(resetCoinState());
     dispatch(resetSettingsState());
     dispatch(resetEmailState());
-    Router.push("/login");
+    Router.push("/");
   };
 
   const getUserJwtData = async () => {
     try {
       await handleUserJwt();
-      console.log("first");
     } catch (error) {
       handleLogout();
     }

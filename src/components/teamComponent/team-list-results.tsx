@@ -97,7 +97,7 @@ export const TeamListResults = (props: Props) => {
                         }}
                       >
                         <Avatar
-                          src={customer?.detail.WikipediaLogoUrl}
+                          src={customer?.detail?.WikipediaLogoUrl}
                           sx={{ mr: 2 }}
                         >
                           {getInitials(customer?.detail?.Conference)}

@@ -87,7 +87,7 @@ export const DashboardSidebar = (props) => {
   });
 
   useEffect(() => {
-    if (!router.isReady) {
+    if (!router?.isReady) {
       return;
     }
     if (open) {
