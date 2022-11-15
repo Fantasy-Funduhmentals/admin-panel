@@ -44,13 +44,14 @@ const Login = () => {
         setLoading(false);
         return;
       } else {
-        setLoading(false);
+        setLoading(true);
         setTwoFa(true);
         const response = await axios(config);
         setStatusData({
           type: "success",
           message: response?.data?.message,
         });
+        setLoading(false);
       }
     } catch (err) {
       setTwoFa(false);
@@ -96,7 +97,7 @@ const Login = () => {
       >
         <Container maxWidth="sm">
           {twoFa ? (
-            <OTP authToken={authToken} />
+            <OTP authToken={authToken} loading={loading} />
           ) : (
             <form onSubmit={formik.handleSubmit}>
               <Box sx={{ my: 3 }}>

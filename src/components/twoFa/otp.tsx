@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -14,9 +20,10 @@ import defaultConfig from "../../utils/config";
 
 interface Props {
   authToken?: string;
+  loading?: boolean;
 }
 const OTP = (prop: Props) => {
-  const { authToken } = prop;
+  const { authToken, loading } = prop;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [statusData, setStatusData] = useState(null);
@@ -101,13 +108,13 @@ const OTP = (prop: Props) => {
         <Box sx={{ py: 2, width: "100%" }}>
           <Button
             color="primary"
-            // disabled={formik.isSubmitting}
+            disabled={loading}
             fullWidth
             size="large"
             type="submit"
             variant="contained"
           >
-            Sign in
+            {loading ? <CircularProgress /> : "  Sign in"}
           </Button>
         </Box>
       </form>
