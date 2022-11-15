@@ -59,6 +59,11 @@ const items = [
     icon: <DirectWire fontSize="small" />,
     title: "Team",
   },
+  {
+    href: "/articles",
+    icon: <Newsletter fontSize="small" />,
+    title: "Articles",
+  },
 
   {
     href: "/settings",

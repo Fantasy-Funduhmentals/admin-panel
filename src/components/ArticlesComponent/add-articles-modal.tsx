@@ -20,8 +20,11 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
+import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import { EditorState } from "draft-js";
 import {
   changesImageUrl,
   postShopData,
@@ -29,6 +32,15 @@ import {
 } from "../../services/shopService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
+import dynamic from "next/dynamic";
+import {
+  handleArticleData,
+  postArticleData,
+  putArticleData,
+} from "../../services/newsService";
+const FroalaEditorComponent = dynamic(() => import("react-froala-wysiwyg"), {
+  ssr: false,
+});
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -45,31 +57,38 @@ interface Props {
   getShopListing?: () => void;
 }
 
-const AddShopModal = (props: Props) => {
+const AddArticlesModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl]: any = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const formik = useFormik({
     initialValues: {
-      title: editData ? editData?.title : "",
-      coinSymbolName: editData ? editData?.coinSymbol : "",
-      productURL: editData ? editData.productURL : "",
-      price: editData ? editData?.price : "",
+      heading: editData ? editData?.title : "",
+      twitter: editData ? editData?.socialLinks?.twitter : "",
+      telegram: editData ? editData?.socialLinks?.telegram : "",
+      medium: editData ? editData?.socialLinks?.medium : "",
+      linkedin: editData ? editData?.socialLinks?.linkedIn : "",
       files: null,
+      documentData: editData ? editData?.summary : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      title: Yup.string().required("Enter Your title").min(2).max(50).trim(),
-      coinSymbolName: Yup.string().required("Enter Your coin symbol name"),
-      productURL: Yup.string().required("Enter Your url"),
+      heading: Yup.string().required("Enter Your heading"),
+      twitter: Yup.string().required("Enter Your twitter url"),
+      telegram: Yup.string().required("Enter Your telegram url"),
+      medium: Yup.string().required("Enter Your medium url"),
+      linkedin: Yup.string().required("Enter Your linkedin url"),
       files: Yup.mixed(),
-      price: Yup.number()
-        .positive("positive value only")
-        .required("price is price"),
+      documentData: Yup.mixed().required("Enter Your linkedin url"),
     }),
     onSubmit: (values, actions) => {
+      console.log(
+        "🚀 ~ file: add-articles-modal.tsx ~ line 83 ~ AddArticlesModal ~ values",
+        values
+      );
       handleSubmit(values, actions);
     },
   });
@@ -86,7 +105,7 @@ const AddShopModal = (props: Props) => {
     try {
       setStatusData(null);
       setLoading(true);
-      if (values.files != null) {
+      if (values?.files != null) {
         const coverPhotoImage = await handleImageUpload(
           values.files[0],
           "coinImage"
@@ -95,25 +114,29 @@ const AddShopModal = (props: Props) => {
       }
 
       let params = {
-        title: values.title,
-        price: Number(values.price),
-        coinSymbol: values.coinSymbolName,
-        mediaURL: imageUrl == "" ? editData.mediaURL : imageUrl,
-        productURL: values.productURL,
+        title: values?.heading,
+        summary: values?.documentData,
+        socialLinks: {
+          telegram: values?.telegram,
+          twitter: values?.twitter,
+          medium: values?.medium,
+          linkedIn: values?.linkedin,
+        },
+        mediaUrl: imageUrl == "" ? editData?.mediaUrl : imageUrl,
       };
 
       if (editData != null) {
-        let updateParams = {
-          ...params,
-          id: editData._id,
-        };
-        const res = await updateShopData(updateParams);
+        // let updateParams = {
+        //   ...params,
+        //   id: editData._id,
+        // };
+        const res = await putArticleData(params, editData?._id);
         setStatusData({
           type: "success",
           message: res?.data?.message,
         });
       } else {
-        const res = await postShopData(params);
+        const res = await postArticleData(params);
         setStatusData({
           type: "success",
           message: res?.data?.message,
@@ -159,7 +182,7 @@ const AddShopModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Shop
+              Articles
             </Typography>
           </Toolbar>
         </AppBar>
@@ -181,8 +204,8 @@ const AddShopModal = (props: Props) => {
                 <Card>
                   <Grid item lg={4} md={6} xs={12}>
                     <CardHeader
-                      subheader="This image will be used as symbol image."
-                      title="Symbol Image"
+                      subheader="This image will be used as header image."
+                      title="Header Image"
                     />
                     <CardContent>
                       <Box
@@ -195,7 +218,7 @@ const AddShopModal = (props: Props) => {
                         <Avatar
                           src={
                             editData
-                              ? editData?.mediaURL
+                              ? editData?.mediaUrl
                               : formik?.values?.files &&
                                 URL?.createObjectURL(formik?.values?.files[0])
                           }
@@ -231,57 +254,51 @@ const AddShopModal = (props: Props) => {
                   <Grid item lg={8} md={6} xs={12}>
                     <CardHeader
                       subheader="Please enter all the required information."
-                      title="Shop Details"
+                      title="Articles Details"
                     />
                     <Divider />
                     <CardContent>
                       <Grid container spacing={3}>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={12} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.title && formik.errors.title
-                            )}
-                            fullWidth
-                            helperText="Please enter the title."
-                            label="Title"
-                            name="title"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            required
-                            value={formik.values.title}
-                            variant="outlined"
-                            color="success"
-                          />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.price && formik.errors.price
+                              formik.touched.heading && formik.errors.heading
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.price}
+                            value={formik.values.heading}
                             fullWidth
-                            label="Price"
-                            name="price"
-                            helperText="Please enter price."
+                            label="Heading"
+                            name="heading"
+                            helperText="Please add heading."
                             required
                             variant="outlined"
                             color="success"
                           />
                         </Grid>
+                        <Grid item md={12} xs={12} id="editor">
+                          {editorState ? (
+                            <FroalaEditorComponent
+                              tag="textarea"
+                              // model={formik.values.documentData}
+                              onModelChange={(ev: any) => {
+                                if (ev)
+                                  formik.setFieldValue("documentData", ev);
+                              }}
+                            />
+                          ) : null}
+                        </Grid>
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.coinSymbolName &&
-                                formik.errors.coinSymbolName
+                              formik.touched.twitter && formik.errors.twitter
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.coinSymbolName}
+                            value={formik.values.twitter}
                             fullWidth
-                            label="Coin Symbol Name"
-                            name="coinSymbolName"
+                            label="Twitter URL"
+                            name="twitter"
                             helperText="Please enter the coin symbol name."
                             required
                             variant="outlined"
@@ -291,16 +308,49 @@ const AddShopModal = (props: Props) => {
                         <Grid item md={6} xs={12}>
                           <TextField
                             error={Boolean(
-                              formik.touched.productURL &&
-                                formik.errors.productURL
+                              formik.touched.telegram && formik.errors.telegram
                             )}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.productURL}
+                            value={formik.values.telegram}
                             fullWidth
-                            label="Product URL"
-                            name="productURL"
-                            helperText="Please enter the product url."
+                            label="Telegram URL"
+                            name="telegram"
+                            helperText="Please enter the telegram url."
+                            required
+                            variant="outlined"
+                            color="success"
+                          />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.medium && formik.errors.medium
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.medium}
+                            fullWidth
+                            label="Medium URL"
+                            name="medium"
+                            helperText="Please enter the medium url."
+                            required
+                            variant="outlined"
+                            color="success"
+                          />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.linkedin && formik.errors.linkedin
+                            )}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.linkedin}
+                            fullWidth
+                            label="Linkedin URL"
+                            name="linkedin"
+                            helperText="Please enter the linkedin url."
                             required
                             variant="outlined"
                             color="success"
@@ -351,4 +401,4 @@ const AddShopModal = (props: Props) => {
   );
 };
 
-export default AddShopModal;
+export default AddArticlesModal;
