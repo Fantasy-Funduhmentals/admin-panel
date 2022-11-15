@@ -30,7 +30,7 @@ const Login = () => {
       setyAuthToken(loginRes?.data?.accessToken);
       var config: any = {
         method: "post",
-        url: `${defaultConfig}2fa/generate`,
+        url: `${defaultConfig?.Base_URL}2fa/generate`,
         headers: {
           Authorization: `Bearer ${loginRes?.data?.accessToken}`,
         },

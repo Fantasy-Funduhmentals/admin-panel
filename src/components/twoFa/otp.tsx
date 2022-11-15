@@ -36,7 +36,7 @@ const OTP = (prop: Props) => {
   const handleSubmit = async (values) => {
     var config: any = {
       method: "post",
-      url: `${defaultConfig}2fa/authenticate`,
+      url: `${defaultConfig?.Base_URL}2fa/authenticate`,
       data: {
         twoFaCode: values.otp,
       },
