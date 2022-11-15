@@ -26,6 +26,7 @@ const OTP = (prop: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [statusData, setStatusData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -40,6 +41,7 @@ const OTP = (prop: Props) => {
   });
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     var config: any = {
       method: "post",
       url: `${defaultConfig?.Base_URL}2fa/authenticate`,
@@ -64,7 +66,9 @@ const OTP = (prop: Props) => {
       } else if (res?.data?.user?.role == "sub admin") {
         router.push(`/${res?.data?.user?.adminPermissions[0]}`);
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       const err = getNormalizedError(error);
       setStatusData({
         type: "error",
@@ -107,13 +111,13 @@ const OTP = (prop: Props) => {
         <Box sx={{ py: 2, width: "100%" }}>
           <Button
             color="primary"
-            // disabled={loading}
+            disabled={loading}
             fullWidth
             size="large"
             type="submit"
             variant="contained"
           >
-            Sign in
+            {loading ? <CircularProgress /> : "Sign in"}
           </Button>
         </Box>
       </form>
