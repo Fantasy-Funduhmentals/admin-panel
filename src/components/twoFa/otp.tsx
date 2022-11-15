@@ -20,10 +20,9 @@ import defaultConfig from "../../utils/config";
 
 interface Props {
   authToken?: string;
-  loading?: boolean;
 }
 const OTP = (prop: Props) => {
-  const { authToken, loading } = prop;
+  const { authToken } = prop;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [statusData, setStatusData] = useState(null);
@@ -108,13 +107,13 @@ const OTP = (prop: Props) => {
         <Box sx={{ py: 2, width: "100%" }}>
           <Button
             color="primary"
-            disabled={loading}
+            // disabled={loading}
             fullWidth
             size="large"
             type="submit"
             variant="contained"
           >
-            {loading ? <CircularProgress /> : "  Sign in"}
+            Sign in
           </Button>
         </Box>
       </form>

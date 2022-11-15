@@ -35,6 +35,12 @@ const Login = () => {
           Authorization: `Bearer ${loginRes?.data?.accessToken}`,
         },
       };
+      const response = await axios(config);
+      setStatusData({
+        type: "success",
+        message: response?.data?.message,
+      });
+      setTwoFa(true);
 
       if (loginRes?.data?.isBlocked == true) {
         setStatusData({
@@ -43,16 +49,9 @@ const Login = () => {
         });
         setLoading(false);
         return;
-      } else {
-        setLoading(true);
-        setTwoFa(true);
-        const response = await axios(config);
-        setStatusData({
-          type: "success",
-          message: response?.data?.message,
-        });
-        setLoading(false);
       }
+
+      setLoading(false);
     } catch (err) {
       setTwoFa(false);
       const error = getNormalizedError(err);
@@ -97,7 +96,7 @@ const Login = () => {
       >
         <Container maxWidth="sm">
           {twoFa ? (
-            <OTP authToken={authToken} loading={loading} />
+            <OTP authToken={authToken} />
           ) : (
             <form onSubmit={formik.handleSubmit}>
               <Box sx={{ my: 3 }}>
