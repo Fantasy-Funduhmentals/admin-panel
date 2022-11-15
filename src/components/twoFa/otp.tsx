@@ -10,6 +10,7 @@ import { saveAccessToken, saveUserRole } from "../../store/reducers/userSlice";
 import { saveEmailUser } from "../../store/reducers/emailSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
+import defaultConfig from "../../utils/config";
 
 interface Props {
   authToken?: string;
@@ -35,7 +36,7 @@ const OTP = (prop: Props) => {
   const handleSubmit = async (values) => {
     var config: any = {
       method: "post",
-      url: "http://159.223.80.12:5001/2fa/authenticate",
+      url: `${defaultConfig}2fa/authenticate`,
       data: {
         twoFaCode: values.otp,
       },

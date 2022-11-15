@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
 import OTP from "../components/twoFa/otp";
 import { handleUserLogin } from "../services/userService";
+import defaultConfig from "../utils/config";
 import { getNormalizedError } from "../utils/helpers";
 
 const Login = () => {
@@ -29,7 +30,7 @@ const Login = () => {
       setyAuthToken(loginRes?.data?.accessToken);
       var config: any = {
         method: "post",
-        url: "http://159.223.80.12:5001/2fa/generate",
+        url: `${defaultConfig}2fa/generate`,
         headers: {
           Authorization: `Bearer ${loginRes?.data?.accessToken}`,
         },
