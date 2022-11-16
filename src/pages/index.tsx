@@ -140,17 +140,13 @@ const Login = () => {
               <Box sx={{ py: 2 }}>
                 <Button
                   color="primary"
-                  // disabled={formik.isSubmitting}
+                  disabled={loading}
                   fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
                 >
-                  {loading ? (
-                    <CircularProgress color="inherit" />
-                  ) : (
-                    "Generate 2fa"
-                  )}
+                  {loading ? <CircularProgress /> : "Generate 2fa"}
                 </Button>
               </Box>
             </form>
