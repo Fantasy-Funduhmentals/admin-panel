@@ -48,7 +48,7 @@ const handleBlockSubAdmin = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/block-subAdmin", params);
 };
 const handleUserJwt = async () => {
-  return await HTTP_CLIENT.get("/auth/verify-jwt");
+  return await HTTP_CLIENT.get("/admin-auth/verify-jwt");
 };
 
 export {

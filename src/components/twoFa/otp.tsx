@@ -108,6 +108,9 @@ const OTP = (prop: Props) => {
           variant="outlined"
           color="success"
         />
+        <Typography color="textPrimary" variant="h6">
+          Testing 2fa: ABC123
+        </Typography>
         <Box sx={{ py: 2, width: "100%" }}>
           <Button
             color="primary"
