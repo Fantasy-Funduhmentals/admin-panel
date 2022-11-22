@@ -30,6 +30,10 @@ const Player = () => {
     try {
       setLoadingApi(true);
       const playerRes = await handlePlayersData(page, limit);
+      console.log(
+        "🚀 ~ file: players.tsx ~ line 33 ~ getAdminUsers ~ playerRes",
+        playerRes
+      );
       setData(playerRes?.data?.data);
       setCount(playerRes?.data?.total);
       setLoadingApi(false);

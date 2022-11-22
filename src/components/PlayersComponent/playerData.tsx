@@ -16,6 +16,7 @@ import {
   TablePagination,
   TableRow,
   TextareaAutosize,
+  TextField,
   Typography,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
@@ -31,6 +32,7 @@ import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import StatusModal from "../StatusModal";
 import usePlayerData from "./usePlayerData";
+import EditIcon from "@mui/icons-material/Edit";
 interface Props extends CardProps {
   searchQuery?: string;
   loadingApi?: boolean;
@@ -59,13 +61,15 @@ export const PlayerList = (props: Props) => {
   const {
     dataToDisplay,
     selectedCustomerIds,
-    handleBlockUser,
-
+    // handleBlockUser,
+    handleEditPlayer,
     rejectShow,
     handleClose,
+    formik,
+    // handlePlayerValue,
     loading,
     handleTextAreaChange,
-    handleSubmit,
+    // handleSubmit,
     statusData,
     setStatusData,
     subadmin,
@@ -98,6 +102,7 @@ export const PlayerList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>
                           player id
                         </TableCell>
+                        <TableCell style={{ color: "#fff" }}>value</TableCell>
                         <TableCell style={{ color: "#fff" }}>Height</TableCell>
                         <TableCell style={{ color: "#fff" }}>Weight</TableCell>
                         <TableCell style={{ color: "#fff" }}>Age</TableCell>
@@ -107,7 +112,9 @@ export const PlayerList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>
                           Experience
                         </TableCell>
-                        {/* <TableCell style={{ color: "#fff" }}>Edit</TableCell> */}
+                        <TableCell style={{ color: "#fff" }}>
+                          Edit Value
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -139,6 +146,9 @@ export const PlayerList = (props: Props) => {
                               </Box>
                             </TableCell>
                             <TableCell>{customer?.detail?.PlayerID}</TableCell>
+                            <TableCell>
+                              {customer?.value ? customer?.value : 0}
+                            </TableCell>
                             <TableCell>
                               {customer?.detail?.HeightFeet}F
                             </TableCell>
@@ -176,13 +186,12 @@ export const PlayerList = (props: Props) => {
                               >
                                 {customer.isBlocked ? "UnBlock" : "Block"}
                               </Button>
+                            </TableCell>*/}
+                            <TableCell
+                              onClick={() => handleEditPlayer(customer)}
+                            >
+                              <EditIcon />
                             </TableCell>
-                            <TableCell>
-                              <AlertDialog
-                                id={customer?._id}
-                                handleRefresh={RefreshAdminUsersData}
-                              />
-                            </TableCell> */}
                           </TableRow>
                         </>
                       ))}
@@ -206,6 +215,7 @@ export const PlayerList = (props: Props) => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            sx={{ background: "rgba(0, 0, 0, 0.7)" }}
           >
             <Box
               sx={{
@@ -225,39 +235,40 @@ export const PlayerList = (props: Props) => {
                 alignItems: "center",
               }}
             >
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Please Describe Block reason
-              </Typography>
-              <TextareaAutosize
-                aria-label="minimum height"
-                minRows={3}
-                // placeholder="Minimum 3 rows"
-                style={{
-                  width: 300,
-                  resize: "none",
-                  height: "200px",
-                  border: "1px solid black",
-                }}
-                onChange={(e) => handleTextAreaChange(e)}
-              />
-              <Box sx={{ width: "90%", textAlign: "center" }}>
-                {loading ? (
-                  <Box>
-                    <CircularProgress color="inherit" />
-                  </Box>
-                ) : (
-                  <Button
-                    style={{ width: 300 }}
-                    color="primary"
-                    variant="contained"
-                    type="submit"
-                    fullWidth
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </Button>
-                )}
-              </Box>
+              <form onSubmit={formik.handleSubmit}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Update Player's Value
+                </Typography>
+                <TextField
+                  error={Boolean(formik.touched.value && formik.errors.value)}
+                  value={formik.values.value}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  fullWidth
+                  label="Value"
+                  margin="normal"
+                  name="value"
+                  color="success"
+                  variant="outlined"
+                />
+                <Box sx={{ width: "90%", textAlign: "center" }}>
+                  {loading ? (
+                    <Box>
+                      <CircularProgress color="inherit" />
+                    </Box>
+                  ) : (
+                    <Button
+                      style={{ width: 300 }}
+                      color="primary"
+                      variant="contained"
+                      type="submit"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </Box>
+              </form>
             </Box>
           </Modal>
           <StatusModal
