@@ -24,12 +24,10 @@ const Item = [
     name: "Upcoming",
   },
   {
-    name: "Resent",
+    name: "Recent",
   },
 ];
 const Coins = () => {
-  const { coins } = useAppSelector((state: RootState) => state.coin);
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
@@ -101,6 +99,7 @@ const Coins = () => {
           <ListToolbar
             title="Score Management"
             subTitle="Score"
+            searchTitle="By Name"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}

@@ -9,6 +9,7 @@ import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Cog } from "../icons/cog";
 import { DirectWire } from "../icons/DirectWire";
 import { Newsletter } from "../icons/Newsletter";
+import { Shop } from "../icons/shop";
 import { Subscription } from "../icons/Subscription";
 import { UserPlayer } from "../icons/user";
 import { UserCircle } from "../icons/user-circle";
@@ -39,13 +40,18 @@ const items = [
     title: "Score",
   },
   {
+    href: "/newsletter",
+    icon: <Newsletter fontSize="small" />,
+    title: "Newsletter",
+  },
+  {
     href: "/players",
     icon: <UserCircle fontSize="small" />,
     title: "Players",
   },
   {
     href: "/shop",
-    icon: <UserCircle fontSize="small" />,
+    icon: <Shop fontSize="small" />,
     title: "Shop",
   },
   {
@@ -73,19 +79,19 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
+  const { open, onClose } = props;
+  const router = useRouter();
   const { role } = useAppSelector((state: RootState) => state.user);
+
   let data = role?.adminPermissions?.map((item, index) => {
-    const found = items?.find((val) => val?.title?.toLowerCase() == item?.name);
+    const found = items?.find((val) => val?.title?.toLowerCase() == item);
     return {
-      ...item,
-      img: found?.icon,
+      title: found?.title,
+      icon: found?.icon,
+      href: found?.href,
     };
   });
-  const { open, onClose } = props;
-  const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-  const dispatch = useAppDispatch();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -97,6 +103,9 @@ export const DashboardSidebar = (props) => {
     }
     if (open) {
       onClose?.();
+    }
+    if (role.role != "admin" && items != data) {
+      router.push(`/${role?.adminPermissions[0]}`);
     }
   }, [router.asPath]);
 
@@ -150,10 +159,10 @@ export const DashboardSidebar = (props) => {
             : role?.role == "sub admin"
             ? data?.map((item) => (
                 <NavItem
-                  key={item.name}
-                  icon={item?.img}
-                  href={item.name}
-                  title={item.name}
+                  key={item.title}
+                  icon={item?.icon}
+                  href={item.href}
+                  title={item.title}
                 />
               ))
             : ""}

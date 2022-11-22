@@ -91,7 +91,7 @@ const UpdateSubAdminModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Add Sub Admim
+              Add Sub Admin
             </Typography>
           </Toolbar>
         </AppBar>

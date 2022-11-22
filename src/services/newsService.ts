@@ -3,6 +3,9 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 const handleNewsData = async (page: any, limit: any) => {
   return await HTTP_CLIENT.get(`/news?page=${page}&limit=${limit}`);
 };
+const handleNewsletterData = async (page: any, limit: any) => {
+  return await HTTP_CLIENT.get(`/newsletter?page=${page}&limit=${limit}`);
+};
 const handleArticleData = async (page: any, limit: any) => {
   return await HTTP_CLIENT.get(`/project-article/?page=${page}&limit=${limit}`);
 };
@@ -26,4 +29,5 @@ export {
   postArticleData,
   putArticleData,
   delArticleData,
+  handleNewsletterData,
 };

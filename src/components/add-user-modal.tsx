@@ -56,12 +56,12 @@ const AddUserModal = (props: Props) => {
   const [loading, setLoading] = useState(false);
   // const [editImage, setEditImage] = useState(null);
   // const [editSymbolImage, setEditSymbolImage] = useState(null);
-  const [selectItems, setSelectItems] = useState("");
+  // const [selectItems, setSelectItems] = useState("");
   const [recievestatus, setrecievestatus] = useState(true);
 
-  const handleDurationChange = (event) => {
-    setSelectItems(event.target.value);
-  };
+  // const handleDurationChange = (event) => {
+  //   setSelectItems(event.target.value);
+  // };
   // useEffect(() => {
   //   if (editData) {
   //     setEditImage(editData.icon.url);
@@ -123,13 +123,13 @@ const AddUserModal = (props: Props) => {
       //   });
       //   return;
       // }
-      if (selectItems == "") {
-        setStatusData({
-          type: "error",
-          message: "Please select an type to continue",
-        });
-        return;
-      }
+      // if (selectItems == "") {
+      //   setStatusData({
+      //     type: "error",
+      //     message: "Please select an type to continue",
+      //   });
+      //   return;
+      // }
 
       setLoading(true);
 
@@ -142,19 +142,33 @@ const AddUserModal = (props: Props) => {
 
       // const userProfileImage = await handleImageUpload(image, "profilePicture");
       // params.profilePicture = userProfileImage;
-      await createNewUser({
+      const res = await createNewUser({
         ...params,
         email: params.email.replaceAll(" ", ""),
       });
+      console.log(
+        "🚀 ~ file: add-user-modal.tsx ~ line 149 ~ handleSubmit ~ res",
+        res
+      );
 
       formik.resetForm();
       // setImage(null);
       // setSymbolImage(null);
       onClose();
-      setStatusData({
-        type: "success",
-        message: "User has been created successfully",
-      });
+      if (res.data.error === true) {
+        setStatusData({
+          type: "error",
+          message: res?.data?.message,
+        });
+      } else {
+        setStatusData({
+          type: "success",
+          message: res?.data?.message
+            ? res?.data?.message
+            : "User has been created successfully",
+        });
+      }
+
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);

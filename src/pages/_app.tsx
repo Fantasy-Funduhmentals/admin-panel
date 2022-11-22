@@ -67,6 +67,7 @@ const App = (props) => {
               content="initial-scale=1, width=device-width"
             />
           </Head>
+
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
               <CssBaseline />

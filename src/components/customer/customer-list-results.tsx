@@ -121,7 +121,7 @@ export const UserListResults = (props: Props) => {
       handleRefresh();
       setStatusData({
         type: "success",
-        message: response.data.message,
+        message: response?.data?.message,
       });
       setloading(false);
       handleClose();
