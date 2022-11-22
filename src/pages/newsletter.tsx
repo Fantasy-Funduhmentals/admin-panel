@@ -3,13 +3,9 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
-import { NewsListResults } from "../components/news/news-list-results";
 import { NewsletterListResults } from "../components/newsletter/newsletter-list-results";
 import StatusModal from "../components/StatusModal";
-import { handleNewsData, handleNewsletterData } from "../services/newsService";
-import { RootState } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveCoins } from "../store/reducers/coinSlice";
+import { handleNewsletterData } from "../services/newsService";
 import { getNormalizedError } from "../utils/helpers";
 
 const NewsLetter = () => {

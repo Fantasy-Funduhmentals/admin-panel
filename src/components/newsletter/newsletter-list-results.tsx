@@ -64,13 +64,8 @@ export const NewsletterListResults = (props: Props) => {
             <Table>
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
-                  <TableCell style={{ color: "#fff" }}>Source</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Title</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Author</TableCell>
-                  <TableCell style={{ color: "#fff" }}>News ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Player ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Team</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Time Ago</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell style={{ color: "#fff" }}>id</TableCell>
                   <TableCell style={{ color: "#fff" }}>created At</TableCell>
                 </TableRow>
               </TableHead>
@@ -89,19 +84,14 @@ export const NewsletterListResults = (props: Props) => {
                         }}
                       >
                         <Avatar src={item?.detail?.Url} sx={{ mr: 2 }}>
-                          {getInitials(item?.detail?.Source)}
+                          {getInitials(item?.email)}
                         </Avatar>
                         <Typography color="textPrimary" variant="body1">
-                          {item?.detail?.Source}
+                          {item?.email}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{item?.detail?.Title}</TableCell>
-                    <TableCell>{item?.detail?.Author}</TableCell>
-                    <TableCell>{item?.detail?.NewsID} </TableCell>
-                    <TableCell>{item?.detail?.PlayerID} </TableCell>
-                    <TableCell>{item?.detail?.Team} </TableCell>
-                    <TableCell>{item?.detail?.TimeAgo} </TableCell>
+                    <TableCell>{item?._id}</TableCell>
                     <TableCell>
                       {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
