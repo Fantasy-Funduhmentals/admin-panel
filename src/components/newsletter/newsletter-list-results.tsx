@@ -43,8 +43,8 @@ export const NewsletterListResults = (props: Props) => {
 
   const dataToDisplay = useMemo(() => {
     if (searchQuery.length > 0) {
-      return data.filter((user) =>
-        user.detail?.title().includes(searchQuery.toLowerCase())
+      return data.filter((item) =>
+        item?.email?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
       return data;
