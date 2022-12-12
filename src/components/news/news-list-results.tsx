@@ -38,6 +38,10 @@ export const NewsListResults = (props: Props) => {
     page,
     limit,
   } = props;
+  console.log(
+    "🚀 ~ file: news-list-results.tsx ~ line 41 ~ NewsListResults ~ data",
+    data
+  );
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
@@ -70,7 +74,7 @@ export const NewsListResults = (props: Props) => {
                   <TableCell style={{ color: "#fff" }}>News ID</TableCell>
                   <TableCell style={{ color: "#fff" }}>Player ID</TableCell>
                   <TableCell style={{ color: "#fff" }}>Team</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Time Ago</TableCell>
+                  {/* <TableCell style={{ color: "#fff" }}>Time Ago</TableCell> */}
                   <TableCell style={{ color: "#fff" }}>created At</TableCell>
                 </TableRow>
               </TableHead>
@@ -101,7 +105,7 @@ export const NewsListResults = (props: Props) => {
                     <TableCell>{item?.detail?.NewsID} </TableCell>
                     <TableCell>{item?.detail?.PlayerID} </TableCell>
                     <TableCell>{item?.detail?.Team} </TableCell>
-                    <TableCell>{item?.detail?.TimeAgo} </TableCell>
+                    {/* <TableCell>{item?.detail?.TimeAgo} </TableCell> */}
                     <TableCell>
                       {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>

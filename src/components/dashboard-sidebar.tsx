@@ -104,7 +104,7 @@ export const DashboardSidebar = (props) => {
     if (open) {
       onClose?.();
     }
-    if (role.role != "admin" && items != data) {
+    if (role?.role != "admin" && items != data) {
       router.push(`/${role?.adminPermissions[0]}`);
     }
   }, [router.asPath]);
