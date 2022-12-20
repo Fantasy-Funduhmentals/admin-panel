@@ -50,6 +50,11 @@ const items = [
     title: "Players",
   },
   {
+    href: "/nft",
+    icon: <UserCircle fontSize="small" />,
+    title: "NFT's",
+  },
+  {
     href: "/shop",
     icon: <Shop fontSize="small" />,
     title: "Shop",

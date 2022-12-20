@@ -7,14 +7,9 @@ import { useAppSelector } from "../../store/hooks";
 import { getNormalizedError } from "../../utils/helpers";
 import { updatePlayerValue } from "../../services/playerService";
 import { changesImageUrl } from "../../services/shopService";
+import { updateNftValue } from "../../services/nftService";
 
-const usePlayerData = (
-  searchQuery,
-  RefreshAdminUsersData,
-  data,
-  page,
-  limit
-) => {
+const useNftData = (RefreshAdminUsersData, data, page, limit) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const { subadmin } = useAppSelector((state: RootState) => state?.adminUser);
 
@@ -29,25 +24,9 @@ const usePlayerData = (
     setReason(e.target.value);
   };
   const handleEditPlayer = (data: any) => {
-    console.log(
-      "🚀 ~ file: usePlayerData.ts ~ line 27 ~ handleEditPlayer ~ data",
-      data
-    );
     setPlayerId(data?._id);
     setrejectShow(true);
   };
-
-  const dataToDisplay = useMemo(() => {
-    const begin = page * limit;
-    const end = begin + limit;
-    if (searchQuery.length > 0) {
-      return data.filter((user) =>
-        user.detail?.Name?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    } else {
-      return data;
-    }
-  }, [data, searchQuery]);
 
   // const handleBlockUser = (data) => {
   //   if (data.isBlocked) {
@@ -81,30 +60,26 @@ const usePlayerData = (
       video: "",
     },
     validationSchema: Yup.object({
-      value: Yup.number().positive().required(),
-      video: Yup.mixed().required(),
+      value: Yup.number().positive(),
+      video: Yup.mixed(),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(
-        "🚀 ~ file: usePlayerData.ts:79 ~ formik.errors",
-        formik.errors
-      );
       handleSubmit(values, { resetForm });
     },
   });
-  const handleSubmit = async (values, { resetForm }) => {
-    let params = {
-      value: Number(values.value),
-      video: await handleImageUpload(values?.video[0], "NFT"),
-    };
-    console.log(
-      "🚀 ~ file: usePlayerData.ts:77 ~ handleSubmit ~ values",
-      params
-    );
 
+  const handleSubmit = async (values, { resetForm }) => {
     try {
       setloading(true);
-      const res = await updatePlayerValue(playerId, params);
+      let params = {
+        value: Number(values.value),
+        videoUrl: await handleImageUpload(values?.video[0], "NFT"),
+      };
+      console.log(
+        "🚀 ~ file: useNftData.ts:81 ~ handleSubmit ~ params",
+        params
+      );
+      const res = await updateNftValue(playerId, params);
       setStatusData({
         type: "success",
         message: res?.data?.message,
@@ -167,7 +142,6 @@ const usePlayerData = (
   // };
 
   return {
-    dataToDisplay,
     selectedCustomerIds,
     // handleBlockUser,
     handleEditPlayer,
@@ -184,4 +158,4 @@ const usePlayerData = (
   };
 };
 
-export default usePlayerData;
+export default useNftData;

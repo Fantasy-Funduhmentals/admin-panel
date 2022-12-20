@@ -54,6 +54,7 @@
     "simplebar-react": "^2.3.6",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.5",
+    "usehooks-ts": "^2.9.1",
     "uuid": "^8.3.0",
     "web3": "^1.7.1",
     "yup": "^0.32.9"

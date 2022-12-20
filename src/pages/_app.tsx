@@ -1,6 +1,5 @@
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import { CacheProvider } from "@emotion/react";
-import { Route } from "@mui/icons-material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { CssBaseline } from "@mui/material";

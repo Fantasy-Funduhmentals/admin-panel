@@ -31,10 +31,9 @@ import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import StatusModal from "../StatusModal";
-import usePlayerData from "./usePlayerData";
+import useNftData from "./useNftData";
 import EditIcon from "@mui/icons-material/Edit";
 interface Props extends CardProps {
-  searchQuery?: string;
   loadingApi?: boolean;
   handleLimitChange?: (prop?: any) => any;
   handlePageChange?: (event?: any, page?: any) => void;
@@ -46,9 +45,8 @@ interface Props extends CardProps {
   data?: any[];
 }
 
-export const PlayerList = (props: Props) => {
+export const NftList = (props: Props) => {
   const {
-    searchQuery,
     RefreshAdminUsersData,
     loadingApi,
     handleLimitChange,
@@ -59,7 +57,6 @@ export const PlayerList = (props: Props) => {
     data,
   } = props;
   const {
-    dataToDisplay,
     selectedCustomerIds,
     // handleBlockUser,
     handleEditPlayer,
@@ -73,7 +70,7 @@ export const PlayerList = (props: Props) => {
     statusData,
     setStatusData,
     subadmin,
-  } = usePlayerData(searchQuery, RefreshAdminUsersData, data, page, limit);
+  } = useNftData(RefreshAdminUsersData, data, page, limit);
 
   console.log(page, "page");
 
@@ -91,7 +88,7 @@ export const PlayerList = (props: Props) => {
                 overflowX: "auto",
               }}
             >
-              {dataToDisplay?.length === 0 ? (
+              {data?.length === 0 ? (
                 <NoDataFound />
               ) : (
                 <Box>
@@ -99,10 +96,8 @@ export const PlayerList = (props: Props) => {
                     <TableHead>
                       <TableRow style={{ background: "black" }}>
                         <TableCell style={{ color: "#fff" }}>Name</TableCell>
-                        <TableCell style={{ color: "#fff" }}>
-                          player id
-                        </TableCell>
-                        {/* <TableCell style={{ color: "#fff" }}>value</TableCell> */}
+                        <TableCell style={{ color: "#fff" }}>nft Id</TableCell>
+                        <TableCell style={{ color: "#fff" }}>value</TableCell>
                         <TableCell style={{ color: "#fff" }}>Height</TableCell>
                         <TableCell style={{ color: "#fff" }}>Weight</TableCell>
                         <TableCell style={{ color: "#fff" }}>Age</TableCell>
@@ -112,13 +107,13 @@ export const PlayerList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>
                           Experience
                         </TableCell>
-                        {/* <TableCell style={{ color: "#fff" }}>
+                        <TableCell style={{ color: "#fff" }}>
                           Edit Value
-                        </TableCell> */}
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {dataToDisplay?.map((customer) => (
+                      {data?.map((customer) => (
                         <>
                           <TableRow
                             hover
@@ -135,32 +130,36 @@ export const PlayerList = (props: Props) => {
                                 }}
                               >
                                 <Avatar
-                                  src={customer?.detail?.PhotoUrl}
+                                  src={customer?.playerDetail?.PhotoUrl}
                                   sx={{ mr: 2 }}
                                 >
-                                  {getInitials(customer?.detail?.Name)}
+                                  {getInitials(customer?.playerDetail?.Name)}
                                 </Avatar>
                                 <Typography color="textPrimary" variant="body1">
-                                  {customer?.detail?.Name}
+                                  {customer?.playerDetail?.Name}
                                 </Typography>
                               </Box>
                             </TableCell>
-                            <TableCell>{customer?.detail?.PlayerID}</TableCell>
-                            {/* <TableCell>
+                            <TableCell>{customer?.nftId}</TableCell>
+                            <TableCell>
                               {customer?.value ? customer?.value : 0}
-                            </TableCell> */}
-                            <TableCell>
-                              {customer?.detail?.HeightFeet}F
                             </TableCell>
-                            <TableCell>{customer?.detail?.Weight} lb</TableCell>
-                            <TableCell>{customer?.detail?.Age} </TableCell>
                             <TableCell>
-                              {customer?.detail?.CurrentTeam
-                                ? customer?.detail?.CurrentTeam
+                              {customer?.playerDetail?.HeightFeet}F
+                            </TableCell>
+                            <TableCell>
+                              {customer?.playerDetail?.Weight} lb
+                            </TableCell>
+                            <TableCell>
+                              {customer?.playerDetail?.Age}{" "}
+                            </TableCell>
+                            <TableCell>
+                              {customer?.playerDetail?.CurrentTeam
+                                ? customer?.playerDetail?.CurrentTeam
                                 : "-"}{" "}
                             </TableCell>
                             <TableCell>
-                              {customer?.detail?.Experience} Y
+                              {customer?.playerDetail?.Experience} Y
                             </TableCell>
 
                             {/* <TableCell
@@ -187,11 +186,11 @@ export const PlayerList = (props: Props) => {
                                 {customer.isBlocked ? "UnBlock" : "Block"}
                               </Button>
                             </TableCell>*/}
-                            {/* <TableCell
+                            <TableCell
                               onClick={() => handleEditPlayer(customer)}
                             >
                               <EditIcon />
-                            </TableCell> */}
+                            </TableCell>
                           </TableRow>
                         </>
                       ))}
@@ -237,7 +236,7 @@ export const PlayerList = (props: Props) => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Update Player's Value
+                  Update Nft Data
                 </Typography>
                 <TextField
                   error={Boolean(formik.touched.value && formik.errors.value)}
@@ -251,6 +250,7 @@ export const PlayerList = (props: Props) => {
                   color="success"
                   variant="outlined"
                 />
+
                 <TextField
                   error={Boolean(formik.touched.video && formik.errors.video)}
                   onChange={(ev: any) => {
@@ -259,21 +259,28 @@ export const PlayerList = (props: Props) => {
                   }}
                   inputProps={{ accept: "video/*" }}
                   fullWidth
-                  label="video"
+                  // label="video"
                   margin="normal"
                   name="video"
                   color="success"
                   variant="outlined"
                   type="file"
                 />
-                <Box sx={{ width: "90%", textAlign: "center" }}>
+
+                <Box sx={{ width: "100%", textAlign: "center" }}>
                   {loading ? (
-                    <Box>
-                      <CircularProgress color="inherit" />
-                    </Box>
+                    <Button
+                      style={{ marginTop: 14 }}
+                      color="primary"
+                      variant="contained"
+                      type="submit"
+                      fullWidth
+                    >
+                      <CircularProgress color="inherit" size="35px" />
+                    </Button>
                   ) : (
                     <Button
-                      style={{ width: 300 }}
+                      style={{ marginTop: 14 }}
                       color="primary"
                       variant="contained"
                       type="submit"
@@ -296,7 +303,7 @@ export const PlayerList = (props: Props) => {
   );
 };
 
-PlayerList.propTypes = {
+NftList.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
