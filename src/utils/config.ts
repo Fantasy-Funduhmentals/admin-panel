@@ -9,6 +9,6 @@ const stagingConfig = {
   Base_URL: "http://192.168.50.110:5001/",
 };
 
-const defaultConfig = testnetConfig;
+const defaultConfig = mainnetConfig;
 
 export default defaultConfig;
