@@ -24,7 +24,6 @@ import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { resetUserState } from "../store/reducers/userSlice";
-import Router from "next/router";
 import { useWeb3 } from "@3rdweb/hooks";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { setupAxios } from "../utils/axiosClient";
@@ -34,6 +33,7 @@ import { resetSettingsState } from "../store/reducers/settingsSlice";
 import { RootState } from "../store";
 import { resetEmailState } from "../store/reducers/emailSlice";
 import { handleUserJwt } from "../services/userService";
+import { useRouter } from "next/router";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -42,6 +42,7 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
 
 export const DashboardNavbar = (props) => {
   const { role } = useAppSelector((state: RootState) => state.user);
+  const location: any = useRouter();
   const { onSidebarOpen, ...other } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -62,7 +63,7 @@ export const DashboardNavbar = (props) => {
     dispatch(resetCoinState());
     dispatch(resetSettingsState());
     dispatch(resetEmailState());
-    Router.push("/");
+    location.push("/");
   };
 
   const getUserJwtData = async () => {
@@ -80,6 +81,7 @@ export const DashboardNavbar = (props) => {
     } catch (error) {
       handleLogout();
     }
+
     getUserJwtData();
   }, []);
 
