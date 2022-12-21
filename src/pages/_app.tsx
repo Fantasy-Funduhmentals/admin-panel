@@ -5,7 +5,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import "regenerator-runtime/runtime";
@@ -14,6 +14,11 @@ import ProgressBar from "../components/ProgressBar";
 import Splash from "../components/SplashScreen/Splash";
 // import { socket, SocketContext } from "../context/socket";
 import { store } from "../store";
+import { resetAdminState } from "../store/reducers/adminSlice";
+import { resetCoinState } from "../store/reducers/coinSlice";
+import { resetEmailState } from "../store/reducers/emailSlice";
+import { resetSettingsState } from "../store/reducers/settingsSlice";
+import { resetUserState } from "../store/reducers/userSlice";
 import { theme } from "../theme";
 import { setupAxios } from "../utils/axiosClient";
 import { createEmotionCache } from "../utils/create-emotion-cache";
@@ -30,10 +35,19 @@ const App = (props) => {
   const getLayout = Component.getLayout ?? ((page) => page);
   const { accessToken, role } = store.getState().user;
 
+  const handleLogout = () => {
+    store.dispatch(resetUserState());
+    store.dispatch(resetAdminState());
+    store.dispatch(resetCoinState());
+    store.dispatch(resetSettingsState());
+    store.dispatch(resetEmailState());
+    Router.push("/");
+  };
+
   useEffect(() => {
     if (accessToken) {
       <Component {...pageProps} />;
-      if (accessToken && Router.asPath === "/") {
+      if (accessToken && Router?.asPath === "/") {
         if (role?.role == "sub admin") {
           Router.push(`/${role?.adminPermissions[0]}`);
         } else {
@@ -43,6 +57,12 @@ const App = (props) => {
     } else {
       Router.push("/");
     }
+
+    if (Router?.asPath === "/undefined") {
+      handleLogout();
+      Router.push("/");
+    }
+
     setupAxios();
   }, []);
 
