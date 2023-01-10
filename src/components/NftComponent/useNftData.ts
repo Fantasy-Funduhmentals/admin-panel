@@ -42,10 +42,7 @@ const useNftData = (RefreshAdminUsersData, data, page, limit) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", type);
-    console.log(
-      "🚀 ~ file: usePlayerData.ts:67 ~ handleImageUpload ~ uploadRes",
-      formData
-    );
+
     const uploadRes = await changesImageUrl(formData);
 
     return uploadRes?.data?.url;
@@ -75,10 +72,7 @@ const useNftData = (RefreshAdminUsersData, data, page, limit) => {
         value: Number(values.value),
         videoUrl: await handleImageUpload(values?.video[0], "NFT"),
       };
-      console.log(
-        "🚀 ~ file: useNftData.ts:81 ~ handleSubmit ~ params",
-        params
-      );
+
       const res = await updateNftValue(playerId, params);
       setStatusData({
         type: "success",

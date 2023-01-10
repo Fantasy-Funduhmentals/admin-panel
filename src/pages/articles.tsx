@@ -32,10 +32,7 @@ const Articles = () => {
     try {
       setLoading(true);
       const usersRes = await handleArticleData(page, limit);
-      console.log(
-        "🚀 ~ file: articles.tsx ~ line 36 ~ getShopListing ~ usersRes",
-        usersRes
-      );
+
       setCount(usersRes?.data?.total);
       setData(usersRes?.data?.data);
       setLoading(false);

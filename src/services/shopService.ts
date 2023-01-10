@@ -12,7 +12,7 @@ const deleteShopData = async (id: any) => {
 const postShopData = async (params: any) => {
   return await HTTP_CLIENT.post(`/shop`, params);
 };
-const getShopStatus = async (id: any) => {
+const getShopStatus = async (id: any, params: any) => {
   return await HTTP_CLIENT.get(`/shop/status/${id}`);
 };
 const changesImageUrl = async (params: any) => {
