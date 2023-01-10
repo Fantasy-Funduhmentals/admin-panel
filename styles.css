@@ -1,6 +1,10 @@
 body {
   background-color: #111112;
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
 /*scrollBar*/
 ::-webkit-scrollbar {
   width: 6px;

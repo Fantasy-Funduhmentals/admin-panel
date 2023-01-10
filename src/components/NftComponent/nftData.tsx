@@ -72,8 +72,6 @@ export const NftList = (props: Props) => {
     subadmin,
   } = useNftData(RefreshAdminUsersData, data, page, limit);
 
-  console.log(page, "page");
-
   return (
     <>
       {loadingApi ? (

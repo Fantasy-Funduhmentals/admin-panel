@@ -38,17 +38,18 @@ export const NewsListResults = (props: Props) => {
     page,
     limit,
   } = props;
-  console.log(
-    "🚀 ~ file: news-list-results.tsx ~ line 41 ~ NewsListResults ~ data",
-    data
-  );
-
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   const dataToDisplay = useMemo(() => {
     if (searchQuery.length > 0) {
-      return data.filter((user) =>
-        user.detail?.title().includes(searchQuery.toLowerCase())
+      return data.filter(
+        (user) =>
+          user?.detail?.Title?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          ) ||
+          user?.detail?.Source?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          )
       );
     } else {
       return data;
