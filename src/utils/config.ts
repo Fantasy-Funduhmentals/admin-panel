@@ -10,6 +10,6 @@ const stagingConfig = {
   Base_URL: "stg-api.theduh.com/",
 };
 
-const defaultConfig = mainnetConfig;
+const defaultConfig = stagingConfig;
 
 export default defaultConfig;
