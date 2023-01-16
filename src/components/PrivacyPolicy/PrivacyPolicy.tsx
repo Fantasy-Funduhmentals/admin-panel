@@ -23,11 +23,7 @@ const PrivacyPolicy = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [rejectShow, setrejectShow] = useState(false);
-  const [document, setDocument] = useState(null);
-  console.log(
-    "🚀 ~ file: PrivacyPolicy.tsx:27 ~ PrivacyPolicy ~ document",
-    document
-  );
+  const [documentData, setDocumentData] = useState("");
 
   const handleOpenModal = () => {
     setrejectShow(true);
@@ -39,17 +35,21 @@ const PrivacyPolicy = () => {
 
   const handlePolicyData = async () => {
     try {
-      if (document === "") {
+      if (documentData === "") {
         setStatusData({
           type: "error",
           message: "Document is empty",
         });
         return;
       }
-      const params = {
-        privacyPolicy: document,
+      console.log(
+        "🚀 ~ file: PrivacyPolicy.tsx:40 ~ handlePolicyData ~ documentData",
+        documentData
+      );
+      const param = {
+        privacyPolicy: documentData,
       };
-      const res = await handleSettingsData(params);
+      const res = await handleSettingsData(param);
       console.log(
         "🚀 ~ file: PrivacyPolicy.tsx:42 ~ handlePolicyData ~ res",
         res
@@ -113,7 +113,7 @@ const PrivacyPolicy = () => {
                 // model={formik.values.documentData}
                 onModelChange={(ev: any) => {
                   console.log("🚀 ~ file: twoFa.tsx:84 ~ TwoFa ~ ev", ev);
-                  if (ev) setDocument(ev?.target?.values);
+                  if (ev) setDocumentData(ev);
                 }}
               />
             ) : null}
