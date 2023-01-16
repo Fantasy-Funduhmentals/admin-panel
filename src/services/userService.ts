@@ -50,6 +50,9 @@ const handleBlockSubAdmin = async (params: any) => {
 const handleUserJwt = async () => {
   return await HTTP_CLIENT.get("/admin-auth/verify-jwt");
 };
+const handleSettingsData = async (params: any) => {
+  return await HTTP_CLIENT.post("/settings", params);
+};
 
 export {
   handleUserLogin,
@@ -66,4 +69,5 @@ export {
   handleUserJwt,
   generateTwoFa,
   twoFaAuth,
+  handleSettingsData,
 };
