@@ -66,10 +66,11 @@ export const ShopListResults = (props: Props) => {
     }
   }, [data, searchQuery]);
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (data: any) => {
+    let params = { isActive: !data.isActive };
     try {
       setloading(true);
-      const response = await getShopStatus(data._id);
+      const response = await getShopStatus(data._id, params);
       handleRefresh();
       setStatusData({
         type: "success",
@@ -171,16 +172,16 @@ export const ShopListResults = (props: Props) => {
                         sx={{
                           cursor: "pointer",
                           border: `${
-                            item?.active
+                            item?.isActive
                               ? "1px solid #14B8A6"
                               : "1px solid rgb(209, 67, 67)"
                           }`,
                           color: `${
-                            item?.active ? "#14B8A6" : "rgb(209, 67, 67)"
+                            item?.isActive ? "#14B8A6" : "rgb(209, 67, 67)"
                           }`,
                         }}
                       >
-                        {item?.active ? "true" : "false"}
+                        {item?.isActive ? "true" : "false"}
                       </Button>
                     </TableCell>
                     <TableCell onClick={() => handleOpenModal(item)}>

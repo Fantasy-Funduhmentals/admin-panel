@@ -6,13 +6,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
 import axios from "axios";
 import { useFormik } from "formik";
 import Head from "next/head";
 import { useState } from "react";
 import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
-import OTP from "../components/twoFa/otp";
+import OTP from "../components/PrivacyPolicy/otp";
 import { handleUserLogin } from "../services/userService";
 import defaultConfig from "../utils/config";
 import { getNormalizedError } from "../utils/helpers";
@@ -22,6 +26,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [authToken, setyAuthToken] = useState<any>(null);
+  const [passwordToogle, setPasswordtoogle] = useState<boolean>(false);
 
   const handleSubmit = async (values: any, actions: any) => {
     try {
@@ -73,13 +78,28 @@ const Login = () => {
         .email("Must be a valid email")
         .max(255)
         .required("Email is required"),
-      password: Yup.string().max(255).required("Password is required"),
+      password: Yup.string()
+        .required("Enter new password")
+        .min(8)
+        .max(33)
+        .matches(
+          /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+          "Password must contain at least 8 characters, one uppercase, one number and one special case character"
+        )
+        .label("password")
+        .trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
     },
   });
+  const handleShowpassword = () => {
+    setPasswordtoogle(!passwordToogle);
+  };
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <>
       <Head>
@@ -132,10 +152,28 @@ const Login = () => {
                 name="password"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                type="password"
+                type={passwordToogle ? "text" : "password"}
                 value={formik.values.password}
                 variant="outlined"
                 color="success"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end" sx={{ cursor: "pointer" }}>
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => handleShowpassword()}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {passwordToogle ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Box sx={{ py: 2 }}>
                 <Button

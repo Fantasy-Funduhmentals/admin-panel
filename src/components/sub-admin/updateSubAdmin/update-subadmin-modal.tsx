@@ -16,6 +16,9 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 import AppBar from "@mui/material/AppBar";
 import Multiselect from "multiselect-react-dropdown";
 import Button from "@mui/material/Button";
@@ -49,7 +52,7 @@ interface Props {
 
 const UpdateSubAdminModal = (props: Props) => {
   const { open, onClose, editData } = props;
-
+  const [passwordToogle, setPasswordtoogle] = useState(false);
   const {
     loading,
     formik,
@@ -65,7 +68,13 @@ const UpdateSubAdminModal = (props: Props) => {
       name: "sub admin",
     },
   ];
+  const handleShowpassword = () => {
+    setPasswordtoogle(!passwordToogle);
+  };
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <Box>
       <Dialog
@@ -142,12 +151,13 @@ const UpdateSubAdminModal = (props: Props) => {
                               formik.touched.name && formik.errors.name
                             )}
                             fullWidth
-                            helperText="Please enter the real name of the sub-admin.."
+                            helperText={
+                              formik.touched.name && formik.errors.name
+                            }
                             label="Name"
                             name="name"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            required
                             value={formik.values.name}
                             variant="outlined"
                             color="success"
@@ -164,8 +174,9 @@ const UpdateSubAdminModal = (props: Props) => {
                             fullWidth
                             label="Sub Admin Email"
                             name="email"
-                            helperText="Please enter sub-admin email address"
-                            required
+                            helperText={
+                              formik.touched.email && formik.errors.email
+                            }
                             variant="outlined"
                             color="success"
                           />
@@ -181,11 +192,33 @@ const UpdateSubAdminModal = (props: Props) => {
                             fullWidth
                             label="Password"
                             name="password"
-                            helperText="Please enter the password for this email."
-                            required
-                            type="password"
+                            helperText={
+                              formik.touched.password && formik.errors.password
+                            }
+                            type={passwordToogle ? "text" : "password"}
                             variant="outlined"
                             color="success"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment
+                                  position="end"
+                                  sx={{ cursor: "pointer" }}
+                                >
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => handleShowpassword()}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                    {passwordToogle ? (
+                                      <Visibility />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>

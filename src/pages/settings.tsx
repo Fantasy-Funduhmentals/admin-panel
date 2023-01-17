@@ -3,7 +3,7 @@ import Head from "next/head";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { SettingsPassword } from "../components/settings/settings-password";
 import MaintenanceMode from "../components/MaintenanceMode/toggle";
-import TwoFa from "../components/twoFa/twoFa";
+import PrivacyPolicy from "../components/PrivacyPolicy/PrivacyPolicy";
 const Settings = () => (
   <>
     <Head>
@@ -23,9 +23,10 @@ const Settings = () => (
         <Box sx={{ pt: 3 }}>
           <MaintenanceMode />
         </Box>
-        {/* <Box sx={{ pt: 3 }}>
-          <TwoFa />
-        </Box> */}
+
+        <Box sx={{ pt: 3 }}>
+          <PrivacyPolicy />
+        </Box>
         <Box sx={{ pt: 3 }}>
           <SettingsPassword />
         </Box>

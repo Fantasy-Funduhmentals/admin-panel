@@ -29,10 +29,6 @@ const NFT = () => {
     try {
       setLoadingApi(true);
       const playerRes = await handleNftData(page, limit, debaouncedData);
-      console.log(
-        "🚀 ~ file: players.tsx ~ line 33 ~ getAdminUsers ~ playerRes",
-        playerRes
-      );
       setData(playerRes?.data?.data);
       setCount(playerRes?.data?.total);
       setLoadingApi(false);

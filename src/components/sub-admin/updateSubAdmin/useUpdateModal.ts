@@ -45,7 +45,7 @@ const useUpdateModal = (open, onClose, editData) => {
         .required("Enter Your Email"),
 
       password: Yup.string()
-        .required()
+        .required("Enter Your password")
         .min(8)
         .max(33)
         .matches(
@@ -64,7 +64,7 @@ const useUpdateModal = (open, onClose, editData) => {
     if (selectedPermission?.length === 0) {
       setStatusData({
         type: "error",
-        message: "Please select admin Permission first",
+        message: "Please select admin permission first",
       });
       return;
     }
@@ -94,6 +94,7 @@ const useUpdateModal = (open, onClose, editData) => {
       // }
       setData(!Data);
       formik.resetForm();
+      setSelectedPermission([]);
       onClose();
       setStatusData({
         type: "success",

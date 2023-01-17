@@ -47,8 +47,17 @@ const handleBlock = async (params: any) => {
 const handleBlockSubAdmin = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/block-subAdmin", params);
 };
+
 const handleUserJwt = async () => {
   return await HTTP_CLIENT.get("/admin-auth/verify-jwt");
+};
+
+const handleSettingsData = async (params: any) => {
+  console.log(
+    "🚀 ~ file: userService.ts:56 ~ handleSettingsData ~ params",
+    params
+  );
+  return await HTTP_CLIENT.post("/settings", params);
 };
 
 export {
@@ -66,4 +75,5 @@ export {
   handleUserJwt,
   generateTwoFa,
   twoFaAuth,
+  handleSettingsData,
 };

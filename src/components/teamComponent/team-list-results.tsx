@@ -43,8 +43,20 @@ export const TeamListResults = (props: Props) => {
 
   const dataToDisplay = useMemo(() => {
     if (searchQuery.length > 0) {
-      return data.filter((user) =>
-        user.detail?.Name?.toLowerCase().includes(searchQuery.toLowerCase())
+      return data.filter(
+        (user) =>
+          user.detail?.Conference?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          ) ||
+          user.detail?.City?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          ) ||
+          user.detail?.HeadCoach?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          ) ||
+          user.detail?.SpecialTeamsCoach?.toLowerCase().includes(
+            searchQuery.toLowerCase()
+          )
       );
     } else {
       return data;

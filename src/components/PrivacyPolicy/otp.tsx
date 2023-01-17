@@ -59,7 +59,8 @@ const OTP = (prop: Props) => {
       dispatch(saveEmailUser(res?.data?.user?.email));
       setStatusData({
         type: "success",
-        message: res?.data?.message,
+        // message: res?.data?.message,
+        message: "Successfully logged in",
       });
       if (res?.data?.user?.role == "admin") {
         router.push("/dashboard");
