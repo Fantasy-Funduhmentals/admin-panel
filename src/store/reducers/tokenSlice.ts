@@ -18,13 +18,9 @@ export const tokenSlice = createSlice({
     saveTokens: (state, action) => {
       state.tokens = action.payload;
     },
-    saveNativeWallets: (state, action) => {
-      state.wallets = action.payload;
-    },
   },
 });
 
-export const { saveTokens, resetTokenState, saveNativeWallets } =
-  tokenSlice.actions;
+export const { saveTokens, resetTokenState } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

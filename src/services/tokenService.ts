@@ -1,5 +1,6 @@
 import { HTTP_CLIENT } from "../utils/axiosClient";
 
+<<<<<<< HEAD
 const getTokensData = async () => {
   return await HTTP_CLIENT.get("/native-token/get-all-native-tokens");
 };
@@ -27,10 +28,13 @@ const getNewsLetter = async () => {
   return await HTTP_CLIENT.get("/newsletter");
 };
 
+=======
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32
 const getAdminUserData = async () => {
   return await HTTP_CLIENT.get("/admin-auth/getAllSubAdmins");
 };
 
+<<<<<<< HEAD
 const getNativeWalletsData = async (page: number, searchText?: string | number) => {
   return await HTTP_CLIENT.get(`/native-wallet/all-native-wallets?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}`);
 };
@@ -87,3 +91,6 @@ export {
   completedDirectWireData,
   singleDirectWire
 };
+=======
+export { getAdminUserData };
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32

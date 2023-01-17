@@ -20,22 +20,20 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { Bell as BellIcon } from "../icons/bell";
 import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { resetUserState } from "../store/reducers/userSlice";
-import Router from "next/router";
 import { useWeb3 } from "@3rdweb/hooks";
 import { HTTP_CLIENT } from "../utils/axiosClient";
 import { setupAxios } from "../utils/axiosClient";
 import { resetAdminState } from "../store/reducers/adminSlice";
 import { resetCoinState } from "../store/reducers/coinSlice";
-import { resetCompleteDirectWireState } from "../store/reducers/completeDirectWire";
-import { resetRequestState } from "../store/reducers/requestSlice";
 import { resetSettingsState } from "../store/reducers/settingsSlice";
 import { RootState } from "../store";
 import { resetEmailState } from "../store/reducers/emailSlice";
+import { handleUserJwt } from "../services/userService";
+import { useRouter } from "next/router";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette?.background.paper,
@@ -44,6 +42,7 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
 
 export const DashboardNavbar = (props) => {
   const { role } = useAppSelector((state: RootState) => state.user);
+  const location: any = useRouter();
   const { onSidebarOpen, ...other } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -62,22 +61,28 @@ export const DashboardNavbar = (props) => {
     dispatch(resetUserState());
     dispatch(resetAdminState());
     dispatch(resetCoinState());
-    dispatch(resetCompleteDirectWireState());
-    dispatch(resetRequestState());
     dispatch(resetSettingsState());
-    dispatch(resetCompleteDirectWireState());
     dispatch(resetEmailState());
-    Router.push("/login");
+    location.push("/");
+  };
+
+  const getUserJwtData = async () => {
+    try {
+      await handleUserJwt();
+    } catch (error) {
+      handleLogout();
+    }
   };
 
   /* @ts-ignore */
   useEffect(() => {
     try {
       setupAxios();
-      // await HTTP_CLIENT.get(`/admin-auth/info`);
     } catch (error) {
       handleLogout();
     }
+
+    getUserJwtData();
   }, []);
 
   return (
@@ -101,7 +106,7 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
-          {role == "admin" ? (
+          {/* {role == "admin" ? (
             <Button
               variant="contained"
               onClick={() => {
@@ -113,11 +118,10 @@ export const DashboardNavbar = (props) => {
                     address.length - 4
                   )}`
                 : " Connect Wallet"}
-              {/* {!address ? "Connect" : "Successfull"} */}
             </Button>
           ) : (
             ""
-          )}
+          )} */}
           <IconButton
             onClick={onSidebarOpen}
             sx={{
@@ -129,24 +133,9 @@ export const DashboardNavbar = (props) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
-          {/* <Tooltip title="Search">
-            <IconButton sx={{ ml: 1 }}>
-              <SearchIcon fontSize="small" />
-            </IconButton>
-          </Tooltip> */}
+
           <Box sx={{ flexGrow: 1 }} />
-          {/* <Tooltip title="Contacts">
-            <IconButton sx={{ ml: 1 }}>
-              <UsersIcon fontSize="small" />
-            </IconButton>
-          </Tooltip> */}
-          {/* <Tooltip title="Notifications">
-            <IconButton sx={{ ml: 1 }}>
-              <Badge badgeContent={4} color="primary" variant="dot">
-                <BellIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-          </Tooltip> */}
+
           <Tooltip title="Account settings">
             <IconButton
               onClick={handleClick}
@@ -185,6 +174,7 @@ export const DashboardNavbar = (props) => {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
+
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -208,25 +198,6 @@ export const DashboardNavbar = (props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {/* <MenuItem>
-          <Avatar /> Profile
-        </MenuItem> */}
-        {/* <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem> */}
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />

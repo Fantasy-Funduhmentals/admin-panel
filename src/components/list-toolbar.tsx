@@ -15,13 +15,21 @@ import Refresh from "./Refresh/Refresh";
 interface Props extends BoxProps {
   title: string;
   subTitle: string;
+  searchTitle?: string;
   onPressAdd?: () => any;
   onChangeText?: (val: any) => any;
   handleRefresh?: () => any;
 }
 
 export const ListToolbar = (props: Props) => {
-  const { title, subTitle, onPressAdd, onChangeText, handleRefresh } = props;
+  const {
+    title,
+    subTitle,
+    searchTitle,
+    onPressAdd,
+    onChangeText,
+    handleRefresh,
+  } = props;
 
   return (
     <Box {...props}>
@@ -63,8 +71,9 @@ export const ListToolbar = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-                placeholder={`Search ${title}`}
+                placeholder={`Search ${searchTitle ? searchTitle : title}`}
                 variant="outlined"
+                color="success"
               />
             </Box>
             <Box sx={{ maxWidth: 500 }}>

@@ -32,7 +32,7 @@ const NotFound = () => (
             You either tried some shady route or you came here by mistake.
             Whichever it is, try using the navigation
           </Typography>
-          <Box sx={{ textAlign: "center" }}>
+          {/* <Box sx={{ textAlign: "center" }}>
             <img
               alt="Under development"
               src="/static/images/undraw_page_not_found_su7k.svg"
@@ -43,8 +43,8 @@ const NotFound = () => (
                 width: 560,
               }}
             />
-          </Box>
-          <NextLink href="/" passHref>
+          </Box> */}
+          {/* <NextLink href="/" passHref>
             <Button
               component="a"
               startIcon={<ArrowBackIcon fontSize="small" />}
@@ -53,7 +53,7 @@ const NotFound = () => (
             >
               Go back to dashboard
             </Button>
-          </NextLink>
+          </NextLink> */}
         </Box>
       </Container>
     </Box>

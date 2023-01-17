@@ -52,18 +52,42 @@ export const UserListResults = (props: Props) => {
   const [statusData, setStatusData] = useState(null);
   const [loading, setloading] = useState(false);
 
+<<<<<<< HEAD
   const handleChange = (e) => {
     setSelected(e.target.value);
   };
 
+=======
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage + 1);
   };
 
   const dataToDisplay = useMemo(() => {
+<<<<<<< HEAD
     return data?.data;
   }, [data?.data]);
+=======
+    const begin = page * limit;
+    const end = begin + limit;
+
+    if (searchQuery.length > 0) {
+      return data
+        .filter(
+          (user) =>
+            user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .slice(begin, end);
+    } else {
+      return data?.slice(begin, end);
+    }
+  }, [page, limit, data, searchQuery]);
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32
 
   const handleBlockUser = (data) => {
     if (data.isBlocked) {
@@ -111,7 +135,7 @@ export const UserListResults = (props: Props) => {
       handleRefresh();
       setStatusData({
         type: "success",
-        message: response.data.message,
+        message: response?.data?.message,
       });
       setloading(false);
       handleClose();
@@ -128,39 +152,6 @@ export const UserListResults = (props: Props) => {
 
   return (
     <Card {...props}>
-      <Box
-        style={{
-          marginTop: "1.3rem",
-          marginBottom: "1.3rem",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ ml: 3.5 }}>
-          <Grid
-            sx={{ minWidth: 250, display: "flex", columnGap: "1rem" }}
-            item
-            xs={12}
-            md={4}
-          >
-            <FormControl fullWidth>
-              <InputLabel id="simple-select-label">Select Users</InputLabel>
-              <Select
-                labelId="select-label"
-                id="simple-select"
-                value={selected}
-                label="Select History"
-                onChange={handleChange}
-              >
-                {/* <MenuItem value={"ira"}>IRA users</MenuItem> */}
-                <MenuItem value={"standard"}>standard users</MenuItem>
-                <MenuItem value={"sdira"}>Sdira users</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Box>
-      </Box>
-
       <PerfectScrollbar>
         <Paper
           style={{
@@ -171,13 +162,13 @@ export const UserListResults = (props: Props) => {
         >
           <Box>
             <Table>
-              <TableHead sx={{ background: "#5a82d7" }}>
+              <TableHead sx={{ background: "black" }}>
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Name</TableCell>
                   <TableCell style={{ color: "#fff" }}>Email</TableCell>
-                  <TableCell style={{ color: "#fff" }}>
+                  {/* <TableCell style={{ color: "#fff" }}>
                     Wallet Activation Status
-                  </TableCell>
+                  </TableCell> */}
                   {/* <TableCell style={{ color: "#fff" }}>
                     Customer Status
                   </TableCell> */}
@@ -210,7 +201,7 @@ export const UserListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.email}</TableCell>
-
+                    {/* 
                     <TableCell>
                       <SeverityPill
                         color={
@@ -221,7 +212,7 @@ export const UserListResults = (props: Props) => {
                           ? "Activated"
                           : "Not Activated"}
                       </SeverityPill>
-                    </TableCell>
+                    </TableCell> */}
                     {/* <TableCell>
                       <SeverityPill
                         color={(customer.isCustomer && "success") || "error"}
@@ -294,11 +285,11 @@ export const UserListResults = (props: Props) => {
             borderRadius: 2,
             display: "flex",
             flexDirection: "column",
-            rowGap: 4,
+            rowGap: 2,
             boxShadow: 60,
-            p: 2,
+            padding: "1rem",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -308,22 +299,27 @@ export const UserListResults = (props: Props) => {
             aria-label="minimum height"
             minRows={3}
             // placeholder="Minimum 3 rows"
+            color="secondary"
             style={{
-              width: 300,
+              width: "100%",
               resize: "none",
               height: "200px",
-              border: "1px solid black",
+              border: "1px solid gray",
+              background: "transparent",
+              color: "#fff",
+              padding: "0.5rem",
+              borderRadius: "8px",
             }}
             onChange={(e) => handleTextAreaChange(e)}
           />
-          <Box sx={{ width: "90%", textAlign: "center" }}>
+          <Box sx={{ width: "100%", textAlign: "center" }}>
             {loading ? (
               <Box>
                 <CircularProgress color="inherit" />
               </Box>
             ) : (
               <Button
-                style={{ width: 300 }}
+                style={{ width: "100%" }}
                 color="primary"
                 variant="contained"
                 type="submit"

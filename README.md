@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# admin-panel
+=======
 # TypeScript Next.js example
 
 This is a really simple project that shows the usage of Next.js with TypeScript.
@@ -45,3 +48,4 @@ When we run `next dev` the next time, Next.js will start looking for any `.ts` o
 Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
 
 A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+>>>>>>> 249cdf8788df653f1e8d60efb582c3fe28600725

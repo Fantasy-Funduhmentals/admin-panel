@@ -1,37 +1,36 @@
-import { Box, Container, CircularProgress, Button } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import FullScreenNFTDialog from "../components/add-nft-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
+import { NewsletterListResults } from "../components/newsletter/newsletter-list-results";
 import StatusModal from "../components/StatusModal";
-import { NftListResults } from "../components/newletter/new-letter-list-result";
-import { getNewsLetter } from "../services/tokenService";
-import { RootState } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveNewsletter } from "../store/reducers/newsLetterSlice";
+import { handleNewsletterData } from "../services/newsService";
 import { getNormalizedError } from "../utils/helpers";
 import { RotatingLines } from "react-loader-spinner";
 
-const Tokens = () => {
-  const { newsletterList } = useAppSelector(
-    (state: RootState) => state.newsletter
-  );
-
-  const dispatch = useAppDispatch();
+const NewsLetter = () => {
   const [loading, setLoading] = useState(false);
-  const [customerModelOpen, setCustomerModalOpen] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [reload, setReload] = useState(false);
-  const [nftToken, setNftToken] = useState(null);
+  const [data, setData] = useState();
+  const [count, setCount] = useState(null);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
 
-  const getNewsLetterList = async () => {
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const getNewsletterListing = async () => {
     setLoading(true);
     try {
-      const coinsRes = await getNewsLetter();
-
-      dispatch(saveNewsletter(coinsRes.data));
+      const res = await handleNewsletterData(page, limit);
+      setData(res?.data?.data);
+      setCount(res?.data?.total);
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
@@ -43,19 +42,14 @@ const Tokens = () => {
     }
   };
 
-  const onPressEdit = (token: any) => {
-    setNftToken(token);
-    setCustomerModalOpen(true);
-  };
-
   useEffect(() => {
-    getNewsLetterList();
-  }, []);
+    getNewsletterListing();
+  }, [page, limit]);
 
   return (
     <>
       <Head>
-        <title>Customers | CQR Admin</title>
+        <title>News</title>
       </Head>
       <Box
         component="main"
@@ -66,18 +60,19 @@ const Tokens = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Newsletter"
+            title="Newsletter Management"
             subTitle="Newsletter"
-            // onPressAdd={() => {
-            //   setCustomerModalOpen(true);
-            // }}
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
-            handleRefresh={getNewsLetterList}
+            handleRefresh={getNewsletterListing}
           />
+<<<<<<< HEAD
 
           <Box sx={{ mt: 3 }} style={{ textAlign: "center", minHeight: `${loading ? "60vh" : "0"}`, display: "flex", justifyContent: "center", alignItems: "center" }}>
+=======
+          <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32
             {loading ? (
               <RotatingLines
                 strokeColor="#5048e5"
@@ -87,29 +82,25 @@ const Tokens = () => {
                 visible={true}
               />
             ) : (
+<<<<<<< HEAD
               <NftListResults
                 style={{ width: "100%" }}
                 data={newsletterList}
+=======
+              <NewsletterListResults
+                data={data}
+>>>>>>> 479735f9c643a25850edc450e734af2756134a32
                 searchQuery={searchText}
-                onPressEdit={onPressEdit}
+                count={count}
+                handlePageChange={handlePageChange}
+                handleLimitChange={handleLimitChange}
+                page={page}
+                limit={limit}
               />
             )}
           </Box>
         </Container>
       </Box>
-
-      {customerModelOpen && (
-        <FullScreenNFTDialog
-          open={customerModelOpen}
-          onClose={() => {
-            setCustomerModalOpen(false);
-            setNftToken(null);
-            setReload(!reload);
-          }}
-          editData={nftToken}
-        />
-      )}
-
       <StatusModal
         statusData={statusData}
         onClose={() => setStatusData(null)}
@@ -117,6 +108,6 @@ const Tokens = () => {
     </>
   );
 };
-Tokens.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+NewsLetter.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default Tokens;
+export default NewsLetter;

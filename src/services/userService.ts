@@ -11,23 +11,20 @@ const getAllUsers = async (page: number, searchText?: string | number, type?: an
   return await HTTP_CLIENT.get(`/user/get-all-users?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}&type=${type}`);
 };
 
-const getSwapRate = async () => {
-  return await HTTP_CLIENT.get("/settings");
-};
-
 const changePassword = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/change-password", params);
 };
-const directWireAccountDetails = async (params: any) => {
-  return await HTTP_CLIENT.post("settings/admin/update-bank-details", params);
+const twoFaAuth = async (params: any) => {
+  return await HTTP_CLIENT.post("/2fa/authenticate", params);
 };
+const generateTwoFa = async () => {
+  return await HTTP_CLIENT.post("/2fa/generate");
+};
+
 const getGraphData = async (params: any) => {
   return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
 };
 
-const swapFee = async (params: any) => {
-  return await HTTP_CLIENT.post("/settings/admin/update-swap-rate", params);
-};
 const getMaintenanceMode = async () => {
   return await HTTP_CLIENT.get("/settings/maintenance");
 };
@@ -51,6 +48,18 @@ const handleBlockSubAdmin = async (params: any) => {
   return await HTTP_CLIENT.post("/admin-auth/block-subAdmin", params);
 };
 
+const handleUserJwt = async () => {
+  return await HTTP_CLIENT.get("/admin-auth/verify-jwt");
+};
+
+const handleSettingsData = async (params: any) => {
+  console.log(
+    "🚀 ~ file: userService.ts:56 ~ handleSettingsData ~ params",
+    params
+  );
+  return await HTTP_CLIENT.post("/settings", params);
+};
+
 export {
   handleUserLogin,
   handleBlockSubAdmin,
@@ -59,11 +68,12 @@ export {
   createSubAdminUser,
   createNewUser,
   handleBlock,
-  swapFee,
-  getSwapRate,
-  directWireAccountDetails,
   getMaintenanceMode,
   getGraphData,
   getWalletData,
   getUserInfo,
+  handleUserJwt,
+  generateTwoFa,
+  twoFaAuth,
+  handleSettingsData,
 };

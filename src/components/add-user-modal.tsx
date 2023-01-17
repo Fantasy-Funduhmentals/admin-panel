@@ -13,11 +13,14 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
@@ -47,40 +50,11 @@ interface Props {
 }
 
 const AddUserModal = (props: Props) => {
-  const Item = [
-    {
-      name: "standard user",
-    },
-    {
-      name: "sdira",
-    },
-    // {
-    //   name: "ira",
-    // },
-  ];
-
   const { open, onClose, editData } = props;
-
-  // const [image, setImage] = useState(null);
-  // const [symbolImage, setSymbolImage] = useState(null);
-
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const [editImage, setEditImage] = useState(null);
-  // const [editSymbolImage, setEditSymbolImage] = useState(null);
-  const [selectItems, setSelectItems] = useState("");
+  const [passwordToogle, setPasswordtoogle] = useState(false);
   const [recievestatus, setrecievestatus] = useState(true);
-
-  const handleDurationChange = (event) => {
-    setSelectItems(event.target.value);
-  };
-  // useEffect(() => {
-  //   if (editData) {
-  //     setEditImage(editData.icon.url);
-  //     setEditSymbolImage(editData.displaySymbol);
-  //   }
-  // }, []);
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -96,30 +70,20 @@ const AddUserModal = (props: Props) => {
         .required("Enter Your Email"),
 
       password: Yup.string()
-        .required()
+        .required("Enter Your password")
         .min(8)
         .max(33)
         .matches(
           /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
           "Password must contain at least 8 characters, one uppercase, one number and one special case character"
         )
-        .label("Password")
+        .label("password")
         .trim(),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
     },
   });
-
-  // const handleImageUpload = async (file: any, type: string) => {
-  //   const formData = new FormData();
-
-  //   formData.append("file", file);
-  //   formData.append("type", type);
-
-  //   const uploadRes = await uploadImage(formData);
-  //   return uploadRes.data.url;
-  // };
 
   const recieveData = (data) => {
     setrecievestatus(data);
@@ -135,38 +99,47 @@ const AddUserModal = (props: Props) => {
       //   });
       //   return;
       // }
-      if (selectItems == "") {
-        setStatusData({
-          type: "error",
-          message: "Please select an type to continue",
-        });
-        return;
-      }
+      // if (selectItems == "") {
+      //   setStatusData({
+      //     type: "error",
+      //     message: "Please select an type to continue",
+      //   });
+      //   return;
+      // }
 
       setLoading(true);
 
       let params = {
         ...values,
         // sdira: true,
-        type: selectItems == "standard user" ? "standard" : "sdira",
-        isWalletActivated: recievestatus,
+        // type: selectItems == "standard user" ? "standard" : "sdira",
+        // isWalletActivated: recievestatus,
       };
 
       // const userProfileImage = await handleImageUpload(image, "profilePicture");
       // params.profilePicture = userProfileImage;
-      await createNewUser({
+      const res = await createNewUser({
         ...params,
         email: params.email.replaceAll(" ", ""),
       });
-
       formik.resetForm();
       // setImage(null);
       // setSymbolImage(null);
       onClose();
-      setStatusData({
-        type: "success",
-        message: "User has been created successfully",
-      });
+      if (res.data.error === true) {
+        setStatusData({
+          type: "error",
+          message: res?.data?.message,
+        });
+      } else {
+        setStatusData({
+          type: "success",
+          message: res?.data?.message
+            ? res?.data?.message
+            : "User has been created successfully",
+        });
+      }
+
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);
@@ -178,13 +151,13 @@ const AddUserModal = (props: Props) => {
     }
   };
 
-  // const handleImageSelection = (event: any) => {
-  //   if (event.target.files && event.target.files[0]) {
-  //     let img = event.target.files[0];
-  //     setImage(img);
-  //   }
-  // };
+  const handleShowpassword = () => {
+    setPasswordtoogle(!passwordToogle);
+  };
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <Box>
       <Dialog
@@ -194,7 +167,13 @@ const AddUserModal = (props: Props) => {
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar
+            sx={{
+              background: "#232325",
+              boxShadow:
+                "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
+            }}
+          >
             <IconButton
               edge="start"
               color="inherit"
@@ -212,61 +191,16 @@ const AddUserModal = (props: Props) => {
         <Box
           component="main"
           sx={{
-            // flexGrow: 1,
+            flexGrow: 1,
             py: 8,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
-            alignSelf: "center",
+            background: "#111112",
           }}
         >
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             <Grid>
-              {/* <Grid item lg={4} md={6} xs={12}>
-                <Card>
-                  <CardHeader
-                    subheader="This image will be used as primary profile image of the user across the system."
-                    title="Profile Image"
-                  />
-                  <CardContent>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Avatar
-                        src={
-                          editImage
-                            ? editImage
-                            : image && URL.createObjectURL(image)
-                        }
-                        sx={{
-                          height: 64,
-                          mb: 2,
-                          width: 64,
-                        }}
-                      />
-                    </Box>
-                  </CardContent>
-                  <Divider />
-                  <Box
-                    sx={{
-                      alignItems: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <TextField
-                      type="file"
-                      onChange={(ev) => handleImageSelection(ev)}
-                    />
-                  </Box>
-                </Card>
-              </Grid> */}
-
               <Grid item lg={8} md={6} xs={12}>
                 <form onSubmit={formik.handleSubmit}>
                   <Card>
@@ -283,14 +217,16 @@ const AddUserModal = (props: Props) => {
                               formik.touched.name && formik.errors.name
                             )}
                             fullWidth
-                            helperText="Please enter the real name of the user.."
+                            helperText={
+                              formik.touched.name && formik.errors.name
+                            }
                             label="Name"
                             name="name"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            required
                             value={formik.values.name}
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -298,15 +234,17 @@ const AddUserModal = (props: Props) => {
                             error={Boolean(
                               formik.touched.email && formik.errors.email
                             )}
+                            helperText={
+                              formik.touched.email && formik.errors.email
+                            }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.email}
                             fullWidth
                             label="User Email"
                             name="email"
-                            helperText="Please enter user email address"
-                            required
                             variant="outlined"
+                            color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
@@ -314,42 +252,42 @@ const AddUserModal = (props: Props) => {
                             error={Boolean(
                               formik.touched.password && formik.errors.password
                             )}
+                            helperText={
+                              formik.touched.password && formik.errors.password
+                            }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.password}
                             fullWidth
+                            type={passwordToogle ? "text" : "password"}
                             label="Password"
                             name="password"
-                            helperText="Please enter the password for this email."
-                            required
                             variant="outlined"
+                            color="success"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment
+                                  position="end"
+                                  sx={{ cursor: "pointer" }}
+                                >
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => handleShowpassword()}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                    {passwordToogle ? (
+                                      <Visibility />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              Select Items
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={selectItems}
-                              label="Select Items"
-                              onChange={handleDurationChange}
-                            >
-                              {Item.map((item, index) => (
-                                <MenuItem key={index} value={item.name}>
-                                  {item.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                          <Grid />
-                        </Grid>
                       </Grid>
-                      <Card sx={{ mt: 3 }}>
-                        <ToggleButton recieveData={recieveData} />
-                      </Card>
                     </CardContent>
                     <Divider />
                     <Box

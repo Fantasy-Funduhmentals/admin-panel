@@ -18,6 +18,7 @@ import { saveSettings } from "../../store/reducers/settingsSlice";
 
 const toggle = () => {
   const { settings } = useAppSelector((state: any) => state.settings);
+  console.log("🚀 ~ file: toggle.tsx:21 ~ toggle ~ settings", settings);
 
   const [alignment, setAlignment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -104,7 +105,9 @@ const toggle = () => {
             <ToggleButton value="ON" onClick={(e) => handleClickOpen(e)}>
               ON
             </ToggleButton>
-            <ToggleButton value="OFF">OFF</ToggleButton>
+            <ToggleButton value="OFF" color="success">
+              OFF
+            </ToggleButton>
           </ToggleButtonGroup>
         </>
       )}

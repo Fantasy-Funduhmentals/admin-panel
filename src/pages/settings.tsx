@@ -3,10 +3,11 @@ import Head from "next/head";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { SettingsPassword } from "../components/settings/settings-password";
 import MaintenanceMode from "../components/MaintenanceMode/toggle";
+import PrivacyPolicy from "../components/PrivacyPolicy/PrivacyPolicy";
 const Settings = () => (
   <>
     <Head>
-      <title>Settings | CQR Admin</title>
+      <title>Settings</title>
     </Head>
     <Box
       component="main"
@@ -21,6 +22,10 @@ const Settings = () => (
         </Typography>
         <Box sx={{ pt: 3 }}>
           <MaintenanceMode />
+        </Box>
+
+        <Box sx={{ pt: 3 }}>
+          <PrivacyPolicy />
         </Box>
         <Box sx={{ pt: 3 }}>
           <SettingsPassword />
