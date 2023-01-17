@@ -4,12 +4,12 @@ const testnetConfig = {
 };
 const mainnetConfig = {
   // Base_URL: "https://stg-api-fantasyhub.kryptomind.net/",
-  Base_URL: "api.theduh.com/",
+  Base_URL: "https://api.theduh.com/",
 };
 const stagingConfig = {
-  Base_URL: "stg-api.theduh.com/",
+  Base_URL: "https://stg-api.theduh.com/",
 };
 
-const defaultConfig = mainnetConfig;
+const defaultConfig = testnetConfig;
 
 export default defaultConfig;
