@@ -75,6 +75,7 @@ export const SettingsPassword = (props) => {
       handleSubmit(values, actions);
     },
   });
+
   const handleLogout = () => {
     dispatch(resetUserState());
     dispatch(resetAdminState());
@@ -83,6 +84,7 @@ export const SettingsPassword = (props) => {
     dispatch(resetEmailState());
     location.push("/");
   };
+
   const handleSubmit = async (values, actions) => {
     try {
       setStatusData(null);
@@ -109,6 +111,7 @@ export const SettingsPassword = (props) => {
       setLoading(false);
     }
   };
+
   const handleShowpassword = (fieldName) => {
     if (fieldName === "oldPassword") setOldpasswordToogle(!oldPasswordtoogle);
     else if (fieldName === "password") setPasswordtoogle(!passwordToogle);
@@ -118,6 +121,7 @@ export const SettingsPassword = (props) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
     <>
       <form
