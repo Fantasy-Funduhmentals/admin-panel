@@ -2,13 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export type userState = {
   accessToken: string | null;
-<<<<<<< HEAD
-  users: any | {};
-  role: string | null;
-=======
   users: any[];
   role: string | any | {};
->>>>>>> 479735f9c643a25850edc450e734af2756134a32
   userId: string;
   masterBalances: {
     shopsCount: string;
