@@ -32,7 +32,7 @@ const items = [
   {
     href: "/sub-admin",
     icon: <Users fontSize="small" />,
-    title: "Sub Admin",
+    title: "Sub-Admin",
   },
   {
     href: "/score",
@@ -62,7 +62,7 @@ const items = [
   {
     href: "/lates-news",
     icon: <Newsletter fontSize="small" />,
-    title: "News",
+    title: "Lates-News",
   },
 
   {
@@ -109,9 +109,9 @@ export const DashboardSidebar = (props) => {
     if (open) {
       onClose?.();
     }
-    if (role?.role != "admin" && items != data) {
-      router.push(`/${role?.adminPermissions[0]}`);
-    }
+    // if (role?.role != "admin" && items != data) {
+    //   router.push(`/${role?.adminPermissions[0]}`);
+    // }
   }, [router.asPath]);
 
   const content = (

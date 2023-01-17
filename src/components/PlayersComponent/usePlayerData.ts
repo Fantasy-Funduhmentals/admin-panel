@@ -29,10 +29,6 @@ const usePlayerData = (
     setReason(e.target.value);
   };
   const handleEditPlayer = (data: any) => {
-    console.log(
-      "🚀 ~ file: usePlayerData.ts ~ line 27 ~ handleEditPlayer ~ data",
-      data
-    );
     setPlayerId(data?._id);
     setrejectShow(true);
   };
@@ -63,10 +59,7 @@ const usePlayerData = (
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", type);
-    console.log(
-      "🚀 ~ file: usePlayerData.ts:67 ~ handleImageUpload ~ uploadRes",
-      formData
-    );
+
     const uploadRes = await changesImageUrl(formData);
 
     return uploadRes?.data?.url;
@@ -85,10 +78,6 @@ const usePlayerData = (
       video: Yup.mixed().required(),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(
-        "🚀 ~ file: usePlayerData.ts:79 ~ formik.errors",
-        formik.errors
-      );
       handleSubmit(values, { resetForm });
     },
   });
@@ -97,10 +86,6 @@ const usePlayerData = (
       value: Number(values.value),
       video: await handleImageUpload(values?.video[0], "NFT"),
     };
-    console.log(
-      "🚀 ~ file: usePlayerData.ts:77 ~ handleSubmit ~ values",
-      params
-    );
 
     try {
       setloading(true);

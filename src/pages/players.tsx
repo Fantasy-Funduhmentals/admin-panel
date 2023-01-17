@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
-import { PlayerList } from "../components/PlayersComponent/playerData";
+import PlayerList from "../components/PlayersComponent/playerData";
 import StatusModal from "../components/StatusModal";
 import { handlePlayersData } from "../services/playerService";
 import { getAdminUserData } from "../services/tokenService";
@@ -30,10 +30,7 @@ const Player = () => {
     try {
       setLoadingApi(true);
       const playerRes = await handlePlayersData(page, limit);
-      console.log(
-        "🚀 ~ file: players.tsx ~ line 33 ~ getAdminUsers ~ playerRes",
-        playerRes
-      );
+
       setData(playerRes?.data?.data);
       setCount(playerRes?.data?.total);
       setLoadingApi(false);

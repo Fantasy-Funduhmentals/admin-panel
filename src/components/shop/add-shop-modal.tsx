@@ -8,7 +8,14 @@ import {
   Container,
   Grid,
   TextField,
+  ToggleButtonGroup,
+  ToggleButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
+import ClearTwoToneIcon from "@mui/icons-material/ClearTwoTone";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -29,6 +36,7 @@ import {
 } from "../../services/shopService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
+import { NavItem } from "../nav-item";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -49,25 +57,47 @@ const AddShopModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [alignment, setAlignment] = useState("false");
+  const [incremantState, setIncrementstate] = useState("true");
+  const [selectedGalleryImage, setselectedGalleryImage] = useState(null);
+  const [gallaryPhotos, setGalleryImages] = useState([]);
   const [imageUrl, setImageUrl]: any = useState("");
+  const [sizeData, setSizeData] = useState([
+    {
+      id: 0,
+      size: "",
+      totalprice: null,
+      totalstockavailable: null,
+    },
+  ]);
 
   const formik = useFormik({
     initialValues: {
       title: editData ? editData?.title : "",
-      coinSymbolName: editData ? editData?.coinSymbol : "",
-      productURL: editData ? editData.productURL : "",
+      shoppingChargres: editData ? editData?.shoppingChargres : "",
+      totalQuantity: editData ? editData?.totalQuantity : "",
       price: editData ? editData?.price : "",
       files: null,
+      active: null,
+      discountPrice: editData ? editData?.discountPrice : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      title: Yup.string().required("Enter Your title").min(2).max(50).trim(),
-      coinSymbolName: Yup.string().required("Enter Your coin symbol name"),
-      productURL: Yup.string().required("Enter Your url"),
+      title: Yup.string().required("Title is required").min(2).max(50).trim(),
+      shoppingChargres: Yup.number()
+        .required("Enter shopping charges in ADA")
+        .min(0, "Shopping chargres must be greater than or equal to 0"),
+      totalQuantity: Yup.number()
+        .required("Enter total quantity of product")
+        .min(0, "Total quantity must be greater than or equal to 0"),
       files: Yup.mixed(),
       price: Yup.number()
         .positive("positive value only")
-        .required("price is price"),
+        .required("Enter the price of product"),
+      active: Yup.string().required("Select the active on market"),
+      discountPrice: Yup.string()
+        .required("Enter the discount price of product")
+        .min(0, "Total price must be greater than or equal to 0"),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -82,26 +112,37 @@ const AddShopModal = (props: Props) => {
     return uploadRes.data.url;
   };
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (values: any, actions: any) => {
     try {
       setStatusData(null);
-      setLoading(true);
-      if (values.files != null) {
-        const coverPhotoImage = await handleImageUpload(
-          values.files[0],
-          "coinImage"
-        );
-        setImageUrl(coverPhotoImage);
+      if (gallaryPhotos?.length === 0 && !editData) {
+        setStatusData({
+          type: "error",
+          message: "Please select an gallery images to continue",
+        });
+        return;
       }
+      if (+formik.values.discountPrice >= +formik.values.price) {
+        setStatusData({
+          type: "error",
+          message: "Discount price should be less then total price",
+        });
 
+        return;
+      }
+      setLoading(true);
       let params = {
         title: values.title,
         price: Number(values.price),
-        coinSymbol: values.coinSymbolName,
-        mediaURL: imageUrl == "" ? editData.mediaURL : imageUrl,
-        productURL: values.productURL,
+        shoppingChargres: values.shoppingChargres,
+        totalQuantity: values.totalQuantity,
+        IsActive: values.active === "YES" ? true : false,
+        hasVariants: alignment === "false" ? false : true,
+        GalleryImages: [],
+        availableVariants: alignment === "false" ? [] : sizeData,
+        discountPrice: values.discountPrice,
       };
-
+      if (gallaryPhotos) params.GalleryImages = gallaryPhotos;
       if (editData != null) {
         let updateParams = {
           ...params,
@@ -133,7 +174,122 @@ const AddShopModal = (props: Props) => {
       setLoading(false);
     }
   };
+  const handleChange = async (e) => {
+    if (e.target.value == "false") {
+      setLoading(true);
+      if (alignment == "false") {
+        setLoading(false);
+        return;
+      }
+      setAlignment(e.target.value);
+      setLoading(false);
+    } else if (e.target.value == "true") {
+      setAlignment(e.target.value);
+    }
+  };
+  const handleClickOpen = (e) => {
+    if (alignment == "ON") {
+      return;
+    }
+  };
+  const activeState = [
+    {
+      name: "YES",
+      value: 0,
+    },
+    {
+      name: "NO",
+      value: 1,
+    },
+  ];
+  const fileSelectedHandler = async (file: any) => {
+    const tokenImageUrl = await handleImageUpload(
+      file?.target?.files[0],
+      "coinImage"
+    );
+    setselectedGalleryImage(file?.target?.files[0]);
+    gallaryPhotos.push(tokenImageUrl);
+    return;
+  };
+  const handleRemovegalleryImage = (data: any, index: number) => {
+    const uploadedFiles = data;
+    const filtered = gallaryPhotos.filter((i, ind) => {
+      return i !== gallaryPhotos[index];
+    });
+    setGalleryImages([...filtered]);
+  };
+  const sizeAvailable = [
+    {
+      id: 1,
+      size: "S",
+    },
+    {
+      id: 2,
+      size: "M",
+    },
+    {
+      id: 3,
+      size: "L",
+    },
+    {
+      id: 4,
+      size: "XL",
+    },
+  ];
+  const handleToogleButton = async (e) => {
+    setIncrementstate(e.target.value);
+    if (e.target.value == "false") {
+      recieveData(false);
+    } else {
+      if (sizeData.length < 4) {
+        recieveData(true);
+      }
+    }
+  };
 
+  const recieveData = (data: boolean) => {
+    if (data) {
+      setSizeData([
+        ...sizeData,
+        {
+          id: sizeData.length,
+          size: "",
+          totalprice: null,
+          totalstockavailable: null,
+        },
+      ]);
+    } else {
+      setSizeData([...sizeData.slice(0, -1)]);
+    }
+  };
+  const handleInputchange = (
+    event: any,
+    selectedInputItem: any,
+    fieldType: string,
+    index?: any
+  ) => {
+    let cloneArray = [...sizeData];
+
+    const ind = sizeData.findIndex((item) => item.id === selectedInputItem.id);
+    cloneArray[ind][fieldType] = event.target.value;
+    setSizeData(cloneArray);
+  };
+  const handleDiscountprice = (e: any) => {
+    // if (+e.target.value >= formik.values.price) {
+    //   alert("Discount price should be less then total price");
+    //   return;
+    // e.target.value = "";
+    // formik.resetForm(formik.values.discountPrice);
+    // actions.resetForm({
+    //   values: {
+    //     discountPrice: initialValues.discountPrice
+    //   }
+    // });
+    // formik.resetForm({
+    //   values: { ...formik.values, discountPrice: "" },
+    // });
+    // }
+  };
   return (
     <Box>
       <Dialog
@@ -194,10 +350,8 @@ const AddShopModal = (props: Props) => {
                       >
                         <Avatar
                           src={
-                            editData
-                              ? editData?.mediaURL
-                              : formik?.values?.files &&
-                                URL?.createObjectURL(formik?.values?.files[0])
+                            selectedGalleryImage &&
+                            URL?.createObjectURL(selectedGalleryImage)
                           }
                           sx={{
                             height: 104,
@@ -216,15 +370,67 @@ const AddShopModal = (props: Props) => {
                     >
                       <TextField
                         type="file"
+                        inputProps={{
+                          accept: "image/*",
+                        }}
+                        // onChange={(ev) => fileSelectedHandler(ev)}
                         onChange={(ev: any) => {
                           if (ev?.target?.files)
-                            formik.setFieldValue("files", ev?.target?.files);
+                            // formik.setFieldValue("files", ev?.target?.files);
+                            fileSelectedHandler(ev);
                         }}
-                        error={Boolean(
-                          formik.touched.files && formik.errors.files
-                        )}
+                        // error={Boolean(
+                        //   formik.touched.files && formik.errors.files
+                        // )}
                         color="success"
                       />
+                    </Box>
+                    <Box>
+                      <Grid item container spacing={2} px={3}>
+                        {gallaryPhotos &&
+                          gallaryPhotos.length > 1 &&
+                          gallaryPhotos?.map((img, index) => {
+                            return (
+                              <Grid
+                                item
+                                md={3}
+                                xs={12}
+                                sx={{
+                                  marginTop: "1rem",
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    backgroundColor: "#11111273",
+                                    height: "130px",
+                                    width: "120px",
+                                    borderRadius: "5px",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      position: "relative",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <ClearTwoToneIcon
+                                      onClick={() =>
+                                        handleRemovegalleryImage(img, index)
+                                      }
+                                      style={{
+                                        width: "19px",
+                                        height: "100%",
+                                      }}
+                                    />
+                                  </Box>
+                                  <img src={img} width={100} height={100} />
+                                </Box>
+                              </Grid>
+                            );
+                          })}
+                      </Grid>
                     </Box>
                   </Grid>
 
@@ -233,79 +439,350 @@ const AddShopModal = (props: Props) => {
                       subheader="Please enter all the required information."
                       title="Shop Details"
                     />
-                    <Divider />
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        pr: 3,
+                        boxShadow: "0px 0px 10px #111112",
+                      }}
+                    >
+                      <CardHeader title="Variant" />
+                      <ToggleButtonGroup
+                        sx={{ height: "20%" }}
+                        color="success"
+                        value={alignment}
+                        exclusive
+                        onChange={handleChange}
+                      >
+                        <ToggleButton
+                          value="true"
+                          onClick={(e) => handleClickOpen(e)}
+                        >
+                          True
+                        </ToggleButton>
+                        <ToggleButton value="false" color="success">
+                          False
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </Box>
                     <CardContent>
                       <Grid container spacing={3}>
                         <Grid item md={6} xs={12}>
+                          <InputLabel
+                            sx={{
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Please enter the title.
+                          </InputLabel>
                           <TextField
                             error={Boolean(
                               formik.touched.title && formik.errors.title
                             )}
+                            helperText={
+                              formik.touched.title && formik.errors.title
+                            }
                             fullWidth
-                            helperText="Please enter the title."
+                            type="text"
                             label="Title"
                             name="title"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            required
                             value={formik.values.title}
                             variant="outlined"
                             color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
+                          <InputLabel
+                            sx={{
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Please enter price in ADA.
+                          </InputLabel>
                           <TextField
                             error={Boolean(
                               formik.touched.price && formik.errors.price
                             )}
+                            helperText={
+                              formik.touched.price && formik.errors.price
+                            }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.price}
                             fullWidth
+                            type="number"
                             label="Price"
                             name="price"
-                            helperText="Please enter price."
-                            required
+                            variant="outlined"
+                            color="success"
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <InputLabel
+                            sx={{
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Enter discount price
+                          </InputLabel>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.discountPrice &&
+                                formik.errors.discountPrice
+                            )}
+                            helperText={
+                              formik.touched.discountPrice &&
+                              formik.errors.discountPrice
+                            }
+                            onBlur={formik.handleBlur}
+                            onChange={(e) => {
+                              formik.handleChange(e), handleDiscountprice(e);
+                            }}
+                            value={formik.values.discountPrice}
+                            fullWidth
+                            type="number"
+                            label="Discount Price"
+                            name="discountPrice"
+                            variant="outlined"
+                            color="success"
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <InputLabel
+                            sx={{
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Please enter the shopping charges in ADA
+                          </InputLabel>
+                          <TextField
+                            error={Boolean(
+                              formik.touched.shoppingChargres &&
+                                formik.errors.shoppingChargres
+                            )}
+                            helperText={
+                              formik.touched.shoppingChargres &&
+                              formik.errors.shoppingChargres
+                            }
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.shoppingChargres}
+                            fullWidth
+                            type="number"
+                            label="Shopping Charges"
+                            name="shoppingChargres"
                             variant="outlined"
                             color="success"
                           />
                         </Grid>
                         <Grid item md={6} xs={12}>
+                          <InputLabel
+                            sx={{
+                              marginBottom: "10px",
+                            }}
+                          >
+                            Please enter the total quantity.
+                          </InputLabel>
                           <TextField
                             error={Boolean(
-                              formik.touched.coinSymbolName &&
-                                formik.errors.coinSymbolName
+                              formik.touched.totalQuantity &&
+                                formik.errors.totalQuantity
                             )}
+                            helperText={
+                              formik.touched.totalQuantity &&
+                              formik.errors.totalQuantity
+                            }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.coinSymbolName}
+                            value={formik.values.totalQuantity}
                             fullWidth
-                            label="Coin Symbol Name"
-                            name="coinSymbolName"
-                            helperText="Please enter the coin symbol name."
-                            required
+                            type="number"
+                            label="Total Quantity"
+                            name="totalQuantity"
                             variant="outlined"
                             color="success"
                           />
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                          <TextField
-                            error={Boolean(
-                              formik.touched.productURL &&
-                                formik.errors.productURL
-                            )}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.productURL}
-                            fullWidth
-                            label="Product URL"
-                            name="productURL"
-                            helperText="Please enter the product url."
-                            required
-                            variant="outlined"
-                            color="success"
-                          />
+                        <Grid item md={12} xs={12}>
+                          <FormControl fullWidth>
+                            <InputLabel
+                              id="demo-simple-select-helper-label"
+                              color="success"
+                            >
+                              Active on market
+                            </InputLabel>
+                            <Select
+                              error={Boolean(
+                                formik.touched.active && formik.errors.active
+                              )}
+                              labelId="demo-simple-select-helper-label"
+                              id="demo-simple-select-helper"
+                              value={formik.values.active}
+                              label="Is Active"
+                              name="active"
+                              color="success"
+                              onChange={(e) => {
+                                formik.handleChange(e);
+                              }}
+                            >
+                              {activeState?.map((item: any, index: number) => {
+                                return (
+                                  <MenuItem key={index} value={item?.name}>
+                                    {item.name}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                            {formik.errors.active &&
+                            formik.touched.active === null ? (
+                              <div
+                                style={{
+                                  color: "red",
+                                }}
+                              >
+                                {formik.errors.active}
+                              </div>
+                            ) : null}
+                          </FormControl>
                         </Grid>
+                        {alignment === "true" ? (
+                          <>
+                            <Grid item container spacing={2} md={12} xs={12}>
+                              <Grid item md={12} xs={12}>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    pr: 3,
+                                    boxShadow: "0px 0px 10px #111112",
+                                  }}
+                                >
+                                  <CardHeader title="Size Information" />
+                                  <ToggleButtonGroup
+                                    sx={{ height: "20%" }}
+                                    color="success"
+                                    value={incremantState}
+                                    exclusive
+                                    onChange={handleToogleButton}
+                                  >
+                                    <ToggleButton value="false">-</ToggleButton>
+                                    <ToggleButton value="true" color="success">
+                                      +
+                                    </ToggleButton>
+                                  </ToggleButtonGroup>
+                                </Box>
+                              </Grid>
+                              <Grid item md={12} xs={12}>
+                                {sizeData?.map((item, index) => {
+                                  return (
+                                    <>
+                                      <form id="sizes">
+                                        <Grid
+                                          item
+                                          container
+                                          spacing={4}
+                                          md={12}
+                                          xs={12}
+                                          sx={{ padding: "10px" }}
+                                        >
+                                          <Grid item md={4} xs={12}>
+                                            <FormControl fullWidth>
+                                              <InputLabel
+                                                id="demo-simple-select-helper-label"
+                                                color="success"
+                                              >
+                                                Size
+                                              </InputLabel>
+                                              <Select
+                                                labelId="demo-simple-select-helper-label"
+                                                id="demo-simple-select-helper"
+                                                value={item.size}
+                                                name={item.size}
+                                                color="success"
+                                                onChange={(e) =>
+                                                  handleInputchange(
+                                                    e,
+                                                    item,
+                                                    "size",
+
+                                                    index
+                                                  )
+                                                }
+                                              >
+                                                {sizeAvailable?.map(
+                                                  (
+                                                    item: any,
+                                                    index: number
+                                                  ) => {
+                                                    return (
+                                                      <MenuItem
+                                                        key={index}
+                                                        value={item?.size}
+                                                      >
+                                                        {item.size}
+                                                      </MenuItem>
+                                                    );
+                                                  }
+                                                )}
+                                              </Select>
+                                            </FormControl>
+                                          </Grid>
+                                          <Grid item md={4} xs={12}>
+                                            <TextField
+                                              value={item.totalprice}
+                                              fullWidth
+                                              type="number"
+                                              label="Price"
+                                              name={item.totalprice}
+                                              variant="outlined"
+                                              color="success"
+                                              onChange={(e) =>
+                                                handleInputchange(
+                                                  e,
+                                                  item,
+                                                  "totalprice",
+
+                                                  index
+                                                )
+                                              }
+                                            />
+                                          </Grid>
+                                          <Grid item md={4} xs={12}>
+                                            <TextField
+                                              value={item.totalstockavailable}
+                                              fullWidth
+                                              type="number"
+                                              label="Total Stock"
+                                              name={item.totalstockavailable}
+                                              variant="outlined"
+                                              color="success"
+                                              onChange={(e) =>
+                                                handleInputchange(
+                                                  e,
+                                                  item,
+                                                  "totalstockavailable",
+                                                  index
+                                                )
+                                              }
+                                            />
+                                          </Grid>
+                                        </Grid>
+                                      </form>
+                                    </>
+                                  );
+                                })}
+                              </Grid>
+                            </Grid>
+                          </>
+                        ) : null}
                       </Grid>
                     </CardContent>
                     <Divider />

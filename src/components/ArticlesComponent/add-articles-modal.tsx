@@ -82,13 +82,9 @@ const AddArticlesModal = (props: Props) => {
       medium: Yup.string().required("Enter Your medium url"),
       linkedin: Yup.string().required("Enter Your linkedin url"),
       files: Yup.mixed(),
-      documentData: Yup.mixed().required("Enter Your linkedin url"),
+      documentData: Yup.mixed().required("Enter Your Details"),
     }),
     onSubmit: (values, actions) => {
-      console.log(
-        "🚀 ~ file: add-articles-modal.tsx ~ line 83 ~ AddArticlesModal ~ values",
-        values
-      );
       handleSubmit(values, actions);
     },
   });
@@ -280,7 +276,7 @@ const AddArticlesModal = (props: Props) => {
                           {editorState ? (
                             <FroalaEditorComponent
                               tag="textarea"
-                              // model={formik.values.documentData}
+                              model={formik.values.documentData}
                               onModelChange={(ev: any) => {
                                 if (ev)
                                   formik.setFieldValue("documentData", ev);
