@@ -70,7 +70,7 @@ const useNftData = (RefreshAdminUsersData, data, page, limit) => {
       setloading(true);
       let params = {
         value: Number(values.value),
-        videoUrl: await handleImageUpload(values?.video[0], "NFT"),
+        // videoUrl: await handleImageUpload(values?.video[0], "NFT"),
       };
 
       const res = await updateNftValue(playerId, params);
