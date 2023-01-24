@@ -28,17 +28,6 @@ export const NavItem = (props) => {
           sx={{
             backgroundColor: active && "rgba(255,255,255, 0.08)",
             borderRadius: 1,
-<<<<<<< HEAD
-            color: active ? '#5048E5' : 'neutral.300',
-            fontWeight: active && 'fontWeightBold',
-            justifyContent: 'flex-start',
-            px: 3,
-            textAlign: 'left',
-            textTransform: 'none',
-            width: '100%',
-            '& .MuiButton-startIcon': {
-              color: active ? '#5048E5' : 'neutral.400'
-=======
             color: active ? "secondary.main" : "neutral.300",
             fontWeight: active && "fontWeightBold",
             justifyContent: "flex-start",
@@ -51,7 +40,6 @@ export const NavItem = (props) => {
             },
             "&:hover": {
               backgroundColor: "rgba(255,255,255, 0.08)",
->>>>>>> 479735f9c643a25850edc450e734af2756134a32
             },
           }}
         >
