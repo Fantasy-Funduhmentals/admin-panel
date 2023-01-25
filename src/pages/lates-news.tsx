@@ -109,6 +109,7 @@ const News = () => {
                 handleLimitChange={handleLimitChange}
                 page={page}
                 limit={limit}
+                getCoinsListing={getCoinsListing}
               />
             )}
 >>>>>>> 479735f9c643a25850edc450e734af2756134a32:src/pages/lates-news.tsx
