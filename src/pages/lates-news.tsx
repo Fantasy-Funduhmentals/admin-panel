@@ -82,6 +82,7 @@ const News = () => {
                 handleLimitChange={handleLimitChange}
                 page={page}
                 limit={limit}
+                getCoinsListing={getCoinsListing}
               />
             )}
           </Box>
