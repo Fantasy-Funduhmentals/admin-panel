@@ -26,7 +26,7 @@ const getGraphData = async (params: any) => {
 };
 
 const getMaintenanceMode = async () => {
-  return await HTTP_CLIENT.get("/settings/maintenance");
+  return await HTTP_CLIENT.get("/settings/maintenance-mode");
 };
 const getUserInfo = async () => {
   return await HTTP_CLIENT.get("/admin-auth/info");
