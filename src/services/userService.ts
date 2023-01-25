@@ -7,8 +7,16 @@ const getWalletData = async () => {
   return await HTTP_CLIENT.get("/admin-wallet");
 };
 
-const getAllUsers = async (page: number, searchText?: string | number, type?: any) => {
-  return await HTTP_CLIENT.get(`/user/get-all-users?page=${page ? page : 1}&keyword=${searchText ? searchText : ""}&type=${type}`);
+const getAllUsers = async (
+  page: number,
+  searchText?: string | number,
+  type?: any
+) => {
+  return await HTTP_CLIENT.get(
+    `/user/get-all-users?page=${page ? page : 1}&keyword=${
+      searchText ? searchText : ""
+    }&type=${type}`
+  );
 };
 
 const changePassword = async (params: any) => {
@@ -26,7 +34,7 @@ const getGraphData = async (params: any) => {
 };
 
 const getMaintenanceMode = async () => {
-  return await HTTP_CLIENT.get("/settings/maintenance");
+  return await HTTP_CLIENT.get("/settings/maintenance-mode");
 };
 const getUserInfo = async () => {
   return await HTTP_CLIENT.get("/admin-auth/info");
