@@ -46,7 +46,7 @@ interface Props extends CardProps {
   data?: any[];
 }
 
-export const PlayerList = (props: Props) => {
+const PlayerList = (props: Props) => {
   const {
     searchQuery,
     RefreshAdminUsersData,
@@ -58,6 +58,7 @@ export const PlayerList = (props: Props) => {
     count,
     data,
   } = props;
+
   const {
     dataToDisplay,
     selectedCustomerIds,
@@ -74,8 +75,6 @@ export const PlayerList = (props: Props) => {
     setStatusData,
     subadmin,
   } = usePlayerData(searchQuery, RefreshAdminUsersData, data, page, limit);
-
-  console.log(page, "page");
 
   return (
     <>
@@ -207,9 +206,10 @@ export const PlayerList = (props: Props) => {
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
-            rowsPerPage={10}
+            rowsPerPage={limit}
             rowsPerPageOptions={[5, 10, 25]}
           />
+
           <Modal
             open={rejectShow}
             onClose={handleClose}
@@ -295,68 +295,7 @@ export const PlayerList = (props: Props) => {
     </>
   );
 };
-
+export default PlayerList;
 PlayerList.propTypes = {
   data: PropTypes.array.isRequired,
 };
-
-export default function AlertDialog({ id, handleRefresh }) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [statusData, setStatusData] = useState(null);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const deleteAd = async () => {
-    setLoading(true);
-    try {
-      await HTTP_CLIENT.delete(`/admin-auth/delete-subAdmin/${id}`);
-      setLoading(false);
-      handleRefresh();
-      handleClose();
-    } catch (err) {
-      const error = getNormalizedError(err);
-      setStatusData({
-        type: "error",
-        message: error,
-      });
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div>
-      <DeleteIcon style={{ cursor: "pointer" }} onClick={handleClickOpen} />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure want to Delete
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          {loading ? (
-            <Button>Loading...</Button>
-          ) : (
-            <Button onClick={deleteAd} autoFocus>
-              Ok
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
-      <StatusModal
-        statusData={statusData}
-        onClose={() => setStatusData(null)}
-      />
-    </div>
-  );
-}

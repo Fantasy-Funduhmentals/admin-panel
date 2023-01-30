@@ -1,18 +1,12 @@
-import { Box, Container, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import AddUserModal from "../components/add-user-modal";
-import { UserListResults } from "../components/customer/customer-list-results";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import AddShopModal from "../components/shop/add-shop-modal";
 import { ShopListResults } from "../components/shop/shop-list-results";
 import StatusModal from "../components/StatusModal";
 import { getShopData } from "../services/shopService";
-import { getAllUsers } from "../services/userService";
-import { RootState } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveUsers } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const Users = () => {

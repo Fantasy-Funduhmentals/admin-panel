@@ -21,7 +21,6 @@ import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import StatusModal from "../../components/StatusModal";
-import { deleteShopData, getShopStatus } from "../../services/shopService";
 import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
 import ReactHtmlParser, {
@@ -201,7 +200,10 @@ export const ArticlesListResults = (props: Props) => {
                     </TableCell>
 
                     <TableCell onClick={() => onPressUpdate(item)}>
-                      <ModeEditIcon color="success" />
+                      <ModeEditIcon
+                        color="success"
+                        style={{ cursor: "pointer" }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

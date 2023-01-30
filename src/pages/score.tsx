@@ -15,9 +15,6 @@ import { ListToolbar } from "../components/list-toolbar";
 import { ScoreListResults } from "../components/ScoreComponent/score-list-results";
 import StatusModal from "../components/StatusModal";
 import { getScoreData } from "../services/generalService";
-import { RootState } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveCoins } from "../store/reducers/coinSlice";
 import { getNormalizedError } from "../utils/helpers";
 const Item = [
   {
@@ -60,10 +57,6 @@ const Coins = () => {
     try {
       const coinsRes = await getScoreData(dropDownValue, limit, page);
       setCount(coinsRes?.data?.total);
-      console.log(
-        "🚀 ~ file: score.tsx ~ line 25 ~ getCoinsListing ~ coinsRes",
-        coinsRes?.data?.data
-      );
       setData(coinsRes?.data?.data);
       setLoading(false);
     } catch (err) {

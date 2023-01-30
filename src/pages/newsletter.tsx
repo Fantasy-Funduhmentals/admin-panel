@@ -28,10 +28,6 @@ const NewsLetter = () => {
     setLoading(true);
     try {
       const res = await handleNewsletterData(page, limit);
-      console.log(
-        "🚀 ~ file: lates-news.tsx ~ line 36 ~ getCoinsListing ~ res",
-        res
-      );
       setData(res?.data?.data);
       setCount(res?.data?.total);
       setLoading(false);

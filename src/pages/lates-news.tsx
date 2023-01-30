@@ -8,7 +8,6 @@ import StatusModal from "../components/StatusModal";
 import { handleNewsData } from "../services/newsService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveCoins } from "../store/reducers/coinSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const News = () => {
@@ -33,10 +32,6 @@ const News = () => {
     setLoading(true);
     try {
       const res = await handleNewsData(page, limit);
-      console.log(
-        "🚀 ~ file: lates-news.tsx ~ line 36 ~ getCoinsListing ~ res",
-        res
-      );
       setData(res?.data?.data);
       setCount(res?.data?.total);
       setLoading(false);
@@ -87,6 +82,7 @@ const News = () => {
                 handleLimitChange={handleLimitChange}
                 page={page}
                 limit={limit}
+                getCoinsListing={getCoinsListing}
               />
             )}
           </Box>

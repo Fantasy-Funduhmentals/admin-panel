@@ -72,8 +72,6 @@ export const NftList = (props: Props) => {
     subadmin,
   } = useNftData(RefreshAdminUsersData, data, page, limit);
 
-  console.log(page, "page");
-
   return (
     <>
       {loadingApi ? (
@@ -251,7 +249,7 @@ export const NftList = (props: Props) => {
                   variant="outlined"
                 />
 
-                <TextField
+                {/* <TextField
                   error={Boolean(formik.touched.video && formik.errors.video)}
                   onChange={(ev: any) => {
                     if (ev?.target?.files)
@@ -265,7 +263,7 @@ export const NftList = (props: Props) => {
                   color="success"
                   variant="outlined"
                   type="file"
-                />
+                /> */}
 
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                   {loading ? (

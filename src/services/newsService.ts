@@ -18,6 +18,11 @@ const putArticleData = async (params?: any, id?: any) => {
     params
   );
 };
+
+const handleUpdateNewsImages = async (id: string, params: any) => {
+  return await HTTP_CLIENT.put(`/news/${id}`, params);
+};
+
 const delArticleData = async (id?: any) => {
   return await HTTP_CLIENT.delete(
     `/project-article/delete-project-article/${id}`
@@ -30,4 +35,5 @@ export {
   putArticleData,
   delArticleData,
   handleNewsletterData,
+  handleUpdateNewsImages,
 };

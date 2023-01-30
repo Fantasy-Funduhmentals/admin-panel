@@ -153,9 +153,9 @@ export const UserListResults = (props: Props) => {
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Name</TableCell>
                   <TableCell style={{ color: "#fff" }}>Email</TableCell>
-                  <TableCell style={{ color: "#fff" }}>
+                  {/* <TableCell style={{ color: "#fff" }}>
                     Wallet Activation Status
-                  </TableCell>
+                  </TableCell> */}
                   {/* <TableCell style={{ color: "#fff" }}>
                     Customer Status
                   </TableCell> */}
@@ -188,7 +188,7 @@ export const UserListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.email}</TableCell>
-
+                    {/* 
                     <TableCell>
                       <SeverityPill
                         color={
@@ -199,7 +199,7 @@ export const UserListResults = (props: Props) => {
                           ? "Activated"
                           : "Not Activated"}
                       </SeverityPill>
-                    </TableCell>
+                    </TableCell> */}
                     {/* <TableCell>
                       <SeverityPill
                         color={(customer.isCustomer && "success") || "error"}
