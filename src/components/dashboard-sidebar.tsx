@@ -70,10 +70,16 @@ const items = [
     icon: <DirectWire fontSize="small" />,
     title: "Team",
   },
+
   {
     href: "/articles",
     icon: <Newsletter fontSize="small" />,
     title: "Articles",
+  },
+  {
+    href: "/position",
+    icon: <Shop fontSize="small" />,
+    title: "Position",
   },
 
   {
