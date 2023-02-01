@@ -47,9 +47,13 @@ export const ListToolbar = (props: Props) => {
         </Typography>
         {onPressAdd && (
           <Box sx={{ m: 1 }}>
-            <Button color="primary" variant="contained" onClick={onPressAdd}>
-              Add {subTitle}
-            </Button>
+            {subTitle == "Close Beta" ? (
+              ""
+            ) : (
+              <Button color="primary" variant="contained" onClick={onPressAdd}>
+                Add {subTitle}
+              </Button>
+            )}
           </Box>
         )}
       </Box>

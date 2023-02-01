@@ -52,6 +52,9 @@ const handleUserJwt = async () => {
   return await HTTP_CLIENT.get("/admin-auth/verify-jwt");
 };
 
+const handleCloseBeta = async (page: any, limit: any) => {
+  return await HTTP_CLIENT.get(`/close-beta?page=${page}&limit=${limit}`);
+};
 const handleSettingsData = async (params: any) => {
   console.log(
     "🚀 ~ file: userService.ts:56 ~ handleSettingsData ~ params",
@@ -76,4 +79,5 @@ export {
   generateTwoFa,
   twoFaAuth,
   handleSettingsData,
+  handleCloseBeta,
 };

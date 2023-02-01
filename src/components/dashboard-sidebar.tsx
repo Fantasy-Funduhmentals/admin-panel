@@ -81,7 +81,11 @@ const items = [
     icon: <Shop fontSize="small" />,
     title: "Position",
   },
-
+  {
+    href: "/close-beta",
+    icon: <Newsletter fontSize="small" />,
+    title: "Close-Beta",
+  },
   {
     href: "/settings",
     icon: <Cog fontSize="small" />,
