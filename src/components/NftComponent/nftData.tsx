@@ -56,6 +56,7 @@ export const NftList = (props: Props) => {
     count,
     data,
   } = props;
+  console.log("🚀 ~ file: nftData.tsx:59 ~ NftList ~ data", data);
   const {
     selectedCustomerIds,
     // handleBlockUser,
@@ -100,7 +101,7 @@ export const NftList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>Weight</TableCell>
                         <TableCell style={{ color: "#fff" }}>Age</TableCell>
                         <TableCell style={{ color: "#fff" }}>
-                          Current Team
+                          position
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>
                           Experience
@@ -152,8 +153,8 @@ export const NftList = (props: Props) => {
                               {customer?.playerDetail?.Age}{" "}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.CurrentTeam
-                                ? customer?.playerDetail?.CurrentTeam
+                              {customer?.playerDetail?.Position
+                                ? customer?.playerDetail?.Position
                                 : "-"}{" "}
                             </TableCell>
                             <TableCell>
@@ -247,6 +248,7 @@ export const NftList = (props: Props) => {
                   name="value"
                   color="success"
                   variant="outlined"
+                  type="number"
                 />
 
                 {/* <TextField

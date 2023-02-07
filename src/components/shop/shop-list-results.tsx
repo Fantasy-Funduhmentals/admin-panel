@@ -181,7 +181,7 @@ export const ShopListResults = (props: Props) => {
                           }`,
                         }}
                       >
-                        {item?.isActive ? "true" : "false"}
+                        {item?.isActive ? "ON" : "OFF"}
                       </Button>
                     </TableCell>
                     <TableCell onClick={() => handleOpenModal(item)}>
