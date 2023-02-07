@@ -460,11 +460,12 @@ const AddShopModal = (props: Props) => {
                         <ToggleButton
                           value="true"
                           onClick={(e) => handleClickOpen(e)}
+                          color="success"
                         >
-                          True
+                          ON
                         </ToggleButton>
-                        <ToggleButton value="false" color="success">
-                          False
+                        <ToggleButton value="false" color="primary">
+                          OFF
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </Box>
