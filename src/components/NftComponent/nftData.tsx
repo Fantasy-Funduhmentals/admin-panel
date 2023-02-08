@@ -144,8 +144,8 @@ export const NftList = (props: Props) => {
                               {customer?.value ? customer?.value : 0}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.HeightFeet
-                                ? `${customer?.playerDetail?.HeightFeet}F`
+                              {customer?.playerDetail?.Height
+                                ? `${customer?.playerDetail?.Height}`
                                 : "-"}
                             </TableCell>
                             <TableCell>
