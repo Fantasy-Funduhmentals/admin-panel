@@ -144,7 +144,9 @@ export const NftList = (props: Props) => {
                               {customer?.value ? customer?.value : 0}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.HeightFeet}F
+                              {customer?.playerDetail?.HeightFeet
+                                ? `${customer?.playerDetail?.HeightFeet}F`
+                                : "-"}
                             </TableCell>
                             <TableCell>
                               {customer?.playerDetail?.Weight} lb
@@ -235,7 +237,7 @@ export const NftList = (props: Props) => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Update Nft Data
+                  Update NFT Data
                 </Typography>
                 <TextField
                   error={Boolean(formik.touched.value && formik.errors.value)}
