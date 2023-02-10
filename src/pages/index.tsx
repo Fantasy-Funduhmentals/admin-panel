@@ -16,7 +16,7 @@ import Head from "next/head";
 import { useState } from "react";
 import * as Yup from "yup";
 import StatusModal from "../components/StatusModal";
-import OTP from "../components/twoFa/otp";
+import OTP from "../components/PrivacyPolicy/otp";
 import { handleUserLogin } from "../services/userService";
 import defaultConfig from "../utils/config";
 import { getNormalizedError } from "../utils/helpers";

@@ -3,10 +3,13 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
+import AddPositionModal from "../components/Position/add-position-modal";
+import { PositionListResults } from "../components/Position/position-list-results";
 import AddShopModal from "../components/shop/add-shop-modal";
 import { ShopListResults } from "../components/shop/shop-list-results";
 import StatusModal from "../components/StatusModal";
 import { getShopData } from "../services/shopService";
+import { handlePositionData } from "../services/teamService";
 import { getNormalizedError } from "../utils/helpers";
 
 const Users = () => {
@@ -31,9 +34,11 @@ const Users = () => {
   const getShopListing = async () => {
     try {
       setLoading(true);
-      const usersRes = await getShopData(page, limit);
-      setCount(usersRes?.data?.total);
-      setData(usersRes?.data?.data);
+      const usersRes = await handlePositionData();
+      console.log("usersRes", usersRes);
+
+      // setCount(usersRes?.data?.total);
+      setData(usersRes?.data);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -57,7 +62,7 @@ const Users = () => {
   return (
     <>
       <Head>
-        <title>Shop</title>
+        <title>Position</title>
       </Head>
       <Box
         component="main"
@@ -68,8 +73,8 @@ const Users = () => {
       >
         <Container maxWidth={false}>
           <ListToolbar
-            title="Shop Management"
-            subTitle="Shop"
+            title="Position Management"
+            subTitle="Position"
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
@@ -91,7 +96,7 @@ const Users = () => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <ShopListResults
+              <PositionListResults
                 data={data}
                 searchQuery={searchText}
                 handleRefresh={getShopListing}
@@ -111,7 +116,7 @@ const Users = () => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
-      <AddShopModal
+      <AddPositionModal
         open={shopModelOpen}
         editData={editShop}
         getShopListing={getShopListing}

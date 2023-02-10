@@ -8,7 +8,6 @@ import StatusModal from "../components/StatusModal";
 import { handleNewsData } from "../services/newsService";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { saveCoins } from "../store/reducers/coinSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const News = () => {
@@ -83,6 +82,7 @@ const News = () => {
                 handleLimitChange={handleLimitChange}
                 page={page}
                 limit={limit}
+                getCoinsListing={getCoinsListing}
               />
             )}
           </Box>

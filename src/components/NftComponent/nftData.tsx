@@ -56,6 +56,7 @@ export const NftList = (props: Props) => {
     count,
     data,
   } = props;
+  console.log("🚀 ~ file: nftData.tsx:59 ~ NftList ~ data", data);
   const {
     selectedCustomerIds,
     // handleBlockUser,
@@ -100,7 +101,7 @@ export const NftList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>Weight</TableCell>
                         <TableCell style={{ color: "#fff" }}>Age</TableCell>
                         <TableCell style={{ color: "#fff" }}>
-                          Current Team
+                          position
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>
                           Experience
@@ -143,7 +144,9 @@ export const NftList = (props: Props) => {
                               {customer?.value ? customer?.value : 0}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.HeightFeet}F
+                              {customer?.playerDetail?.Height
+                                ? `${customer?.playerDetail?.Height}`
+                                : "-"}
                             </TableCell>
                             <TableCell>
                               {customer?.playerDetail?.Weight} lb
@@ -152,8 +155,8 @@ export const NftList = (props: Props) => {
                               {customer?.playerDetail?.Age}{" "}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.CurrentTeam
-                                ? customer?.playerDetail?.CurrentTeam
+                              {customer?.playerDetail?.Position
+                                ? customer?.playerDetail?.Position
                                 : "-"}{" "}
                             </TableCell>
                             <TableCell>
@@ -234,7 +237,7 @@ export const NftList = (props: Props) => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Update Nft Data
+                  Update NFT Data
                 </Typography>
                 <TextField
                   error={Boolean(formik.touched.value && formik.errors.value)}
@@ -247,9 +250,10 @@ export const NftList = (props: Props) => {
                   name="value"
                   color="success"
                   variant="outlined"
+                  type="number"
                 />
 
-                <TextField
+                {/* <TextField
                   error={Boolean(formik.touched.video && formik.errors.video)}
                   onChange={(ev: any) => {
                     if (ev?.target?.files)
@@ -263,7 +267,7 @@ export const NftList = (props: Props) => {
                   color="success"
                   variant="outlined"
                   type="file"
-                />
+                /> */}
 
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                   {loading ? (

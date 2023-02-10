@@ -37,6 +37,7 @@ import {
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
 import { NavItem } from "../nav-item";
+import { postPsitionData, updatePsitionData } from "../../services/teamService";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -53,7 +54,7 @@ interface Props {
   getShopListing?: () => void;
 }
 
-const AddShopModal = (props: Props) => {
+const AddPositionModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -74,87 +75,67 @@ const AddShopModal = (props: Props) => {
   const formik = useFormik({
     initialValues: {
       title: editData ? editData?.title : "",
-      shoppingChargres: editData ? editData?.shoppingChargres : "",
-      totalQuantity: editData ? editData?.totalQuantity : "",
-      price: editData ? editData?.price : "",
-      files: null,
-      active: null,
-      discountPrice: editData ? editData?.discountPrice : "",
+      winStages: editData ? editData?.winStages : "",
+      losersDeductionPercentage: editData
+        ? editData?.losersDeductionPercentage
+        : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required").min(2).max(50).trim(),
-      shoppingChargres: Yup.number()
-        .required("Enter shopping charges in ADA")
-        .min(0, "Shopping chargres must be greater than or equal to 0"),
-      totalQuantity: Yup.number()
-        .required("Enter total quantity of product")
-        .min(0, "Total quantity must be greater than or equal to 0"),
-      files: Yup.mixed(),
-      price: Yup.number()
-        .positive("positive value only")
-        .required("Enter the price of product"),
-      active: Yup.string().required("Select the active on market"),
-      discountPrice: Yup.string()
-        .required("Enter the discount price of product")
-        .min(0, "Total price must be greater than or equal to 0"),
+      winStages: Yup.number().required("Enter Win Stage"),
+      losersDeductionPercentage: Yup.number().required(
+        "Enter Losers Deduction Percentage"
+      ),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
     },
   });
 
-  const handleImageUpload = async (file: any, type: string) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", type);
-    const uploadRes = await changesImageUrl(formData);
-    return uploadRes.data.url;
-  };
+  // const handleImageUpload = async (file: any, type: string) => {
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("type", type);
+  //   const uploadRes = await changesImageUrl(formData);
+  //   return uploadRes.data.url;
+  // };
 
   const handleSubmit = async (values: any, actions: any) => {
     try {
       setStatusData(null);
-      if (gallaryPhotos?.length === 0 && !editData) {
-        setStatusData({
-          type: "error",
-          message: "Please select an gallery images to continue",
-        });
-        return;
-      }
-      if (+formik.values.discountPrice >= +formik.values.price) {
-        setStatusData({
-          type: "error",
-          message: "Discount price should be less then total price",
-        });
+      // if (gallaryPhotos?.length === 0 && !editData) {
+      //   setStatusData({
+      //     type: "error",
+      //     message: "Please select an gallery images to continue",
+      //   });
+      //   return;
+      // }
+      // if (+formik.values.losersDeductionPercentage >= +formik.values.price) {
+      //   setStatusData({
+      //     type: "error",
+      //     message: "Discount price should be less then total price",
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
       setLoading(true);
       let params = {
         title: values.title,
-        price: Number(values.price),
-        shoppingChargres: values.shoppingChargres,
-        stock: values.totalQuantity,
-        IsActive: values.active === "YES" ? true : false,
-        hasVariants: alignment === "false" ? false : true,
-        images: [],
-        availableVariants: alignment === "false" ? [] : sizeData,
-        discountPrice: values.discountPrice,
+        winStages: values.winStages,
+        losersDeductionPercentage: values.losersDeductionPercentage,
       };
-      if (gallaryPhotos) params.images = gallaryPhotos;
       if (editData != null) {
         let updateParams = {
           ...params,
-          id: editData._id,
         };
-        const res = await updateShopData(updateParams);
+        const res = await updatePsitionData(updateParams, editData?._id);
         setStatusData({
           type: "success",
           message: res?.data?.message,
         });
       } else {
-        const res = await postShopData(params);
+        const res = await postPsitionData(params);
         setStatusData({
           type: "success",
           message: res?.data?.message,
@@ -202,15 +183,15 @@ const AddShopModal = (props: Props) => {
       value: 1,
     },
   ];
-  const fileSelectedHandler = async (file: any) => {
-    const tokenImageUrl = await handleImageUpload(
-      file?.target?.files[0],
-      "coinImage"
-    );
-    setselectedGalleryImage(file?.target?.files[0]);
-    gallaryPhotos.push(tokenImageUrl);
-    return;
-  };
+  // const fileSelectedHandler = async (file: any) => {
+  //   const tokenImageUrl = await handleImageUpload(
+  //     file?.target?.files[0],
+  //     "coinImage"
+  //   );
+  //   setselectedGalleryImage(file?.target?.files[0]);
+  //   gallaryPhotos.push(tokenImageUrl);
+  //   return;
+  // };
   const handleRemovegalleryImage = (data: any, index: number) => {
     const uploadedFiles = data;
     const filtered = gallaryPhotos.filter((i, ind) => {
@@ -274,19 +255,19 @@ const AddShopModal = (props: Props) => {
     cloneArray[ind][fieldType] = event.target.value;
     setSizeData(cloneArray);
   };
-  const handleDiscountprice = (e: any) => {
+  const handlelosersDeductionPercentage = (e: any) => {
     // if (+e.target.value >= formik.values.price) {
     //   alert("Discount price should be less then total price");
     //   return;
     // e.target.value = "";
-    // formik.resetForm(formik.values.discountPrice);
+    // formik.resetForm(formik.values.losersDeductionPercentage);
     // actions.resetForm({
     //   values: {
-    //     discountPrice: initialValues.discountPrice
+    //     losersDeductionPercentage: initialValues.losersDeductionPercentage
     //   }
     // });
     // formik.resetForm({
-    //   values: { ...formik.values, discountPrice: "" },
+    //   values: { ...formik.values, losersDeductionPercentage: "" },
     // });
     // }
   };
@@ -315,7 +296,7 @@ const AddShopModal = (props: Props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Shop
+              Position
             </Typography>
           </Toolbar>
         </AppBar>
@@ -335,7 +316,7 @@ const AddShopModal = (props: Props) => {
             <Grid>
               <form onSubmit={formik.handleSubmit}>
                 <Card>
-                  <Grid item lg={4} md={6} xs={12}>
+                  {/* <Grid item lg={4} md={6} xs={12}>
                     <CardHeader
                       subheader="This image will be used as symbol image."
                       title="Symbol Image"
@@ -432,15 +413,15 @@ const AddShopModal = (props: Props) => {
                           })}
                       </Grid>
                     </Box>
-                  </Grid>
+                  </Grid> */}
 
                   <Grid item lg={8} md={6} xs={12}>
                     <CardHeader
                       subheader="Please enter all the required information."
-                      title="Shop Details"
+                      title="Position Details"
                     />
 
-                    <Box
+                    {/* <Box
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -460,15 +441,14 @@ const AddShopModal = (props: Props) => {
                         <ToggleButton
                           value="true"
                           onClick={(e) => handleClickOpen(e)}
-                          color="success"
                         >
-                          ON
+                          True
                         </ToggleButton>
-                        <ToggleButton value="false" color="primary">
-                          OFF
+                        <ToggleButton value="false" color="success">
+                          False
                         </ToggleButton>
                       </ToggleButtonGroup>
-                    </Box>
+                    </Box> */}
                     <CardContent>
                       <Grid container spacing={3}>
                         <Grid item md={6} xs={12}>
@@ -507,18 +487,20 @@ const AddShopModal = (props: Props) => {
                           </InputLabel>
                           <TextField
                             error={Boolean(
-                              formik.touched.price && formik.errors.price
+                              formik.touched.winStages &&
+                                formik.errors.winStages
                             )}
                             helperText={
-                              formik.touched.price && formik.errors.price
+                              formik.touched.winStages &&
+                              formik.errors.winStages
                             }
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.price}
+                            value={formik.values.winStages}
                             fullWidth
                             type="number"
-                            label="Price"
-                            name="price"
+                            label="Win Stages"
+                            name="winStages"
                             variant="outlined"
                             color="success"
                           />
@@ -534,27 +516,28 @@ const AddShopModal = (props: Props) => {
                           </InputLabel>
                           <TextField
                             error={Boolean(
-                              formik.touched.discountPrice &&
-                                formik.errors.discountPrice
+                              formik.touched.losersDeductionPercentage &&
+                                formik.errors.losersDeductionPercentage
                             )}
                             helperText={
-                              formik.touched.discountPrice &&
-                              formik.errors.discountPrice
+                              formik.touched.losersDeductionPercentage &&
+                              formik.errors.losersDeductionPercentage
                             }
                             onBlur={formik.handleBlur}
                             onChange={(e) => {
-                              formik.handleChange(e), handleDiscountprice(e);
+                              formik.handleChange(e),
+                                handlelosersDeductionPercentage(e);
                             }}
-                            value={formik.values.discountPrice}
+                            value={formik.values.losersDeductionPercentage}
                             fullWidth
                             type="number"
                             label="Discount Price"
-                            name="discountPrice"
+                            name="losersDeductionPercentage"
                             variant="outlined"
                             color="success"
                           />
                         </Grid>
-
+                        {/* 
                         <Grid item md={6} xs={12}>
                           <InputLabel
                             sx={{
@@ -783,7 +766,7 @@ const AddShopModal = (props: Props) => {
                               </Grid>
                             </Grid>
                           </>
-                        ) : null}
+                        ) : null}*/}
                       </Grid>
                     </CardContent>
                     <Divider />
@@ -829,4 +812,4 @@ const AddShopModal = (props: Props) => {
   );
 };
 
-export default AddShopModal;
+export default AddPositionModal;
