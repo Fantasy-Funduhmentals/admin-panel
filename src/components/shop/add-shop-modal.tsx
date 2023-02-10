@@ -135,14 +135,14 @@ const AddShopModal = (props: Props) => {
         title: values.title,
         price: Number(values.price),
         shoppingChargres: values.shoppingChargres,
-        totalQuantity: values.totalQuantity,
+        stock: values.totalQuantity,
         IsActive: values.active === "YES" ? true : false,
         hasVariants: alignment === "false" ? false : true,
-        GalleryImages: [],
+        images: [],
         availableVariants: alignment === "false" ? [] : sizeData,
         discountPrice: values.discountPrice,
       };
-      if (gallaryPhotos) params.GalleryImages = gallaryPhotos;
+      if (gallaryPhotos) params.images = gallaryPhotos;
       if (editData != null) {
         let updateParams = {
           ...params,
