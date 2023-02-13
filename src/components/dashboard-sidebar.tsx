@@ -70,6 +70,11 @@ const items = [
     icon: <DirectWire fontSize="small" />,
     title: "Team",
   },
+  {
+    href: "/beta-management",
+    icon: <DirectWire fontSize="small" />,
+    title: "Beta Management",
+  },
 
   {
     href: "/articles",
