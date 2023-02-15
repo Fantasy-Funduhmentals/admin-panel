@@ -61,6 +61,7 @@ const AddUserModal = (props: Props) => {
       email: "",
       password: "",
     },
+    //
     enableReinitialize: true,
     validationSchema: Yup.object({
       name: Yup.string().required("Enter Your Name").min(2).max(50).trim(),
