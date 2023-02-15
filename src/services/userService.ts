@@ -6,6 +6,12 @@ const handleUserLogin = async (params: any) => {
 const getWalletData = async () => {
   return await HTTP_CLIENT.get("/admin-wallet");
 };
+const getAllBugsReport = async () => {
+  return await HTTP_CLIENT.get("/contact-us");
+};
+const DeleteBugsReport = async (id) => {
+  return await HTTP_CLIENT.delete(`/contact-us/${id}`);
+};
 
 const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
@@ -76,4 +82,6 @@ export {
   generateTwoFa,
   twoFaAuth,
   handleSettingsData,
+  getAllBugsReport,
+  DeleteBugsReport,
 };
