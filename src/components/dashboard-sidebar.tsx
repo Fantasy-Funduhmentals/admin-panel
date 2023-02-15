@@ -81,6 +81,11 @@ const items = [
     icon: <Shop fontSize="small" />,
     title: "Position",
   },
+  {
+    href: "/reported-bugs",
+    icon: <Newsletter fontSize="small" />,
+    title: "Bugs Management",
+  },
 
   {
     href: "/settings",
