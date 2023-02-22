@@ -45,11 +45,16 @@ import {
   convertFromRaw,
 } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
+import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 const Editor = dynamic<EditorProps>(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
+const QuillNoSSRWrapper = dynamic(import("react-quill"), {
+  ssr: false,
+  loading: () => <p>Loading ...</p>,
+});
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -59,6 +64,43 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
+
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
 
 interface Props {
   open: boolean;
@@ -83,7 +125,7 @@ const AddArticlesModal = (props: Props) => {
       medium: editData ? editData?.socialLinks?.medium : "",
       linkedin: editData ? editData?.socialLinks?.linkedIn : "",
       files: null,
-      // documentData: editData ? editData?.summary : "",
+      documentData: editData ? editData?.summary : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -93,7 +135,7 @@ const AddArticlesModal = (props: Props) => {
       medium: Yup.string().required("Enter Your medium url"),
       linkedin: Yup.string().required("Enter Your linkedin url"),
       files: Yup.mixed(),
-      // documentData: Yup.mixed().required("Enter Your Details"),
+      documentData: Yup.mixed().required("Enter Your Details"),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -113,12 +155,13 @@ const AddArticlesModal = (props: Props) => {
     try {
       setStatusData(null);
       setLoading(true);
-      convert = await draftToHtml(
-        convertToRaw(editorState?.getCurrentContent())
-      );
+      // convert = await draftToHtml(
+      //   convertToRaw(editorState?.getCurrentContent())
+      // );
       let params = {
         title: values?.heading,
-        summary: convert,
+        // summary: convert,
+        summary: values?.documentData,
         socialLinks: {
           telegram: values?.telegram,
           twitter: values?.twitter,
@@ -308,9 +351,18 @@ const AddArticlesModal = (props: Props) => {
                               variant="h6"
                               component="h2"
                             >
-                              rticle
+                              Article
                             </Typography>
-                            <Typography
+                            <QuillNoSSRWrapper
+                              modules={modules}
+                              formats={formats}
+                              theme="snow"
+                              onChange={(e: any) => {
+                                console.log("first", e);
+                                formik.setFieldValue("documentData", e);
+                              }}
+                            />
+                            {/* <Typography
                               id="modal-modal-description"
                               sx={{ mt: 2 }}
                             >
@@ -321,7 +373,7 @@ const AddArticlesModal = (props: Props) => {
                                 editorClassName="editorClassName"
                                 onEditorStateChange={onEditorStateChange}
                               />
-                            </Typography>
+                            </Typography> */}
                           </Box>
                         </Grid>
                         <Grid item md={6} xs={12}>
