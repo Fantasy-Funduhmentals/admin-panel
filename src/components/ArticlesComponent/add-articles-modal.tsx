@@ -9,6 +9,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import FolderIcon from "@mui/icons-material/Folder";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -80,6 +81,7 @@ const formats = [
   "link",
   "image",
   "video",
+  "color",
 ];
 
 const modules = {
@@ -98,7 +100,7 @@ const modules = {
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
+    matchVisual: true,
   },
 };
 
@@ -155,12 +157,8 @@ const AddArticlesModal = (props: Props) => {
     try {
       setStatusData(null);
       setLoading(true);
-      // convert = await draftToHtml(
-      //   convertToRaw(editorState?.getCurrentContent())
-      // );
       let params = {
         title: values?.heading,
-        // summary: convert,
         summary: values?.documentData,
         socialLinks: {
           telegram: values?.telegram,
@@ -171,7 +169,7 @@ const AddArticlesModal = (props: Props) => {
         mediaUrl:
           values?.files == null
             ? editData?.mediaUrl
-            : await handleImageUpload(values.files[0], "coinImage"),
+            : await handleImageUpload(values.files[0], "NFT"),
       };
 
       if (editData != null) {
@@ -205,19 +203,6 @@ const AddArticlesModal = (props: Props) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (editData) {
-      const blocksFromHtml = htmlToDraft(editData?.summary);
-      const { contentBlocks, entityMap } = blocksFromHtml;
-      const contentState = ContentState.createFromBlockArray(
-        contentBlocks,
-        entityMap
-      );
-      const editorState = EditorState.createWithContent(contentState);
-      setEditorState(editorState);
-    }
-  }, [editData]);
 
   return (
     <Box>
@@ -289,7 +274,10 @@ const AddArticlesModal = (props: Props) => {
                             mb: 2,
                             width: 104,
                           }}
-                        />
+                        >
+                          {" "}
+                          <FolderIcon />
+                        </Avatar>
                       </Box>
                     </CardContent>
                     <Box
@@ -340,11 +328,11 @@ const AddArticlesModal = (props: Props) => {
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <Box
-                            sx={{
-                              minHeight: "300px",
-                              maxHeight: "500px",
-                              overflowX: "auto",
-                            }}
+                          // sx={{
+                          //   minHeight: "300px",
+                          //   maxHeight: "500px",
+                          //   overflowX: "auto",
+                          // }}
                           >
                             <Typography
                               id="modal-modal-title"
@@ -356,6 +344,9 @@ const AddArticlesModal = (props: Props) => {
                             <QuillNoSSRWrapper
                               modules={modules}
                               formats={formats}
+                              style={{
+                                minHeight: "300px",
+                              }}
                               theme="snow"
                               onChange={(e: any) => {
                                 console.log("first", e);

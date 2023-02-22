@@ -131,7 +131,13 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 /**nProgress**/
-.fr-wrapper {
+.ql-editor.ql-blank {
+  min-height: 300px !important;
+}
+.ql-toolbar.ql-snow {
+  background-color: white;
+}
+/* .fr-wrapper {
   background: transparent !important;
   border: 1px solid gray !important;
   border-radius: 8px !important;
@@ -194,4 +200,4 @@ svg.fr-svg {
 .wrapperClassName {
   border: 1px solid gray !important;
   border-radius: 3px !important;
-}
+} */
