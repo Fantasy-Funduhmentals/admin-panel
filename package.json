@@ -51,6 +51,7 @@
     "react-image-lightbox": "^5.1.4",
     "react-lazy-load-image-component": "^1.5.1",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-quill": "^2.0.0",
     "react-redux": "^7.2.6",
     "react-simple-image-viewer": "^1.2.1",
     "redux-persist": "^6.0.0",
