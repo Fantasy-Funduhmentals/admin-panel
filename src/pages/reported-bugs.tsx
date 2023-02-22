@@ -1,32 +1,26 @@
 import { Box, Container } from "@mui/material";
 import Head from "next/head";
-import { resetWarningCache } from "prop-types";
 import { useEffect, useState } from "react";
 import { BugsList } from "../components/BugsManagement/bugsList";
 import DetailsModal from "../components/BugsManagement/Details-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
-import { getAdminUserData } from "../services/tokenService";
 import { getAllBugsReport } from "../services/userService";
-import { useAppDispatch } from "../store/hooks";
-import { saveAdminUser } from "../store/reducers/adminSlice";
-import { resetUserState } from "../store/reducers/userSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const ReportedBugs = () => {
-  const dispatch = useAppDispatch();
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
-  const [editSubAdmin, setEditSubAdmin] = useState(null);
+  const [editBugs, setEditBugs] = useState(null);
   const [loadingApi, setLoadingApi] = useState(false);
   const [data, setData] = useState();
   const [reload, setReload] = useState(false);
 
-  const OpenAddUserModal = (userData: any) => {
+  const OpenAddUserModal = (bugsData: any) => {
     setUserModalOpen(!userModelOpen);
-    setEditSubAdmin(userData);
+    setEditBugs(bugsData);
   };
 
   const getAllReportedBugs = async () => {
@@ -107,10 +101,10 @@ const ReportedBugs = () => {
 
       <DetailsModal
         open={userModelOpen}
-        editData={editSubAdmin}
+        editData={editBugs}
         onClose={() => {
           setUserModalOpen(false);
-          setEditSubAdmin(null);
+          setEditBugs(null);
           setReload(!reload);
         }}
       />
