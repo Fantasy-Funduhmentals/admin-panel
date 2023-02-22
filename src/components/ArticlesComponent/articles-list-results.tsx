@@ -16,6 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
@@ -185,18 +187,24 @@ export const ArticlesListResults = (props: Props) => {
                           }`,
                         }}
                       >
-                        {item?.isActive ? "true" : "false"}
+                        {item?.isActive ? "ON" : "OFF"}
                       </Button>
                     </TableCell>
-                    <TableCell onClick={() => handleOpenModal(item)}>
-                      <Button
+                    <TableCell
+                      onClick={() => handleOpenModal(item)}
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      {/* <Button
                         sx={{
                           cursor: "pointer",
                           border: "1px solid rgb(209, 67, 67)",
                         }}
                       >
                         Delete
-                      </Button>
+                      </Button> */}
+                      <DeleteIcon />
                     </TableCell>
 
                     <TableCell onClick={() => onPressUpdate(item)}>
