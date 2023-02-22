@@ -174,3 +174,24 @@ svg.fr-svg {
   border: 1px solid gray !important;
   border-radius: 8px !important;
 }
+
+.rdw-editor-toolbar {
+  background-color: #232325 !important;
+  color: white !important;
+  border: none !important;
+}
+.rdw-dropdown-selectedtext > span {
+  color: black !important;
+}
+
+.rdw-dropdown-optionwrapper {
+  color: black !important;
+}
+.DraftEditor-root {
+  min-height: 10vh !important;
+  height: auto !important;
+}
+.wrapperClassName {
+  border: 1px solid gray !important;
+  border-radius: 3px !important;
+}

@@ -22,9 +22,7 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import { EditorState } from "draft-js";
+
 import {
   changesImageUrl,
   postShopData,
@@ -32,15 +30,27 @@ import {
 } from "../../services/shopService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
-import dynamic from "next/dynamic";
 import {
   handleArticleData,
   postArticleData,
   putArticleData,
 } from "../../services/newsService";
-const FroalaEditorComponent = dynamic(() => import("react-froala-wysiwyg"), {
-  ssr: false,
-});
+import { EditorProps } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import {
+  EditorState,
+  convertToRaw,
+  ContentState,
+  convertFromRaw,
+} from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import dynamic from "next/dynamic";
+const Editor = dynamic<EditorProps>(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  { ssr: false }
+);
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -61,9 +71,10 @@ const AddArticlesModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl]: any = useState("");
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+  const [editorState, setEditorState] = useState("");
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+  };
   const formik = useFormik({
     initialValues: {
       heading: editData ? editData?.title : "",
@@ -72,7 +83,7 @@ const AddArticlesModal = (props: Props) => {
       medium: editData ? editData?.socialLinks?.medium : "",
       linkedin: editData ? editData?.socialLinks?.linkedIn : "",
       files: null,
-      documentData: editData ? editData?.summary : "",
+      // documentData: editData ? editData?.summary : "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -82,7 +93,7 @@ const AddArticlesModal = (props: Props) => {
       medium: Yup.string().required("Enter Your medium url"),
       linkedin: Yup.string().required("Enter Your linkedin url"),
       files: Yup.mixed(),
-      documentData: Yup.mixed().required("Enter Your Details"),
+      // documentData: Yup.mixed().required("Enter Your Details"),
     }),
     onSubmit: (values, actions) => {
       handleSubmit(values, actions);
@@ -98,27 +109,26 @@ const AddArticlesModal = (props: Props) => {
   };
 
   const handleSubmit = async (values, actions) => {
+    let convert;
     try {
       setStatusData(null);
       setLoading(true);
-      if (values?.files != null) {
-        const coverPhotoImage = await handleImageUpload(
-          values.files[0],
-          "coinImage"
-        );
-        setImageUrl(coverPhotoImage);
-      }
-
+      convert = await draftToHtml(
+        convertToRaw(editorState?.getCurrentContent())
+      );
       let params = {
         title: values?.heading,
-        summary: values?.documentData,
+        summary: convert,
         socialLinks: {
           telegram: values?.telegram,
           twitter: values?.twitter,
           medium: values?.medium,
           linkedIn: values?.linkedin,
         },
-        mediaUrl: imageUrl == "" ? editData?.mediaUrl : imageUrl,
+        mediaUrl:
+          values?.files == null
+            ? editData?.mediaUrl
+            : await handleImageUpload(values.files[0], "coinImage"),
       };
 
       if (editData != null) {
@@ -152,6 +162,19 @@ const AddArticlesModal = (props: Props) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (editData) {
+      const blocksFromHtml = htmlToDraft(editData?.summary);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(
+        contentBlocks,
+        entityMap
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState);
+    }
+  }, [editData]);
 
   return (
     <Box>
@@ -272,17 +295,34 @@ const AddArticlesModal = (props: Props) => {
                             color="success"
                           />
                         </Grid>
-                        <Grid item md={12} xs={12} id="editor">
-                          {editorState ? (
-                            <FroalaEditorComponent
-                              tag="textarea"
-                              model={formik.values.documentData}
-                              onModelChange={(ev: any) => {
-                                if (ev)
-                                  formik.setFieldValue("documentData", ev);
-                              }}
-                            />
-                          ) : null}
+                        <Grid item md={12} xs={12}>
+                          <Box
+                            sx={{
+                              minHeight: "300px",
+                              maxHeight: "500px",
+                              overflowX: "auto",
+                            }}
+                          >
+                            <Typography
+                              id="modal-modal-title"
+                              variant="h6"
+                              component="h2"
+                            >
+                              rticle
+                            </Typography>
+                            <Typography
+                              id="modal-modal-description"
+                              sx={{ mt: 2 }}
+                            >
+                              <Editor
+                                editorState={editorState}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                onEditorStateChange={onEditorStateChange}
+                              />
+                            </Typography>
+                          </Box>
                         </Grid>
                         <Grid item md={6} xs={12}>
                           <TextField
