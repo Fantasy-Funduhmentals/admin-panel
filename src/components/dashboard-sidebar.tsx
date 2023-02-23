@@ -34,11 +34,11 @@ const items = [
     icon: <Users fontSize="small" />,
     title: "Sub-Admin",
   },
-  {
-    href: "/score",
-    icon: <Subscription fontSize="small" />,
-    title: "Score",
-  },
+  // {
+  //   href: "/score",
+  //   icon: <Subscription fontSize="small" />,
+  //   title: "Score",
+  // },
   {
     href: "/newsletter",
     icon: <Newsletter fontSize="small" />,
