@@ -512,7 +512,7 @@ const AddPositionModal = (props: Props) => {
                               marginBottom: "10px",
                             }}
                           >
-                            Enter discount price
+                            Enter deduction price
                           </InputLabel>
                           <TextField
                             error={Boolean(

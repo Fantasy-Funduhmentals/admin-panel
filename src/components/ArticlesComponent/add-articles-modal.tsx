@@ -88,6 +88,7 @@ const formats = [
   "background",
   "header",
   "script",
+  "color",
 ];
 
 const modules = {
@@ -104,6 +105,7 @@ const modules = {
       "align",
     ],
     [{ color: [] }, { background: [] }],
+
     [
       { list: "ordered" },
       { list: "bullet" },
@@ -113,6 +115,7 @@ const modules = {
     ["link", "image", "video"],
     ["clean"],
   ],
+
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
     matchVisual: true,
