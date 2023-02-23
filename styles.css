@@ -134,8 +134,14 @@ input[type="number"]::-webkit-outer-spin-button {
 .ql-editor.ql-blank {
   min-height: 300px !important;
 }
+.ql-editor {
+  min-height: 300px !important;
+}
+.ql-editor {
+  max-height: 600px !important;
+}
 .ql-toolbar.ql-snow {
-  background-color: white;
+  background-color: white !important;
 }
 /* .fr-wrapper {
   background: transparent !important;
