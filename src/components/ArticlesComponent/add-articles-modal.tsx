@@ -21,7 +21,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as Yup from "yup";
 
 import {
@@ -48,6 +48,7 @@ import {
 import htmlToDraft from "html-to-draftjs";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
+import { array } from "prop-types";
 const Editor = dynamic<EditorProps>(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
@@ -78,17 +79,31 @@ const formats = [
   "list",
   "bullet",
   "indent",
+  "align",
+  "direction",
+  "code-block",
   "link",
   "image",
   "video",
-  "color",
+  "background",
+  "header",
+  "script",
 ];
 
 const modules = {
   toolbar: [
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      "bold",
+      "italic",
+      "underline",
+      "strike",
+      "blockquote",
+      "code-block",
+      "align",
+    ],
+    [{ color: [] }, { background: [] }],
     [
       { list: "ordered" },
       { list: "bullet" },
@@ -101,6 +116,7 @@ const modules = {
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
     matchVisual: true,
+    swcMinify: true,
   },
 };
 
@@ -113,6 +129,10 @@ interface Props {
 
 const AddArticlesModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
+  console.log(
+    "🚀 ~ file: add-articles-modal.tsx:132 ~ AddArticlesModal ~ editData:",
+    editData
+  );
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editorState, setEditorState] = useState("");
@@ -153,7 +173,6 @@ const AddArticlesModal = (props: Props) => {
   };
 
   const handleSubmit = async (values, actions) => {
-    let convert;
     try {
       setStatusData(null);
       setLoading(true);
@@ -344,12 +363,12 @@ const AddArticlesModal = (props: Props) => {
                             <QuillNoSSRWrapper
                               modules={modules}
                               formats={formats}
+                              value={formik?.values?.documentData}
                               style={{
                                 minHeight: "300px",
                               }}
                               theme="snow"
                               onChange={(e: any) => {
-                                console.log("first", e);
                                 formik.setFieldValue("documentData", e);
                               }}
                             />
@@ -378,7 +397,7 @@ const AddArticlesModal = (props: Props) => {
                             fullWidth
                             label="Twitter URL"
                             name="twitter"
-                            helperText="Please enter the coin symbol name."
+                            helperText="Please enter the twitter url."
                             required
                             variant="outlined"
                             color="success"
