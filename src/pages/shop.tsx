@@ -73,12 +73,13 @@ const Users = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
-            onPressAdd={() => {
-              setShopModalOpen(true);
-            }}
+            // onPressAdd={() => {
+            //   setShopModalOpen(true);
+            // }}
             handleRefresh={getShopListing}
+            hide={true}
           />
-          <Box
+          {/* <Box
             style={{
               display: "flex",
               justifyContent: "center",
@@ -104,6 +105,33 @@ const Users = () => {
                 onPressUpdate={OpenAddUserModal}
               />
             )}
+          </Box> */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "100px",
+              userSelect: "none",
+            }}
+          >
+            <img
+              src={"/comingSoon.svg"}
+              alt=""
+              style={{ width: "100%", height: "200px" }}
+            />
+            <Box
+              component="p"
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                mt: 1,
+              }}
+            >
+              Coming Soon
+            </Box>
           </Box>
         </Container>
       </Box>
