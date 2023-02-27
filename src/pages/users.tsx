@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import AddUserModal from "../components/add-user-modal";
 import { UserListResults } from "../components/customer/customer-list-results";
+import UserDetailsModal from "../components/customer/UserDetails-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
@@ -19,7 +20,9 @@ const Users = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
+  const [viewDetailOpen, setViewDetailOpen] = useState(false);
   const [reload, setReload] = useState(false);
+  const [viewDetail, setViewDetail] = useState(null);
 
   const getUserListing = async () => {
     try {
@@ -36,6 +39,10 @@ const Users = () => {
         message: error,
       });
     }
+  };
+  const OpenViewUserDetail = (item: any) => {
+    setViewDetailOpen(!viewDetailOpen);
+    setViewDetail(item);
   };
 
   useEffect(() => {
@@ -84,6 +91,7 @@ const Users = () => {
                 searchQuery={searchText}
                 handleRefresh={getUserListing}
                 style={{ width: "100%" }}
+                onPressUpdate={OpenViewUserDetail}
               />
             )}
           </Box>
@@ -93,6 +101,7 @@ const Users = () => {
         statusData={statusData}
         onClose={() => setStatusData(null)}
       />
+
       <AddUserModal
         open={userModelOpen}
         onClose={() => {
