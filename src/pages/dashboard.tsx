@@ -37,6 +37,10 @@ const Dashboard = () => {
       setLoading(true);
       setupAxios();
       const cardsData = await getAdminStats();
+      console.log(
+        "🚀 ~ file: dashboard.tsx:40 ~ getCardsData ~ cardsData:",
+        cardsData
+      );
       dispatch(saveMasterBalances(cardsData.data));
       setLoading(false);
     } catch (err) {
