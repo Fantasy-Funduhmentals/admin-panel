@@ -3,8 +3,11 @@ import { HTTP_CLIENT } from "../utils/axiosClient";
 const handleNewsData = async (page: any, limit: any) => {
   return await HTTP_CLIENT.get(`/news?page=${page}&limit=${limit}`);
 };
-const handleNewsletterData = async (page: any, limit: any) => {
-  return await HTTP_CLIENT.get(`/newsletter?page=${page}&limit=${limit}`);
+// const handleNewsletterData = async (page: any, limit: any) => {
+const handleNewsletterData = async () => {
+  // pagination is now implemented from frontend//
+  // removing pagination from server side//
+  return await HTTP_CLIENT.get(`/newsletter`);
 };
 const handleArticleData = async (page: any, limit: any) => {
   return await HTTP_CLIENT.get(`/project-article/?page=${page}&limit=${limit}`);

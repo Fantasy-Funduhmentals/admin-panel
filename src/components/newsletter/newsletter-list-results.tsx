@@ -42,12 +42,15 @@ export const NewsletterListResults = (props: Props) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   const dataToDisplay = useMemo(() => {
+    const begin = page * limit;
+    const end = begin + limit;
+
     if (searchQuery.length > 0) {
       return data.filter((item) =>
         item?.email?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
-      return data;
+      return data?.slice(begin, end);
     }
   }, [page, limit, data, searchQuery]);
 
@@ -104,7 +107,7 @@ export const NewsletterListResults = (props: Props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={count}
+        count={data?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
