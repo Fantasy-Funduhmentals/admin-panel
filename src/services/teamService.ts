@@ -20,6 +20,9 @@ const deletePsitionData = async (id: string) => {
 const getPositionStatus = async (params: any) => {
   return await HTTP_CLIENT.post("/position/status", params);
 };
+const getgamelogs = async () => {
+  return await HTTP_CLIENT.get("/game-logs");
+};
 export {
   handleTeamsData,
   handlePositionData,
@@ -27,4 +30,5 @@ export {
   updatePsitionData,
   deletePsitionData,
   getPositionStatus,
+  getgamelogs,
 };

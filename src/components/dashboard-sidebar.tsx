@@ -9,6 +9,7 @@ import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Cog } from "../icons/cog";
 import { DirectWire } from "../icons/DirectWire";
 import { Newsletter } from "../icons/Newsletter";
+import { Gamelogs } from "../icons/Gamelogs";
 import { Shop } from "../icons/shop";
 import { Subscription } from "../icons/Subscription";
 import { UserPlayer } from "../icons/user";
@@ -34,11 +35,11 @@ const items = [
     icon: <Users fontSize="small" />,
     title: "Sub-Admin",
   },
-  // {
-  //   href: "/score",
-  //   icon: <Subscription fontSize="small" />,
-  //   title: "Score",
-  // },
+  {
+    href: "/game-logs",
+    icon: <Gamelogs fontSize="small" />,
+    title: "Game Logs",
+  },
   {
     href: "/newsletter",
     icon: <Newsletter fontSize="small" />,
