@@ -13,6 +13,7 @@ const NewsLetter = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState();
+  console.log("🚀 ~ file: newsletter.tsx:16 ~ NewsLetter ~ data:", data);
   const [count, setCount] = useState(null);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -27,9 +28,9 @@ const NewsLetter = () => {
   const getNewsletterListing = async () => {
     setLoading(true);
     try {
-      const res = await handleNewsletterData(page, limit);
-      setData(res?.data?.data);
-      setCount(res?.data?.total);
+      const res = await handleNewsletterData();
+      setData(res?.data);
+      // setCount(res?.data?.total);
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);

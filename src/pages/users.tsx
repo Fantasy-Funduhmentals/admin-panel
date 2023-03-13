@@ -68,9 +68,9 @@ const Users = () => {
             onChangeText={(ev) => {
               setSearchText(ev.target.value);
             }}
-            onPressAdd={() => {
-              setUserModalOpen(true);
-            }}
+            // onPressAdd={() => {
+            //   setUserModalOpen(true);
+            // }}
             handleRefresh={getUserListing}
           />
           <Box

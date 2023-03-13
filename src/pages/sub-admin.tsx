@@ -67,14 +67,17 @@ const SubAdmin = () => {
               alignItems: "flex-end",
             }}
           >
-            <Button variant="contained" onClick={() => setUserModalOpen(true)}>
+            {/* <Button variant="contained" onClick={() => setUserModalOpen(true)}>
               Add Sub Admin
-            </Button>
+            </Button> */}
             <ListToolbar
               title="Sub Admin Management"
               subTitle="Sub Admin User"
               onChangeText={(ev) => {
                 setSearchText(ev.target.value);
+              }}
+              onPressAdd={() => {
+                setUserModalOpen(true);
               }}
               style={{ width: "100%" }}
               handleRefresh={getAdminUsers}
