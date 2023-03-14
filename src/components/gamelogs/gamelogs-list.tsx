@@ -21,9 +21,8 @@ import moment from "moment";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
-
   handlePageChange?: (p?: any, c?: any) => void;
-  handleLimitChange?: (p?: any, c?: any) => void;
+  handlelimitchange?: (p?: any, c?: any) => void;
   page?: number;
   limit?: number;
 }
@@ -32,9 +31,8 @@ export const GamelogsList = (props: Props) => {
   const {
     data,
     searchQuery,
-
     handlePageChange,
-    handleLimitChange,
+    handlelimitchange,
     page,
     limit,
   } = props;
@@ -68,6 +66,7 @@ export const GamelogsList = (props: Props) => {
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>position</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Week</TableCell>
                   <TableCell style={{ color: "#fff" }}>
                     winning Amount
                   </TableCell>
@@ -96,6 +95,7 @@ export const GamelogsList = (props: Props) => {
                         </Typography>
                       </Box>
                     </TableCell>
+                    <TableCell>{item?.Week ? item?.Week : "-"}</TableCell>
                     <TableCell>
                       {Number(item?.winningAmount)?.toLocaleString()}
                     </TableCell>
@@ -113,7 +113,7 @@ export const GamelogsList = (props: Props) => {
         component="div"
         count={data?.length}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
+        onRowsPerPageChange={handlelimitchange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
@@ -123,5 +123,5 @@ export const GamelogsList = (props: Props) => {
 };
 
 GamelogsList.propTypes = {
-  customers: PropTypes.array.isRequired,
+  item: PropTypes.array.isRequired,
 };

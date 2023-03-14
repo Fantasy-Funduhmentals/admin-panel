@@ -75,7 +75,7 @@ const GameLogs = () => {
                 data={data}
                 searchQuery={searchText}
                 handlePageChange={handlePageChange}
-                handleLimitChange={handleLimitChange}
+                handlelimitchange={handleLimitChange}
                 page={page}
                 limit={limit}
               />
