@@ -95,7 +95,7 @@ export const GamelogsList = (props: Props) => {
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{item?.Week ? item?.Week : "-"}</TableCell>
+                    <TableCell>{item?.week ? item?.week : "-"}</TableCell>
                     <TableCell>
                       {Number(item?.winningAmount)?.toLocaleString()}
                     </TableCell>
