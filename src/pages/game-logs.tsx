@@ -30,7 +30,7 @@ const GameLogs = () => {
     setLoading(true);
     try {
       const res = await getgamelogs();
-      setData(res?.data);
+      setData(res?.data?.reverse());
       setLoading(false);
     } catch (err) {
       const error = getNormalizedError(err);

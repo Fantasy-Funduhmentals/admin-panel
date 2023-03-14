@@ -68,7 +68,7 @@ export const GamelogsList = (props: Props) => {
                   <TableCell style={{ color: "#fff" }}>position</TableCell>
                   <TableCell style={{ color: "#fff" }}>Week</TableCell>
                   <TableCell style={{ color: "#fff" }}>
-                    winning Amount
+                    deducted amount
                   </TableCell>
                   <TableCell style={{ color: "#fff" }}>created At</TableCell>
                 </TableRow>
