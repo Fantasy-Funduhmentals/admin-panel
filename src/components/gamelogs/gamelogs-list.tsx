@@ -45,7 +45,7 @@ export const GamelogsList = (props: Props) => {
 
     if (searchQuery.length > 0) {
       return data?.filter((item) =>
-        item?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        item?.position?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
       return data?.slice(begin, end);
