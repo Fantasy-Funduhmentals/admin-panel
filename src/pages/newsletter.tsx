@@ -1,4 +1,11 @@
-import { Box, CircularProgress, Container } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
@@ -42,6 +49,17 @@ const NewsLetter = () => {
     }
   };
 
+  const handleNewsletter = async () => {
+    try {
+    } catch (err) {
+      const error = getNormalizedError(err);
+      setStatusData({
+        type: "error",
+        message: error,
+      });
+    }
+  };
+
   useEffect(() => {
     getNewsletterListing();
   }, [page, limit]);
@@ -67,6 +85,31 @@ const NewsLetter = () => {
             }}
             handleRefresh={getNewsletterListing}
           />
+          {/* <Box
+            sx={{
+              background: "#232325",
+              boxSizing: "border-box",
+              margin: "1rem 0rem",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "1rem ",
+              borderRadius: "8px",
+            }}
+          >
+            <Typography sx={{ m: 1 }} variant="h6">
+              Download Newsletters
+            </Typography>
+            <Box sx={{ textAlign: "right" }}>
+              <Button
+                color="success"
+                variant="contained"
+                onClick={handleNewsletter}
+              >
+                Download
+              </Button>
+            </Box>
+          </Box> */}
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             {loading ? (
               <CircularProgress />
