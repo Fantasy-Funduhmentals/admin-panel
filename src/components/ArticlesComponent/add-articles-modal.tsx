@@ -132,10 +132,6 @@ interface Props {
 
 const AddArticlesModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
-  console.log(
-    "🚀 ~ file: add-articles-modal.tsx:132 ~ AddArticlesModal ~ editData:",
-    editData
-  );
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editorState, setEditorState] = useState("");

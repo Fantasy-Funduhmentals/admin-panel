@@ -7,20 +7,25 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import { NewsletterListResults } from "../components/newsletter/newsletter-list-results";
 import StatusModal from "../components/StatusModal";
-import { handleNewsletterData } from "../services/newsService";
+import { HTTP_CLIENT } from "../utils/axiosClient";
+import {
+  exportAllNewsletter,
+  handleNewsletterData,
+} from "../services/newsService";
 import { getNormalizedError } from "../utils/helpers";
 
 const NewsLetter = () => {
   const [loading, setLoading] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState();
-  console.log("🚀 ~ file: newsletter.tsx:16 ~ NewsLetter ~ data:", data);
+  const [downloadLink, setDownloadLink] = useState(null);
   const [count, setCount] = useState(null);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -32,6 +37,7 @@ const NewsLetter = () => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
   const getNewsletterListing = async () => {
     setLoading(true);
     try {
@@ -49,9 +55,35 @@ const NewsLetter = () => {
     }
   };
 
+  const handleClickDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/path/to/file.pdf";
+    link.download = "file.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleNewsletter = async () => {
     try {
+      setNewsletterLoading(true);
+      const response = await HTTP_CLIENT.get(
+        "/newsletter/export-all-newsletter",
+        {
+          responseType: "blob",
+        }
+      );
+      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+      const fileLink = document.createElement("a");
+      fileLink.href = fileURL;
+      fileLink.setAttribute("download", "file.xlsx");
+      fileLink.setAttribute("target", "_blank");
+      document.body.appendChild(fileLink);
+      fileLink.click();
+      fileLink.remove();
+      setNewsletterLoading(false);
     } catch (err) {
+      setNewsletterLoading(false);
       const error = getNormalizedError(err);
       setStatusData({
         type: "error",
@@ -85,7 +117,7 @@ const NewsLetter = () => {
             }}
             handleRefresh={getNewsletterListing}
           />
-          {/* <Box
+          <Box
             sx={{
               background: "#232325",
               boxSizing: "border-box",
@@ -104,12 +136,23 @@ const NewsLetter = () => {
               <Button
                 color="success"
                 variant="contained"
-                onClick={handleNewsletter}
+                onClick={() => !newsletterLoading && handleNewsletter()}
               >
-                Download
+                {newsletterLoading
+                  ? // <CircularProgress
+                    //   color="inherit"
+                    //   style={{ height: "25px", width: "25px" }}
+                    // />
+                    "Loading..."
+                  : "Download"}
               </Button>
+              {downloadLink && (
+                <a href={downloadLink} download>
+                  Download
+                </a>
+              )}
             </Box>
-          </Box> */}
+          </Box>
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
             {loading ? (
               <CircularProgress />

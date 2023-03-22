@@ -58,7 +58,6 @@ const PlayerList = (props: Props) => {
     count,
     data,
   } = props;
-  console.log("🚀 ~ file: playerData.tsx:61 ~ PlayerList ~ data", data);
 
   const {
     dataToDisplay,

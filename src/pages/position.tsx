@@ -35,7 +35,6 @@ const Users = () => {
     try {
       setLoading(true);
       const usersRes = await handlePositionData();
-      console.log("usersRes", usersRes);
 
       // setCount(usersRes?.data?.total);
       setData(usersRes?.data);

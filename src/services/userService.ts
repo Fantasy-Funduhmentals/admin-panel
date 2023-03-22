@@ -59,10 +59,6 @@ const handleUserJwt = async () => {
 };
 
 const handleSettingsData = async (params: any) => {
-  console.log(
-    "🚀 ~ file: userService.ts:56 ~ handleSettingsData ~ params",
-    params
-  );
   return await HTTP_CLIENT.post("/settings", params);
 };
 

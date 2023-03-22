@@ -56,7 +56,6 @@ export const NftList = (props: Props) => {
     count,
     data,
   } = props;
-  console.log("🚀 ~ file: nftData.tsx:59 ~ NftList ~ data", data);
   const {
     selectedCustomerIds,
     // handleBlockUser,

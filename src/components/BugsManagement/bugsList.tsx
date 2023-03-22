@@ -48,7 +48,6 @@ export const BugsList = (props: Props) => {
     loadingApi,
     data,
   } = props;
-  console.log("🚀 ~ file: bugsList.tsx:49 ~ BugsList ~ data", data);
   const {
     dataToDisplay,
     selectedCustomerIds,

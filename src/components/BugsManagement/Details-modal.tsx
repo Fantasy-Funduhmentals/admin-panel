@@ -49,10 +49,6 @@ interface Props {
 
 const DetailsModal = (props: Props) => {
   const { open, onClose, editData } = props;
-  console.log(
-    "🚀 ~ file: Details-modal.tsx:52 ~ DetailsModal ~ editData",
-    editData
-  );
 
   return (
     <Box>
