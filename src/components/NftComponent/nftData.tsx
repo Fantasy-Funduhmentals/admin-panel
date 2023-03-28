@@ -19,6 +19,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import EditOffIcon from "@mui/icons-material/EditOff";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -161,7 +164,6 @@ export const NftList = (props: Props) => {
                             <TableCell>
                               {customer?.playerDetail?.Experience} Y
                             </TableCell>
-
                             {/* <TableCell
                               onClick={() => handleBlockUser(customer)}
                             >
@@ -186,10 +188,18 @@ export const NftList = (props: Props) => {
                                 {customer.isBlocked ? "UnBlock" : "Block"}
                               </Button>
                             </TableCell>*/}
+
                             <TableCell
-                              onClick={() => handleEditPlayer(customer)}
+                              onClick={() =>
+                                customer?.isListedOnMarketplace &&
+                                handleEditPlayer(customer)
+                              }
                             >
-                              <EditIcon />
+                              {customer?.isListedOnMarketplace ? (
+                                <EditIcon sx={{ cursor: "pointer" }} />
+                              ) : (
+                                <EditOffIcon sx={{ cursor: "not-allowed" }} />
+                              )}
                             </TableCell>
                           </TableRow>
                         </>

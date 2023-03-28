@@ -155,6 +155,9 @@ export const UserListResults = (props: Props) => {
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Name</TableCell>
                   <TableCell style={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    affiliate Code
+                  </TableCell>
                   {/* <TableCell style={{ color: "#fff" }}>
                     Wallet Activation Status
                   </TableCell> */}
@@ -190,6 +193,9 @@ export const UserListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.email}</TableCell>
+                    <TableCell>
+                      {customer?.affiliateCode ? customer?.affiliateCode : "-"}
+                    </TableCell>
                     {/* 
                     <TableCell>
                       <SeverityPill
