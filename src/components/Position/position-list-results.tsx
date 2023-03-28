@@ -20,10 +20,16 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import StatusModal from "../../components/StatusModal";
+import StatusModal from "../StatusModal";
 import { deleteShopData, getShopStatus } from "../../services/shopService";
 import { getInitials } from "../../utils/get-initials";
 import { getNormalizedError } from "../../utils/helpers";
+import {
+  deletePsitionData,
+  getPositionStatus,
+} from "../../services/teamService";
+import { RiDeleteBin7Line } from "react-icons/ri";
+import { FiEdit2 } from "react-icons/fi";
 
 interface Props extends CardProps {
   data: any[];
@@ -37,7 +43,7 @@ interface Props extends CardProps {
   onPressUpdate?: any;
 }
 
-export const ShopListResults = (props: Props) => {
+export const PositionListResults = (props: Props) => {
   const {
     data,
     searchQuery,
@@ -59,7 +65,7 @@ export const ShopListResults = (props: Props) => {
   const dataToDisplay = useMemo(() => {
     if (searchQuery.length > 0) {
       return data.filter((item) =>
-        item.coinSymbol?.toLowerCase().includes(searchQuery.toLowerCase())
+        item.title?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
       return data;
@@ -67,10 +73,10 @@ export const ShopListResults = (props: Props) => {
   }, [data, searchQuery]);
 
   const handleSubmit = async (data: any) => {
-    let params = { isActive: !data.isActive };
+    let params = { active: !data.active, id: data._id };
     try {
       setloading(true);
-      const response = await getShopStatus(data._id, params);
+      const response = await getPositionStatus(params);
       handleRefresh();
       setStatusData({
         type: "success",
@@ -99,7 +105,7 @@ export const ShopListResults = (props: Props) => {
   const handleDelete = async () => {
     try {
       setDelLoading(true);
-      const response = await deleteShopData(deleteId);
+      const response = await deletePsitionData(deleteId);
       handleRefresh();
       setStatusData({
         type: "success",
@@ -130,13 +136,14 @@ export const ShopListResults = (props: Props) => {
             <Table>
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
-                  <TableCell style={{ color: "#fff" }}>coin Symbol</TableCell>
                   <TableCell style={{ color: "#fff" }}>title</TableCell>
-                  <TableCell style={{ color: "#fff" }}>price</TableCell>
-                  <TableCell style={{ color: "#fff" }}>created At</TableCell>
-                  <TableCell style={{ color: "#fff" }}>active</TableCell>
-                  <TableCell style={{ color: "#fff" }}></TableCell>
-                  <TableCell style={{ color: "#fff" }}>Edit</TableCell>
+                  <TableCell style={{ color: "#fff" }}>win stage</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    losers Deduction Percentage
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>status</TableCell>
+                  {/* <TableCell style={{ color: "#fff" }}></TableCell> */}
+                  <TableCell style={{ color: "#fff" }}>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -146,7 +153,7 @@ export const ShopListResults = (props: Props) => {
                     key={item?._id}
                     selected={selectedCustomerIds.indexOf(item?._id) !== -1}
                   >
-                    <TableCell>
+                    {/* <TableCell>
                       <Box
                         sx={{
                           alignItems: "center",
@@ -158,46 +165,60 @@ export const ShopListResults = (props: Props) => {
                         </Avatar>
                         <Typography>{item?.coinSymbol}</Typography>
                       </Box>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>{item?.title}</TableCell>
 
                     <TableCell>
-                      <Typography>{item?.price}</Typography>
+                      <Typography>{item?.winStages}</Typography>
                     </TableCell>
                     <TableCell>
-                      {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      <Typography>{item?.losersDeductionPercentage}</Typography>
                     </TableCell>
+
                     <TableCell onClick={() => handleSubmit(item)}>
                       <Button
                         sx={{
                           cursor: "pointer",
                           border: `${
-                            item?.isActive
+                            item?.active
                               ? "1px solid #14B8A6"
                               : "1px solid rgb(209, 67, 67)"
                           }`,
                           color: `${
-                            item?.isActive ? "#14B8A6" : "rgb(209, 67, 67)"
+                            item?.active ? "#14B8A6" : "rgb(209, 67, 67)"
                           }`,
                         }}
                       >
-                        {item?.isActive ? "ON" : "OFF"}
+                        {item?.active ? "true" : "false"}
                       </Button>
                     </TableCell>
-                    <TableCell onClick={() => handleOpenModal(item)}>
-                      <Button
+                    <TableCell>
+                      <Box sx={{ display: "flex", columnGap: "9px" }}>
+                        {/* <Button
                         sx={{
                           cursor: "pointer",
                           border: "1px solid rgb(209, 67, 67)",
                         }}
                       >
                         Delete
-                      </Button>
+                      </Button> */}
+
+                        <FiEdit2
+                          size={24}
+                          color="#14B8A6"
+                          onClick={() => onPressUpdate(item)}
+                        />
+                        <RiDeleteBin7Line
+                          size={28}
+                          color="rgb(209, 67, 67)"
+                          onClick={() => handleOpenModal(item)}
+                        />
+                      </Box>
                     </TableCell>
 
-                    <TableCell onClick={() => onPressUpdate(item)}>
+                    {/* <TableCell onClick={() => onPressUpdate(item)}>
                       <ModeEditIcon color="success" />
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -282,6 +303,6 @@ export const ShopListResults = (props: Props) => {
   );
 };
 
-ShopListResults.propTypes = {
+PositionListResults.propTypes = {
   data: PropTypes.array.isRequired,
 };

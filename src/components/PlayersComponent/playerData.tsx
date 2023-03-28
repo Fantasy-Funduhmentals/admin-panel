@@ -148,9 +148,7 @@ const PlayerList = (props: Props) => {
                             {/* <TableCell>
                               {customer?.value ? customer?.value : 0}
                             </TableCell> */}
-                            <TableCell>
-                              {customer?.detail?.HeightFeet}F
-                            </TableCell>
+                            <TableCell>{customer?.detail?.Height}</TableCell>
                             <TableCell>{customer?.detail?.Weight} lb</TableCell>
                             <TableCell>{customer?.detail?.Age} </TableCell>
                             <TableCell>

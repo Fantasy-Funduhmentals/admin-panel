@@ -47,6 +47,7 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 250px;
 }
 /***slider staging code*****/
 .kCa-dlP {
@@ -131,7 +132,19 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 /**nProgress**/
-.fr-wrapper {
+.ql-editor.ql-blank {
+  min-height: 300px !important;
+}
+.ql-editor {
+  min-height: 300px !important;
+}
+.ql-editor {
+  max-height: 600px !important;
+}
+.ql-toolbar.ql-snow {
+  background-color: white !important;
+}
+/* .fr-wrapper {
   background: transparent !important;
   border: 1px solid gray !important;
   border-radius: 8px !important;
@@ -174,3 +187,24 @@ svg.fr-svg {
   border: 1px solid gray !important;
   border-radius: 8px !important;
 }
+
+.rdw-editor-toolbar {
+  background-color: #232325 !important;
+  color: white !important;
+  border: none !important;
+}
+.rdw-dropdown-selectedtext > span {
+  color: black !important;
+}
+
+.rdw-dropdown-optionwrapper {
+  color: black !important;
+}
+.DraftEditor-root {
+  min-height: 10vh !important;
+  height: auto !important;
+}
+.wrapperClassName {
+  border: 1px solid gray !important;
+  border-radius: 3px !important;
+} */

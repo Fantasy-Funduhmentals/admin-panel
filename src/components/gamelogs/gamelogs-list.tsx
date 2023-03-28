@@ -21,20 +21,18 @@ import moment from "moment";
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
-  count?: number;
   handlePageChange?: (p?: any, c?: any) => void;
-  handleLimitChange?: (p?: any, c?: any) => void;
+  handlelimitchange?: (p?: any, c?: any) => void;
   page?: number;
   limit?: number;
 }
 
-export const NewsletterListResults = (props: Props) => {
+export const GamelogsList = (props: Props) => {
   const {
     data,
     searchQuery,
-    count,
     handlePageChange,
-    handleLimitChange,
+    handlelimitchange,
     page,
     limit,
   } = props;
@@ -46,8 +44,8 @@ export const NewsletterListResults = (props: Props) => {
     const end = begin + limit;
 
     if (searchQuery.length > 0) {
-      return data.filter((item) =>
-        item?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+      return data?.filter((item) =>
+        item?.position?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
       return data?.slice(begin, end);
@@ -67,8 +65,11 @@ export const NewsletterListResults = (props: Props) => {
             <Table>
               <TableHead sx={{ background: "black" }}>
                 <TableRow>
-                  <TableCell style={{ color: "#fff" }}>Email</TableCell>
-                  <TableCell style={{ color: "#fff" }}>id</TableCell>
+                  <TableCell style={{ color: "#fff" }}>position</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Week</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    deducted amount
+                  </TableCell>
                   <TableCell style={{ color: "#fff" }}>created At</TableCell>
                 </TableRow>
               </TableHead>
@@ -77,7 +78,7 @@ export const NewsletterListResults = (props: Props) => {
                   <TableRow
                     hover
                     key={item?._id}
-                    selected={selectedCustomerIds.indexOf(item?._id) !== -1}
+                    selected={selectedCustomerIds?.indexOf(item?._id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -87,14 +88,17 @@ export const NewsletterListResults = (props: Props) => {
                         }}
                       >
                         <Avatar src={item?.detail?.Url} sx={{ mr: 2 }}>
-                          {getInitials(item?.email)}
+                          {getInitials(item?.position)}
                         </Avatar>
                         <Typography color="textPrimary" variant="body1">
-                          {item?.email}
+                          {item?.position}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{item?._id}</TableCell>
+                    <TableCell>{item?.week ? item?.week : "-"}</TableCell>
+                    <TableCell>
+                      {Number(item?.winningAmount)?.toLocaleString()}
+                    </TableCell>
                     <TableCell>
                       {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
@@ -109,7 +113,7 @@ export const NewsletterListResults = (props: Props) => {
         component="div"
         count={data?.length}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
+        onRowsPerPageChange={handlelimitchange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
@@ -118,6 +122,6 @@ export const NewsletterListResults = (props: Props) => {
   );
 };
 
-NewsletterListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+GamelogsList.propTypes = {
+  item: PropTypes.array.isRequired,
 };

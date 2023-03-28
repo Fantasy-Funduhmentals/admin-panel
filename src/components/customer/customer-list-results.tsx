@@ -31,15 +31,17 @@ import { HTTP_CLIENT } from "../../utils/axiosClient";
 import { handleBlock } from "../../services/userService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../../components/StatusModal";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 
 interface Props extends CardProps {
   data: any[];
   searchQuery?: string;
   handleRefresh: () => any;
+  onPressUpdate?: any;
 }
 
 export const UserListResults = (props: Props) => {
-  const { data, searchQuery, handleRefresh } = props;
+  const { data, searchQuery, handleRefresh, onPressUpdate } = props;
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -153,6 +155,9 @@ export const UserListResults = (props: Props) => {
                 <TableRow>
                   <TableCell style={{ color: "#fff" }}>Name</TableCell>
                   <TableCell style={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    affiliate Code
+                  </TableCell>
                   {/* <TableCell style={{ color: "#fff" }}>
                     Wallet Activation Status
                   </TableCell> */}
@@ -188,6 +193,9 @@ export const UserListResults = (props: Props) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.email}</TableCell>
+                    <TableCell>
+                      {customer?.affiliateCode ? customer?.affiliateCode : "-"}
+                    </TableCell>
                     {/* 
                     <TableCell>
                       <SeverityPill
@@ -223,25 +231,31 @@ export const UserListResults = (props: Props) => {
                         sx={{
                           cursor: "pointer",
                           border: `${
-                            customer.isBlocked
+                            customer?.isBlocked
                               ? "1px solid green"
                               : "1px solid rgb(209, 67, 67)"
                           }`,
                           color: `${
-                            customer.isBlocked ? "green" : "rgb(209, 67, 67)"
+                            customer?.isBlocked ? "green" : "rgb(209, 67, 67)"
                           }`,
-                          width: `${customer.isBlocked ? "auto" : "100%"}`,
+                          width: `${customer?.isBlocked ? "auto" : "100%"}`,
                         }}
                       >
-                        {customer.isBlocked ? "UnBlock" : "Block"}
+                        {customer?.isBlocked ? "UnBlock" : "Block"}
                       </Button>
                     </TableCell>
                     <TableCell>
-                      {capitalizeFirstLetter(customer.type)}
+                      {capitalizeFirstLetter(customer?.type)}
                     </TableCell>
                     <TableCell>
-                      {moment(customer.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      {moment(customer?.createdAt).format("DD/MM/YYYY hh:mm A")}
                     </TableCell>
+                    {/* <TableCell
+                      onClick={() => onPressUpdate(customer)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <FullscreenIcon />
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

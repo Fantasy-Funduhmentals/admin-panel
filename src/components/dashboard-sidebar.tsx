@@ -9,7 +9,10 @@ import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Cog } from "../icons/cog";
 import { DirectWire } from "../icons/DirectWire";
 import { Newsletter } from "../icons/Newsletter";
+import { Gamelogs } from "../icons/Gamelogs";
 import { Shop } from "../icons/shop";
+import { Position } from "../icons/position";
+import { NFT } from "../icons/nft";
 import { Subscription } from "../icons/Subscription";
 import { UserPlayer } from "../icons/user";
 import { UserCircle } from "../icons/user-circle";
@@ -35,9 +38,9 @@ const items = [
     title: "Sub-Admin",
   },
   {
-    href: "/score",
-    icon: <Subscription fontSize="small" />,
-    title: "Score",
+    href: "/game-logs",
+    icon: <Gamelogs fontSize="small" />,
+    title: "Game Logs",
   },
   {
     href: "/newsletter",
@@ -51,7 +54,7 @@ const items = [
   },
   {
     href: "/nft",
-    icon: <UserCircle fontSize="small" />,
+    icon: <NFT fontSize="small" />,
     title: "NFT's",
   },
   {
@@ -70,10 +73,21 @@ const items = [
     icon: <DirectWire fontSize="small" />,
     title: "Team",
   },
+
   {
     href: "/articles",
     icon: <Newsletter fontSize="small" />,
     title: "Articles",
+  },
+  {
+    href: "/position",
+    icon: <Position fontSize="small" />,
+    title: "Position",
+  },
+  {
+    href: "/reported-bugs",
+    icon: <Newsletter fontSize="small" />,
+    title: "Bugs Management",
   },
 
   {

@@ -19,6 +19,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import EditOffIcon from "@mui/icons-material/EditOff";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -100,7 +103,7 @@ export const NftList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>Weight</TableCell>
                         <TableCell style={{ color: "#fff" }}>Age</TableCell>
                         <TableCell style={{ color: "#fff" }}>
-                          Current Team
+                          position
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>
                           Experience
@@ -143,7 +146,9 @@ export const NftList = (props: Props) => {
                               {customer?.value ? customer?.value : 0}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.HeightFeet}F
+                              {customer?.playerDetail?.Height
+                                ? `${customer?.playerDetail?.Height}`
+                                : "-"}
                             </TableCell>
                             <TableCell>
                               {customer?.playerDetail?.Weight} lb
@@ -152,14 +157,13 @@ export const NftList = (props: Props) => {
                               {customer?.playerDetail?.Age}{" "}
                             </TableCell>
                             <TableCell>
-                              {customer?.playerDetail?.CurrentTeam
-                                ? customer?.playerDetail?.CurrentTeam
+                              {customer?.playerDetail?.Position
+                                ? customer?.playerDetail?.Position
                                 : "-"}{" "}
                             </TableCell>
                             <TableCell>
                               {customer?.playerDetail?.Experience} Y
                             </TableCell>
-
                             {/* <TableCell
                               onClick={() => handleBlockUser(customer)}
                             >
@@ -184,10 +188,18 @@ export const NftList = (props: Props) => {
                                 {customer.isBlocked ? "UnBlock" : "Block"}
                               </Button>
                             </TableCell>*/}
+
                             <TableCell
-                              onClick={() => handleEditPlayer(customer)}
+                              onClick={() =>
+                                customer?.isListedOnMarketplace &&
+                                handleEditPlayer(customer)
+                              }
                             >
-                              <EditIcon />
+                              {customer?.isListedOnMarketplace ? (
+                                <EditIcon sx={{ cursor: "pointer" }} />
+                              ) : (
+                                <EditOffIcon sx={{ cursor: "not-allowed" }} />
+                              )}
                             </TableCell>
                           </TableRow>
                         </>
@@ -234,7 +246,7 @@ export const NftList = (props: Props) => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Update Nft Data
+                  Update NFT Data
                 </Typography>
                 <TextField
                   error={Boolean(formik.touched.value && formik.errors.value)}
@@ -247,6 +259,7 @@ export const NftList = (props: Props) => {
                   name="value"
                   color="success"
                   variant="outlined"
+                  type="number"
                 />
 
                 {/* <TextField

@@ -19,6 +19,7 @@ interface Props extends BoxProps {
   onPressAdd?: () => any;
   onChangeText?: (val: any) => any;
   handleRefresh?: () => any;
+  hide?: boolean;
 }
 
 export const ListToolbar = (props: Props) => {
@@ -29,6 +30,7 @@ export const ListToolbar = (props: Props) => {
     onPressAdd,
     onChangeText,
     handleRefresh,
+    hide,
   } = props;
 
   return (

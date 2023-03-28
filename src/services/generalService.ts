@@ -14,6 +14,9 @@ const getMasterAddressBalances = async () => {
 const getWalletLogs = async () => {
   return await HTTP_CLIENT.get("/admin-wallet/logs");
 };
+const ImportOdds = async (params: any) => {
+  return await HTTP_CLIENT.post("/admin-import/import-odds", params);
+};
 const getScoreData = async (
   dropDownValue: any,
   limit: number,
@@ -30,4 +33,5 @@ export {
   getMasterAddressBalances,
   getWalletLogs,
   getScoreData,
+  ImportOdds,
 };

@@ -6,6 +6,12 @@ const handleUserLogin = async (params: any) => {
 const getWalletData = async () => {
   return await HTTP_CLIENT.get("/admin-wallet");
 };
+const getAllBugsReport = async () => {
+  return await HTTP_CLIENT.get("/contact-us");
+};
+const DeleteBugsReport = async (id) => {
+  return await HTTP_CLIENT.delete(`/contact-us/${id}`);
+};
 
 const getAllUsers = async () => {
   return await HTTP_CLIENT.get("/user/get-all-users");
@@ -25,8 +31,8 @@ const getGraphData = async (params: any) => {
   return await HTTP_CLIENT.get("/admin-stats/getAdminStats");
 };
 
-const getMaintenanceMode = async () => {
-  return await HTTP_CLIENT.get("/settings/maintenance-mode");
+const getMaintenanceMode = async (param: any) => {
+  return await HTTP_CLIENT.get(`/settings/maintenance-mode/${param}`);
 };
 const getUserInfo = async () => {
   return await HTTP_CLIENT.get("/admin-auth/info");
@@ -53,10 +59,6 @@ const handleUserJwt = async () => {
 };
 
 const handleSettingsData = async (params: any) => {
-  console.log(
-    "🚀 ~ file: userService.ts:56 ~ handleSettingsData ~ params",
-    params
-  );
   return await HTTP_CLIENT.post("/settings", params);
 };
 
@@ -76,4 +78,6 @@ export {
   generateTwoFa,
   twoFaAuth,
   handleSettingsData,
+  getAllBugsReport,
+  DeleteBugsReport,
 };

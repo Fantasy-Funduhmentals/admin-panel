@@ -9,6 +9,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import FolderIcon from "@mui/icons-material/Folder";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -20,11 +21,9 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as Yup from "yup";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import { EditorState } from "draft-js";
+
 import {
   changesImageUrl,
   postShopData,
@@ -32,15 +31,33 @@ import {
 } from "../../services/shopService";
 import { getNormalizedError } from "../../utils/helpers";
 import StatusModal from "../StatusModal";
-import dynamic from "next/dynamic";
 import {
   handleArticleData,
   postArticleData,
   putArticleData,
 } from "../../services/newsService";
-const FroalaEditorComponent = dynamic(() => import("react-froala-wysiwyg"), {
+import { EditorProps } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import {
+  EditorState,
+  convertToRaw,
+  ContentState,
+  convertFromRaw,
+} from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+import { array } from "prop-types";
+const Editor = dynamic<EditorProps>(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  { ssr: false }
+);
+const QuillNoSSRWrapper = dynamic(import("react-quill"), {
   ssr: false,
+  loading: () => <p>Loading ...</p>,
 });
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -49,6 +66,62 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "align",
+  "direction",
+  "code-block",
+  "link",
+  "image",
+  "video",
+  "background",
+  "header",
+  "script",
+  "color",
+];
+
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    [
+      "bold",
+      "italic",
+      "underline",
+      "strike",
+      "blockquote",
+      "code-block",
+      "align",
+    ],
+    [{ color: [] }, { background: [] }],
+
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: true,
+    swcMinify: true,
+  },
+};
 
 interface Props {
   open: boolean;
@@ -61,9 +134,10 @@ const AddArticlesModal = (props: Props) => {
   const { open, onClose, editData, getShopListing } = props;
   const [statusData, setStatusData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl]: any = useState("");
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+  const [editorState, setEditorState] = useState("");
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+  };
   const formik = useFormik({
     initialValues: {
       heading: editData ? editData?.title : "",
@@ -101,14 +175,6 @@ const AddArticlesModal = (props: Props) => {
     try {
       setStatusData(null);
       setLoading(true);
-      if (values?.files != null) {
-        const coverPhotoImage = await handleImageUpload(
-          values.files[0],
-          "coinImage"
-        );
-        setImageUrl(coverPhotoImage);
-      }
-
       let params = {
         title: values?.heading,
         summary: values?.documentData,
@@ -118,7 +184,10 @@ const AddArticlesModal = (props: Props) => {
           medium: values?.medium,
           linkedIn: values?.linkedin,
         },
-        mediaUrl: imageUrl == "" ? editData?.mediaUrl : imageUrl,
+        mediaUrl:
+          values?.files == null
+            ? editData?.mediaUrl
+            : await handleImageUpload(values.files[0], "NFT"),
       };
 
       if (editData != null) {
@@ -223,7 +292,10 @@ const AddArticlesModal = (props: Props) => {
                             mb: 2,
                             width: 104,
                           }}
-                        />
+                        >
+                          {" "}
+                          <FolderIcon />
+                        </Avatar>
                       </Box>
                     </CardContent>
                     <Box
@@ -272,17 +344,46 @@ const AddArticlesModal = (props: Props) => {
                             color="success"
                           />
                         </Grid>
-                        <Grid item md={12} xs={12} id="editor">
-                          {editorState ? (
-                            <FroalaEditorComponent
-                              tag="textarea"
-                              model={formik.values.documentData}
-                              onModelChange={(ev: any) => {
-                                if (ev)
-                                  formik.setFieldValue("documentData", ev);
+                        <Grid item md={12} xs={12}>
+                          <Box
+                          // sx={{
+                          //   minHeight: "300px",
+                          //   maxHeight: "500px",
+                          //   overflowX: "auto",
+                          // }}
+                          >
+                            <Typography
+                              id="modal-modal-title"
+                              variant="h6"
+                              component="h2"
+                            >
+                              Article
+                            </Typography>
+                            <QuillNoSSRWrapper
+                              modules={modules}
+                              formats={formats}
+                              value={formik?.values?.documentData}
+                              style={{
+                                minHeight: "300px",
+                              }}
+                              theme="snow"
+                              onChange={(e: any) => {
+                                formik.setFieldValue("documentData", e);
                               }}
                             />
-                          ) : null}
+                            {/* <Typography
+                              id="modal-modal-description"
+                              sx={{ mt: 2 }}
+                            >
+                              <Editor
+                                editorState={editorState}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                onEditorStateChange={onEditorStateChange}
+                              />
+                            </Typography> */}
+                          </Box>
                         </Grid>
                         <Grid item md={6} xs={12}>
                           <TextField
@@ -295,7 +396,7 @@ const AddArticlesModal = (props: Props) => {
                             fullWidth
                             label="Twitter URL"
                             name="twitter"
-                            helperText="Please enter the coin symbol name."
+                            helperText="Please enter the twitter url."
                             required
                             variant="outlined"
                             color="success"

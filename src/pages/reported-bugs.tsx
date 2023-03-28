@@ -1,36 +1,34 @@
 import { Box, Container } from "@mui/material";
-import Button from "@mui/material/Button";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { BugsList } from "../components/BugsManagement/bugsList";
+import DetailsModal from "../components/BugsManagement/Details-modal";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
-import { AdminsList } from "../components/sub-admin/sub-admin";
-import UpdateSubAdminModal from "../components/sub-admin/updateSubAdmin/update-subadmin-modal";
-import { getAdminUserData } from "../services/tokenService";
-import { useAppDispatch } from "../store/hooks";
-import { saveAdminUser } from "../store/reducers/adminSlice";
+import { getAllBugsReport } from "../services/userService";
 import { getNormalizedError } from "../utils/helpers";
 
-const SubAdmin = () => {
-  const dispatch = useAppDispatch();
+const ReportedBugs = () => {
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [userModelOpen, setUserModalOpen] = useState(false);
-  const [reload, setReload] = useState(false);
-  const [editSubAdmin, setEditSubAdmin] = useState(null);
+  const [editBugs, setEditBugs] = useState(null);
   const [loadingApi, setLoadingApi] = useState(false);
+  const [data, setData] = useState();
+  const [reload, setReload] = useState(false);
 
-  const OpenAddUserModal = (userData: any) => {
+  const OpenAddUserModal = (bugsData: any) => {
     setUserModalOpen(!userModelOpen);
-    setEditSubAdmin(userData);
+    setEditBugs(bugsData);
   };
 
-  const getAdminUsers = async () => {
+  const getAllReportedBugs = async () => {
     try {
       setLoadingApi(true);
-      const AdminUser = await getAdminUserData();
-      dispatch(saveAdminUser(AdminUser?.data));
+      const res = await getAllBugsReport();
+      setData(res?.data?.reverse());
+
       setLoadingApi(false);
     } catch (err) {
       setLoadingApi(false);
@@ -43,13 +41,19 @@ const SubAdmin = () => {
   };
 
   useEffect(() => {
-    getAdminUsers();
+    let isMounted = true;
+    if (isMounted) {
+      getAllReportedBugs();
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
     <>
       <Head>
-        <title>Sub Admin </title>
+        <title>Bugs Management</title>
       </Head>
       <Box
         component="main"
@@ -67,30 +71,25 @@ const SubAdmin = () => {
               alignItems: "flex-end",
             }}
           >
-            {/* <Button variant="contained" onClick={() => setUserModalOpen(true)}>
-              Add Sub Admin
-            </Button> */}
             <ListToolbar
-              title="Sub Admin Management"
-              subTitle="Sub Admin User"
+              title="Bugs Management"
+              subTitle="Bugs"
               onChangeText={(ev) => {
                 setSearchText(ev.target.value);
               }}
-              onPressAdd={() => {
-                setUserModalOpen(true);
-              }}
               style={{ width: "100%" }}
-              handleRefresh={getAdminUsers}
+              handleRefresh={getAllReportedBugs}
             />
           </Box>
 
           <Box sx={{ mt: 3 }} style={{ textAlign: "center" }}>
-            <AdminsList
+            <BugsList
               loadingApi={loadingApi}
-              RefreshAdminUsersData={getAdminUsers}
+              RefreshAdminUsersData={getAllReportedBugs}
               searchQuery={searchText}
               onPressUpdate={OpenAddUserModal}
               style={{ width: "100%" }}
+              data={data}
             />
           </Box>
         </Container>
@@ -100,18 +99,18 @@ const SubAdmin = () => {
         onClose={() => setStatusData(null)}
       />
 
-      <UpdateSubAdminModal
+      <DetailsModal
         open={userModelOpen}
-        editData={editSubAdmin}
+        editData={editBugs}
         onClose={() => {
           setUserModalOpen(false);
-          setEditSubAdmin(null);
+          setEditBugs(null);
           setReload(!reload);
         }}
       />
     </>
   );
 };
-SubAdmin.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+ReportedBugs.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default SubAdmin;
+export default ReportedBugs;

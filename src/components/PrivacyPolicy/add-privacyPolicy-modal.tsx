@@ -85,10 +85,7 @@ const AddPrivacyPolicyModal = (props: Props) => {
         privacyPolicy: values?.documentData,
       };
       const res = await handleSettingsData(param);
-      console.log(
-        "🚀 ~ file: PrivacyPolicy.tsx:42 ~ handlePolicyData ~ res",
-        res
-      );
+
       formik.resetForm();
       onClose();
       setLoading(false);
