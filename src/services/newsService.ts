@@ -31,6 +31,11 @@ const delArticleData = async (id?: any) => {
     `/project-article/delete-project-article/${id}`
   );
 };
+
+const exportAllNewsletter = async () => {
+  return await HTTP_CLIENT.get(`/newsletter/export-all-newsletter`);
+};
+
 export {
   handleNewsData,
   handleArticleData,
@@ -39,4 +44,5 @@ export {
   delArticleData,
   handleNewsletterData,
   handleUpdateNewsImages,
+  exportAllNewsletter,
 };

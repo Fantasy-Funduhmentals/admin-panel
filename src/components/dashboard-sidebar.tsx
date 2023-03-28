@@ -11,6 +11,8 @@ import { DirectWire } from "../icons/DirectWire";
 import { Newsletter } from "../icons/Newsletter";
 import { Gamelogs } from "../icons/Gamelogs";
 import { Shop } from "../icons/shop";
+import { Position } from "../icons/position";
+import { NFT } from "../icons/nft";
 import { Subscription } from "../icons/Subscription";
 import { UserPlayer } from "../icons/user";
 import { UserCircle } from "../icons/user-circle";
@@ -52,7 +54,7 @@ const items = [
   },
   {
     href: "/nft",
-    icon: <UserCircle fontSize="small" />,
+    icon: <NFT fontSize="small" />,
     title: "NFT's",
   },
   {
@@ -79,7 +81,7 @@ const items = [
   },
   {
     href: "/position",
-    icon: <Shop fontSize="small" />,
+    icon: <Position fontSize="small" />,
     title: "Position",
   },
   {

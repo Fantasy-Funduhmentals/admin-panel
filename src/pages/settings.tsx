@@ -4,6 +4,7 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { SettingsPassword } from "../components/settings/settings-password";
 import MaintenanceMode from "../components/MaintenanceMode/toggle";
 import PrivacyPolicy from "../components/PrivacyPolicy/PrivacyPolicy";
+import Betting from "../components/settings/betting";
 const Settings = () => (
   <>
     <Head>
@@ -26,6 +27,9 @@ const Settings = () => (
 
         <Box sx={{ pt: 3 }}>
           <PrivacyPolicy />
+        </Box>
+        <Box sx={{ pt: 3 }}>
+          <Betting />
         </Box>
         <Box sx={{ pt: 3 }}>
           <SettingsPassword />

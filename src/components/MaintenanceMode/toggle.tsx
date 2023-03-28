@@ -18,17 +18,16 @@ import { saveSettings } from "../../store/reducers/settingsSlice";
 
 const toggle = () => {
   const { settings } = useAppSelector((state: any) => state.settings);
-  console.log("🚀 ~ file: toggle.tsx:21 ~ toggle ~ settings", settings);
-
-  const [alignment, setAlignment] = useState("");
+  const [alignment, setAlignment] = useState("false");
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const getMaintenance = async () => {
+  const getMaintenance = async (value) => {
     try {
       setLoading(true);
-      const usersRes = await getMaintenanceMode();
+      const usersRes = await getMaintenanceMode(value);
       dispatch(saveSettings(usersRes?.data));
       setLoading(false);
     } catch (err) {
@@ -41,44 +40,44 @@ const toggle = () => {
     }
   };
   const handleChange = async (e) => {
-    if (e.target.value == "OFF") {
+    if (e.target.value == "false") {
       setLoading(true);
-      if (alignment == "OFF") {
+      if (alignment == "false") {
         setLoading(false);
         return;
       }
       setAlignment(e.target.value);
-      await getMaintenance();
+      await getMaintenance("false");
       setLoading(false);
-    } else if (e.target.value == "ON") {
+    } else if (e.target.value == "true") {
       setAlignment(e.target.value);
     }
   };
 
-  const [open, setOpen] = useState(false);
   const handleClickOpen = (e) => {
-    if (alignment == "ON") {
+    if (alignment == "true") {
       return;
     }
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
-    setAlignment("OFF");
+    setAlignment("false");
   };
+
   const handleOk = async () => {
     setLoading(true);
     setOpen(false);
-    await getMaintenance();
+    await getMaintenance(alignment);
     setLoading(false);
   };
 
   useEffect(() => {
-    // getMaintenance();
     if (!settings.maintenance) {
-      setAlignment("OFF");
+      setAlignment("false");
     } else {
-      setAlignment("ON");
+      setAlignment("true");
     }
   }, []);
   return (
@@ -102,10 +101,10 @@ const toggle = () => {
             exclusive
             onChange={handleChange}
           >
-            <ToggleButton value="ON" onClick={(e) => handleClickOpen(e)}>
+            <ToggleButton value="true" onClick={(e) => handleClickOpen(e)}>
               ON
             </ToggleButton>
-            <ToggleButton value="OFF" color="success">
+            <ToggleButton value="false" color="success">
               OFF
             </ToggleButton>
           </ToggleButtonGroup>
