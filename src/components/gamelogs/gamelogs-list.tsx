@@ -36,6 +36,7 @@ export const GamelogsList = (props: Props) => {
     page,
     limit,
   } = props;
+  console.log("🚀 ~ file: gamelogs-list.tsx:39 ~ GamelogsList ~ data:", data);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
@@ -70,6 +71,7 @@ export const GamelogsList = (props: Props) => {
                   <TableCell style={{ color: "#fff" }}>
                     deducted amount
                   </TableCell>
+                  <TableCell style={{ color: "#fff" }}>profit amount</TableCell>
                   <TableCell style={{ color: "#fff" }}>created At</TableCell>
                 </TableRow>
               </TableHead>
@@ -98,6 +100,9 @@ export const GamelogsList = (props: Props) => {
                     <TableCell>{item?.week ? item?.week : "-"}</TableCell>
                     <TableCell>
                       {Number(item?.winningAmount)?.toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      {Number(item?.winningAmount * 0.02)?.toLocaleString()}
                     </TableCell>
                     <TableCell>
                       {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
