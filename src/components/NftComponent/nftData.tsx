@@ -143,7 +143,9 @@ export const NftList = (props: Props) => {
                             </TableCell>
                             <TableCell>{customer?.nftId}</TableCell>
                             <TableCell>
-                              {customer?.value ? customer?.value : 0}
+                              {customer?.value
+                                ? Number(customer?.value)?.toLocaleString()
+                                : 0}
                             </TableCell>
                             <TableCell>
                               {customer?.playerDetail?.Height
@@ -191,11 +193,11 @@ export const NftList = (props: Props) => {
 
                             <TableCell
                               onClick={() =>
-                                customer?.isListedOnMarketplace &&
+                                !customer?.isListedOnMarketplace &&
                                 handleEditPlayer(customer)
                               }
                             >
-                              {customer?.isListedOnMarketplace ? (
+                              {!customer?.isListedOnMarketplace ? (
                                 <EditIcon sx={{ cursor: "pointer" }} />
                               ) : (
                                 <EditOffIcon sx={{ cursor: "not-allowed" }} />
