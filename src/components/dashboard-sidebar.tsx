@@ -58,6 +58,11 @@ const items = [
     title: "NFT's",
   },
   {
+    href: "/burn-nfts",
+    icon: <NFT fontSize="small" />,
+    title: "Burn NFT's",
+  },
+  {
     href: "/shop",
     icon: <Shop fontSize="small" />,
     title: "Shop",
