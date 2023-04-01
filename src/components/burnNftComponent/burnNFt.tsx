@@ -5,7 +5,6 @@ import {
   Card,
   CardProps,
   CircularProgress,
-  Modal,
   Paper,
   Table,
   TableBody,
@@ -13,8 +12,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextareaAutosize,
-  Typography,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
