@@ -5,22 +5,36 @@ import { NftBurnList } from "../components/burnNftComponent/burnNFt";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
 import StatusModal from "../components/StatusModal";
+import { burnNftList } from "../services/nftService";
 import { getAdminUserData } from "../services/tokenService";
 import { useAppDispatch } from "../store/hooks";
 import { saveAdminUser } from "../store/reducers/adminSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const BurnNFTs = () => {
-  const dispatch = useAppDispatch();
   const [statusData, setStatusData] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [loadingApi, setLoadingApi] = useState(false);
+  const [data, setData] = useState();
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(null);
+
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
 
   const getAdminUsers = async () => {
     try {
       setLoadingApi(true);
-      const AdminUser = await getAdminUserData();
-      dispatch(saveAdminUser(AdminUser?.data));
+      const res = await burnNftList(page, limit);
+      console.log("🚀 ~ file: burn-nfts.tsx:30 ~ getAdminUsers ~ res:", res);
+      setData(res?.data?.data);
+      setCount(res?.data?.total);
       setLoadingApi(false);
     } catch (err) {
       setLoadingApi(false);
@@ -34,7 +48,7 @@ const BurnNFTs = () => {
 
   useEffect(() => {
     getAdminUsers();
-  }, []);
+  }, [page, limit]);
 
   return (
     <>
@@ -75,6 +89,12 @@ const BurnNFTs = () => {
               RefreshAdminUsersData={getAdminUsers}
               searchQuery={searchText}
               style={{ width: "100%" }}
+              page={page}
+              limit={limit}
+              data={data}
+              handleLimitChange={handleLimitChange}
+              handlePageChange={handlePageChange}
+              count={count}
             />
           </Box>
         </Container>

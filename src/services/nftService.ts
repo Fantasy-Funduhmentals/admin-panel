@@ -8,4 +8,10 @@ const handleNftData = async (page: any, limit: any, searchText: string) => {
 const updateNftValue = async (playerId: any, params: any) => {
   return await HTTP_CLIENT.put(`/nft/${playerId}`, params);
 };
-export { handleNftData, updateNftValue };
+const burnNftList = async (page: number, limit: number) => {
+  return await HTTP_CLIENT.get(`/burn-request?page=${page}&limit=${limit}`);
+};
+const nftBurnRequest = async (id: number, param: any) => {
+  return await HTTP_CLIENT.put(`/burn-request/${id}/change-status`, param);
+};
+export { handleNftData, updateNftValue, burnNftList, nftBurnRequest };

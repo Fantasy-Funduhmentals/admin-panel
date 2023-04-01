@@ -20,7 +20,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { HTTP_CLIENT } from "../../utils/axiosClient";
+import { nftBurnRequest } from "../../services/nftService";
 import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import StatusModal from "../StatusModal";
@@ -30,28 +30,29 @@ interface Props extends CardProps {
   searchQuery?: string;
   loadingApi?: boolean;
   RefreshAdminUsersData?: () => any;
+  page: number;
+  limit: number;
+  data: any;
+  handlePageChange?: (p?: any, c?: any) => void;
+  handleLimitChange?: (p?: any, c?: any) => void;
+  count?: number;
 }
 
 export const NftBurnList = (props: Props) => {
-  const { searchQuery, RefreshAdminUsersData, loadingApi } = props;
-
   const {
-    dataToDisplay,
-    selectedCustomerIds,
-    handleBlockUser,
-    handlePageChange,
-    handleLimitChange,
+    searchQuery,
+    RefreshAdminUsersData,
+    loadingApi,
     page,
     limit,
-    rejectShow,
-    handleClose,
-    loading,
-    handleTextAreaChange,
-    handleSubmit,
-    statusData,
-    setStatusData,
-    subadmin,
-  } = useSubadmin(searchQuery, RefreshAdminUsersData);
+    data,
+    handlePageChange,
+    handleLimitChange,
+    count,
+  } = props;
+
+  const { dataToDisplay, selectedCustomerIds, statusData, setStatusData } =
+    useSubadmin(searchQuery, RefreshAdminUsersData, page, limit, data);
 
   return (
     <>
@@ -76,7 +77,10 @@ export const NftBurnList = (props: Props) => {
                       <TableRow style={{ background: "black" }}>
                         <TableCell style={{ color: "#fff" }}>Name</TableCell>
                         <TableCell style={{ color: "#fff" }}>Email</TableCell>
-                        <TableCell style={{ color: "#fff" }}>Address</TableCell>
+                        <TableCell style={{ color: "#fff" }}>nft id</TableCell>
+                        <TableCell style={{ color: "#fff" }}>
+                          listing Price
+                        </TableCell>
                         <TableCell style={{ color: "#fff" }}>value</TableCell>
                         <TableCell style={{ color: "#fff" }}>Action</TableCell>
                       </TableRow>
@@ -91,11 +95,16 @@ export const NftBurnList = (props: Props) => {
                               selectedCustomerIds.indexOf(item._id) !== -1
                             }
                           >
-                            <TableCell>{item?.name}</TableCell>
-                            <TableCell>{item?.email}</TableCell>
+                            <TableCell>{item?.user?.name}</TableCell>
+                            <TableCell>{item?.user?.email}</TableCell>
+                            <TableCell>{item?.nft?.id}</TableCell>
 
-                            <TableCell>{item?.role}</TableCell>
-                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>
+                              {item?.nft?.value ? item?.nft?.value : "-"}
+                            </TableCell>
+                            <TableCell>
+                              {item?.nft?.value ? item?.nft?.value : "-"}
+                            </TableCell>
 
                             <TableCell>
                               <AlertDialog
@@ -114,7 +123,7 @@ export const NftBurnList = (props: Props) => {
           </PerfectScrollbar>
           <TablePagination
             component="div"
-            count={subadmin?.length}
+            count={count}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
@@ -147,10 +156,17 @@ export default function AlertDialog({ id, handleRefresh }) {
   const handleClose = () => {
     setOpen(false);
   };
-  const deleteAd = async () => {
+  const handleStatue = async (type) => {
     setLoading(true);
     try {
-      await HTTP_CLIENT.delete(`/admin-auth/delete-subAdmin/${id}`);
+      let param = {
+        status: type,
+      };
+      const res = await nftBurnRequest(id, param);
+      setStatusData({
+        type: "success",
+        message: res?.data?.message,
+      });
       setLoading(false);
       handleRefresh();
       handleClose();
@@ -175,16 +191,16 @@ export default function AlertDialog({ id, handleRefresh }) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure want to Delete
+            Are you sure want to approve this request
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={() => handleStatue("rejected")}>Reject</Button>
           {loading ? (
             <Button>Loading...</Button>
           ) : (
-            <Button onClick={deleteAd} autoFocus>
-              Ok
+            <Button onClick={() => handleStatue("approved")} autoFocus>
+              Approve
             </Button>
           )}
         </DialogActions>
