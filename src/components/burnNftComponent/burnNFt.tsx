@@ -54,6 +54,16 @@ export const NftBurnList = (props: Props) => {
   const { dataToDisplay, selectedCustomerIds, statusData, setStatusData } =
     useSubadmin(searchQuery, RefreshAdminUsersData, page, limit, data);
 
+  const copyText = (item) => {
+    if (item != undefined) {
+      navigator?.clipboard?.writeText(item);
+      setStatusData({
+        type: "success",
+        message: "address copyed successfully",
+      });
+    }
+  };
+
   return (
     <>
       {loadingApi ? (
@@ -79,9 +89,13 @@ export const NftBurnList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>Email</TableCell>
                         <TableCell style={{ color: "#fff" }}>nft id</TableCell>
                         <TableCell style={{ color: "#fff" }}>
+                          Wallet Address
+                        </TableCell>
+                        <TableCell style={{ color: "#fff" }}>
                           listing Price
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>value</TableCell>
+                        <TableCell style={{ color: "#fff" }}>status</TableCell>
                         <TableCell style={{ color: "#fff" }}>Action</TableCell>
                       </TableRow>
                     </TableHead>
@@ -98,19 +112,30 @@ export const NftBurnList = (props: Props) => {
                             <TableCell>{item?.user?.name}</TableCell>
                             <TableCell>{item?.user?.email}</TableCell>
                             <TableCell>{item?.nft?.id}</TableCell>
+                            <TableCell
+                              onClick={() => copyText(item?.walletAddress)}
+                              sx={{ cursor: "pointer" }}
+                            >
+                              {item?.walletAddress ? item?.walletAddress : "-"}
+                            </TableCell>
 
                             <TableCell>
-                              {item?.nft?.value ? item?.nft?.value : "-"}
+                              {item?.listingPrice ? item?.listingPrice : "-"}
                             </TableCell>
                             <TableCell>
                               {item?.nft?.value ? item?.nft?.value : "-"}
                             </TableCell>
+                            <TableCell>
+                              {item?.status ? item?.status : "-"}
+                            </TableCell>
 
                             <TableCell>
-                              <AlertDialog
-                                id={item?._id}
-                                handleRefresh={RefreshAdminUsersData}
-                              />
+                              {item?.status != "approved" && (
+                                <AlertDialog
+                                  id={item?._id}
+                                  handleRefresh={RefreshAdminUsersData}
+                                />
+                              )}
                             </TableCell>
                           </TableRow>
                         </>
