@@ -25,6 +25,8 @@ import { getNormalizedError } from "../../utils/helpers";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import StatusModal from "../StatusModal";
 import useSubadmin from "./useBurnNFT";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 
 interface Props extends CardProps {
   searchQuery?: string;
@@ -113,10 +115,23 @@ export const NftBurnList = (props: Props) => {
                             <TableCell>{item?.user?.email}</TableCell>
                             <TableCell>{item?.nft?.id}</TableCell>
                             <TableCell
-                              onClick={() => copyText(item?.walletAddress)}
-                              sx={{ cursor: "pointer" }}
+                              sx={{
+                                display: "flex",
+                                columnGap: "0.5rem",
+                                alignItems: "center",
+                              }}
                             >
-                              {item?.walletAddress ? item?.walletAddress : "-"}
+                              <Box>
+                                {item?.walletAddress.substring(0, 10)}
+                                .....
+                                {item?.walletAddress.substring(
+                                  item?.walletAddress.length - 6
+                                )}
+                              </Box>
+                              <ContentCopyIcon
+                                onClick={() => copyText(item?.walletAddress)}
+                                sx={{ cursor: "pointer", height: "17px" }}
+                              />
                             </TableCell>
 
                             <TableCell>
@@ -207,7 +222,7 @@ export default function AlertDialog({ id, handleRefresh }) {
 
   return (
     <div>
-      <DeleteIcon style={{ cursor: "pointer" }} onClick={handleClickOpen} />
+      <ListAltIcon style={{ cursor: "pointer" }} onClick={handleClickOpen} />
       <Dialog
         open={open}
         onClose={handleClose}

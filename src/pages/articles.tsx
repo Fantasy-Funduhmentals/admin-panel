@@ -34,7 +34,7 @@ const Articles = () => {
       const usersRes = await handleArticleData(page, limit);
 
       setCount(usersRes?.data?.total);
-      setData(usersRes?.data?.data);
+      setData(usersRes?.data?.data?.reverse());
       setLoading(false);
     } catch (err) {
       setLoading(false);

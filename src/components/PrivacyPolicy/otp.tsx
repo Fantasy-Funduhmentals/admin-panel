@@ -60,7 +60,7 @@ const OTP = (prop: Props) => {
       setStatusData({
         type: "success",
         // message: res?.data?.message,
-        message: "Successfully logged in",
+        message: "Login Successfully!",
       });
       if (res?.data?.user?.role == "admin") {
         router.push("/dashboard");
@@ -90,16 +90,16 @@ const OTP = (prop: Props) => {
         }}
       >
         <Typography color="textPrimary" variant="h4">
-          OTP
+          2FA
         </Typography>
         <Typography color="textSecondary" gutterBottom variant="body2">
-          Add OTP to Sign in on the internal platform
+          Add 2FA to Sign in on the internal platform
         </Typography>
         <TextField
           error={Boolean(formik.touched.otp && formik.errors.otp)}
           fullWidth
           helperText={formik.touched.otp && formik.errors.otp}
-          label="OTP"
+          label="2FA"
           margin="normal"
           name="otp"
           onBlur={formik.handleBlur}

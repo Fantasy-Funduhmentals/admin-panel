@@ -68,9 +68,9 @@ const items = [
     title: "Shop",
   },
   {
-    href: "/lates-news",
+    href: "/latest-news",
     icon: <Newsletter fontSize="small" />,
-    title: "Lates-News",
+    title: "Latest-News",
   },
 
   {
@@ -106,9 +106,8 @@ export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
   const { role } = useAppSelector((state: RootState) => state.user);
-
   let data = role?.adminPermissions?.map((item, index) => {
-    const found = items?.find((val) => val?.title?.toLowerCase() == item);
+    const found = items?.find((val: any) => val?.href?.split("/")[1] == item);
     return {
       title: found?.title,
       icon: found?.icon,

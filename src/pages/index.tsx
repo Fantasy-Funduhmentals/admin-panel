@@ -32,6 +32,14 @@ const Login = () => {
     try {
       setLoading(true);
       const loginRes: any = await handleUserLogin(values);
+      if (loginRes?.data?.isBlocked == true) {
+        setStatusData({
+          type: "error",
+          message: `Sub Admin Blocked ${loginRes?.data?.user?.blockReason}`,
+        });
+        setLoading(false);
+        return;
+      }
       setyAuthToken(loginRes?.data?.accessToken);
       var config: any = {
         method: "post",
@@ -46,15 +54,6 @@ const Login = () => {
         message: response?.data?.message,
       });
       setTwoFa(true);
-
-      if (loginRes?.data?.isBlocked == true) {
-        setStatusData({
-          type: "error",
-          message: `Sub Admin Blocked ${loginRes?.data?.user?.blockReason}`,
-        });
-        setLoading(false);
-        return;
-      }
 
       setLoading(false);
     } catch (err) {

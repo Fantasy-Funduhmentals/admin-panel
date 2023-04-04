@@ -1,5 +1,3 @@
-import React from "react";
-
 const PageItem = [
   {
     id: 1,
@@ -15,7 +13,7 @@ const PageItem = [
   },
   {
     id: 4,
-    name: "score",
+    name: "game-logs",
   },
   {
     id: 5,
@@ -27,22 +25,38 @@ const PageItem = [
   },
   {
     id: 7,
-    name: "shop",
+    name: "nft",
   },
   {
     id: 8,
-    name: "lates-news",
+    name: "burn-nfts",
   },
   {
     id: 9,
-    name: "team",
+    name: "shop",
   },
   {
     id: 9,
-    name: "articles",
+    name: "latest-news",
   },
   {
     id: 11,
+    name: "team",
+  },
+  {
+    id: 12,
+    name: "articles",
+  },
+  {
+    id: 13,
+    name: "position",
+  },
+  {
+    id: 14,
+    name: "reported-bugs",
+  },
+  {
+    id: 15,
     name: "settings",
   },
 ];
