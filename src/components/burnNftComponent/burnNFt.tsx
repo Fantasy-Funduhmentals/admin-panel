@@ -101,6 +101,9 @@ export const NftBurnList = (props: Props) => {
                         <TableCell style={{ color: "#fff" }}>
                           quantity
                         </TableCell>
+                        <TableCell style={{ color: "#fff" }}>
+                          Total payable amount
+                        </TableCell>
                         <TableCell style={{ color: "#fff" }}>status</TableCell>
                         <TableCell style={{ color: "#fff" }}>Action</TableCell>
                       </TableRow>
@@ -152,6 +155,15 @@ export const NftBurnList = (props: Props) => {
                               {item?.quantity
                                 ? Number(item?.quantity)?.toLocaleString()
                                 : "-"}
+                            </TableCell>
+                            <TableCell>
+                              {Number(item?.listingPrice > 0)
+                                ? Number(
+                                    item?.listingPrice * item?.quantity
+                                  )?.toLocaleString()
+                                : Number(
+                                    item?.nft?.value * item?.quantity
+                                  )?.toLocaleString()}
                             </TableCell>
                             <TableCell>
                               {item?.status ? item?.status : "-"}
