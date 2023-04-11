@@ -1,14 +1,11 @@
 import { Box, Container } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import StatusModal from "../components/StatusModal";
 import { NftBurnList } from "../components/burnNftComponent/burnNFt";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ListToolbar } from "../components/list-toolbar";
-import StatusModal from "../components/StatusModal";
 import { burnNftList } from "../services/nftService";
-import { getAdminUserData } from "../services/tokenService";
-import { useAppDispatch } from "../store/hooks";
-import { saveAdminUser } from "../store/reducers/adminSlice";
 import { getNormalizedError } from "../utils/helpers";
 
 const BurnNFTs = () => {
@@ -22,6 +19,7 @@ const BurnNFTs = () => {
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -32,7 +30,6 @@ const BurnNFTs = () => {
     try {
       setLoadingApi(true);
       const res = await burnNftList(page, limit);
-      console.log("🚀 ~ file: burn-nfts.tsx:30 ~ getAdminUsers ~ res:", res);
       setData(res?.data?.data);
       setCount(res?.data?.total);
       setLoadingApi(false);

@@ -52,7 +52,6 @@ export const NftBurnList = (props: Props) => {
     handleLimitChange,
     count,
   } = props;
-  console.log("🚀 ~ file: burnNFt.tsx:55 ~ NftBurnList ~ data:", data);
 
   const { dataToDisplay, selectedCustomerIds, statusData, setStatusData } =
     useSubadmin(searchQuery, RefreshAdminUsersData, page, limit, data);
@@ -214,6 +213,7 @@ export default function AlertDialog({ id, handleRefresh }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState(null);
+  const [active, setActive] = useState(null);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -260,14 +260,24 @@ export default function AlertDialog({ id, handleRefresh }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleStatue("rejected")}>Reject</Button>
-          {loading ? (
-            <Button>Loading...</Button>
-          ) : (
-            <Button onClick={() => handleStatue("approved")} autoFocus>
-              Approve
-            </Button>
-          )}
+          <Button
+            onClick={() => {
+              !loading && handleStatue("rejected");
+              setActive(0);
+            }}
+          >
+            {loading && active === 0 ? "Loading..." : "Reject"}
+          </Button>
+
+          <Button
+            onClick={() => {
+              !loading && handleStatue("approved");
+              setActive(1);
+            }}
+            autoFocus
+          >
+            {loading && active === 1 ? "Loading..." : "Approve"}
+          </Button>
         </DialogActions>
       </Dialog>
       <StatusModal
