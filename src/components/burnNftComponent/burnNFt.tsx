@@ -52,6 +52,7 @@ export const NftBurnList = (props: Props) => {
     handleLimitChange,
     count,
   } = props;
+  console.log("🚀 ~ file: burnNFt.tsx:55 ~ NftBurnList ~ data:", data);
 
   const { dataToDisplay, selectedCustomerIds, statusData, setStatusData } =
     useSubadmin(searchQuery, RefreshAdminUsersData, page, limit, data);
@@ -61,7 +62,7 @@ export const NftBurnList = (props: Props) => {
       navigator?.clipboard?.writeText(item);
       setStatusData({
         type: "success",
-        message: "address copyed successfully",
+        message: "Address copyed successfully",
       });
     }
   };
@@ -97,6 +98,9 @@ export const NftBurnList = (props: Props) => {
                           listing Price
                         </TableCell>
                         <TableCell style={{ color: "#fff" }}>value</TableCell>
+                        <TableCell style={{ color: "#fff" }}>
+                          quantity
+                        </TableCell>
                         <TableCell style={{ color: "#fff" }}>status</TableCell>
                         <TableCell style={{ color: "#fff" }}>Action</TableCell>
                       </TableRow>
@@ -114,31 +118,40 @@ export const NftBurnList = (props: Props) => {
                             <TableCell>{item?.user?.name}</TableCell>
                             <TableCell>{item?.user?.email}</TableCell>
                             <TableCell>{item?.nft?.id}</TableCell>
-                            <TableCell
-                              sx={{
-                                display: "flex",
-                                columnGap: "0.5rem",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Box>
-                                {item?.walletAddress.substring(0, 10)}
-                                .....
-                                {item?.walletAddress.substring(
-                                  item?.walletAddress.length - 6
-                                )}
+                            <TableCell>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  columnGap: "0.5rem",
+                                }}
+                              >
+                                <Box>
+                                  {item?.walletAddress.substring(0, 10)}
+                                  .....
+                                  {item?.walletAddress.substring(
+                                    item?.walletAddress.length - 6
+                                  )}
+                                </Box>
+                                <ContentCopyIcon
+                                  onClick={() => copyText(item?.walletAddress)}
+                                  sx={{ cursor: "pointer", height: "17px" }}
+                                />
                               </Box>
-                              <ContentCopyIcon
-                                onClick={() => copyText(item?.walletAddress)}
-                                sx={{ cursor: "pointer", height: "17px" }}
-                              />
                             </TableCell>
 
                             <TableCell>
                               {item?.listingPrice ? item?.listingPrice : "-"}
                             </TableCell>
                             <TableCell>
-                              {item?.nft?.value ? item?.nft?.value : "-"}
+                              {item?.nft?.value
+                                ? Number(item?.nft?.value)?.toLocaleString()
+                                : "-"}
+                            </TableCell>
+                            <TableCell>
+                              {item?.quantity
+                                ? Number(item?.quantity)?.toLocaleString()
+                                : "-"}
                             </TableCell>
                             <TableCell>
                               {item?.status ? item?.status : "-"}
