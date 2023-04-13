@@ -1,4 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
+import FolderIcon from "@mui/icons-material/Folder";
 import {
   Avatar,
   Card,
@@ -9,7 +10,6 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import FolderIcon from "@mui/icons-material/Folder";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -17,38 +17,21 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
-import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
+import { TransitionProps } from "@mui/material/transitions";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 
-import {
-  changesImageUrl,
-  postShopData,
-  updateShopData,
-} from "../../services/shopService";
-import { getNormalizedError } from "../../utils/helpers";
-import StatusModal from "../StatusModal";
-import {
-  handleArticleData,
-  postArticleData,
-  putArticleData,
-} from "../../services/newsService";
+import dynamic from "next/dynamic";
 import { EditorProps } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from "draftjs-to-html";
-import {
-  EditorState,
-  convertToRaw,
-  ContentState,
-  convertFromRaw,
-} from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 import "react-quill/dist/quill.snow.css";
-import dynamic from "next/dynamic";
-import { array } from "prop-types";
+import { postArticleData, putArticleData } from "../../services/newsService";
+import { changesImageUrl } from "../../services/shopService";
+import { getNormalizedError } from "../../utils/helpers";
+import StatusModal from "../StatusModal";
 const Editor = dynamic<EditorProps>(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }

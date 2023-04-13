@@ -5,6 +5,7 @@ import { SettingsPassword } from "../components/settings/settings-password";
 import MaintenanceMode from "../components/MaintenanceMode/toggle";
 import PrivacyPolicy from "../components/PrivacyPolicy/PrivacyPolicy";
 import Betting from "../components/settings/betting";
+import TermAndConditions from "../components/termAndConditions/termAndConditions";
 const Settings = () => (
   <>
     <Head>
@@ -27,6 +28,10 @@ const Settings = () => (
 
         <Box sx={{ pt: 3 }}>
           <PrivacyPolicy />
+        </Box>
+
+        <Box sx={{ pt: 3 }}>
+          <TermAndConditions />
         </Box>
         <Box sx={{ pt: 3 }}>
           <Betting />
